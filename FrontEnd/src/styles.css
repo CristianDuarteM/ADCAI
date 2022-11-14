@@ -13,7 +13,7 @@ body {
 }
 
 footer {
-  background-color: #9E0A0A;
+  background-color: #E10000;
   height: 8vh;
 }
 
@@ -22,8 +22,11 @@ h1 {
 }
 
 header {
-  background-color: #9E0A0A;
+  background-color: #E10000;
   height: 8vh;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
 }
 
 .main-container {
