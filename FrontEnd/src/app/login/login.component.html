@@ -10,7 +10,18 @@
     <img src="../../assets/img/LogoUFPS.jpg" alt="LogoUFPS">
     <h1>ADCAI</h1>
     <button>
-      <asl-google-signin-button type='standard' size='large' shape='circle' theme="filled_blue"></asl-google-signin-button>
+      <div id="g_id_onload"
+        data-client_id="client-is"
+        data-callback="handleCredentialResponse"
+        data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="circle">
+      </div>
     </button>
   </div>
 </div>

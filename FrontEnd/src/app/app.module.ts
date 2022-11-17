@@ -1,11 +1,6 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from "@angular/forms"
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  SocialLoginModule,
-  SocialAuthServiceConfig,
-  GoogleLoginProvider
-} from '@abacritt/angularx-social-login';
-
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,30 +19,14 @@ import { HomeComponent } from './home/home.component';
     HomeComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
-    SocialLoginModule
   ],
-  providers: [{
-    provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              'client-id'
-            )
-          }
-        ],
-        onError: (err) => {
-          console.error(err);
-        }
-      } as SocialAuthServiceConfig,
-  }],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
