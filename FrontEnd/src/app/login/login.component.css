@@ -61,7 +61,7 @@ img {
     max-width: 60vw;
   }
   .container {
-    row-gap: 1vh;
+    row-gap: 3vh;
   }
 }
 
