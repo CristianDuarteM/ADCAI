@@ -22,14 +22,14 @@ h1, h2 {
 
 header {
   background-color: #E10000;
-  height: 8vh;
+  height: 9vh;
   display: flex;
   flex-flow: row;
   justify-content: space-between;
 }
 
 .main-container {
-  height: 82vh;
+  height: 84vh;
 }
 
 @font-face {
