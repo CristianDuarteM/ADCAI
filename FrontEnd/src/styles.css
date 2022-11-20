@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+app-root {
+  display: flex;
+  flex-flow: column;
+}
+
+button {
+  font-family: 'Inika Regular', 'Times New Roman', Times, serif !important;
+}
+
+body {
+  margin: 0;
+}
+
+footer {
+  background-color: #9E0A0A;
+  height: 8vh;
+}
+
+h1 {
+  font-family: 'Inika Regular', 'Times New Roman', Times, serif !important;
+}
+
+header {
+  background-color: #9E0A0A;
+  height: 8vh;
+}
+
+.main-container {
+  height: 84vh;
+}
+
+@font-face {
+  font-family: "Inika Regular";
+  src: local("Inika Regular"), url(./assets/fonts/Inika-Regular.ttf);
+}
