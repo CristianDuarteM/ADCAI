@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
+import { NgxPermissionsService } from 'ngx-permissions';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -8,25 +9,33 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   tokenGoogle: string;
-  rolesList: string[];
+  roleList: { [key: string]: string };
   activeRole: string;
 
-  constructor() {
+  constructor(private navigation: Router, private ngxPermissonsService: NgxPermissionsService) {
     this.tokenGoogle = '';
+    this.roleList = {
+      "ADMIN": "súper administrador",
+      "DECANO": "decano",
+      "DIRECTOR": "director",
+      "DOCENTE": "docente"
+    };
     //Modificar de acuerdo a la respuesta
-    this.rolesList = [];
     this.activeRole = '';
   }
 
   ngOnInit(): void {
     this.tokenGoogle = sessionStorage.getItem("tokenGoogle") || '';
+    if(this.tokenGoogle === ''){
+      this.navigation.navigate(['/login']);
+    }
     //Validar la sesion con el backend
+    //Validar si es la primera vez que ingresa
     //Guardar los roles de acuerdo a la respuesta
-    this.rolesList = ['Administrador', 'Decano', 'Director', 'Docente'];
-    sessionStorage.setItem('RolesList', this.rolesList.toString());
     //Cargar un rol por defecto
-    this.activeRole = 'Administrador';
+    this.activeRole = 'DECANO';
     sessionStorage.setItem("activeRole", this.activeRole);
+    this.ngxPermissonsService.loadPermissions([this.activeRole]);
   }
 
 }

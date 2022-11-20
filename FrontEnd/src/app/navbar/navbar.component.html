@@ -2,19 +2,19 @@
   <div class="container">
     <img src="../../assets/img/LogoUFPSPrincipal.png" alt="LogoUFPS">
     <div class="title">
-      <h1>ADCAI</h1>
+      <h1><a href="/home" title="Inicio" class="color-white">ADCAI</a></h1>
     </div>
   </div>
   <div class="container">
-    <button mat-raised-button class="action-buttons">
+    <button mat-raised-button class="action-buttons" *ngxPermissionsExcept="'ADMIN'">
       <mat-icon>notifications_none</mat-icon>
-      Notificaciones
+      <a href="/notificaciones" title="Notificaciones">Notificaciones</a>
     </button>
     <button mat-raised-button class="action-buttons">
       <mat-icon>cached</mat-icon>
       Cambio de Rol
     </button>
-    <button mat-raised-button class="sign-out">
+    <button mat-raised-button class="sign-out" (click)="logOut()">
       <mat-icon>exit_to_app</mat-icon>
       Cerrar Sesión</button>
   </div>

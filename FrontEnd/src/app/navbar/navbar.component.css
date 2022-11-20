@@ -1,3 +1,8 @@
+a {
+  color: #000;
+  text-decoration: none;
+}
+
 button {
   align-items: center;
   border-radius: 2vh;
@@ -53,6 +58,10 @@ mat-toolbar {
 
 .sign-out {
   background-color: #F08080;
+}
+
+.color-white {
+  color: #FFF;
 }
 
 @media only screen and (max-width: 450px) {
