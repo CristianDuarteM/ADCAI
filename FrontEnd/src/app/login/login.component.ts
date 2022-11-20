@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  tokenGoogle: string;
 
-  ngOnInit(): void {
+  constructor(private navegation: Router) {
+    this.tokenGoogle = '';
+  }
+
+  ngOnInit() {
+    this.tokenGoogle = sessionStorage.getItem('tokenGoogle') || '';
+    if(this.tokenGoogle !== ''){
+      this.navegation.navigate(['/home']);
+    }
   }
 
 }
