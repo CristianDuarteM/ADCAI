@@ -1,0 +1,38 @@
+app-root {
+  display: flex;
+  flex-flow: column;
+}
+
+button {
+  font-family: 'Inika Regular', 'Times New Roman', Times, serif !important;
+}
+
+body {
+  margin: 0;
+}
+
+footer {
+  background-color: #E10000;
+  height: 7vh;
+}
+
+h1, h2 {
+  font-family: 'Inika Regular', 'Times New Roman', Times, serif !important;
+}
+
+header {
+  background-color: #E10000;
+  height: 9vh;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.main-container {
+  height: 84vh;
+}
+
+@font-face {
+  font-family: "Inika Regular";
+  src: local("Inika Regular"), url(./assets/fonts/Inika-Regular.ttf);
+}
