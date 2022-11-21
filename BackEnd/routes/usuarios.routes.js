@@ -4,17 +4,28 @@ const { check } = require("express-validator");
 const { validarCampos } = require("../middlewares/validar-campos.middleware");
 const { validarJwt } = require("../middlewares/validar-jwt");
 
-const { registrarUsuarios, actualizarUsuario, borrarUsuario, listarUsuarios, buscarUsuarios } = require("../controllers/usuarios.controller");
+const { registrarUsuarios,
+        actualizarUsuario,
+        borrarUsuario,
+        listarUsuarios,
+        buscarUsuarios,
+        buscarUsuarioById } = require("../controllers/usuarios.controller");
 
 const router = Router();
 
 router.get("/", [
-    //validarJwt
+    validarJwt
 ], listarUsuarios);
 
 router.get("/buscar", [
-    //validarJwt
+    validarJwt
 ], buscarUsuarios);
+
+router.get("/:id", [
+    validarJwt,
+    check("id", "El id no es valido").isInt(),
+    validarCampos
+], buscarUsuarioById);
 
 router.post("/", [
     validarJwt,
@@ -25,6 +36,7 @@ router.post("/", [
 ], registrarUsuarios);
 
 router.put("/:id", [
+    validarJwt,
     check("id", "El id es invalido").isInt(),
     check("correo", "Debe ser un correo valido").isEmail(),
     validarCampos

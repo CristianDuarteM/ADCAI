@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db/conexion");
 
-const Rol = db.define("Rol", {
+const Facultad = db.define("Facultad", {
     id: {
         primaryKey: true,
         autoIncrement: true,
@@ -17,4 +17,4 @@ const Rol = db.define("Rol", {
     }
 });
 
-module.exports = Rol;
+module.exports = Facultad;

@@ -8,7 +8,7 @@ const listarUsuarios = async (req, res) => {
     const {limite = 20, desde = 0} = req.query;
     try {
         const usuarios = await Usuario.findAndCountAll({
-            attributes: ["id", "codigo", "nombre_apellido", "correo", "telefono", "esTiempoCompleto"],
+            attributes: ["id", "codigo", "nombre", "apellido", "correo", "telefono", "esTiempoCompleto"],
             offset: Number(desde),
             limit: Number(limite)
         });
@@ -38,9 +38,18 @@ const buscarUsuarios = async (req, res) => {
             };
     } else if(nombre) {
         buscar = {
-            nombre_apellido: {
-                [Op.substring]: nombre
-            },
+            [Op.or]: [
+                {
+                    nombre: {
+                        [Op.substring]: nombre
+                    }
+                },
+                {
+                    apellido: {
+                        [Op.substring]: nombre
+                    }
+                }
+            ],
             estaActivo: true
         };
     } else {
@@ -52,14 +61,31 @@ const buscarUsuarios = async (req, res) => {
         };
     }
     try {
-        console.log(buscar);
         const usuarios = await Usuario.findAndCountAll({
-            attributes: ["id", "codigo", "nombre_apellido", "correo", "telefono", "esTiempoCompleto"],
+            attributes: ["id", "codigo", "nombre", "apellido", "correo", "telefono", "esTiempoCompleto"],
             where: buscar,
             offset: Number(desde),
             limit: Number(limite)
         });
         res.json(usuarios);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: `Hable con el administrador`
+        });
+    }
+};
+
+const buscarUsuarioById = async (req, res) => {
+    const {id} = req.params;
+    try {
+        const usuario = await Usuario.findByPk(id, {
+            attributes: ["id", "codigo", "nombre", "apellido", "correo", "telefono", "esTiempoCompleto"]
+        });
+        if(!usuario){
+            return res.json({usuario: {}});
+        }
+        res.json({usuario: usuario});
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -78,7 +104,7 @@ const registrarUsuarios = async (req, res) => {
         });
     }
     if(((rol.toLowerCase() === "DECANO") || (rol.toLowerCase() === "DIRECTOR")) && 
-        (req.usuario.Rols.filter(rol => rol.nombre === "admin").length !== 1)
+        (req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1)
     ){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
@@ -122,7 +148,7 @@ const actualizarUsuario = async (req, res) => {
         const usuario = await Usuario.findByPk(id);
         if(!usuario){
             return res.status(400).json({
-                msg: `El usuario con el id ${id} no existe`
+                msg: `No existe usuario con ese id`
             });
         }
         await usuario.update(req.body);
@@ -168,8 +194,9 @@ const borrarUsuario = async (req, res) => {
 };
 
 module.exports = {
-    buscarUsuarios,
     listarUsuarios,
+    buscarUsuarios,
+    buscarUsuarioById,
     registrarUsuarios,
     actualizarUsuario,
     borrarUsuario
