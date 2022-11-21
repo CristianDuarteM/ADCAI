@@ -1,17 +1,83 @@
-const {Rol} = require("../models/index");
-const {Usuario} = require("../models/index");
+const { Op } = require("sequelize");
+
+const {Rol, Usuario} = require("../models/index");
+
 const enviarCorreo = require("../services/mailer");
+
+const listarUsuarios = async (req, res) => {
+    const {limite = 20, desde = 0} = req.query;
+    try {
+        const usuarios = await Usuario.findAndCountAll({
+            attributes: ["id", "codigo", "nombre_apellido", "correo", "telefono", "esTiempoCompleto"],
+            offset: Number(desde),
+            limit: Number(limite)
+        });
+        res.json(usuarios);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: `Hable con el administrador`
+        });
+    }
+};
+
+const buscarUsuarios = async (req, res) => {
+    const {codigo, nombre, correo, limite = 20, desde = 0} = req.query;
+    let buscar;
+    if(codigo){
+        if(!Number.isInteger(codigo)){
+            return res.status(400).json({
+                msg: `El codigo debe ser numerico`
+            });
+        }
+        buscar = {
+                codigo: {
+                    [Op.substring]: codigo
+                },
+                estaActivo: true
+            };
+    } else if(nombre) {
+        buscar = {
+            nombre_apellido: {
+                [Op.substring]: nombre
+            },
+            estaActivo: true
+        };
+    } else {
+        buscar = {
+            correo: {
+                [Op.substring]: correo
+            },
+            estaActivo: true
+        };
+    }
+    try {
+        console.log(buscar);
+        const usuarios = await Usuario.findAndCountAll({
+            attributes: ["id", "codigo", "nombre_apellido", "correo", "telefono", "esTiempoCompleto"],
+            where: buscar,
+            offset: Number(desde),
+            limit: Number(limite)
+        });
+        res.json(usuarios);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: `Hable con el administrador`
+        });
+    }
+};
 
 const registrarUsuarios = async (req, res) => {
     let {correos, rol} = req.body;
-    if((rol.toLowerCase() === "docente") && 
-        ((req.usuario.Rols.filter(rol => (rol.nombre === "admin")).length !== 1) && (req.usuario.Rols.filter(rol => (rol.nombre === "director")).length !== 1))
+    if((rol.toUpperCase() === "DOCENTE") && 
+        ((req.usuario.Rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) && (req.usuario.Rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1))
     ){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
     }
-    if(((rol.toLowerCase() === "decano") || (rol.toLowerCase() === "director")) && 
+    if(((rol.toLowerCase() === "DECANO") || (rol.toLowerCase() === "DIRECTOR")) && 
         (req.usuario.Rols.filter(rol => rol.nombre === "admin").length !== 1)
     ){
         return res.status(401).json({
@@ -74,7 +140,7 @@ const actualizarUsuario = async (req, res) => {
 
 const borrarUsuario = async (req, res) => {
     const {id} = req.params;
-    if((req.usuario.Rols.filter(rol => (rol.nombre === "admin")).length !== 1) && (req.usuario.Rols.filter(rol => (rol.nombre === "director")).length !== 1)){
+    if((req.usuario.Rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) && (req.usuario.Rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1)){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
@@ -102,6 +168,8 @@ const borrarUsuario = async (req, res) => {
 };
 
 module.exports = {
+    buscarUsuarios,
+    listarUsuarios,
     registrarUsuarios,
     actualizarUsuario,
     borrarUsuario
