@@ -9,6 +9,7 @@ class Server {
 
         this.appPaths = {
             auth: "/api/auth",
+            departamentos: "/api/departamentos",
             facultades: "/api/facultades",
             usuarios: "/api/usuarios",
             roles: "/api/roles"
@@ -45,6 +46,7 @@ class Server {
 
     routes(){
         this.app.use(this.appPaths.auth, require("../routes/auth.routes"));
+        this.app.use(this.appPaths.departamentos, require("../routes/departamento.routes"));
         this.app.use(this.appPaths.facultades, require("../routes/facultades.routes"));
         this.app.use(this.appPaths.usuarios, require("../routes/usuarios.routes"));
         this.app.use(this.appPaths.roles, require("../routes/roles.routes"));

@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db/conexion");
 
-const Facultad = db.define("Facultad", {
-    id: {
+const Departamento = db.define("Departamento", {
+    id:{
         primaryKey: true,
         autoIncrement: true,
         type: DataTypes.INTEGER
@@ -15,7 +15,15 @@ const Facultad = db.define("Facultad", {
         type: DataTypes.STRING,
         allowNull: true
     },
-    decano: {
+    id_facultad: {
+        allowNull: true,
+        type: DataTypes.INTEGER,
+        references: {
+            model: "Facultad",
+            key: "id"
+        }
+    },
+    director: {
         allowNull: true,
         type: DataTypes.INTEGER,
         references: {
@@ -25,4 +33,4 @@ const Facultad = db.define("Facultad", {
     }
 });
 
-module.exports = Facultad;
+module.exports = Departamento;

@@ -19,28 +19,6 @@ const listarFacultades = async (req, res) => {
     }
 };
 
-const buscarFacultadByNombre = async (req, res) => {
-    const {nombre, limite = 20, desde = 0} = req.query;
-    try {
-        const facultades = await Facultad.findAndCountAll({
-            attributes: ["id", "nombre", "descripcion"],
-            where: {
-                nombre: {
-                    [Op.substring]: nombre
-                }
-            },
-            offset: Number(desde),
-            limit: Number(limite)
-        });
-        res.json(facultades);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            msg: `Hable con el administrador`
-        });
-    }
-};
-
 const buscarFacultadById = async (req, res) => {
     const {id} = req.params;
     try {
@@ -92,12 +70,25 @@ const registrarFacultad = async (req, res) => {
 
 const actualizarFacultad = async (req, res) => {
     const {id} = req.params;
+    const {nombre} = req.body;
     if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     try {
+        if(nombre){
+            const existeFacultad = await Facultad.findOne({
+                where: {
+                    nombre
+                }
+            });
+            if(existeFacultad){
+                return res.status(400).json({
+                    msg: `Existe una facultad registrada con ese nombre ${nombre}`
+                });
+            }
+        }
         const facultad = await Facultad.findByPk(id);
         if(!facultad){
             return res.status(400).json({
@@ -146,7 +137,6 @@ const eliminarFacultad = async (req, res) => {
 
 module.exports = {
     listarFacultades,
-    buscarFacultadByNombre,
     buscarFacultadById,
     registrarFacultad,
     actualizarFacultad,

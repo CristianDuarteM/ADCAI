@@ -31,6 +31,14 @@ const Usuario = db.define("Usuario", {
         type: DataTypes.BOOLEAN,
         allowNull: true
     },
+    id_departamento: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        references: {
+            model: "Departamento",
+            key: "id"
+        }
+    },
     id_firma: {
         type: DataTypes.INTEGER,
         allowNull: true

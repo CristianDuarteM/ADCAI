@@ -9,13 +9,23 @@ const { registrarUsuarios,
         borrarUsuario,
         listarUsuarios,
         buscarUsuarios,
-        buscarUsuarioById } = require("../controllers/usuarios.controller");
+        buscarUsuarioById,
+        listarUsuariosByDepartamento,
+        agregarRolToUsuario} = require("../controllers/usuarios.controller");
+
+const { existeDepartamento, existeRol } = require("../middlewares/db-validators");
 
 const router = Router();
 
 router.get("/", [
     validarJwt
 ], listarUsuarios);
+
+router.get("/departamento/:id", [
+    //validarJwt,
+    check("id", "El id del departamento no es valido").isInt(),
+    validarCampos
+], listarUsuariosByDepartamento);
 
 router.get("/buscar", [
     validarJwt
@@ -28,12 +38,24 @@ router.get("/:id", [
 ], buscarUsuarioById);
 
 router.post("/", [
-    validarJwt,
+    //validarJwt,
     check("correos", "Debe ingresar al menos un correo").notEmpty(),
     check("correos.*", "Deben ser correos validos").isEmail(),
     check("rol", "El rol es obligatorio").notEmpty(),
+    check("id_departamento", "El id del departamento es obligatorio").notEmpty(),
+    check("id_departamento", "El id del departamento es invalido").isInt(),
     validarCampos
 ], registrarUsuarios);
+
+router.post("/agregarRolToUsuario", [
+    //validarJwt,
+    check("id_departamento_facultad", "El departamento es obligatorio").notEmpty(),
+    check("correo", "Debe ingresar un correo valido").isEmail(),
+    check("correo", "El correo es obligatorio").notEmpty(),
+    check("rol", "El rol es obligatorio").notEmpty(),
+    check("rol").custom(existeRol),
+    validarCampos
+], agregarRolToUsuario);
 
 router.put("/:id", [
     validarJwt,
