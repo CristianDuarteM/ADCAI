@@ -11,13 +11,17 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
+import { FacultyComponent } from './faculty/faculty.component';
+import { PrincipalRowComponent } from './principal-row/principal-row.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    FacultyComponent,
+    PrincipalRowComponent
   ],
   imports: [
     FormsModule,
