@@ -10,13 +10,13 @@ export class StickyTableComponent implements OnInit {
 
   @Input() elementsData: any[];
   @Input() columnsToDisplay: string[];
-  @Input() columnHeader: string[];
+  @Input() headerTable: string;
   dataArray: MatTableDataSource<any>;
 
   constructor() {
     this.elementsData = [];
     this.columnsToDisplay = [];
-    this.columnHeader = [];
+    this.headerTable = '';
     this.dataArray = new MatTableDataSource(undefined);
   }
 

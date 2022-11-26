@@ -4,12 +4,11 @@
     <app-principal-row [backRoute]="backRouteFaculty" [title]="titleFaculty" [isPrincipal]="isPrincipalFaculty"></app-principal-row>
     <div class="principal-content">
       <div class="add-button">
-        <div></div>
         <button>
           <a href="/gestion-facultades/agregar" title="Agregar">Agregar Facultad</a>
         </button>
       </div>
-      <app-sticky-table [columnsToDisplay]="columnsToDisplayFaculty" [columnHeader]="columnHeaderFaculty" [elementsData]="elementsDataFaculty"></app-sticky-table>
+      <app-sticky-table [columnsToDisplay]="columnsToDisplayFaculty" [headerTable]="headerTableFaculty" [elementsData]="elementsDataFaculty"></app-sticky-table>
     </div>
   </div>
   <footer></footer>
