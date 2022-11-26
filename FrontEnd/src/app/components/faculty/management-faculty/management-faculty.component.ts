@@ -13,17 +13,17 @@ export class ManagementFacultyComponent implements OnInit {
   titleFaculty: string;
   isPrincipalFaculty: boolean;
   columnsToDisplayFaculty: string[];
-  columnHeaderFaculty: string[];
+  headerTableFaculty: string;
   elementsDataFaculty: FacultyModel[] = [
     {id: '1', name: 'Ingeniería', description: 'La Facultad de Ingeniería responde al reto y la necesidad ' +
     'de formar profesionales que asuman la responsabilidad de generar procesos...', dean: 'Decano Pepito Perez'},
   ];;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService,) {
+  constructor(private ngxPermissonsService: NgxPermissionsService) {
     this.backRouteFaculty = '/home';
     this.titleFaculty = 'Gestión de Facultades';
     this.isPrincipalFaculty = true;
-    this.columnHeaderFaculty = ['Listado de Facultades'];
+    this.headerTableFaculty = 'Listado de Facultades';
     this.columnsToDisplayFaculty = ['Id','Nombre', 'Descripción', 'Decano', 'Acción'];
   }
 
