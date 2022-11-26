@@ -9,10 +9,12 @@ export class PrincipalRowComponent implements OnInit {
 
   @Input() backRoute: string;
   @Input() title: string;
+  @Input() isPrincipal: boolean;
 
   constructor() {
     this.backRoute = '';
     this.title = '';
+    this.isPrincipal = false;
   }
 
   ngOnInit(): void {

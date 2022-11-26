@@ -15,7 +15,7 @@
     <h1>{{title}}</h1>
   </div>
   <div class="principal-item come-back-home">
-    <button>
+    <button *ngIf="!isPrincipal">
       <a href="/home">Volver a la página <br> principal</a>
     </button>
   </div>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FacultyComponent } from './faculty.component';
+import { StickyTableComponent } from './sticky-table.component';
 
-describe('FacultyComponent', () => {
-  let component: FacultyComponent;
-  let fixture: ComponentFixture<FacultyComponent>;
+describe('StickyTableComponent', () => {
+  let component: StickyTableComponent;
+  let fixture: ComponentFixture<StickyTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FacultyComponent ]
+      declarations: [ StickyTableComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FacultyComponent);
+    fixture = TestBed.createComponent(StickyTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
