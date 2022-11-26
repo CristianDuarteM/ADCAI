@@ -8,6 +8,7 @@ button {
   padding: 2%;
   margin: 1%;
   width: 45%;
+  cursor: pointer;
 }
 
 h2 {
