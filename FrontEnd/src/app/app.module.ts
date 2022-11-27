@@ -16,6 +16,7 @@ import { PrincipalRowComponent } from './components/principal-row/principal-row.
 import { ManagementFacultyComponent } from './components/faculty/management-faculty/management-faculty.component';
 import { StickyTableComponent } from './components/sticky-table/sticky-table.component';
 import { ManagementDepartmentComponent } from './components/department/management-department/management-department.component';
+import { AddFacultyComponent } from './components/faculty/add-faculty/add-faculty.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ManagementDepartmentComponent } from './components/department/managemen
     ManagementFacultyComponent,
     StickyTableComponent,
     ManagementDepartmentComponent,
+    AddFacultyComponent,
   ],
   imports: [
     FormsModule,
