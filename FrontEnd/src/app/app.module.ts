@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +17,7 @@ import { ManagementFacultyComponent } from './components/faculty/management-facu
 import { StickyTableComponent } from './components/sticky-table/sticky-table.component';
 import { ManagementDepartmentComponent } from './components/department/management-department/management-department.component';
 import { AddFacultyComponent } from './components/faculty/add-faculty/add-faculty.component';
+import { FacultyDetailsComponent } from './components/faculty/faculty-details/faculty-details.component';
 
 @NgModule({
   declarations: [
@@ -29,9 +30,11 @@ import { AddFacultyComponent } from './components/faculty/add-faculty/add-facult
     StickyTableComponent,
     ManagementDepartmentComponent,
     AddFacultyComponent,
+    FacultyDetailsComponent,
   ],
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
