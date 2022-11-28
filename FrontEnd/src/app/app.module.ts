@@ -18,6 +18,7 @@ import { StickyTableComponent } from './components/sticky-table/sticky-table.com
 import { ManagementDepartmentComponent } from './components/department/management-department/management-department.component';
 import { AddFacultyComponent } from './components/faculty/add-faculty/add-faculty.component';
 import { FacultyDetailsComponent } from './components/faculty/faculty-details/faculty-details.component';
+import { UpdateFacultyComponent } from './components/faculty/update-faculty/update-faculty.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FacultyDetailsComponent } from './components/faculty/faculty-details/fa
     ManagementDepartmentComponent,
     AddFacultyComponent,
     FacultyDetailsComponent,
+    UpdateFacultyComponent,
   ],
   imports: [
     FormsModule,

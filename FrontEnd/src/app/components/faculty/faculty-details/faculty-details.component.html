@@ -1,6 +1,6 @@
 <ng-container>
   <div class="principal-container">
-    <h2>Diligencie los campos requeridos para agregar una facultad</h2>
+    <h2>{{descriptionForm}}</h2>
   </div>
   <form (ngSubmit)="onSubmit()" [formGroup]="faculty">
     <div class="content-input">
@@ -13,7 +13,7 @@
     </div>
     <div class="content-input">
       <span>Decano</span>
-      <span class="informative-text">Ingrese el correo del docente correpondiente si desea asignar el decano</span>
+      <span class="informative-text">Ingrese el correo del docente correpondiente para asignar el decano</span>
       <input type="email" formControlName="dean">
     </div>
     <div class="content-input">
@@ -31,7 +31,7 @@
     </div>
     <div class="button-form">
       <button type="submit">
-        Guardar
+        {{titleButton}}
       </button>
     </div>
   </form>
