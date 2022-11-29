@@ -14,6 +14,8 @@ export class ManagementFacultyComponent implements OnInit {
   isPrincipalFaculty: boolean;
   columnsToDisplayFaculty: string[];
   headerTableFaculty: string;
+  updateRouteFaculty: string;
+  disableRouteFaculty: string;
   elementsDataFaculty: FacultyModel[] = [
     {id: '1', name: 'Ingeniería', description: 'La Facultad de Ingeniería responde al reto y la necesidad ' +
     'de formar profesionales que asuman la responsabilidad de generar procesos...', dean: 'Decano Pepito Perez'},
@@ -24,6 +26,8 @@ export class ManagementFacultyComponent implements OnInit {
     this.titleFaculty = 'Gestión de Facultades';
     this.isPrincipalFaculty = true;
     this.headerTableFaculty = 'Listado de Facultades';
+    this.updateRouteFaculty = '/gestion-facultades/editar';
+    this.disableRouteFaculty = '';
     this.columnsToDisplayFaculty = ['Id','Nombre', 'Descripción', 'Decano', 'Acción'];
   }
 
