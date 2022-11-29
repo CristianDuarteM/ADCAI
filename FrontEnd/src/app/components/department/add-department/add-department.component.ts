@@ -11,11 +11,15 @@ export class AddDepartmentComponent implements OnInit {
   backRouteDepartment: string;
   titleDepartment: string;
   isPrincipalDepartment: boolean;
+  actionButtonDepartment: string;
+  descriptionFormDepartment: string;
 
   constructor(private ngxPermissonsService: NgxPermissionsService) {
     this.backRouteDepartment = '/gestion-departamentos';
     this.titleDepartment = 'Agregar Departamento';
     this.isPrincipalDepartment = false;
+    this.actionButtonDepartment = 'Guardar';
+    this.descriptionFormDepartment = 'Diligencie los campos requeridos para agregar un departamento';
   }
 
   ngOnInit(): void {
