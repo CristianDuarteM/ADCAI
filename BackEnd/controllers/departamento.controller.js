@@ -156,11 +156,11 @@ const actualizarDepartamento = async (req, res) => {
 
 const eliminarDepartamento = async (req, res) => {
     const {id} = req.params;
-    if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    /*if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
-    }
+    }*/
     try {
         const deparamento = await Departamento.findByPk(id);
         if(!deparamento){
@@ -168,9 +168,11 @@ const eliminarDepartamento = async (req, res) => {
                 msg: `No existe departamento con ese id`
             });
         }
-        await deparamento.destroy();
+        await deparamento.update({
+            estado: false
+        });
         res.status(201).json({
-            msg: "Facultad eliminada con exito",
+            msg: "Departamento eliminado con exito",
             deparamento
         });
     } catch (error) {

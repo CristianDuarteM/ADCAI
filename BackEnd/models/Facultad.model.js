@@ -22,6 +22,11 @@ const Facultad = db.define("Facultad", {
             model: "Usuario",
             key: "id"
         }
+    },
+    estado: {
+        defaultValue: true,
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     }
 });
 

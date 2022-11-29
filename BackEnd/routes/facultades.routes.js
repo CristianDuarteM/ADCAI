@@ -35,7 +35,7 @@ router.put("/:id", [
 ], actualizarFacultad);
 
 router.delete("/:id", [
-    validarJwt,
+    //validarJwt,
     check("id", "El id no es valido").isInt(),
     validarCampos
 ], eliminarFacultad);

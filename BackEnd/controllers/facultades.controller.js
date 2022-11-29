@@ -110,11 +110,11 @@ const actualizarFacultad = async (req, res) => {
 
 const eliminarFacultad = async (req, res) => {
     const {id} = req.params;
-    if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    /*if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
-    }
+    }*/
     try {
         const facultad = await Facultad.findByPk(id);
         if(!facultad){
@@ -122,7 +122,9 @@ const eliminarFacultad = async (req, res) => {
                 msg: `No existe facultad con ese id`
             });
         }
-        await facultad.destroy();
+        await facultad.update({
+            estado: false
+        });
         res.status(201).json({
             msg: "Facultad eliminada con exito",
             facultad

@@ -30,6 +30,11 @@ const Departamento = db.define("Departamento", {
             model: "Usuario",
             key: "id"
         }
+    },
+    estado: {
+        defaultValue: true,
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     }
 });
 
