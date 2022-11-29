@@ -11,12 +11,16 @@ export class StickyTableComponent implements OnInit {
   @Input() elementsData: any[];
   @Input() columnsToDisplay: string[];
   @Input() headerTable: string;
+  @Input() updateRoute: string;
+  @Input() disableRoute: string;
   dataArray: MatTableDataSource<any>;
 
   constructor() {
     this.elementsData = [];
     this.columnsToDisplay = [];
     this.headerTable = '';
+    this.updateRoute = '';
+    this.disableRoute = '';
     this.dataArray = new MatTableDataSource(undefined);
   }
 

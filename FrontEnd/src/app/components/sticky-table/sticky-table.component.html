@@ -34,11 +34,11 @@
         <td mat-cell *matCellDef class="border-color-table">
           <button class="add-button">
             <mat-icon>edit</mat-icon>
-            <a href="/gestion-facultades/editar">Editar</a>
+            <a href="{{updateRoute}}">Editar</a>
           </button>
           <button class="disable-button">
             <mat-icon> edit_attributes</mat-icon>
-            <a href="/gestion-facultades/deshabilitar" target="Deshabilitar">Deshabilitar</a>
+            <a href="{{disableRoute}}" target="Deshabilitar">Deshabilitar</a>
           </button>
         </td>
       </ng-container>

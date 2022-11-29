@@ -7,6 +7,7 @@ import { ManagementDepartmentComponent } from './components/department/managemen
 import { AddFacultyComponent } from './components/faculty/add-faculty/add-faculty.component';
 import { UpdateFacultyComponent } from './components/faculty/update-faculty/update-faculty.component';
 import { AddDepartmentComponent } from './components/department/add-department/add-department.component';
+import { UpdateDepartmentComponent } from './components/department/update-department/update-department.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: "gestion-facultades/editar", component: UpdateFacultyComponent, pathMatch: "full" },
   { path: "gestion-departamentos", component: ManagementDepartmentComponent, pathMatch: "full" },
   { path: "gestion-departamentos/agregar", component: AddDepartmentComponent, pathMatch: "full" },
+  { path: "gestion-departamentos/editar", component: UpdateDepartmentComponent, pathMatch: "full" },
 ];
 
 @NgModule({
