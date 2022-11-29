@@ -19,6 +19,8 @@ import { ManagementDepartmentComponent } from './components/department/managemen
 import { AddFacultyComponent } from './components/faculty/add-faculty/add-faculty.component';
 import { FacultyDetailsComponent } from './components/faculty/faculty-details/faculty-details.component';
 import { UpdateFacultyComponent } from './components/faculty/update-faculty/update-faculty.component';
+import { AddDepartmentComponent } from './components/department/add-department/add-department.component';
+import { DepartmentDetailsComponent } from './components/department/department-details/department-details.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { UpdateFacultyComponent } from './components/faculty/update-faculty/upda
     AddFacultyComponent,
     FacultyDetailsComponent,
     UpdateFacultyComponent,
+    AddDepartmentComponent,
+    DepartmentDetailsComponent,
   ],
   imports: [
     FormsModule,
