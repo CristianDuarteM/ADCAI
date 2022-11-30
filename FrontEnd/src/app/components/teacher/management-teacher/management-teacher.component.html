@@ -1,0 +1,49 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteTeacher" [title]="titleTeacher" [isPrincipal]="isPrincipalTeacher"></app-principal-row>
+    <form (ngSubmit)="onSubmit()" [formGroup]="teacher">
+      <div class="content-init">
+        <div class="content-input">
+          <span>Facultad <span class="item-required">*</span></span>
+          <select formControlName="facultySelect" name="facultySelect">
+            <option value="none">Seleccione...</option>
+            <option *ngFor="let faculty of facultyList" [value]="faculty.id">
+              {{faculty.name}}
+            </option>
+          </select>
+        </div>
+        <div class="content-input">
+          <span>Departamento <span class="item-required">*</span></span>
+          <select formControlName="departmentSelect" name="departmentSelect">
+            <option value="none">Seleccione...</option>
+            <option *ngFor="let department of departmentList" [value]="department.id">
+              {{department.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="content-input">
+        <span>Si desea agregar otro filtro seleccione el campo</span>
+      </div>
+      <div class="content-select">
+        <select formControlName="filterSelect" name="filterSelect">
+          <option value="none">Seleccione...</option>
+          <option value="code">Código</option>
+          <option value="email">Correo</option>
+          <option value="name">Nombre Completo</option>
+        </select>
+        <input type="text" formControlName="filterText">
+      </div>
+      <div class="button-form">
+        <button type="submit" class="search-button">
+          Buscar
+        </button>
+        <button type="submit" class="add-button">
+          Agregar
+        </button>
+      </div>
+    </form>
+  </div>
+  <footer></footer>
+</ng-container>

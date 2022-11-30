@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { UpdateFacultyComponent } from './components/faculty/update-faculty/upda
 import { AddDepartmentComponent } from './components/department/add-department/add-department.component';
 import { DepartmentDetailsComponent } from './components/department/department-details/department-details.component';
 import { UpdateDepartmentComponent } from './components/department/update-department/update-department.component';
+import { ManagementTeacherComponent } from './components/teacher/management-teacher/management-teacher.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { UpdateDepartmentComponent } from './components/department/update-depart
     AddDepartmentComponent,
     DepartmentDetailsComponent,
     UpdateDepartmentComponent,
+    ManagementTeacherComponent,
   ],
   imports: [
     FormsModule,
@@ -49,6 +52,7 @@ import { UpdateDepartmentComponent } from './components/department/update-depart
     MatButtonModule,
     MatIconModule,
     MatTableModule,
+    MatSelectModule,
     NgxPermissionsModule.forRoot(),
   ],
   providers: [],

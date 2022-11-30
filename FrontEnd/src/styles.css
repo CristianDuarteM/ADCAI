@@ -16,7 +16,7 @@ footer {
   height: 7vh;
 }
 
-h1, h2, h3, span, input, textarea, label {
+h1, h2, h3, span, input, textarea, label, select {
   font-family: 'Inika Regular', 'Times New Roman', Times, serif !important;
 }
 
