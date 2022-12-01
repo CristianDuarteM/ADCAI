@@ -34,9 +34,5 @@ import { RolesComponent } from './roles/roles.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [
-    NavbarComponent,
-    RolesComponent
-  ]
 })
 export class AppModule { }

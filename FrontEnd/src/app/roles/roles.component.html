@@ -5,19 +5,19 @@
   <h2>Selecciona el rol al que deseas cambiar</h2>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button>
+  <button mat-dialog-close (click)="changeRole('ADMIN')">
     <mat-icon>how_to_reg</mat-icon> <br>
     Admin
   </button>
-  <button>
+  <button mat-dialog-close (click)="changeRole('DECANO')">
     <mat-icon>assignment_ind</mat-icon> <br>
     Decano
   </button>
-  <button>
+  <button mat-dialog-close (click)="changeRole('DIRECTOR')">
     <mat-icon>account_circle</mat-icon> <br>
     Director
   </button>
-  <button>
+  <button mat-dialog-close (click)="changeRole('DOCENTE')">
     <mat-icon>person</mat-icon> <br>
     Docente
   </button>

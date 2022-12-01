@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-roles',
@@ -6,13 +7,15 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './roles.component.html',
 })
 export class RolesComponent implements OnInit {
-  constructor() { }
+  constructor(private ngxPermissonsService: NgxPermissionsService) { }
 
   ngOnInit(): void {
-
   }
 
-  ngAfterViewInit(): void {
-
+  changeRole(role: string) {
+    sessionStorage.setItem("activeRole", role);
+    this.ngxPermissonsService.loadPermissions([role]);
+    location.replace('/home');
   }
+
 }

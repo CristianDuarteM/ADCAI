@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
     //Validar si es la primera vez que ingresa
     //Guardar los roles de acuerdo a la respuesta
     //Cargar un rol por defecto
-    this.activeRole = 'ADMIN';
+    this.activeRole = sessionStorage.getItem("activeRole") || 'ADMIN';
     sessionStorage.setItem("activeRole", this.activeRole);
     this.ngxPermissonsService.loadPermissions([this.activeRole]);
   }
