@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
-import { RolesComponent } from './roles/roles.component';
+import { RolesComponent } from './components/roles/roles.component';
 import { PrincipalRowComponent } from './components/principal-row/principal-row.component';
 import { ManagementFacultyComponent } from './components/faculty/management-faculty/management-faculty.component';
 import { StickyTableComponent } from './components/sticky-table/sticky-table.component';
