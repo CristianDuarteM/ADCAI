@@ -1,0 +1,38 @@
+<ng-container>
+  <div class="principal-container">
+    <h2>{{descriptionForm}}</h2>
+  </div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="department">
+    <div class="content-input">
+      <span>Nombre <span class="item-required">*</span></span>
+      <input type="text" formControlName="name">
+    </div>
+    <div class="content-input">
+      <span>Descripción <span class="item-required">*</span></span>
+      <textarea rows="3" formControlName="description"></textarea>
+    </div>
+    <div class="content-input">
+      <span>Director</span>
+      <span class="informative-text">Ingrese el correo del docente correpondiente</span>
+      <input type="email" formControlName="director">
+    </div>
+    <div class="content-input">
+      <span>¿El director deberá realizar el CAI como docente?</span>
+      <div class="radio-button-section">
+        <label class="radio"> Sí
+          <input type="radio" name="radio">
+          <span class="check"></span>
+        </label>
+        <label class="radio"> No
+            <input type="radio" name="radio">
+            <span class="check"></span>
+        </label>
+      </div>
+    </div>
+    <div class="button-form">
+      <button type="submit">
+        {{titleButton}}
+      </button>
+    </div>
+  </form>
+</ng-container>

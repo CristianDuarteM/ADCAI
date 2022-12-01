@@ -1,0 +1,38 @@
+a {
+  color: #000;
+  margin: 1%;
+  text-decoration: none;
+}
+
+button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+  border-radius: 2vh;
+  font-size: larger;
+  font-weight: bold;
+  padding: 0.5% 1% 0.5% 1%;
+  white-space: nowrap;
+}
+
+.principal-content {
+  display: flex;
+  flex-flow: column;
+  margin: 1%;
+}
+
+.add-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media only screen and (max-width: 600px) {
+  button {
+    font-size: smaller;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  button {
+    font-size: xx-large;
+  }
+}

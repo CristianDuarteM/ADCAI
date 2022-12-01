@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,7 +12,8 @@ export class HomeComponent implements OnInit {
   roleList: { [key: string]: string };
   activeRole: string;
 
-  constructor(private navigation: Router, private ngxPermissonsService: NgxPermissionsService) {
+  constructor(private navigation: Router, private ngxPermissonsService: NgxPermissionsService,
+    private rolesService: NgxRolesService) {
     this.tokenGoogle = '';
     this.roleList = {
       "ADMIN": "súper administrador",
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
     //Guardar los roles de acuerdo a la respuesta
     //Cargar un rol por defecto
     this.activeRole = sessionStorage.getItem("activeRole") || 'ADMIN';
+    this.rolesService.addRole(this.activeRole, []);
     sessionStorage.setItem("activeRole", this.activeRole);
     this.ngxPermissonsService.loadPermissions([this.activeRole]);
   }

@@ -1,0 +1,134 @@
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+button {
+  border-radius: 2vw;
+  padding: 2%;
+  margin: 1%;
+  width: 45%;
+  cursor: pointer;
+}
+
+h2 {
+  font-size: 2vw;
+  text-align: center;
+  margin: 0;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  border-color: #9D0303;
+}
+
+tr, th {
+  background-color: #FFF;
+  text-align: center;
+}
+
+tr, td {
+  background-color: transparent;
+}
+
+.table-sticky {
+  height: 51vh;
+  overflow: auto;
+}
+
+.border-color-table {
+  border-color: transparent;
+  padding: 1% 0 1% 0;
+}
+
+.title-table {
+  border-bottom-color: #9D0303;
+  border-bottom-style: solid;
+  border-bottom-width: 4px;
+  padding-bottom: 0.5%;
+  text-align: center;
+}
+
+.add-button {
+  background-color: #96C0E8;
+  border-color: #96C0E8;
+}
+
+.disable-button {
+  background-color: #E896A4;
+  border-color: #E896A4;
+}
+
+.border-column-table {
+  width: 15%;
+  text-align: center;
+}
+
+.columns-table {
+  width: 20%;
+  text-align: center;
+}
+
+.mat-icon {
+  display: none;
+}
+
+@media only screen and (min-width: 321px) and (max-width: 600px) {
+  button {
+    padding-left: 6%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  a {
+    display: none;
+  }
+  button {
+    margin-right: 1%;
+    text-align: center;
+    width: 35%;
+  }
+  h2 {
+    font-size: 6vw;
+    margin: 0;
+    margin-top: 5%;
+  }
+  table {
+    width: 200%;
+  }
+  .border-color-table {
+    border-color: rgba(0, 0, 0, 0.281);
+  }
+  .mat-icon {
+    display: block;
+  }
+}
+
+@media only screen and (min-width:601px) and (max-width: 840px) {
+  button {
+    width: 100%;
+  }
+  h2 {
+    font-size: 3vw;
+    margin: 0;
+    margin-top: 2%;
+  }
+}
+
+@media only screen and (min-width:841px) and (max-width: 1100px) {
+  button {
+    width: 70%;
+  }
+}
+
+@media only screen and (min-width: 2400px) {
+  button {
+    font-size: x-large;
+  }
+  tr, th {
+    font-size: xx-large;
+  }
+}
