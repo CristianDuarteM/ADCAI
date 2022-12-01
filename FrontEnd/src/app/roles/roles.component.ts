@@ -1,12 +1,12 @@
-import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-roles',
+  styleUrls: ['./roles.component.css'],
   templateUrl: './roles.component.html',
 })
-export class RolesComponent implements OnInit, AfterViewInit {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+export class RolesComponent implements OnInit {
+  constructor() { }
 
   ngOnInit(): void {
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { RolesComponent } from '../roles/roles.component';
 
 @Component({
@@ -17,29 +17,11 @@ export class NavbarComponent implements OnInit {
   }
 
   openDialog(): void {
-    let dc = new MatDialogConfig();
-    const dialogRef = this.dialog.open(RolesComponent, dc);
-    dc.autoFocus = true;
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    this.dialog.open(RolesComponent);
   }
 
   logOut() {
     this.loginComponent.logOut();
   }
 
-}
-
-@Component({
-  selector: "dialog-overview-example-dialog",
-  templateUrl: "../roles/roles.component.html"
-})
-export class DialogOverviewExampleDialog {
-  constructor(public dialogRef: MatDialogRef<DialogOverviewExampleDialog>) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
 }
