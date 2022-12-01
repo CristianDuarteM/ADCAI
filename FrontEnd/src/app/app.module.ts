@@ -6,12 +6,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
+import { RolesComponent } from './components/roles/roles.component';
 import { PrincipalRowComponent } from './components/principal-row/principal-row.component';
 import { ManagementFacultyComponent } from './components/faculty/management-faculty/management-faculty.component';
 import { StickyTableComponent } from './components/sticky-table/sticky-table.component';
@@ -29,6 +31,7 @@ import { UpdateDepartmentComponent } from './components/department/update-depart
     LoginComponent,
     NavbarComponent,
     HomeComponent,
+    RolesComponent,
     PrincipalRowComponent,
     ManagementFacultyComponent,
     StickyTableComponent,
@@ -48,10 +51,11 @@ import { UpdateDepartmentComponent } from './components/department/update-depart
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogModule,
     MatTableModule,
     NgxPermissionsModule.forRoot(),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
