@@ -27,6 +27,8 @@ th {
 
 tr, th {
   background-color: #FFF;
+  color: #000;
+  font-weight: bold;
   text-align: center;
 }
 

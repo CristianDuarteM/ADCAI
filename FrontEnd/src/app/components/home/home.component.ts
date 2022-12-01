@@ -35,7 +35,6 @@ export class HomeComponent implements OnInit {
     //Guardar los roles de acuerdo a la respuesta
     //Cargar un rol por defecto
     this.activeRole = sessionStorage.getItem("activeRole") || 'ADMIN';
-    this.rolesService.addRole(this.activeRole, []);
     sessionStorage.setItem("activeRole", this.activeRole);
     this.ngxPermissonsService.loadPermissions([this.activeRole]);
   }
