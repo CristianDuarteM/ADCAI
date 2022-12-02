@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from "./components/login/login.component";
-import { HomeComponent } from "./components/home/home.component";
-import { ManagementFacultyComponent } from './components/faculty/management-faculty/management-faculty.component';
-import { ManagementDepartmentComponent } from './components/department/management-department/management-department.component';
-import { AddFacultyComponent } from './components/faculty/add-faculty/add-faculty.component';
-import { UpdateFacultyComponent } from './components/faculty/update-faculty/update-faculty.component';
-import { AddDepartmentComponent } from './components/department/add-department/add-department.component';
-import { UpdateDepartmentComponent } from './components/department/update-department/update-department.component';
+import { LoginComponent } from "./pages/login/login.component";
+import { HomeComponent } from "./pages/home/home.component";
+import { ManagementFacultyComponent } from './pages/faculty/management-faculty/management-faculty.component';
+import { AddFacultyComponent } from './pages/faculty/add-faculty/add-faculty.component';
+import { UpdateFacultyComponent } from './pages/faculty/update-faculty/update-faculty.component';
+import { ManagementDepartmentComponent } from './pages/department/management-department/management-department.component';
+import { AddDepartmentComponent } from './pages/department/add-department/add-department.component';
+import { UpdateDepartmentComponent } from './pages/department/update-department/update-department.component';
 import { ManagementTeacherComponent } from './components/teacher/management-teacher/management-teacher.component';
 
 const routes: Routes = [

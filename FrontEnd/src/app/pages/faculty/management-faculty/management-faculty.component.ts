@@ -16,6 +16,7 @@ export class ManagementFacultyComponent implements OnInit {
   headerTableFaculty: string;
   updateRouteFaculty: string;
   disableRouteFaculty: string;
+  descriptionDisableFaculty: string;
   elementsDataFaculty: FacultyModel[] = [
     {id: '1', name: 'Ingeniería', description: 'La Facultad de Ingeniería responde al reto y la necesidad ' +
     'de formar profesionales que asuman la responsabilidad de generar procesos...', dean: 'Decano Pepito Perez'},
@@ -29,6 +30,7 @@ export class ManagementFacultyComponent implements OnInit {
     this.updateRouteFaculty = '/gestion-facultades/editar';
     this.disableRouteFaculty = '';
     this.columnsToDisplayFaculty = ['Id','Nombre', 'Descripción', 'Decano', 'Acción'];
+    this.descriptionDisableFaculty = '¿Estás seguro de deshabilitar la facultad seleccionada?';
   }
 
   ngOnInit(): void {

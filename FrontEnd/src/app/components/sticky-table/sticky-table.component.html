@@ -36,9 +36,9 @@
             <mat-icon>edit</mat-icon>
             <a href="{{updateRoute}}">Editar</a>
           </button>
-          <button class="disable-button">
+          <button class="disable-button" (click)="openDialog()">
             <mat-icon> edit_attributes</mat-icon>
-            <a href="{{disableRoute}}" target="Deshabilitar">Deshabilitar</a>
+            <span>Deshabilitar</span>
           </button>
         </td>
       </ng-container>

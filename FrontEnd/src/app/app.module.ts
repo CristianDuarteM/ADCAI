@@ -7,15 +7,25 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { HomeComponent } from './components/home/home.component';
+import { RolesComponent } from './components/roles/roles.component';
 import { PrincipalRowComponent } from './components/principal-row/principal-row.component';
-import { ManagementFacultyComponent } from './components/faculty/management-faculty/management-faculty.component';
 import { StickyTableComponent } from './components/sticky-table/sticky-table.component';
+import { LoginComponent } from './pages/login/login.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ManagementFacultyComponent } from './pages/faculty/management-faculty/management-faculty.component';
+import { FacultyDetailsComponent } from './components/faculty-details/faculty-details.component';
+import { AddFacultyComponent } from './pages/faculty/add-faculty/add-faculty.component';
+import { UpdateFacultyComponent } from './pages/faculty/update-faculty/update-faculty.component';
+import { ManagementDepartmentComponent } from './pages/department/management-department/management-department.component';
+import { DepartmentDetailsComponent } from './components/department-details/department-details.component';
+import { AddDepartmentComponent } from './pages/department/add-department/add-department.component';
+import { UpdateDepartmentComponent } from './pages/department/update-department/update-department.component';
+import { DisableDialogComponent } from './components/disable-dialog/disable-dialog.component';
 import { ManagementDepartmentComponent } from './components/department/management-department/management-department.component';
 import { AddFacultyComponent } from './components/faculty/add-faculty/add-faculty.component';
 import { FacultyDetailsComponent } from './components/faculty/faculty-details/faculty-details.component';
@@ -28,20 +38,22 @@ import { ManagementTeacherComponent } from './components/teacher/management-teac
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     NavbarComponent,
-    HomeComponent,
+    RolesComponent,
     PrincipalRowComponent,
-    ManagementFacultyComponent,
     StickyTableComponent,
-    ManagementDepartmentComponent,
-    AddFacultyComponent,
+    LoginComponent,
+    HomeComponent,
+    ManagementFacultyComponent,
     FacultyDetailsComponent,
+    AddFacultyComponent,
     UpdateFacultyComponent,
-    AddDepartmentComponent,
+    ManagementDepartmentComponent,
     DepartmentDetailsComponent,
+    AddDepartmentComponent,
     UpdateDepartmentComponent,
     ManagementTeacherComponent,
+    DisableDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -53,9 +65,10 @@ import { ManagementTeacherComponent } from './components/teacher/management-teac
     MatIconModule,
     MatTableModule,
     MatSelectModule,
+    MatDialogModule,
     NgxPermissionsModule.forRoot(),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
