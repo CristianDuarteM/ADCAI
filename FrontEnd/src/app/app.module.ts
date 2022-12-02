@@ -24,6 +24,7 @@ import { ManagementDepartmentComponent } from './pages/department/management-dep
 import { DepartmentDetailsComponent } from './components/department-details/department-details.component';
 import { AddDepartmentComponent } from './pages/department/add-department/add-department.component';
 import { UpdateDepartmentComponent } from './pages/department/update-department/update-department.component';
+import { DisableDialogComponent } from './components/disable-dialog/disable-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { UpdateDepartmentComponent } from './pages/department/update-department/
     DepartmentDetailsComponent,
     AddDepartmentComponent,
     UpdateDepartmentComponent,
+    DisableDialogComponent,
   ],
   imports: [
     FormsModule,
