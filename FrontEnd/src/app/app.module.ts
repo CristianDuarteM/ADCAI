@@ -26,13 +26,6 @@ import { DepartmentDetailsComponent } from './components/department-details/depa
 import { AddDepartmentComponent } from './pages/department/add-department/add-department.component';
 import { UpdateDepartmentComponent } from './pages/department/update-department/update-department.component';
 import { DisableDialogComponent } from './components/disable-dialog/disable-dialog.component';
-import { ManagementDepartmentComponent } from './components/department/management-department/management-department.component';
-import { AddFacultyComponent } from './components/faculty/add-faculty/add-faculty.component';
-import { FacultyDetailsComponent } from './components/faculty/faculty-details/faculty-details.component';
-import { UpdateFacultyComponent } from './components/faculty/update-faculty/update-faculty.component';
-import { AddDepartmentComponent } from './components/department/add-department/add-department.component';
-import { DepartmentDetailsComponent } from './components/department/department-details/department-details.component';
-import { UpdateDepartmentComponent } from './components/department/update-department/update-department.component';
 import { ManagementTeacherComponent } from './components/teacher/management-teacher/management-teacher.component';
 
 @NgModule({
