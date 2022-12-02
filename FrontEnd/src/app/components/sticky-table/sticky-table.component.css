@@ -36,6 +36,16 @@ tr, td {
   background-color: transparent;
 }
 
+tr, th {
+  font-size: large;
+}
+
+td {
+  font-size: medium;
+  font-weight: normal;
+  line-height: 100%;
+}
+
 .table-sticky {
   height: 51vh;
   overflow: auto;
@@ -98,8 +108,17 @@ tr, td {
     margin: 0;
     margin-top: 5%;
   }
+  span {
+    display: none;
+  }
   table {
     width: 200%;
+  }
+  tr, th {
+    font-size: medium;
+  }
+  td {
+    font-size: small;
   }
   .border-color-table {
     border-color: rgba(0, 0, 0, 0.281);
@@ -132,5 +151,8 @@ tr, td {
   }
   tr, th {
     font-size: xx-large;
+  }
+  td {
+    font-size: x-large;
   }
 }
