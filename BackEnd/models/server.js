@@ -11,6 +11,7 @@ class Server {
             auth: "/api/auth",
             departamentos: "/api/departamentos",
             facultades: "/api/facultades",
+            firmas: "/api/firmas",
             usuarios: "/api/usuarios",
             roles: "/api/roles"
         };
@@ -48,6 +49,7 @@ class Server {
         this.app.use(this.appPaths.auth, require("../routes/auth.routes"));
         this.app.use(this.appPaths.departamentos, require("../routes/departamento.routes"));
         this.app.use(this.appPaths.facultades, require("../routes/facultades.routes"));
+        this.app.use(this.appPaths.firmas, require("../routes/firmas.routes"));
         this.app.use(this.appPaths.usuarios, require("../routes/usuarios.routes"));
         this.app.use(this.appPaths.roles, require("../routes/roles.routes"));
     }

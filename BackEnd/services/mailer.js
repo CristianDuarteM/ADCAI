@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const enviarCorreo = (correo) => {
+const enviarCorreo = (correo, mensaje="") => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -13,7 +13,7 @@ const enviarCorreo = (correo) => {
         from: "Administracion CAI",
         to: correo,
         subject: `Registro ADCAI`,
-        text: `Por favor complete su registro ingresando al siguiente link: ${process.env.FRONTURL}`
+        text: `${mensaje}${process.env.FRONTURL}`
     };
 
     transporter.sendMail(mail_options, (error, info) => {

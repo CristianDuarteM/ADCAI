@@ -6,7 +6,7 @@ const listarFacultades = async (req, res) => {
     const {limite = 20, desde = 0} = req.query;
     try {
         const facultades = await Facultad.findAndCountAll({
-            attributes: ["id", "nombre", "descripcion"],
+            attributes: { exclude: ["createdAt", "updatedAt"]},
             offset: Number(desde),
             limit: Number(limite)
         });
@@ -23,7 +23,7 @@ const buscarFacultadById = async (req, res) => {
     const {id} = req.params;
     try {
         const facultad = await Facultad.findByPk(id, {
-            attributes: ["id", "nombre", "descripcion"]
+            attributes: { exclude: ["createdAt", "updatedAt"]}
         });
         if(!facultad){
             return res.json({facultad: {}});

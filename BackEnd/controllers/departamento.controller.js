@@ -6,7 +6,7 @@ const listarDepartamentos = async (req, res) => {
     const {limite = 20, desde = 0} = req.query;
     try {
         const departamentos = await Departamento.findAndCountAll({
-            attributes: ["id", "nombre", "descripcion"],
+            attributes: { exclude: ["createdAt", "updatedAt"]},
             include: {
                 model: Facultad,
                 attributes: ["id", "nombre"]
@@ -36,7 +36,7 @@ const buscarDepartamentoByFacultad = async (req, res) => {
             where: {
                 id_facultad: id
             },
-            attributes: ["id", "nombre", "descripcion"],
+            attributes: { exclude: ["createdAt", "updatedAt"]},
         });
         res.json(departamentos);
     } catch (error) {
@@ -51,7 +51,7 @@ const buscarDepartamentoById = async (req, res) => {
     const {id} = req.params;
     try {
         const departamento = await Departamento.findByPk(id, {
-            attributes: ["id", "nombre", "descripcion"],
+            attributes: { exclude: ["createdAt", "updatedAt"]},
             include: {
                 model: Facultad,
                 attributes: ["id", "nombre"]

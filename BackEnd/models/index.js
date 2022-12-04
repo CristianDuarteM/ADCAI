@@ -3,6 +3,7 @@ const Usuario = require("./usuario.model");
 const Facultad = require("./Facultad.model");
 const Departamento = require("./departamento.model");
 const Usuario_rol = require("./usuario_rol.model");
+const Firma = require("./firma.model");
 
 Usuario.belongsToMany(Rol, {
     through: "usuario_rol",
@@ -27,11 +28,19 @@ Departamento.belongsTo(Facultad, {
     foreignKey: "id_facultad"
 });
 
+Firma.hasOne(Usuario, {
+    foreignKey: "id_firma"
+});
+Usuario.belongsTo(Firma, {
+    foreignKey: "id_firma"
+});
+
 module.exports = {
     Rol,
     Usuario,
     Facultad,
     Departamento,
-    Usuario_rol
+    Usuario_rol,
+    Firma
 };
 

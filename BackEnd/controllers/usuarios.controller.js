@@ -107,7 +107,14 @@ const buscarUsuarioById = async (req, res) => {
     const {id} = req.params;
     try {
         const usuario = await Usuario.findByPk(id, {
-            attributes: { exclude: ["createdAt", "updatedAt"]}
+            attributes: { exclude: ["createdAt", "updatedAt"]},
+            include: {
+                model: Rol,
+                attributes: ["id", "nombre"],
+                through: {
+                    attributes: []
+                }
+            }
         });
         if(!usuario){
             return res.json({usuario: {}});
@@ -165,7 +172,7 @@ const registrarUsuarios = async (req, res) => {
                 const usuario = await Usuario.create({correo, id_departamento});
                 await usuario.addRols(rol);
                 usuarios.push(usuario);
-                enviarCorreo(correo);
+                enviarCorreo(correo, `Por favor complete su registro ingresando al siguiente link: `);
             }
         }
         res.status(201).json({
@@ -225,6 +232,7 @@ const agregarRolToUsuario = async (req, res) => {
             await usuario.update({
                 id_departamento: departamento.id
             });
+            enviarCorreo(correo, `Has sido asignado como Director de departamento puede ingresar al siguiente link: `);
             res.status(201).json({
                 msg: "Usuario asignado con exito",
                 usuario,
@@ -239,6 +247,7 @@ const agregarRolToUsuario = async (req, res) => {
                 id_usuario: usuario.id,
                 id_rol: rol.id
             });
+            enviarCorreo(correo, `Has sido asignado como Decano de facultad puede ingresar al siguiente link: `);
             res.status(201).json({
                 msg: "Usuario asignado con exito",
                 usuario,
@@ -308,6 +317,75 @@ const borrarUsuario = async (req, res) => {
     }
 };
 
+const eliminarRolToUsuario = async (req, res) => {
+    let {id_departamento_facultad, id_usuario, rol} = req.body;
+    /*if(req.usuario.Rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1){
+        return res.status(401).json({
+            msg: `No se encuentra autorizado`
+        });
+    }*/
+    try {
+        rol = await Rol.findOne({
+            where: {
+                nombre: rol
+            }
+        });
+        const usuario_rol = await Usuario_rol.findOne({
+            where: {
+                id_usuario,
+                id_rol: rol.id
+            }
+        });
+        if(!usuario_rol){
+            return res.json({
+                msg: "No existe usuario con ese rol asociado"
+            });
+        }
+        if(rol.nombre === "DIRECTOR"){
+            const departamento = await Departamento.findByPk(id_departamento_facultad);
+            await departamento.update({
+                director: null
+            });
+            const usuario_rol = await Usuario_rol.findOne({
+                where:{
+                    id_usuario,
+                    id_rol: rol.id
+                }
+            });
+            await usuario_rol.destroy();
+            res.status(201).json({
+                msg: "rol eliminado del usuario con exito",
+                usuario_rol
+            });
+        } else if(rol.nombre === "DECANO"){ 
+            const facultad = await Facultad.findByPk(id_departamento_facultad);
+            await facultad.update({
+                decano: null
+            });
+            const usuario_rol = await Usuario_rol.findOne({
+                where:{
+                    id_usuario,
+                    id_rol: rol.id
+                }
+            });
+            await usuario_rol.destroy();
+            res.status(201).json({
+                msg: "rol eliminado del usuario con exito",
+                usuario_rol,
+            });
+        } else {
+            res.status(400).json({
+                msg: "Solo puedes registrar director o decano"
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: `Hable con el administrador`
+        });
+    }
+};
+
 module.exports = {
     listarUsuarios,
     listarUsuariosByDepartamento,
@@ -317,4 +395,5 @@ module.exports = {
     agregarRolToUsuario,
     actualizarUsuario,
     borrarUsuario,
+    eliminarRolToUsuario
 }

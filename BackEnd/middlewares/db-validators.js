@@ -7,7 +7,7 @@ const existeDepartamento = async (id_departamento) => {
     }
 };
 
-const existeRol = async (rol="") => {
+const noExisteRol = async (rol="") => {
     const existeRol = await Rol.findOne({
         where: {
             nombre: rol
@@ -18,7 +18,19 @@ const existeRol = async (rol="") => {
     }
 };
 
+const existeRol = async (rol="") => {
+    const existeRol = await Rol.findOne({
+        where: {
+            nombre: rol
+        }
+    });
+    if(existeRol){
+        throw new Error(`Existe rol con ese nombre ${rol}`);
+    }
+};
+
 module.exports = {
     existeDepartamento,
+    noExisteRol,
     existeRol
 }

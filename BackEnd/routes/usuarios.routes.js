@@ -11,9 +11,10 @@ const { registrarUsuarios,
         buscarUsuarios,
         buscarUsuarioById,
         listarUsuariosByDepartamento,
-        agregarRolToUsuario} = require("../controllers/usuarios.controller");
+        agregarRolToUsuario,
+        eliminarRolToUsuario} = require("../controllers/usuarios.controller");
 
-const { existeDepartamento, existeRol } = require("../middlewares/db-validators");
+const { noExisteRol } = require("../middlewares/db-validators");
 
 const router = Router();
 
@@ -32,7 +33,7 @@ router.get("/buscar", [
 ], buscarUsuarios);
 
 router.get("/:id", [
-    validarJwt,
+    //validarJwt,
     check("id", "El id no es valido").isInt(),
     validarCampos
 ], buscarUsuarioById);
@@ -47,13 +48,13 @@ router.post("/", [
     validarCampos
 ], registrarUsuarios);
 
-router.post("/agregarRolToUsuario", [
+router.post("/agregarrolusuario", [
     //validarJwt,
     check("id_departamento_facultad", "El departamento es obligatorio").notEmpty(),
     check("correo", "Debe ingresar un correo valido").isEmail(),
     check("correo", "El correo es obligatorio").notEmpty(),
     check("rol", "El rol es obligatorio").notEmpty(),
-    check("rol").custom(existeRol),
+    check("rol").custom(noExisteRol),
     validarCampos
 ], agregarRolToUsuario);
 
@@ -69,5 +70,22 @@ router.delete("/:id", [
     check("id", "Id Invalido").isInt(),
     validarCampos
 ], borrarUsuario);
+
+router.delete("/eliminar/rolusuario", [
+    //validarJwt
+    check("id_departamento_facultad", "El departamento es obligatorio").notEmpty(),
+    check("id_usuario", "Debe ingresar un correo valido").isInt(),
+    check("id_usuario", "El id del usuario es obligatorio").notEmpty(),
+    check("rol", "El rol es obligatorio").notEmpty(),
+    check("rol").custom(noExisteRol),
+    validarCampos
+], eliminarRolToUsuario);
+
+router.get("/hola/hola", (req, res) => {
+    res.json({
+        msg: "asdfasdfsdf"
+    });
+});
+
 
 module.exports = router;
