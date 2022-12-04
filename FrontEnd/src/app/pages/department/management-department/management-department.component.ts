@@ -28,7 +28,7 @@ export class ManagementDepartmentComponent implements OnInit {
     this.headerTableDepartment = 'Listado de Departamentos';
     this.updateRouteDepartment = '/gestion-departamentos/editar';
     this.columnsToDisplayDepartment = ['Id','Nombre', 'Descripción', 'Director', 'Acción'];
-    this.descriptionDisableDepartment = '¿Estás seguro de deshabilitar el departamento seleccionado?';
+    this.descriptionDisableDepartment = '¿Está seguro de deshabilitar el departamento seleccionado?';
   }
 
   ngOnInit(): void {
