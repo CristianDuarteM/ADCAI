@@ -65,4 +65,8 @@ export class ManagementTeacherComponent implements OnInit {
     this.navigation.navigate(['/gestion-docentes/buscados']);
   }
 
+  addTeacher() {
+    this.navigation.navigate(['/gestion-docentes/agregar']);
+  }
+
 }

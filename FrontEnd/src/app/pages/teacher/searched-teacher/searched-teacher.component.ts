@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { UserModel } from 'src/app/models/UserModel';
 
@@ -21,19 +22,23 @@ export class SearchedTeacherComponent implements OnInit {
     hasCAI: true, role: ['DOCENTE'], department: 'Sistemas e informática', signature: '' },
   ];
 
-  constructor(private ngxPermissonsService: NgxPermissionsService) {
+  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
     this.backRouteTeacher = '/gestion-docentes';
     this.titleTeacher = 'Docentes Buscados';
     this.isPrincipalTeacher = false;
     this.headerTableTeacher = 'Listado de Docentes';
     this.updateRouteTeacher = '/gestion-docentes/editar';
     this.columnsToDisplayTeacher = ['Código','Nombre Completo', 'Correo', '¿Realiza CAI?', 'Acción'];
-    this.descriptionDisableTeacher = '¿Estás seguro de deshabilitar el docente seleccionado?';
+    this.descriptionDisableTeacher = '¿Está seguro de deshabilitar el docente seleccionado?';
   }
 
   ngOnInit(): void {
     let activeRole = sessionStorage.getItem("activeRole") || '';
     this.ngxPermissonsService.loadPermissions([activeRole]);
+  }
+
+  newSearch() {
+    this.navigation.navigate(['/gestion-docentes']);
   }
 
 }

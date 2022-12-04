@@ -1,1 +1,34 @@
-<p>add-teacher works!</p>
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteTeacher" [title]="titleTeacher" [isPrincipal]="isPrincipalTeacher"></app-principal-row>
+    <form [formGroup]="teacher">
+      <div class="description-container">
+        <div class="item-container">
+          <span>Facultad:</span>
+          <mat-form-field>
+            <input matInput type="text" formControlName="selectedFaculty">
+          </mat-form-field>
+        </div>
+        <div class="item-container">
+          <span>Departamento:</span>
+          <mat-form-field>
+            <input matInput type="text" formControlName="selectedDepartment">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="button-container">
+        <span>Agregar correo(s):</span>
+        <div class="buttons">
+          <button type="button" class="add-massive-button" (click)="massiveLoad()">
+            Carga Masiva
+          </button>
+          <button type="button" class="add-manual-button" (click)="manualLoad()">
+            Manual
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <footer></footer>
+</ng-container>

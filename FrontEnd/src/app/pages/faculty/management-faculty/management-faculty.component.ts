@@ -28,7 +28,7 @@ export class ManagementFacultyComponent implements OnInit {
     this.headerTableFaculty = 'Listado de Facultades';
     this.updateRouteFaculty = '/gestion-facultades/editar';
     this.columnsToDisplayFaculty = ['Id','Nombre', 'Descripción', 'Decano', 'Acción'];
-    this.descriptionDisableFaculty = '¿Estás seguro de deshabilitar la facultad seleccionada?';
+    this.descriptionDisableFaculty = '¿Está seguro de deshabilitar la facultad seleccionada?';
   }
 
   ngOnInit(): void {
