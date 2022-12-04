@@ -45,6 +45,7 @@ span {
 .buttons {
   display: flex;
   flex-flow: row;
+  margin-top: 1%;
   width: 30%;
 }
 

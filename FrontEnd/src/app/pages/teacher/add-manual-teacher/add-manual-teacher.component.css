@@ -1,0 +1,56 @@
+button {
+  background-color: #96E8B6;
+  border-color: #96E8B6;
+  border-radius: 2vh;
+  cursor: pointer;
+  font-size: large;
+  font-weight: bold;
+  margin: 1%;
+  padding: 1% 0 1% 0;
+  width: 100%;
+}
+
+span {
+  font-weight: bold;
+  font-size: larger;
+}
+
+.description-container {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+
+.item-container {
+  display: flex;
+  flex-flow: column;
+  margin: 0 25% 0 25%;
+}
+
+.button-container {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row;
+  margin-top: 2%;
+  width: 20%;
+}
+
+@media only screen and (max-width: 600px) {
+  .description-container {
+    align-items: center;
+    flex-flow: column;
+  }
+  .item-container {
+    width: 80%;
+  }
+  .buttons {
+    flex-flow: column;
+    margin-top: 5%;
+    width: 80%;
+  }
+}
