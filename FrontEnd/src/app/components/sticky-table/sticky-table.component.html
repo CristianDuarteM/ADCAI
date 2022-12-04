@@ -9,9 +9,29 @@
         <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.id}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="Código">
+        <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: center;"> Código </th>
+        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.code}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="Nombre">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Nombre </th>
         <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Nombre Completo">
+        <th mat-header-cell *matHeaderCellDef class="columns-table"> Nombre Completo </th>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.name + ' ' + item.lastName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Correo">
+        <th mat-header-cell *matHeaderCellDef class="columns-table"> Correo </th>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="¿Realiza CAI?">
+        <th mat-header-cell *matHeaderCellDef class="columns-table"> ¿Realiza CAI? </th>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{(item.hasCAI) ? 'Sí' : 'No'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Descripción">

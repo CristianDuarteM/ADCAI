@@ -15,7 +15,6 @@ export class ManagementDepartmentComponent implements OnInit {
   columnsToDisplayDepartment: string[];
   headerTableDepartment: string;
   updateRouteDepartment: string;
-  disableRouteDepartment: string;
   descriptionDisableDepartment: string;
   elementsDataDepartment: DepartmentModel[] = [
     {id: '1', name: 'Sistemas e Informática', description: 'El departamento de sistemas e informática busca...',
@@ -28,7 +27,6 @@ export class ManagementDepartmentComponent implements OnInit {
     this.isPrincipalDepartment = true;
     this.headerTableDepartment = 'Listado de Departamentos';
     this.updateRouteDepartment = '/gestion-departamentos/editar';
-    this.disableRouteDepartment = '';
     this.columnsToDisplayDepartment = ['Id','Nombre', 'Descripción', 'Director', 'Acción'];
     this.descriptionDisableDepartment = '¿Estás seguro de deshabilitar el departamento seleccionado?';
   }

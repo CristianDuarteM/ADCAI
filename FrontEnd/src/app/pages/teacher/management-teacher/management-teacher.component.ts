@@ -21,7 +21,6 @@ export class ManagementTeacherComponent implements OnInit {
   facultyControl: FormControl;
   departmentControl: FormControl;
   form: FormGroup;
-  isAdmin: boolean;
 
   constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
     this.backRouteTeacher = '/home';
@@ -42,7 +41,6 @@ export class ManagementTeacherComponent implements OnInit {
       facultySelect: this.facultyControl,
       departmentSelect: this.departmentControl
     });
-    this.isAdmin = false;
   }
 
   ngOnInit(): void {
@@ -58,9 +56,8 @@ export class ManagementTeacherComponent implements OnInit {
       //Consulta al servicio por la facultad y departamento
       let idFaculty = '2';
       let idDepartment = '2';
-      this.teacher.setControl('facultySelect', new FormControl(idFaculty));
-      this.teacher.setControl('departmentSelect', new FormControl(idDepartment));
-      this.isAdmin = true;
+      this.teacher.setControl('facultySelect', new FormControl({value: idFaculty, disabled: true}));
+      this.teacher.setControl('departmentSelect', new FormControl({value: idDepartment, disabled: true}));
     }
   }
 

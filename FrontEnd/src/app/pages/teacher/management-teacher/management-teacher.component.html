@@ -8,7 +8,7 @@
           <span>Facultad <span class="item-required">*</span></span>
           <mat-form-field appearance="fill">
             <mat-label>Seleccione Facultad</mat-label>
-            <mat-select formControlName="facultySelect" name="facultySelect" [disabled]="isAdmin">
+            <mat-select formControlName="facultySelect" name="facultySelect">
               <mat-option *ngFor="let faculty of facultyList" [value]="faculty.id">
                 {{faculty.name}}
               </mat-option>
@@ -19,7 +19,7 @@
           <span>Departamento <span class="item-required">*</span></span>
           <mat-form-field appearance="fill">
             <mat-label>Seleccione Departamento</mat-label>
-            <mat-select formControlName="departmentSelect" name="departmentSelect" [disabled]="isAdmin">
+            <mat-select formControlName="departmentSelect" name="departmentSelect">
               <mat-option *ngFor="let department of departmentList" [value]="department.id">
                 {{department.name}}
               </mat-option>
