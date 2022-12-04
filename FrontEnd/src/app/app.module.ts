@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
 import { AppComponent } from './app.component';
@@ -26,7 +27,7 @@ import { DepartmentDetailsComponent } from './components/department-details/depa
 import { AddDepartmentComponent } from './pages/department/add-department/add-department.component';
 import { UpdateDepartmentComponent } from './pages/department/update-department/update-department.component';
 import { DisableDialogComponent } from './components/disable-dialog/disable-dialog.component';
-import { ManagementTeacherComponent } from './components/teacher/management-teacher/management-teacher.component';
+import { ManagementTeacherComponent } from './pages/teacher/management-teacher/management-teacher.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ManagementTeacherComponent } from './components/teacher/management-teac
     MatTableModule,
     MatSelectModule,
     MatDialogModule,
+    MatInputModule,
     NgxPermissionsModule.forRoot(),
   ],
   providers: [],

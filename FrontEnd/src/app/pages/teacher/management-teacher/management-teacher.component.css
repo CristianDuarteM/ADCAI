@@ -12,26 +12,6 @@ form {
   margin: 0 5% 0 5%;
 }
 
-input {
-  background-color: #d9d9d998;
-  border-color: #d9d9d998;
-  border-radius: 1vw;
-  font-size: 1.3vw;
-  margin-left: 1%;
-  margin-top: 0.5%;
-  outline: none;
-  padding: 0.2%;
-}
-
-select {
-  background-color: #d9d9d998;
-  border-color: #d9d9d9;
-  border-radius: 0.5vw 0.5vw 0 0;
-  font-size: 1.3vw;
-  outline: none;
-  padding: 0.5%;
-}
-
 span {
   font-size: larger;
   margin-right: 2%;
@@ -47,17 +27,6 @@ span {
   flex-flow: column;
   margin: 1% 1% 0 1%;
   width: 100%;
-}
-
-.content-select {
-  display: flex;
-  flex-flow: row;
-  margin: 0 1% 0 1%;
-}
-
-.content-select select,
-.content-select input {
-  width: 50%;
 }
 
 .item-required {
@@ -79,15 +48,16 @@ span {
   border-color: #96C0E8;
 }
 
+.filter-input {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  width: 100%;
+}
+
 @media only screen and (max-width: 600px) {
   button {
     width: 100%;
-  }
-  input {
-    font-size: 4vw;
-  }
-  select {
-    font-size: 4vw;
   }
   span {
     font-size: medium;
@@ -95,19 +65,13 @@ span {
   .button-form {
     flex-flow: column;
   }
-  .content-select select,
-  .content-select input {
-    margin: 1%;
-    width: 100%;
-  }
   .content-init {
     flex-flow: column;
   }
   .content-input {
     margin: 3% 1% 0 1%;
   }
-  .content-select {
-    flex-flow: column;
-    margin: 0;
+  .main-container {
+    height: 110vh;
   }
 }

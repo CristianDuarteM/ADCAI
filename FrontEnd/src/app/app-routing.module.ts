@@ -8,7 +8,7 @@ import { UpdateFacultyComponent } from './pages/faculty/update-faculty/update-fa
 import { ManagementDepartmentComponent } from './pages/department/management-department/management-department.component';
 import { AddDepartmentComponent } from './pages/department/add-department/add-department.component';
 import { UpdateDepartmentComponent } from './pages/department/update-department/update-department.component';
-import { ManagementTeacherComponent } from './components/teacher/management-teacher/management-teacher.component';
+import { ManagementTeacherComponent } from './pages/teacher/management-teacher/management-teacher.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
