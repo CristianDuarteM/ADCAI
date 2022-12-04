@@ -1,0 +1,62 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteTeacher" [title]="titleTeacher" [isPrincipal]="isPrincipalTeacher"></app-principal-row>
+    <form (ngSubmit)="onSubmitSearch()" [formGroup]="teacher">
+      <div class="content-init">
+        <div class="content-input">
+          <span>Facultad <span class="item-required">*</span></span>
+          <mat-form-field appearance="fill">
+            <mat-label>Seleccione Facultad</mat-label>
+            <mat-select formControlName="facultySelect" name="facultySelect">
+              <mat-option *ngFor="let faculty of facultyList" [value]="faculty.id">
+                {{faculty.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="content-input">
+          <span>Departamento <span class="item-required">*</span></span>
+          <mat-form-field appearance="fill">
+            <mat-label>Seleccione Departamento</mat-label>
+            <mat-select formControlName="departmentSelect" name="departmentSelect">
+              <mat-option *ngFor="let department of departmentList" [value]="department.id">
+                {{department.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="content-input">
+        <span>Si desea agregar un filtro para buscar un docente seleccione el campo</span>
+      </div>
+      <div class="content-init">
+        <div class="content-input">
+          <mat-form-field appearance="fill">
+            <mat-label>Seleccione Filtro</mat-label>
+            <mat-select formControlName="filterSelect" name="filterSelect">
+              <mat-option value="code">Código</mat-option>
+              <mat-option value="email">Correo</mat-option>
+              <mat-option value="name">Nombre Completo</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-input">
+          <mat-form-field>
+            <mat-label>Ingrese el filtro</mat-label>
+            <input matInput formControlName="filterText" type="text" placeholder="Ej. Pepito Perez">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="button-form">
+        <button type="submit" class="search-button">
+          Buscar
+        </button>
+        <button type="button" class="add-button">
+          Agregar
+        </button>
+      </div>
+    </form>
+  </div>
+  <footer></footer>
+</ng-container>

@@ -1,0 +1,41 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteTeacher" [title]="titleTeacher" [isPrincipal]="isPrincipalTeacher"></app-principal-row>
+    <div class="description-container">
+      <div class="container-information">
+        <div class="margin-information">
+          <span class="title-span">Facultad:</span>
+        </div>
+        <div>
+          <span>Facultad seleccionada</span>
+        </div>
+      </div>
+      <div class="container-information">
+        <div class="margin-information">
+          <span class="title-span">Departamento:</span>
+        </div>
+        <div>
+          <span>Departamento seleccionado</span>
+        </div>
+      </div>
+      <div class="container-information">
+        <div class="margin-information">
+          <span class="title-span">Filtro:</span>
+        </div>
+        <div>
+          <span>Filtro seleccionado</span>
+        </div>
+      </div>
+      <div class="button-container">
+        <button class="search-button">
+          Nueva Búsqueda
+        </button>
+      </div>
+    </div>
+    <div class="search-table">
+      <app-sticky-table [columnsToDisplay]="columnsToDisplayTeacher" [headerTable]="headerTableTeacher" [updateRoute]="updateRouteTeacher" [elementsData]="elementsDataTeacher" [descriptionDialog]="descriptionDisableTeacher"></app-sticky-table>
+    </div>
+  </div>
+  <footer></footer>
+</ng-container>

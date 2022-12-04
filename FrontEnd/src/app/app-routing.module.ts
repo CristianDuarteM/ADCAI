@@ -8,6 +8,12 @@ import { UpdateFacultyComponent } from './pages/faculty/update-faculty/update-fa
 import { ManagementDepartmentComponent } from './pages/department/management-department/management-department.component';
 import { AddDepartmentComponent } from './pages/department/add-department/add-department.component';
 import { UpdateDepartmentComponent } from './pages/department/update-department/update-department.component';
+import { ManagementTeacherComponent } from './pages/teacher/management-teacher/management-teacher.component';
+import { SearchedTeacherComponent } from './pages/teacher/searched-teacher/searched-teacher.component';
+import { UpdateTeacherComponent } from './pages/teacher/update-teacher/update-teacher.component';
+import { AddTeacherComponent } from './pages/teacher/add-teacher/add-teacher.component';
+import { AddManualTeacherComponent } from './pages/teacher/add-manual-teacher/add-manual-teacher.component';
+import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/add-massive-teacher.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -19,6 +25,12 @@ const routes: Routes = [
   { path: "gestion-departamentos", component: ManagementDepartmentComponent, pathMatch: "full" },
   { path: "gestion-departamentos/agregar", component: AddDepartmentComponent, pathMatch: "full" },
   { path: "gestion-departamentos/editar", component: UpdateDepartmentComponent, pathMatch: "full" },
+  { path: "gestion-docentes", component: ManagementTeacherComponent, pathMatch: "full" },
+  { path: "gestion-docentes/buscados", component: SearchedTeacherComponent, pathMatch: "full" },
+  { path: "gestion-docentes/editar", component: UpdateTeacherComponent, pathMatch: "full" },
+  { path: "gestion-docentes/agregar", component: AddTeacherComponent, pathMatch: "full" },
+  { path: "gestion-docentes/agregar/manual", component: AddManualTeacherComponent, pathMatch: "full" },
+  { path: "gestion-docentes/agregar/masivo", component: AddMassiveTeacherComponent, pathMatch: "full" },
 ];
 
 @NgModule({

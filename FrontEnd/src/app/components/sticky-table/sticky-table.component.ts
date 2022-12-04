@@ -14,7 +14,6 @@ export class StickyTableComponent implements OnInit {
   @Input() columnsToDisplay: string[];
   @Input() headerTable: string;
   @Input() updateRoute: string;
-  @Input() disableRoute: string;
   @Input() descriptionDialog: string;
   dataArray: MatTableDataSource<any>;
 
@@ -23,7 +22,6 @@ export class StickyTableComponent implements OnInit {
     this.columnsToDisplay = [];
     this.headerTable = '';
     this.updateRoute = '';
-    this.disableRoute = '';
     this.descriptionDialog = '';
     this.dataArray = new MatTableDataSource(undefined);
   }

@@ -6,7 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
 import { AppComponent } from './app.component';
@@ -25,6 +27,12 @@ import { DepartmentDetailsComponent } from './components/department-details/depa
 import { AddDepartmentComponent } from './pages/department/add-department/add-department.component';
 import { UpdateDepartmentComponent } from './pages/department/update-department/update-department.component';
 import { DisableDialogComponent } from './components/disable-dialog/disable-dialog.component';
+import { ManagementTeacherComponent } from './pages/teacher/management-teacher/management-teacher.component';
+import { SearchedTeacherComponent } from './pages/teacher/searched-teacher/searched-teacher.component';
+import { UpdateTeacherComponent } from './pages/teacher/update-teacher/update-teacher.component';
+import { AddTeacherComponent } from './pages/teacher/add-teacher/add-teacher.component';
+import { AddManualTeacherComponent } from './pages/teacher/add-manual-teacher/add-manual-teacher.component';
+import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/add-massive-teacher.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +51,13 @@ import { DisableDialogComponent } from './components/disable-dialog/disable-dial
     DepartmentDetailsComponent,
     AddDepartmentComponent,
     UpdateDepartmentComponent,
+    ManagementTeacherComponent,
     DisableDialogComponent,
+    SearchedTeacherComponent,
+    UpdateTeacherComponent,
+    AddTeacherComponent,
+    AddManualTeacherComponent,
+    AddMassiveTeacherComponent,
   ],
   imports: [
     FormsModule,
@@ -54,7 +68,9 @@ import { DisableDialogComponent } from './components/disable-dialog/disable-dial
     MatButtonModule,
     MatIconModule,
     MatTableModule,
+    MatSelectModule,
     MatDialogModule,
+    MatInputModule,
     NgxPermissionsModule.forRoot(),
   ],
   providers: [],

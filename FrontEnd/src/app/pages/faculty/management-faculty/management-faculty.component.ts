@@ -15,7 +15,6 @@ export class ManagementFacultyComponent implements OnInit {
   columnsToDisplayFaculty: string[];
   headerTableFaculty: string;
   updateRouteFaculty: string;
-  disableRouteFaculty: string;
   descriptionDisableFaculty: string;
   elementsDataFaculty: FacultyModel[] = [
     {id: '1', name: 'Ingeniería', description: 'La Facultad de Ingeniería responde al reto y la necesidad ' +
@@ -28,7 +27,6 @@ export class ManagementFacultyComponent implements OnInit {
     this.isPrincipalFaculty = true;
     this.headerTableFaculty = 'Listado de Facultades';
     this.updateRouteFaculty = '/gestion-facultades/editar';
-    this.disableRouteFaculty = '';
     this.columnsToDisplayFaculty = ['Id','Nombre', 'Descripción', 'Decano', 'Acción'];
     this.descriptionDisableFaculty = '¿Estás seguro de deshabilitar la facultad seleccionada?';
   }
