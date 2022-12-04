@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { DepartmentModel } from 'src/app/models/DepartmentModel';
 import { FacultyModel } from 'src/app/models/FacultyModel';
@@ -20,8 +21,9 @@ export class ManagementTeacherComponent implements OnInit {
   facultyControl: FormControl;
   departmentControl: FormControl;
   form: FormGroup;
+  isAdmin: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService) {
+  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
     this.backRouteTeacher = '/home';
     this.titleTeacher = 'Gestionar Docentes';
     this.isPrincipalTeacher = true;
@@ -40,21 +42,30 @@ export class ManagementTeacherComponent implements OnInit {
       facultySelect: this.facultyControl,
       departmentSelect: this.departmentControl
     });
+    this.isAdmin = false;
   }
 
   ngOnInit(): void {
     let activeRole = sessionStorage.getItem("activeRole") || '';
     this.ngxPermissonsService.loadPermissions([activeRole]);
     this.teacher = new FormGroup({
-      facultySelect: new FormControl('none'),
-      departmentSelect: new FormControl('none'),
-      filterSelect: new FormControl('none'),
+      facultySelect: new FormControl(''),
+      departmentSelect: new FormControl(''),
+      filterSelect: new FormControl(''),
       filterText: new FormControl(''),
     });
+    if(activeRole === 'DIRECTOR'){
+      //Consulta al servicio por la facultad y departamento
+      let idFaculty = '2';
+      let idDepartment = '2';
+      this.teacher.setControl('facultySelect', new FormControl(idFaculty));
+      this.teacher.setControl('departmentSelect', new FormControl(idDepartment));
+      this.isAdmin = true;
+    }
   }
 
-  onSubmit() {
-
+  onSubmitSearch() {
+    this.navigation.navigate(['/gestion-docentes/buscados']);
   }
 
 }

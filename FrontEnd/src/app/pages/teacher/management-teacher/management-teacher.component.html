@@ -2,13 +2,13 @@
   <app-navbar></app-navbar>
   <div class="main-container">
     <app-principal-row [backRoute]="backRouteTeacher" [title]="titleTeacher" [isPrincipal]="isPrincipalTeacher"></app-principal-row>
-    <form (ngSubmit)="onSubmit()" [formGroup]="teacher">
+    <form (ngSubmit)="onSubmitSearch()" [formGroup]="teacher">
       <div class="content-init">
         <div class="content-input">
           <span>Facultad <span class="item-required">*</span></span>
           <mat-form-field appearance="fill">
             <mat-label>Seleccione Facultad</mat-label>
-            <mat-select formControlName="facultySelect" name="facultySelect">
+            <mat-select formControlName="facultySelect" name="facultySelect" [disabled]="isAdmin">
               <mat-option *ngFor="let faculty of facultyList" [value]="faculty.id">
                 {{faculty.name}}
               </mat-option>
@@ -19,7 +19,7 @@
           <span>Departamento <span class="item-required">*</span></span>
           <mat-form-field appearance="fill">
             <mat-label>Seleccione Departamento</mat-label>
-            <mat-select formControlName="departmentSelect" name="departmentSelect">
+            <mat-select formControlName="departmentSelect" name="departmentSelect" [disabled]="isAdmin">
               <mat-option *ngFor="let department of departmentList" [value]="department.id">
                 {{department.name}}
               </mat-option>
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="content-input">
-        <span>Si desea agregar otro filtro seleccione el campo</span>
+        <span>Si desea agregar un filtro para buscar un docente seleccione el campo</span>
       </div>
       <div class="content-init">
         <div class="content-input">
@@ -52,7 +52,7 @@
         <button type="submit" class="search-button">
           Buscar
         </button>
-        <button type="submit" class="add-button">
+        <button type="button" class="add-button">
           Agregar
         </button>
       </div>
