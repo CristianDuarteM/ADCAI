@@ -28,6 +28,11 @@ import { AddDepartmentComponent } from './pages/department/add-department/add-de
 import { UpdateDepartmentComponent } from './pages/department/update-department/update-department.component';
 import { DisableDialogComponent } from './components/disable-dialog/disable-dialog.component';
 import { ManagementTeacherComponent } from './pages/teacher/management-teacher/management-teacher.component';
+import { SearchedTeacherComponent } from './pages/teacher/searched-teacher/searched-teacher.component';
+import { UpdateTeacherComponent } from './pages/teacher/update-teacher/update-teacher.component';
+import { AddTeacherComponent } from './pages/teacher/add-teacher/add-teacher.component';
+import { AddManualTeacherComponent } from './pages/teacher/add-manual-teacher/add-manual-teacher.component';
+import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/add-massive-teacher.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +53,11 @@ import { ManagementTeacherComponent } from './pages/teacher/management-teacher/m
     UpdateDepartmentComponent,
     ManagementTeacherComponent,
     DisableDialogComponent,
+    SearchedTeacherComponent,
+    UpdateTeacherComponent,
+    AddTeacherComponent,
+    AddManualTeacherComponent,
+    AddMassiveTeacherComponent,
   ],
   imports: [
     FormsModule,
