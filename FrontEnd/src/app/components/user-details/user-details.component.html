@@ -71,17 +71,20 @@
           <p><mat-checkbox formControlName="isRoleTeacherInput" color="warn">Docente</mat-checkbox></p>
         </div>
       </div>
-      <div class="signature-form-content">
+      <div class="form-content">
         <div class="left-content">
           <label>Firma:</label>
         </div>
-        <div class="signature-right-content">
+        <div class="right-content">
           <mat-form-field>
             <input matInput formControlName="signatureInput" type="text" class="signature-input">
           </mat-form-field>
+          <div class="input-file" *ngIf="isEditable">
+            <input type="file" formControlName="signatureInputFile" accept=".jpg">
+            <span>Tamaño mínimo requerido de 1MB</span>
+          </div>
         </div>
       </div>
-      <span>Tamaño mínimo requerido de 1MB</span>
     </div>
   </form>
 </ng-container>

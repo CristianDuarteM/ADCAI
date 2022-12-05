@@ -51,13 +51,9 @@ span {
   width: 100%;
 }
 
-.signature-right-content {
-  width: 50%;
-}
-
-.signature-form-content {
+.input-file {
   display: flex;
-  width: 75%;
+  flex-flow: column;
 }
 
 @media only screen and (max-width: 600px) {
