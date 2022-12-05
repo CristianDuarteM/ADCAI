@@ -33,6 +33,8 @@ import { UpdateTeacherComponent } from './pages/teacher/update-teacher/update-te
 import { AddTeacherComponent } from './pages/teacher/add-teacher/add-teacher.component';
 import { AddManualTeacherComponent } from './pages/teacher/add-manual-teacher/add-manual-teacher.component';
 import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/add-massive-teacher.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { ViewProfileComponent } from './pages/user/view-profile/view-profile.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/
     AddTeacherComponent,
     AddManualTeacherComponent,
     AddMassiveTeacherComponent,
+    UserDetailsComponent,
+    ViewProfileComponent,
   ],
   imports: [
     FormsModule,
