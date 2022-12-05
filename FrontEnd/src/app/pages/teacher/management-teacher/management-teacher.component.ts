@@ -20,7 +20,6 @@ export class ManagementTeacherComponent implements OnInit {
   departmentList: DepartmentModel[];
   facultyControl: FormControl;
   departmentControl: FormControl;
-  form: FormGroup;
 
   constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
     this.backRouteTeacher = '/home';
@@ -37,10 +36,6 @@ export class ManagementTeacherComponent implements OnInit {
     ];
     this.facultyControl = new FormControl(this.facultyList[0]);
     this.departmentControl = new FormControl(this.departmentList[0]);
-    this.form = new FormGroup({
-      facultySelect: this.facultyControl,
-      departmentSelect: this.departmentControl
-    });
   }
 
   ngOnInit(): void {

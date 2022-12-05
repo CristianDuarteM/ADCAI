@@ -1,0 +1,90 @@
+<ng-container>
+  <form [formGroup]="user">
+    <div class="principal-content">
+      <div class="form-content">
+        <div class="left-content">
+          <label>Nombre:</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="nameInput" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>Apellidos:</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="lastNameInput" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>Código:</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="codeInput" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>Correo:</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="emailInput" type="email">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content" *ngIf="!isDean">
+        <div class="left-content">
+          <label>Departamento:</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="departmentInput" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content" *ngIf="isDean">
+        <div class="left-content">
+          <label>Facultad:</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="facultyInput" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>Rol:</label>
+        </div>
+        <div class="checkbox-content">
+          <p><mat-checkbox formControlName="isRoleDeanInput" color="warn">Decano</mat-checkbox></p>
+          <p><mat-checkbox formControlName="isRoleDirectorInput" color="warn">Director</mat-checkbox></p>
+          <p><mat-checkbox formControlName="isRoleTeacherInput" color="warn">Docente</mat-checkbox></p>
+        </div>
+      </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>Firma:</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="signatureInput" type="text" class="signature-input">
+          </mat-form-field>
+          <div class="input-file" *ngIf="isEditable">
+            <input type="file" formControlName="signatureInputFile" accept=".jpg">
+            <span>Tamaño mínimo requerido de 1MB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-container>

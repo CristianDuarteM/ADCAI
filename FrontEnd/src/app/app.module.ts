@@ -9,6 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
 import { AppComponent } from './app.component';
@@ -33,6 +34,9 @@ import { UpdateTeacherComponent } from './pages/teacher/update-teacher/update-te
 import { AddTeacherComponent } from './pages/teacher/add-teacher/add-teacher.component';
 import { AddManualTeacherComponent } from './pages/teacher/add-manual-teacher/add-manual-teacher.component';
 import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/add-massive-teacher.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { ViewProfileComponent } from './pages/user/view-profile/view-profile.component';
+import { UpdateProfileComponent } from './pages/user/update-profile/update-profile.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +62,9 @@ import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/
     AddTeacherComponent,
     AddManualTeacherComponent,
     AddMassiveTeacherComponent,
+    UserDetailsComponent,
+    ViewProfileComponent,
+    UpdateProfileComponent,
   ],
   imports: [
     FormsModule,
@@ -71,6 +78,7 @@ import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/
     MatSelectModule,
     MatDialogModule,
     MatInputModule,
+    MatCheckboxModule,
     NgxPermissionsModule.forRoot(),
   ],
   providers: [],
