@@ -12,6 +12,7 @@ export class UserDetailsComponent implements OnInit {
 
   @Input() userModel: UserModel;
   @Input() isEditable: boolean;
+  @Input() onlyViewDirector: boolean;
   isDean: boolean;
   isAdmin: boolean;
   user: FormGroup;
@@ -25,6 +26,7 @@ export class UserDetailsComponent implements OnInit {
     this.isDean = false;
     this.isAdmin = sessionStorage.getItem('activeRole') === 'ADMIN';
     this.isEditable = false;
+    this.onlyViewDirector = false;
     this.user = new FormGroup({});
     this.departmentList = [
       {id: '1', name: 'Sistemas e informática', description: 'Descripción de Sistemas e informática', director: 'Director 1'},

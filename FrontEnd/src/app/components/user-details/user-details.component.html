@@ -41,7 +41,7 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="form-content" *ngIf="!isDean && !isAdmin">
+      <div class="form-content" *ngIf="!isDean && !isAdmin && !onlyViewDirector">
         <div class="left-content">
           <label>Departamento:</label>
         </div>
@@ -51,7 +51,7 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="form-content" *ngIf="!isDean && isAdmin">
+      <div class="form-content" *ngIf="!isDean && isAdmin && !onlyViewDirector">
         <div class="left-content">
           <label>Departamento:</label>
         </div>
@@ -76,7 +76,7 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="form-content">
+      <div class="form-content" *ngIf="!onlyViewDirector">
         <div class="left-content">
           <label>Rol:</label>
         </div>
@@ -86,7 +86,7 @@
           <p><mat-checkbox formControlName="isRoleTeacherInput" color="warn">Docente</mat-checkbox></p>
         </div>
       </div>
-      <div class="form-content" *ngIf="!isAdmin">
+      <div class="form-content" *ngIf="!isAdmin && !onlyViewDirector">
         <div class="left-content">
           <label>Firma:</label>
         </div>

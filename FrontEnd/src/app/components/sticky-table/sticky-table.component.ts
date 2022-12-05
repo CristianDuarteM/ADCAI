@@ -16,6 +16,7 @@ export class StickyTableComponent implements OnInit {
   @Input() buttonRoute: string;
   @Input() descriptionDialog: string;
   @Input() onlyView: boolean;
+  @Input() viewCAI: boolean;
   dataArray: MatTableDataSource<any>;
   @Input() heightTable: {
     height: string
@@ -28,6 +29,7 @@ export class StickyTableComponent implements OnInit {
     this.buttonRoute = '';
     this.descriptionDialog = '';
     this.onlyView = sessionStorage.getItem('activeRole') === 'DIRECTOR';
+    this.viewCAI = false;
     this.dataArray = new MatTableDataSource(undefined);
     this.heightTable = {
       height: '50vh'

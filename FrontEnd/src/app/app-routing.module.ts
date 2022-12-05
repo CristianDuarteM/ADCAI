@@ -17,6 +17,7 @@ import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/
 import { ViewProfileComponent } from './pages/user/view-profile/view-profile.component';
 import { UpdateProfileComponent } from './pages/user/update-profile/update-profile.component';
 import { NotificationsComponent } from './pages/user/notifications/notifications.component';
+import { ViewTeacherComponent } from './pages/teacher/view-teacher/view-teacher.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: "gestion-docentes", component: ManagementTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/buscados", component: SearchedTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/buscados/editar", component: UpdateTeacherComponent, pathMatch: "full" },
+  { path: "gestion-docentes/buscados/ver", component: ViewTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/agregar", component: AddTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/agregar/manual", component: AddManualTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/agregar/masivo", component: AddMassiveTeacherComponent, pathMatch: "full" },
