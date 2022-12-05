@@ -16,7 +16,7 @@ export class SearchedTeacherComponent implements OnInit {
   heightTableSearchedTeacher: { height: string };
   columnsToDisplayTeacher: string[];
   headerTableTeacher: string;
-  updateRouteTeacher: string;
+  buttonRouteTeacher: string;
   descriptionDisableTeacher: string;
   elementsDataTeacher: UserModel[] = [
     {code: '123456', name: 'Pepito', lastName: 'Perez', email: 'pepitoperez@ufps.edu.co',
@@ -29,7 +29,7 @@ export class SearchedTeacherComponent implements OnInit {
     this.isPrincipalTeacher = false;
     this.heightTableSearchedTeacher = { height: '42vh' };
     this.headerTableTeacher = 'Listado de Docentes';
-    this.updateRouteTeacher = '/gestion-docentes/editar';
+    this.buttonRouteTeacher = '';
     this.columnsToDisplayTeacher = ['Código','Nombre Completo', 'Correo', '¿Realiza CAI?', 'Acción'];
     this.descriptionDisableTeacher = '¿Está seguro de deshabilitar el docente seleccionado?';
   }
@@ -37,6 +37,7 @@ export class SearchedTeacherComponent implements OnInit {
   ngOnInit(): void {
     let activeRole = sessionStorage.getItem("activeRole") || '';
     this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.buttonRouteTeacher = (activeRole === 'ADMIN') ? '/gestion-docentes/buscados/editar' : '/gestion-docentes/buscados/ver';
   }
 
   newSearch() {
