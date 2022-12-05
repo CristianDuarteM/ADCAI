@@ -3,6 +3,7 @@ export interface UserModel {
   name: string;
   lastName: string;
   email: string;
+  faculty: string;
   department: string;
   role: string[];
   signature: string;

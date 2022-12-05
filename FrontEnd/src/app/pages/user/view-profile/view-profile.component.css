@@ -1,0 +1,51 @@
+button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+  border-radius: 2vh;
+  font-size: larger;
+  font-weight: bold;
+  padding: 0.5% 1% 0.5% 1%;
+  white-space: nowrap;
+}
+
+.principal-content {
+  display: flex;
+  flex-flow: column;
+  margin: 1%;
+}
+
+.update-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main-container {
+  height: 93vh;
+}
+
+@media only screen and (max-width: 600px) {
+  button {
+    font-size: smaller;
+  }
+  .main-container {
+    height: 137vh;
+  }
+}
+
+@media only screen and (min-width:601px) and (max-width: 1500px) {
+  .main-container {
+    height: 110vh;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  button {
+    font-size: x-large;
+  }
+}
+
+@media only screen and (min-width: 2400px) {
+  .main-container {
+    height: 84vh;
+  }
+}

@@ -9,6 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
 import { AppComponent } from './app.component';
@@ -75,6 +76,7 @@ import { ViewProfileComponent } from './pages/user/view-profile/view-profile.com
     MatSelectModule,
     MatDialogModule,
     MatInputModule,
+    MatCheckboxModule,
     NgxPermissionsModule.forRoot(),
   ],
   providers: [],

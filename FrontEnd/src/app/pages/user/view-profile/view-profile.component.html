@@ -1,1 +1,15 @@
-<p>view-profile works!</p>
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteProfile" [title]="titleProfile" [isPrincipal]="isPrincipalProfile"></app-principal-row>
+    <div class="principal-content">
+      <div class="update-button">
+        <button>
+          Actualizar Datos
+        </button>
+      </div>
+      <app-user-details [userModel]="userModelViewProfile" [isEditable]="isEditableViewProfile"></app-user-details>
+    </div>
+  </div>
+  <footer></footer>
+</ng-container>
