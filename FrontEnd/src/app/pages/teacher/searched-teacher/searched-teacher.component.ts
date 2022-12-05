@@ -20,7 +20,7 @@ export class SearchedTeacherComponent implements OnInit {
   descriptionDisableTeacher: string;
   elementsDataTeacher: UserModel[] = [
     {code: '123456', name: 'Pepito', lastName: 'Perez', email: 'pepitoperez@ufps.edu.co',
-    hasCAI: true, role: ['DOCENTE'], faculty: '', department: 'Sistemas e informática', signature: '' },
+    hasCAI: true, role: ['DOCENTE'], faculty: '', department: 'Sistemas e informática', signature: ''},
   ];
 
   constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {

@@ -1,0 +1,14 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteViewTeacher" [title]="titleViewTeacher" [isPrincipal]="isPrincipalViewTeacher"></app-principal-row>
+    <div class="principal-content">
+      <span>Diligencie los campos que desea actualizar</span>
+      <app-user-details [userModel]="userModelViewTeacher" [isEditable]="isEditableViewTeacher" [onlyViewDirector]="true"></app-user-details>
+      <div class="cai-table">
+        <app-sticky-table [columnsToDisplay]="columnsToDisplayViewTeacher" [headerTable]="headerTableViewTeacher" [buttonRoute]="buttonRouteViewTeacher" [elementsData]="elementsDataViewTeacher" [heightTable]="heightTableViewTeacher" [viewCAI]="true"></app-sticky-table>
+      </div>
+    </div>
+  </div>
+  <footer></footer>
+</ng-container>

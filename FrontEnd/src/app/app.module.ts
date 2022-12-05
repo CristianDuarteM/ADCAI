@@ -38,6 +38,7 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
 import { ViewProfileComponent } from './pages/user/view-profile/view-profile.component';
 import { UpdateProfileComponent } from './pages/user/update-profile/update-profile.component';
 import { NotificationsComponent } from './pages/user/notifications/notifications.component';
+import { ViewTeacherComponent } from './pages/teacher/view-teacher/view-teacher.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { NotificationsComponent } from './pages/user/notifications/notifications
     ViewProfileComponent,
     UpdateProfileComponent,
     NotificationsComponent,
+    ViewTeacherComponent,
   ],
   imports: [
     FormsModule,
