@@ -47,7 +47,6 @@ td {
 }
 
 .table-sticky {
-  height: 45vh;
   overflow: auto;
 }
 

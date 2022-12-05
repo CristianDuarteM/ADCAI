@@ -37,6 +37,7 @@ import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { ViewProfileComponent } from './pages/user/view-profile/view-profile.component';
 import { UpdateProfileComponent } from './pages/user/update-profile/update-profile.component';
+import { NotificationsComponent } from './pages/user/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { UpdateProfileComponent } from './pages/user/update-profile/update-profi
     UserDetailsComponent,
     ViewProfileComponent,
     UpdateProfileComponent,
+    NotificationsComponent,
   ],
   imports: [
     FormsModule,
