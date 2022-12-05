@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: "gestion-departamentos/editar", component: UpdateDepartmentComponent, pathMatch: "full" },
   { path: "gestion-docentes", component: ManagementTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/buscados", component: SearchedTeacherComponent, pathMatch: "full" },
-  { path: "gestion-docentes/editar", component: UpdateTeacherComponent, pathMatch: "full" },
+  { path: "gestion-docentes/buscados/editar", component: UpdateTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/agregar", component: AddTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/agregar/manual", component: AddManualTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/agregar/masivo", component: AddMassiveTeacherComponent, pathMatch: "full" },

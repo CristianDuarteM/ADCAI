@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { DepartmentModel } from 'src/app/models/DepartmentModel';
 import { UserModel } from 'src/app/models/UserModel';
 
 @Component({
@@ -12,7 +13,9 @@ export class UserDetailsComponent implements OnInit {
   @Input() userModel: UserModel;
   @Input() isEditable: boolean;
   isDean: boolean;
+  isAdmin: boolean;
   user: FormGroup;
+  departmentList: DepartmentModel[];
 
   constructor() {
     this.userModel = {
@@ -20,8 +23,13 @@ export class UserDetailsComponent implements OnInit {
       hasCAI: false, role: [''], signature: ''
     };
     this.isDean = false;
+    this.isAdmin = sessionStorage.getItem('activeRole') === 'ADMIN';
     this.isEditable = false;
     this.user = new FormGroup({});
+    this.departmentList = [
+      {id: '1', name: 'Sistemas e informática', description: 'Descripción de Sistemas e informática', director: 'Director 1'},
+      {id: '2', name: 'Sistemas e informática 2', description: 'Descripción de Sistemas e informática 2', director: 'Director 2'},
+    ];
   }
 
   ngOnInit(): void {
