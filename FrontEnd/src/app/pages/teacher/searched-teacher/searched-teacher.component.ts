@@ -13,12 +13,13 @@ export class SearchedTeacherComponent implements OnInit {
   backRouteTeacher: string;
   titleTeacher: string;
   isPrincipalTeacher: boolean;
+  heightTableSearchedTeacher: { height: string };
   columnsToDisplayTeacher: string[];
   headerTableTeacher: string;
   updateRouteTeacher: string;
   descriptionDisableTeacher: string;
   elementsDataTeacher: UserModel[] = [
-    {code: '0', name: 'Pepito', lastName: 'Perez', email: 'pepitoperez@ufps.edu.co',
+    {code: '123456', name: 'Pepito', lastName: 'Perez', email: 'pepitoperez@ufps.edu.co',
     hasCAI: true, role: ['DOCENTE'], faculty: '', department: 'Sistemas e informática', signature: '' },
   ];
 
@@ -26,6 +27,7 @@ export class SearchedTeacherComponent implements OnInit {
     this.backRouteTeacher = '/gestion-docentes';
     this.titleTeacher = 'Docentes Buscados';
     this.isPrincipalTeacher = false;
+    this.heightTableSearchedTeacher = { height: '42vh' };
     this.headerTableTeacher = 'Listado de Docentes';
     this.updateRouteTeacher = '/gestion-docentes/editar';
     this.columnsToDisplayTeacher = ['Código','Nombre Completo', 'Correo', '¿Realiza CAI?', 'Acción'];

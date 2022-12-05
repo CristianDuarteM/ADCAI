@@ -19,7 +19,7 @@ export class ManagementFacultyComponent implements OnInit {
   elementsDataFaculty: FacultyModel[] = [
     {id: '1', name: 'Ingeniería', description: 'La Facultad de Ingeniería responde al reto y la necesidad ' +
     'de formar profesionales que asuman la responsabilidad de generar procesos...', dean: 'Decano Pepito Perez'},
-  ];;
+  ];
 
   constructor(private ngxPermissonsService: NgxPermissionsService) {
     this.backRouteFaculty = '/home';

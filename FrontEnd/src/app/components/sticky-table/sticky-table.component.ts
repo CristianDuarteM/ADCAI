@@ -13,17 +13,25 @@ export class StickyTableComponent implements OnInit {
   @Input() elementsData: any[];
   @Input() columnsToDisplay: string[];
   @Input() headerTable: string;
-  @Input() updateRoute: string;
+  @Input() buttonRoute: string;
   @Input() descriptionDialog: string;
+  @Input() onlyView: boolean;
   dataArray: MatTableDataSource<any>;
+  @Input() heightTable: {
+    height: string
+  };
 
   constructor(public dialog: MatDialog) {
     this.elementsData = [];
     this.columnsToDisplay = [];
     this.headerTable = '';
-    this.updateRoute = '';
+    this.buttonRoute = '';
     this.descriptionDialog = '';
+    this.onlyView = sessionStorage.getItem('activeRole') === 'DIRECTOR';
     this.dataArray = new MatTableDataSource(undefined);
+    this.heightTable = {
+      height: '50vh'
+    };
   }
 
   ngOnInit(): void {
