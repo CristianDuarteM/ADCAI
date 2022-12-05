@@ -32,4 +32,8 @@ export class ViewProfileComponent implements OnInit {
     this.ngxPermissonsService.loadPermissions([activeRole]);
   }
 
+  updateData() {
+    this.navigation.navigate(['/perfil/editar']);
+  }
+
 }
