@@ -14,6 +14,7 @@ import { UpdateTeacherComponent } from './pages/teacher/update-teacher/update-te
 import { AddTeacherComponent } from './pages/teacher/add-teacher/add-teacher.component';
 import { AddManualTeacherComponent } from './pages/teacher/add-manual-teacher/add-manual-teacher.component';
 import { AddMassiveTeacherComponent } from './pages/teacher/add-massive-teacher/add-massive-teacher.component';
+import { ViewProfileComponent } from './pages/user/view-profile/view-profile.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: "gestion-docentes/agregar", component: AddTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/agregar/manual", component: AddManualTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/agregar/masivo", component: AddMassiveTeacherComponent, pathMatch: "full" },
+  { path: "perfil", component: ViewProfileComponent, pathMatch: "full" },
 ];
 
 @NgModule({
