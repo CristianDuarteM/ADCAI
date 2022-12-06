@@ -87,6 +87,15 @@ td {
   display: none;
 }
 
+.filter {
+  display: flex;
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
 @media only screen and (min-width: 321px) and (max-width: 600px) {
   button {
     padding-left: 6%;

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { DisableDialogComponent } from '../disable-dialog/disable-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sticky-table',
@@ -10,6 +11,7 @@ import { DisableDialogComponent } from '../disable-dialog/disable-dialog.compone
 })
 export class StickyTableComponent implements OnInit {
 
+  @Input() withFilter: boolean;
   @Input() elementsData: any[];
   @Input() columnsToDisplay: string[];
   @Input() headerTable: string;
@@ -22,7 +24,8 @@ export class StickyTableComponent implements OnInit {
     height: string
   };
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,  private navigation: Router) {
+    this.withFilter = false;
     this.elementsData = [];
     this.columnsToDisplay = [];
     this.headerTable = '';
@@ -44,6 +47,15 @@ export class StickyTableComponent implements OnInit {
     this.dialog.open(DisableDialogComponent, {
       data: this.descriptionDialog
     });
+  }
+
+  applyFilter(event: Event){
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataArray.filter = filterValue.trim().toLowerCase();
+  }
+
+  getCai() {
+    this.navigation.navigate([this.buttonRoute]);
   }
 
 }
