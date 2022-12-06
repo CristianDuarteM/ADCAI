@@ -1,0 +1,11 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteHistoricalCai" [title]="titleHistoricalCai" [isPrincipal]="isPrincipalHistoricalCai"></app-principal-row>
+    <div class="principal-content">
+      <span *ngIf="isDirector">Semestre I/2022</span>
+      <app-sticky-table [columnsToDisplay]="columnsToDisplayHistoricalCai" [headerTable]="headerTableHistoricalCai" [elementsData]="elementsDataHistoricalCai" [heightTable]="heightTableHistoricalCai" [viewCAI]="true" [withFilter]="true"></app-sticky-table>
+    </div>
+  </div>
+  <footer></footer>
+</ng-container>
