@@ -39,6 +39,7 @@ import { ViewProfileComponent } from './pages/user/view-profile/view-profile.com
 import { UpdateProfileComponent } from './pages/user/update-profile/update-profile.component';
 import { NotificationsComponent } from './pages/user/notifications/notifications.component';
 import { ViewTeacherComponent } from './pages/teacher/view-teacher/view-teacher.component';
+import { HistoricalComponent } from './pages/cai/historical/historical.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { ViewTeacherComponent } from './pages/teacher/view-teacher/view-teacher.
     UpdateProfileComponent,
     NotificationsComponent,
     ViewTeacherComponent,
+    HistoricalComponent,
   ],
   imports: [
     FormsModule,
