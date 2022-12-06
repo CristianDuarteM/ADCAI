@@ -1,0 +1,87 @@
+button {
+  background-color: #96C0E8;
+  border-color: #96C0E8;
+  font-size: large;
+  font-weight: bold;
+  border-radius: 2vh;
+  margin: 1%;
+  padding: 0.5%;
+  width: 25%;
+}
+
+input {
+  font-size: large;
+  font-weight: bold;
+}
+
+span {
+  font-size: larger;
+  margin-right: 2%;
+}
+
+.principal-content {
+  display: flex;
+  flex-flow: row;
+  margin: 0 20% 0 20%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.input-content {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  margin: 0 2% 0 2%;
+  width: 100%;
+}
+
+.main-container {
+  margin: 0;
+}
+
+.date-input {
+  display: flex;
+  flex-flow: row;
+  margin: 0 20% 0 20%;
+}
+
+.principal-date {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  margin: 0 2% 0 2%;
+  width: 48%;
+}
+
+.principal-date span {
+  margin: 0;
+  width: 45%;
+}
+
+.button-content {
+  display: flex;
+  justify-content: center;
+  margin: 0 20% 0 20%;
+}
+
+@media only screen and (max-width: 600px) {
+  button {
+    width: 100%;
+  }
+  .principal-content {
+    flex-flow: column;
+    margin: 0 2% 0 2%;
+  }
+  .date-input {
+    margin: 0 2% 0 2%;
+  }
+  .principal-date {
+    align-items: flex-start;
+    flex-flow: column;
+    margin: 0 2% 0 2%;
+    width: 100%;
+  }
+
+}

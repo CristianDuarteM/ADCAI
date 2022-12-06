@@ -1,1 +1,34 @@
-<p>basic-cai works!</p>
+<ng-container>
+  <form [formGroup]="requestCaiForm">
+    <div class="principal-content">
+      <div class="input-content">
+        <span>Semestre:</span>
+        <mat-form-field>
+          <input matInput formControlName="semesterInput" type="text">
+        </mat-form-field>
+      </div>
+      <div class="input-content">
+        <span>Año:</span>
+        <mat-form-field>
+          <input matInput formControlName="yearInput" type="text">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="date-input">
+      <div class="principal-date">
+        <span>Fecha Límite:</span>
+        <mat-form-field appearance="fill">
+          <mat-label>Seleccione la fecha</mat-label>
+          <input matInput [matDatepicker]="picker" disabled>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker color="warn" disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="button-content">
+      <button mat-raised-button>
+        {{(isUpdate) ? 'Actualizar' : 'Solicitar'}}
+      </button>
+    </div>
+  </form>
+</ng-container>

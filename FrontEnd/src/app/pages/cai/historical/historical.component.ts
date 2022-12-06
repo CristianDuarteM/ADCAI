@@ -18,7 +18,7 @@ export class HistoricalComponent implements OnInit {
   headerTableHistoricalCai: string;
   buttonRouteHistoricalCai: string;
   elementsDataHistoricalCai: CaiModel[] = [
-    {id: '001', semester: 'II', year: '2022', teacher: {code: '123456', name: 'Pepito', lastName: 'Perez', email: 'pepitoperez@ufps.edu.co',
+    {id: '001', semester: 'II', year: '2022', date: new Date(), teacher: {code: '123456', name: 'Pepito', lastName: 'Perez', email: 'pepitoperez@ufps.edu.co',
     hasCAI: true, role: ['DOCENTE'], faculty: '', department: 'Sistemas e informática', signature: ''}},
   ];
 
