@@ -22,6 +22,7 @@ import { HistoricalComponent } from './pages/cai/historical/historical.component
 import { ManagementCaiComponent } from './pages/cai/management-cai/management-cai.component';
 import { RequestCaiComponent } from './pages/cai/request-cai/request-cai.component';
 import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update-request-cai.component';
+import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -47,6 +48,7 @@ const routes: Routes = [
   { path: "gestion-cai", component: ManagementCaiComponent, pathMatch: "full" },
   { path: "gestion-cai/request", component: RequestCaiComponent, pathMatch: "full" },
   { path: "gestion-cai/update-request", component: UpdateRequestCaiComponent, pathMatch: "full" },
+  { path: "gestion-cai/evaluar", component: ValidateCaiComponent, pathMatch: "full" },
 ];
 
 @NgModule({

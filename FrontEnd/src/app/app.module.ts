@@ -46,6 +46,7 @@ import { BasicCaiComponent } from './components/basic-cai/basic-cai.component';
 import { RequestCaiComponent } from './pages/cai/request-cai/request-cai.component';
 import { ManagementCaiComponent } from './pages/cai/management-cai/management-cai.component';
 import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update-request-cai.component';
+import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update
     RequestCaiComponent,
     ManagementCaiComponent,
     UpdateRequestCaiComponent,
+    ValidateCaiComponent,
   ],
   imports: [
     FormsModule,
