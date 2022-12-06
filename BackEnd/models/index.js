@@ -4,6 +4,7 @@ const Facultad = require("./Facultad.model");
 const Departamento = require("./departamento.model");
 const Usuario_rol = require("./usuario_rol.model");
 const Firma = require("./firma.model");
+const Periodo = require("./periodo.model");
 
 Usuario.belongsToMany(Rol, {
     through: "usuario_rol",
@@ -41,6 +42,7 @@ module.exports = {
     Facultad,
     Departamento,
     Usuario_rol,
-    Firma
+    Firma,
+    Periodo
 };
 

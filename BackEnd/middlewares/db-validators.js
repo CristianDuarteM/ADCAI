@@ -1,4 +1,4 @@
-const { Departamento, Rol } = require("../models");
+const { Departamento, Rol, Periodo } = require("../models");
 
 const existeDepartamento = async (id_departamento) => {
     const existeDepartamento = await Departamento.findByPk(id_departamento);
@@ -29,8 +29,16 @@ const existeRol = async (rol="") => {
     }
 };
 
+const noExistePeriodo = async (periodo) => {
+    const existePeriodo = await Periodo.findByPk(periodo);
+    if(!existePeriodo){
+        throw new Error("No existe periodo con ese id");
+    }
+};
+
 module.exports = {
     existeDepartamento,
     noExisteRol,
-    existeRol
+    existeRol,
+    noExistePeriodo
 }

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db/conexion");
 
-const Rol = db.define("Rol", {
+const Rol = db.define("rol", {
     id: {
         primaryKey: true,
         autoIncrement: true,

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db/conexion");
 
-const Firma = db.define("Firma", {
+const Firma = db.define("firma", {
     id: {
         primaryKey: true,
         autoIncrement: true,

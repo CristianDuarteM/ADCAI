@@ -5,15 +5,16 @@ const db = require("../db/conexion");
 class Server {
     constructor(){
         this.app = express();
-        this.port = process.env.PORT;
+        this.port = process.env.PORT || 3000;
 
         this.appPaths = {
             auth: "/api/auth",
             departamentos: "/api/departamentos",
             facultades: "/api/facultades",
             firmas: "/api/firmas",
+            periodo:  "/api/periodo",
+            roles: "/api/roles",
             usuarios: "/api/usuarios",
-            roles: "/api/roles"
         };
 
         //Conectar con la base de datos
@@ -50,8 +51,9 @@ class Server {
         this.app.use(this.appPaths.departamentos, require("../routes/departamento.routes"));
         this.app.use(this.appPaths.facultades, require("../routes/facultades.routes"));
         this.app.use(this.appPaths.firmas, require("../routes/firmas.routes"));
-        this.app.use(this.appPaths.usuarios, require("../routes/usuarios.routes"));
+        this.app.use(this.appPaths.periodo, require("../routes/periodo.routes"));
         this.app.use(this.appPaths.roles, require("../routes/roles.routes"));
+        this.app.use(this.appPaths.usuarios, require("../routes/usuarios.routes"));
     }
 
     escuchar(){
