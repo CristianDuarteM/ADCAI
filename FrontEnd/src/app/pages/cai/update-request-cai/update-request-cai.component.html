@@ -1,0 +1,11 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteCai" [title]="titleCai" [isPrincipal]="isPrincipalCai"></app-principal-row>
+    <div class="principal-content">
+      <span>Modifica la fecha límite de diligenciamiento de la carga académica integral</span>
+      <app-basic-cai [basicCai]="dataCai" [isUpdate]="true"></app-basic-cai>
+    </div>
+  </div>
+  <footer></footer>
+</ng-container>

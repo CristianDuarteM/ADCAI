@@ -10,6 +10,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
 import { AppComponent } from './app.component';
@@ -40,6 +42,10 @@ import { UpdateProfileComponent } from './pages/user/update-profile/update-profi
 import { NotificationsComponent } from './pages/user/notifications/notifications.component';
 import { ViewTeacherComponent } from './pages/teacher/view-teacher/view-teacher.component';
 import { HistoricalComponent } from './pages/cai/historical/historical.component';
+import { BasicCaiComponent } from './components/basic-cai/basic-cai.component';
+import { RequestCaiComponent } from './pages/cai/request-cai/request-cai.component';
+import { ManagementCaiComponent } from './pages/cai/management-cai/management-cai.component';
+import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update-request-cai.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +77,10 @@ import { HistoricalComponent } from './pages/cai/historical/historical.component
     NotificationsComponent,
     ViewTeacherComponent,
     HistoricalComponent,
+    BasicCaiComponent,
+    RequestCaiComponent,
+    ManagementCaiComponent,
+    UpdateRequestCaiComponent,
   ],
   imports: [
     FormsModule,
@@ -85,6 +95,8 @@ import { HistoricalComponent } from './pages/cai/historical/historical.component
     MatDialogModule,
     MatInputModule,
     MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     NgxPermissionsModule.forRoot(),
   ],
   providers: [],

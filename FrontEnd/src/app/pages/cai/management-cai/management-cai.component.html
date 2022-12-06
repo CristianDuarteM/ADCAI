@@ -1,0 +1,21 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteCai" [title]="titleCai" [isPrincipal]="isPrincipalCai"></app-principal-row>
+    <div class="margin-title">
+      <h2>Seleccione lo que desea realizar con la carga académica integral</h2>
+    </div>
+    <div class="principal-options">
+      <button (click)="requestCAI()">
+        Solicitar
+      </button>
+      <button (click)="updateCAI()">
+        Actualizar
+      </button>
+      <button (click)="validationCAI()">
+        Evaluar
+      </button>
+    </div>
+  </div>
+  <footer></footer>
+</ng-container>
