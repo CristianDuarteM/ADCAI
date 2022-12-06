@@ -40,6 +40,10 @@ import { UpdateProfileComponent } from './pages/user/update-profile/update-profi
 import { NotificationsComponent } from './pages/user/notifications/notifications.component';
 import { ViewTeacherComponent } from './pages/teacher/view-teacher/view-teacher.component';
 import { HistoricalComponent } from './pages/cai/historical/historical.component';
+import { BasicCaiComponent } from './components/basic-cai/basic-cai.component';
+import { RequestCaiComponent } from './pages/cai/request-cai/request-cai.component';
+import { ManagementCaiComponent } from './pages/cai/management-cai/management-cai.component';
+import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update-request-cai.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +75,10 @@ import { HistoricalComponent } from './pages/cai/historical/historical.component
     NotificationsComponent,
     ViewTeacherComponent,
     HistoricalComponent,
+    BasicCaiComponent,
+    RequestCaiComponent,
+    ManagementCaiComponent,
+    UpdateRequestCaiComponent,
   ],
   imports: [
     FormsModule,
