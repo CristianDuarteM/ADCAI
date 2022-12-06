@@ -18,6 +18,7 @@ import { ViewProfileComponent } from './pages/user/view-profile/view-profile.com
 import { UpdateProfileComponent } from './pages/user/update-profile/update-profile.component';
 import { NotificationsComponent } from './pages/user/notifications/notifications.component';
 import { ViewTeacherComponent } from './pages/teacher/view-teacher/view-teacher.component';
+import { HistoricalComponent } from './pages/cai/historical/historical.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: "perfil", component: ViewProfileComponent, pathMatch: "full" },
   { path: "perfil/editar", component: UpdateProfileComponent, pathMatch: "full" },
   { path: "notificaciones", component: NotificationsComponent, pathMatch: "full" },
+  { path: "historial-cai", component: HistoricalComponent, pathMatch: "full" },
 ];
 
 @NgModule({

@@ -1,4 +1,10 @@
 <div>
+  <div *ngIf="withFilter" class="filter">
+    <mat-form-field>
+      <mat-label>Ingrese el filtro deseado</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ej. 2022" #input>
+    </mat-form-field>
+  </div>
   <div class="title-table">
     <h2>{{headerTable}}</h2>
   </div>
@@ -10,7 +16,7 @@
       </ng-container>
 
       <ng-container matColumnDef="De">
-        <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: center;"> De </th>
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> De </th>
         <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.from}} </td>
       </ng-container>
 
@@ -35,13 +41,18 @@
       </ng-container>
 
       <ng-container matColumnDef="Año">
-        <th mat-header-cell *matHeaderCellDef class="columns-table"> Año </th>
+        <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 5%; text-align: center;"> Año </th>
         <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.year}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Semestre">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Semestre </th>
         <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.semester}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Departamento">
+        <th mat-header-cell *matHeaderCellDef class="columns-table"> Departamento </th>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.teacher.department}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Correo">
@@ -83,7 +94,7 @@
         <th mat-header-cell *matHeaderCellDef class="border-column-table"> Acción </th>
         <ng-container *ngIf="viewCAI">
           <td mat-cell *matCellDef class="border-color-table">
-            <button class="add-button">
+            <button class="add-button" (click)="getCai()">
               <mat-icon>remove_red_eye</mat-icon>
               <span>Ver</span>
             </button>

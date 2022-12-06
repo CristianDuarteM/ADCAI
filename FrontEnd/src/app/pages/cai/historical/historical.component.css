@@ -1,0 +1,9 @@
+span {
+  font-weight: bold;
+}
+
+.principal-content {
+  display: flex;
+  flex-flow: column;
+  margin: 0 1% 0 2%;
+}
