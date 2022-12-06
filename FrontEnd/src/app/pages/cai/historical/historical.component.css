@@ -5,5 +5,5 @@ span {
 .principal-content {
   display: flex;
   flex-flow: column;
-  margin: 0 1% 0 2%;
+  margin: 0 2% 0 2%;
 }

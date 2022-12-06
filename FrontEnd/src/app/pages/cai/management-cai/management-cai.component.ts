@@ -33,7 +33,7 @@ export class ManagementCaiComponent implements OnInit {
   }
 
   validationCAI() {
-    this.navigation.navigate(['/gestion-cai/validation']);
+    this.navigation.navigate(['/evaluar-cai']);
   }
 
 }

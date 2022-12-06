@@ -48,7 +48,7 @@ const routes: Routes = [
   { path: "gestion-cai", component: ManagementCaiComponent, pathMatch: "full" },
   { path: "gestion-cai/request", component: RequestCaiComponent, pathMatch: "full" },
   { path: "gestion-cai/update-request", component: UpdateRequestCaiComponent, pathMatch: "full" },
-  { path: "gestion-cai/evaluar", component: ValidateCaiComponent, pathMatch: "full" },
+  { path: "evaluar-cai", component: ValidateCaiComponent, pathMatch: "full" },
 ];
 
 @NgModule({

@@ -58,4 +58,7 @@ export class StickyTableComponent implements OnInit {
     this.navigation.navigate([this.buttonRoute]);
   }
 
+  validateCai() {
+  }
+
 }
