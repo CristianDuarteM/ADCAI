@@ -25,7 +25,7 @@ export class BasicCaiComponent implements OnInit {
     this.requestCaiForm = new FormGroup({
       semesterInput: new FormControl({value: this.basicCai.semester, disabled: true}),
       yearInput: new FormControl({value: this.basicCai.year, disabled: true}),
-      dateInput: new FormControl('')
+      dateInput: new FormControl({value: this.basicCai.date, disabled: true})
     });
   }
 
