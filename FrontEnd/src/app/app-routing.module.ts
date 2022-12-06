@@ -19,6 +19,9 @@ import { UpdateProfileComponent } from './pages/user/update-profile/update-profi
 import { NotificationsComponent } from './pages/user/notifications/notifications.component';
 import { ViewTeacherComponent } from './pages/teacher/view-teacher/view-teacher.component';
 import { HistoricalComponent } from './pages/cai/historical/historical.component';
+import { ManagementCaiComponent } from './pages/cai/management-cai/management-cai.component';
+import { RequestCaiComponent } from './pages/cai/request-cai/request-cai.component';
+import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update-request-cai.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -41,6 +44,9 @@ const routes: Routes = [
   { path: "perfil/editar", component: UpdateProfileComponent, pathMatch: "full" },
   { path: "notificaciones", component: NotificationsComponent, pathMatch: "full" },
   { path: "historial-cai", component: HistoricalComponent, pathMatch: "full" },
+  { path: "gestion-cai", component: ManagementCaiComponent, pathMatch: "full" },
+  { path: "gestion-cai/request", component: RequestCaiComponent, pathMatch: "full" },
+  { path: "gestion-cai/update-request", component: UpdateRequestCaiComponent, pathMatch: "full" },
 ];
 
 @NgModule({
