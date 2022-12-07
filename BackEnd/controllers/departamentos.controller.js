@@ -14,7 +14,7 @@ const listarDepartamentos = async (req, res) => {
             offset: Number(desde),
             limit: Number(limite)
         });
-        res.json(departamentos);
+        res.status(200).json(departamentos);
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -71,7 +71,7 @@ const buscarDepartamentoById = async (req, res) => {
 
 const registrarDepartamento = async (req, res) => {
     const {nombre, descripcion ="", id_facultad} = req.body;
-    if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -109,7 +109,7 @@ const registrarDepartamento = async (req, res) => {
 const actualizarDepartamento = async (req, res) => {
     const {id} = req.params;
     const {id_facultad, nombre} = req.body;
-    if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -156,24 +156,24 @@ const actualizarDepartamento = async (req, res) => {
 
 const eliminarDepartamento = async (req, res) => {
     const {id} = req.params;
-    /*if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    /*if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }*/
     try {
-        const deparamento = await Departamento.findByPk(id);
-        if(!deparamento){
+        const departamento = await Departamento.findByPk(id);
+        if(!departamento){
             return res.status(400).json({
                 msg: `No existe departamento con ese id`
             });
         }
-        await deparamento.update({
+        await departamento.update({
             estado: false
         });
         res.status(201).json({
             msg: "Departamento eliminado con exito",
-            deparamento
+            departamento
         });
     } catch (error) {
         console.log(error);
@@ -190,4 +190,4 @@ module.exports = {
     registrarDepartamento,
     actualizarDepartamento,
     eliminarDepartamento
-}
+};

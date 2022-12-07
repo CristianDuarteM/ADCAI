@@ -3,6 +3,7 @@ const { check } = require("express-validator");
 
 const { validarCampos } = require("../middlewares/validar-campos.middleware");
 const { validarJwt } = require("../middlewares/validar-jwt");
+const { noExisteRol } = require("../middlewares/db-validators");
 
 const { registrarUsuarios,
         actualizarUsuario,
@@ -13,8 +14,6 @@ const { registrarUsuarios,
         listarUsuariosByDepartamento,
         agregarRolToUsuario,
         eliminarRolToUsuario} = require("../controllers/usuarios.controller");
-
-const { noExisteRol } = require("../middlewares/db-validators");
 
 const router = Router();
 
@@ -86,6 +85,5 @@ router.get("/hola/hola", (req, res) => {
         msg: "asdfasdfsdf"
     });
 });
-
 
 module.exports = router;

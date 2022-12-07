@@ -39,7 +39,7 @@ const buscarFacultadById = async (req, res) => {
 
 const registrarFacultad = async (req, res) => {
     const {nombre, descripcion =""} = req.body;
-    if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -71,7 +71,7 @@ const registrarFacultad = async (req, res) => {
 const actualizarFacultad = async (req, res) => {
     const {id} = req.params;
     const {nombre} = req.body;
-    if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -110,7 +110,7 @@ const actualizarFacultad = async (req, res) => {
 
 const eliminarFacultad = async (req, res) => {
     const {id} = req.params;
-    /*if(req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    /*if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });

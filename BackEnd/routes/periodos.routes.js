@@ -2,27 +2,29 @@ const {Router} = require("express");
 const { check } = require("express-validator");
 
 const { validarJwt } = require("../middlewares/validar-jwt");
-
-const { registrarPeriodo, actualizarPeriodo, listarPeriodos, eliminarPeriodo } = require("../controllers/periodo.controller");
 const { validarCampos } = require("../middlewares/validar-campos.middleware");
 const { noExistePeriodo } = require("../middlewares/db-validators");
 
+const { registrarPeriodo,
+        actualizarPeriodo,
+        listarPeriodos,
+        eliminarPeriodo } = require("../controllers/periodos.controller");
 
 const router = Router();
 
 router.get("/", [
-    //validarJwt
+    validarJwt
 ], listarPeriodos);
 
 router.post("/", [
-    //validarJwt
+    validarJwt,
     check("inicio", "El inicio es obligatorio").notEmpty(),
     check("limite", "El limite es obligatorio").notEmpty(),
     validarCampos
 ], registrarPeriodo);
 
 router.put("/:id", [
-    //validarJwt
+    validarJwt,
     check("id", "Debe ingresar un id valido").isInt(),
     check("id").custom(noExistePeriodo),
     check("limite", "El limite es obligatorio").notEmpty(),
@@ -30,7 +32,7 @@ router.put("/:id", [
 ], actualizarPeriodo);
 
 router.delete("/:id", [
-    //validarJwt
+    validarJwt,
     check("id", "Debe ingresar un id valido").isInt(),
     check("id").custom(noExistePeriodo),
     validarCampos

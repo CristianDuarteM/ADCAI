@@ -17,7 +17,7 @@ const signInGoogle = async (req, res) => {
                     attributes: []
                 }
             },
-            attributes: ["id", "nombre", "apellido", "codigo", "telefono", "id_departamento", "id_firma", "estaActivo"]
+            attributes: { exclude: ["createdAt", "updatedAt"]}
         });
         if(!usuario || !usuario.estaActivo){
             return res.status(401).json({

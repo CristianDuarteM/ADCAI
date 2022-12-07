@@ -2,38 +2,38 @@ const { Router } = require("express");
 const { check } = require("express-validator");
 
 const { validarCampos } = require("../middlewares/validar-campos.middleware");
-const { existeRol } = require("../middlewares/db-validators");
+const { existeEstado } = require("../middlewares/db-validators");
 const { validarJwt } = require("../middlewares/validar-jwt");
 
-const { listarRoles,
-        registrarRol,
-        actualizarRol,
-        eliminarRol } = require("../controllers/roles.controller");
+const { listarEstados,
+        registrarEstado, 
+        actualizarEstado,
+        eliminarEstado} = require("../controllers/estados.controller");
 
 const router = Router();
 
 router.get("/", [
     validarJwt
-], listarRoles);
+], listarEstados);
 
 router.post("/", [
     validarJwt,
     check("nombre", "El nombre es obligatorio").notEmpty(),
-    check("nombre").custom(existeRol),
+    check("nombre").custom(existeEstado),
     validarCampos
-], registrarRol);
+], registrarEstado);
 
-router.put("/", [
+router.put("/:id", [
     validarJwt,
     check("id", "El id no es valido").isInt(),
     check("id", "El id es obligatorio").notEmpty(),
     validarCampos
-], actualizarRol);
+], actualizarEstado);
 
 router.delete("/:id", [
     validarJwt,
     check("id", "El id no es valido").isInt(),
     validarCampos
-], eliminarRol);
+], eliminarEstado);
 
 module.exports = router;

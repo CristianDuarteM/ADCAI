@@ -5,7 +5,7 @@ const { validarCampos } = require("../middlewares/validar-campos.middleware");
 const { validarJwt } = require("../middlewares/validar-jwt");
 
 const { registrarFirma,
-        eliminarFirma } = require("../controllers/firma.controller");
+        eliminarFirma } = require("../controllers/firmas.controller");
 
 const router = Router();
 

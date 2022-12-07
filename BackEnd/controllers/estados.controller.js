@@ -1,12 +1,12 @@
 const {request, response} = require("express");
-const {Rol} = require("../models");
+const {Estado} = require("../models");
 
-const listarRoles = async (req = request, res = response) => {
+const listarEstados = async (req = request, res = response) => {
     try {
-        const roles = await Rol.findAll({
+        const estados = await Estado.findAll({
             attributes: { exclude: ["createdAt", "updatedAt"]}
         });
-        return res.json(roles);
+        return res.json(estados);
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -15,21 +15,21 @@ const listarRoles = async (req = request, res = response) => {
     }
 };
 
-const registrarRol = async (req = request, res = response) => {
+const registrarEstado = async (req = request, res = response) => {
     const {nombre, descripcion = ""} = req.body;
-    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    /*if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
-    }
+    }*/
     try {
-        const rol = await Rol.create({
+        const estado = await Estado.create({
             nombre: nombre.toUpperCase(),
             descripcion
         });
         res.status(201).json({
-            msg: `Rol creado con exito`,
-            rol
+            msg: `Estado creado con exito`,
+            estado
         });
     } catch (error) {
         console.log(error);
@@ -39,37 +39,37 @@ const registrarRol = async (req = request, res = response) => {
     }
 };
 
-const actualizarRol = async (req, res) => {
-    const {id} = req.body;
-    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+const actualizarEstado = async (req, res) => {
+    const {id} = req.params;
+    /*if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
-    }
+    }*/
     try {
-        const rol = await Rol.findByPk(id);
-        if(!rol){
+        const estado = await Estado.findByPk(id);
+        if(!estado){
             return res.status(400).json({
-                msg: `No existe rol con ese id`
+                msg: `No existe estado con ese id`
             });
         }
         if(req.body.nombre){
-            const existeRol = await Rol.findOne({
+            const existeEstado = await Estado.findOne({
                 where:{
                     nombre: req.body.nombre.toUpperCase()
                 } 
             });
-            if(existeRol){
+            if(existeEstado){
                 return res.status(400).json({
-                    msg: `Ya existe un rol con ese nombre`
-                });;
+                    msg: `Ya existe un estado con ese nombre`
+                });
             }
             req.body.nombre = req.body.nombre.toUpperCase();
         }
-        await rol.update(req.body)
+        await estado.update(req.body)
         return res.json({
             msg: `Actualizado con exito`,
-            rol
+            estado
         });
     } catch (error) {
         console.log(error);
@@ -79,24 +79,24 @@ const actualizarRol = async (req, res) => {
     }
 };
 
-const eliminarRol = async (req, res) => {
+const eliminarEstado = async (req, res) => {
     const {id} = req.params;
-    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    /*if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
-    }
+    }*/
     try {
-        const rol = await Rol.findByPk(id);
-        if(!rol){
+        const estado = await Estado.findByPk(id);
+        if(!estado){
             return res.status(400).json({
-                msg: `No existe rol con ese id`
+                msg: `No existe estado con ese id`
             });
         }
-        await rol.destroy();
+        await estado.destroy();
         res.json({
-            msg: `Rol eliminado con exito`,
-            rol
+            msg: `Estado eliminado con exito`,
+            estado
         });
     } catch (error) {
         console.log(error);
@@ -107,8 +107,8 @@ const eliminarRol = async (req, res) => {
 };
 
 module.exports = {
-    listarRoles,
-    registrarRol,
-    actualizarRol,
-    eliminarRol
+    listarEstados,
+    registrarEstado,
+    actualizarEstado,
+    eliminarEstado
 };

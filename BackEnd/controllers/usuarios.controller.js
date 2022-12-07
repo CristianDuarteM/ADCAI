@@ -131,14 +131,14 @@ const buscarUsuarioById = async (req, res) => {
 const registrarUsuarios = async (req, res) => {
     let {correos, rol, id_departamento} = req.body;
     /*if((rol.toUpperCase() === "DOCENTE") && 
-        ((req.usuario.Rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) && (req.usuario.Rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1))
+        ((req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) && (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1))
     ){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
     }
     if(((rol.toLowerCase() === "DECANO") || (rol.toLowerCase() === "DIRECTOR")) && 
-        (req.usuario.Rols.filter(rol => rol.nombre === "ADMIN").length !== 1)
+        (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)
     ){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
@@ -170,7 +170,7 @@ const registrarUsuarios = async (req, res) => {
             });
             if(!existeUsuario){
                 const usuario = await Usuario.create({correo, id_departamento});
-                await usuario.addRols(rol);
+                await usuario.addrols(rol);
                 usuarios.push(usuario);
                 enviarCorreo(correo, `Por favor complete su registro ingresando al siguiente link: `);
             }
@@ -189,7 +189,7 @@ const registrarUsuarios = async (req, res) => {
 
 const agregarRolToUsuario = async (req, res) => {
     let {id_departamento_facultad, correo, rol} = req.body;
-    /*if(req.usuario.Rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1){
+    /*if(req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
@@ -290,7 +290,7 @@ const actualizarUsuario = async (req, res) => {
 
 const borrarUsuario = async (req, res) => {
     const {id} = req.params;
-    if((req.usuario.Rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) && (req.usuario.Rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1)){
+    if((req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) && (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1)){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
@@ -319,7 +319,7 @@ const borrarUsuario = async (req, res) => {
 
 const eliminarRolToUsuario = async (req, res) => {
     let {id_departamento_facultad, id_usuario, rol} = req.body;
-    /*if(req.usuario.Rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1){
+    /*if(req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });

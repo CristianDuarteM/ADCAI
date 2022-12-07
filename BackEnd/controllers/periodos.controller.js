@@ -2,13 +2,44 @@ const moment = require("moment");
 const { Periodo } = require("../models");
 
 const listarPeriodos = async (req, res) => {
-    const {limite = 20, desde = 0} = req.query;
+    const {anno, semestre, limite = 20, desde = 0} = req.query;
     try {
-        const periodos = await Periodo.findAndCountAll({
-            attributes: { exclude: ["createdAt", "updatedAt"]},
-            offset: Number(desde),
-            limit: Number(limite)
-        });
+        let periodos;
+        if(anno && semestre){
+            periodos = await Periodo.findAndCountAll({
+                where: {
+                    anno,
+                    semestre
+                },
+                attributes: { exclude: ["createdAt", "updatedAt"]},
+                offset: Number(desde),
+                limit: Number(limite)
+            });
+        } else if(anno){
+            periodos = await Periodo.findAndCountAll({
+                where: {
+                    anno
+                },
+                attributes: { exclude: ["createdAt", "updatedAt"]},
+                offset: Number(desde),
+                limit: Number(limite)
+            });
+        } else if(semestre){
+            periodos = await Periodo.findAndCountAll({
+                where: {
+                    semestre
+                },
+                attributes: { exclude: ["createdAt", "updatedAt"]},
+                offset: Number(desde),
+                limit: Number(limite)
+            });
+        } else {
+            periodos = await Periodo.findAndCountAll({
+                attributes: { exclude: ["createdAt", "updatedAt"]},
+                offset: Number(desde),
+                limit: Number(limite)
+            });
+        }
         periodos.rows.forEach((periodo) => {
             periodo.fecha_inicio = moment(periodo.fecha_inicio, "YYYY-MM-DD");
             periodo.fecha_limite = moment(periodo.fecha_limite, "YYYY-MM-DD");
@@ -24,7 +55,7 @@ const listarPeriodos = async (req, res) => {
 
 const registrarPeriodo = async (req, res) => {
     const {inicio, limite} = req.body;
-    /*if(req.usuario.Rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1){
+    /*if(req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
@@ -73,7 +104,7 @@ const registrarPeriodo = async (req, res) => {
 const actualizarPeriodo = async (req, res) => {
     const {id} = req.params;
     const {limite} = req.body;
-    /*if(req.usuario.Rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1){
+    /*if(req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
@@ -104,7 +135,7 @@ const actualizarPeriodo = async (req, res) => {
 
 const eliminarPeriodo = async (req, res) => {
     const {id} = req.params;
-    /*if(req.usuario.Rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1){
+    /*if(req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });

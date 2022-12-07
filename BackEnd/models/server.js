@@ -8,11 +8,15 @@ class Server {
         this.port = process.env.PORT || 3000;
 
         this.appPaths = {
+            asignaturas: "/api/asignaturas",
             auth: "/api/auth",
+            cai: "/api/cai",
             departamentos: "/api/departamentos",
+            estados: "/api/estados",
             facultades: "/api/facultades",
             firmas: "/api/firmas",
-            periodo:  "/api/periodo",
+            periodos:  "/api/periodos",
+            plan_estudios: "/api/plan_estudios",
             roles: "/api/roles",
             usuarios: "/api/usuarios",
         };
@@ -47,11 +51,15 @@ class Server {
     }
 
     routes(){
+        this.app.use(this.appPaths.asignaturas, require("../routes/asignaturas.routes"));
         this.app.use(this.appPaths.auth, require("../routes/auth.routes"));
-        this.app.use(this.appPaths.departamentos, require("../routes/departamento.routes"));
+        this.app.use(this.appPaths.cai, require("../routes/cai.routes"));
+        this.app.use(this.appPaths.departamentos, require("../routes/departamentos.routes"));
+        this.app.use(this.appPaths.estados, require("../routes/estados.routes"));
         this.app.use(this.appPaths.facultades, require("../routes/facultades.routes"));
         this.app.use(this.appPaths.firmas, require("../routes/firmas.routes"));
-        this.app.use(this.appPaths.periodo, require("../routes/periodo.routes"));
+        this.app.use(this.appPaths.periodos, require("../routes/periodos.routes"));
+        this.app.use(this.appPaths.plan_estudios, require("../routes/plan_estudios.routes"));
         this.app.use(this.appPaths.roles, require("../routes/roles.routes"));
         this.app.use(this.appPaths.usuarios, require("../routes/usuarios.routes"));
     }

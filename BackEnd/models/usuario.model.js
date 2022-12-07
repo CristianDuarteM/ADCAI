@@ -27,7 +27,7 @@ const Usuario = db.define("usuario", {
         type: DataTypes.STRING,
         allowNull: true
     },
-    esTiempoCompleto: {
+    realizaCai: {
         type: DataTypes.BOOLEAN,
         allowNull: true
     },
