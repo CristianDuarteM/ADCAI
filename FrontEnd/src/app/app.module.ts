@@ -13,6 +13,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { HttpClientModule } from "@angular/common/http";
+
+import { AuthService } from './services/auth/auth.service';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -47,6 +50,7 @@ import { RequestCaiComponent } from './pages/cai/request-cai/request-cai.compone
 import { ManagementCaiComponent } from './pages/cai/management-cai/management-cai.component';
 import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update-request-cai.component';
 import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.component';
+import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +87,7 @@ import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.comp
     ManagementCaiComponent,
     UpdateRequestCaiComponent,
     ValidateCaiComponent,
+    InformativeDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -100,8 +105,11 @@ import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.comp
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPermissionsModule.forRoot(),
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

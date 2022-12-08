@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
+import { config } from 'src/app/constants/config';
 import { UserModel } from 'src/app/models/UserModel';
 
 @Component({
@@ -15,6 +16,7 @@ export class UpdateProfileComponent implements OnInit {
   isPrincipalUpdateProfile: boolean;
   userModelUpdateProfile: UserModel;
   isEditableUpdateProfile: boolean;
+  description: string;
 
   constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
     this.backRouteUpdateProfile = '/perfil';
@@ -25,11 +27,15 @@ export class UpdateProfileComponent implements OnInit {
       hasCAI: true, role: ['DIRECTOR', 'DOCENTE'], signature: 'firma.png'
     };
     this.isEditableUpdateProfile = true;
+    this.description = 'Diligencie los campos que desea actualizar';
   }
 
   ngOnInit(): void {
     let activeRole = sessionStorage.getItem("activeRole") || '';
     this.ngxPermissonsService.loadPermissions([activeRole]);
+    if(sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE) !== ''){
+      this.description = 'Diligencie los campos faltantes para continuar'
+    }
   }
 
   updateData() {

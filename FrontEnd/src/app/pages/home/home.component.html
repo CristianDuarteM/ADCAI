@@ -1,33 +1,35 @@
 <app-navbar></app-navbar>
 <div class="main-container">
-  <div class="margin-title">
-    <h2>Bienvenido al administrador de carga académica integral como {{roleList[activeRole]}}</h2>
-  </div>
-  <div class="principal-options">
-    <button *ngxPermissionsOnly="'ADMIN'">
-      <a href="/gestion-facultades">Gestión de Facultades</a>
-    </button>
-    <button *ngxPermissionsOnly="'ADMIN'">
-      <a href="/gestion-departamentos">Gestión de Departamentos</a>
-    </button>
-    <button *ngxPermissionsExcept="'ADMIN'">
-      <a href="/perfil">Perfil</a>
-    </button>
-    <button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']">
-      <a href="/gestion-docentes">Gestión de Docentes</a>
-    </button>
-    <button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']">
-      <a href="/gestion-cai">Gestión del CAI</a>
-    </button>
-    <button *ngxPermissionsOnly="'DECANO'">
-      <a href="/evaluar-cai">Evaluar CAI</a>
-    </button>
-    <button *ngxPermissionsOnly="'DOCENTE'">
-      <a href="/diligenciar-cai">Diligenciar CAI</a>
-    </button>
-    <button *ngxPermissionsExcept="'ADMIN'">
-      <a href="/historial-cai">Historial de los CAI</a>
-    </button>
+  <div *ngIf="isLoaded">
+    <div class="margin-title">
+      <h2>Bienvenido al administrador de carga académica integral como {{roleList[activeRole]}}</h2>
+    </div>
+    <div class="principal-options">
+      <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-facultades')">
+        Gestión de Facultades
+      </button>
+      <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-departamentos')">
+        Gestión de Departamentos
+      </button>
+      <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/perfil')">
+        Perfil
+      </button>
+      <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-docentes')">
+        Gestión de Docentes
+      </button>
+      <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-cai')">
+        Gestión del CAI
+      </button>
+      <button mat-raised-button *ngxPermissionsOnly="'DECANO'" (click)="redirectButton('/evaluar-cai')">
+        Evaluar CAI
+      </button>
+      <button mat-raised-button *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/diligenciar-cai')">
+        Diligenciar CAI
+      </button>
+      <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/historial-cai')">
+        Historial de los CAI
+      </button>
+    </div>
   </div>
 </div>
 <footer></footer>
