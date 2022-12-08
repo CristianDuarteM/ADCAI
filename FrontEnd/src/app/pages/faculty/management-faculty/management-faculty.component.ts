@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
-import { Faculty } from 'src/app/models/response/Faculty';
+import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
@@ -55,12 +55,12 @@ export class ManagementFacultyComponent implements OnInit {
     });
   }
 
-  getInfoDean(facultyList: Faculty[]): FacultyTable[] {
+  getInfoDean(facultyList: FacultyResponse[]): FacultyTable[] {
     let facultyData: FacultyTable[] = [];
     for (let i = 0; i < facultyList.length; i++) {
       let nameDean = '';
       if(facultyList[i].decano !== null) {
-        nameDean =  facultyList[i].decano.nombre + ' ' + facultyList[i].decano.apellido;
+        nameDean = facultyList[i].decano.correo;
       }
       facultyData[i] = {
         ...facultyList[i],

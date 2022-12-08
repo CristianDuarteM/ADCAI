@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
-import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
+import { FacultyRequest } from 'src/app/models/request/FacultyRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +26,8 @@ export class FacultyService {
     });
   }
 
-  addFaculty(faculty: FacultyResponse): Observable<any> {
-    return this.httpClient.post(config.API_URL + '/api/facultades', {
-      nombre: faculty.nombre,
-      descripcion: faculty.descripcion
-    }, {
+  addFaculty(facultyBody: FacultyRequest): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/facultades', facultyBody, {
       headers: {
         'x-token': this.token
       }
