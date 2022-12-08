@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
-import { Faculty } from 'src/app/models/response/Faculty';
+import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class FacultyService {
     });
   }
 
-  addFaculty(faculty: Faculty): Observable<any> {
+  addFaculty(faculty: FacultyResponse): Observable<any> {
     return this.httpClient.post(config.API_URL + '/api/facultades', {
       nombre: faculty.nombre,
       descripcion: faculty.descripcion

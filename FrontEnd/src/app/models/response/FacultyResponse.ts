@@ -1,6 +1,6 @@
 import { Dean } from "../Dean";
 
-export interface Faculty {
+export interface FacultyResponse {
     id: number;
     nombre: string;
     descripcion: string;
