@@ -23,14 +23,15 @@ import { ManagementCaiComponent } from './pages/cai/management-cai/management-ca
 import { RequestCaiComponent } from './pages/cai/request-cai/request-cai.component';
 import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update-request-cai.component';
 import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.component';
+import { AdminGuard } from './guards/admin-guard';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
   { path: "login", component: LoginComponent, pathMatch: "full" },
   { path: "home", component: HomeComponent, pathMatch: "full" },
-  { path: "gestion-facultades", component: ManagementFacultyComponent, pathMatch: "full" },
-  { path: "gestion-facultades/agregar", component: AddFacultyComponent, pathMatch: "full" },
-  { path: "gestion-facultades/editar", component: UpdateFacultyComponent, pathMatch: "full" },
+  { path: "gestion-facultades", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "gestion-facultades/agregar", component: AddFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "gestion-facultades/editar", component: UpdateFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-departamentos", component: ManagementDepartmentComponent, pathMatch: "full" },
   { path: "gestion-departamentos/agregar", component: AddDepartmentComponent, pathMatch: "full" },
   { path: "gestion-departamentos/editar", component: UpdateDepartmentComponent, pathMatch: "full" },

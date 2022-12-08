@@ -15,6 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { HttpClientModule } from "@angular/common/http";
 
+import { AdminGuard } from './guards/admin-guard';
 import { AuthService } from './services/auth/auth.service';
 
 import { AppComponent } from './app.component';
@@ -108,6 +109,7 @@ import { InformativeDialogComponent } from './components/informative-dialog/info
     HttpClientModule,
   ],
   providers: [
+    AdminGuard,
     AuthService
   ],
   bootstrap: [AppComponent],
