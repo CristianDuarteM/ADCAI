@@ -3,7 +3,7 @@
   <div class="main-container">
     <app-principal-row [backRoute]="backRouteUpdateProfile" [title]="titleUpdateProfile" [isPrincipal]="isPrincipalUpdateProfile"></app-principal-row>
     <div class="principal-content">
-      <span>Diligencie los campos que desea actualizar</span>
+      <span>{{description}}</span>
       <app-user-details [userModel]="userModelUpdateProfile" [isEditable]="isEditableUpdateProfile"></app-user-details>
       <div class="update-button">
         <button (click)="updateData()">
