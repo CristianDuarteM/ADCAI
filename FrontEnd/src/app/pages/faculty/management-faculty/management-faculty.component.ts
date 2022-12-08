@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
-import { Faculty } from 'src/app/models/Faculty';
+import { Faculty } from 'src/app/models/response/Faculty';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { FacultyTable } from 'src/app/models/table/FacultyTable';
 
 @Component({
   selector: 'app-management-faculty',
@@ -19,8 +20,8 @@ export class ManagementFacultyComponent implements OnInit {
   columnsToDisplayFaculty: string[];
   headerTableFaculty: string;
   updateRouteFaculty: string;
-  descriptionDisableFaculty: string;
-  elementsDataFaculty: Faculty[];
+  descriptionActionFaculty: string;
+  elementsDataFaculty: FacultyTable[];
   isLoaded: boolean;
 
   constructor(private ngxPermissonsService: NgxPermissionsService, private facultyService: FacultyService,
@@ -31,7 +32,7 @@ export class ManagementFacultyComponent implements OnInit {
     this.headerTableFaculty = 'Listado de Facultades';
     this.updateRouteFaculty = '/gestion-facultades/editar';
     this.columnsToDisplayFaculty = ['Id','Nombre', 'Descripción', 'Decano', 'Acción'];
-    this.descriptionDisableFaculty = '¿Está seguro de deshabilitar la facultad seleccionada?';
+    this.descriptionActionFaculty = 'la facultad seleccionada';
     this.elementsDataFaculty = [];
     this.isLoaded = false;
   }
@@ -45,13 +46,28 @@ export class ManagementFacultyComponent implements OnInit {
   getListFaculty() {
     this.facultyService.getFacultyList().subscribe({
       next: facultyResponse => {
-        this.elementsDataFaculty = facultyResponse.rows;
+        this.elementsDataFaculty = this.getInfoDean(facultyResponse.rows);
         this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, '/login');
       }
     });
+  }
+
+  getInfoDean(facultyList: Faculty[]): FacultyTable[] {
+    let facultyData: FacultyTable[] = [];
+    for (let i = 0; i < facultyList.length; i++) {
+      let nameDean = '';
+      if(facultyList[i].decano !== null) {
+        nameDean =  facultyList[i].decano.nombre + ' ' + facultyList[i].decano.apellido;
+      }
+      facultyData[i] = {
+        ...facultyList[i],
+        decano: nameDean.toLowerCase()
+      }
+    }
+    return facultyData;
   }
 
   openDialog(description: string, routeRedirect: string) {

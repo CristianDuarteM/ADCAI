@@ -1,7 +1,9 @@
+import { Dean } from "../Dean";
+
 export interface Faculty {
-    id: string;
+    id: number;
     nombre: string;
     descripcion: string;
     estado: boolean;
-    decano: number;
+    decano: Dean;
   }
