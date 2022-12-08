@@ -8,7 +8,9 @@
           <a href="/gestion-facultades/agregar" title="Agregar">Agregar Facultad</a>
         </button>
       </div>
-      <app-sticky-table [columnsToDisplay]="columnsToDisplayFaculty" [headerTable]="headerTableFaculty" [buttonRoute]="updateRouteFaculty" [elementsData]="elementsDataFaculty" [descriptionDialog]="descriptionDisableFaculty"></app-sticky-table>
+      <div *ngIf="isLoaded">
+        <app-sticky-table [columnsToDisplay]="columnsToDisplayFaculty" [headerTable]="headerTableFaculty" [buttonRoute]="updateRouteFaculty" [elementsData]="elementsDataFaculty" [descriptionDialog]="descriptionDisableFaculty"></app-sticky-table>
+      </div>
     </div>
   </div>
   <footer></footer>
