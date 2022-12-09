@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { DepartmentService } from 'src/app/services/department/department.service';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
 import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 
@@ -13,7 +13,7 @@ import { InformativeDialogComponent } from '../informative-dialog/informative-di
 export class EnableDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {description: string, actualComponent: string, idComponent: number},
-  private facultyService: FacultyService, private navigation: Router, public dialog: MatDialog) { }
+  private facultyService: FacultyService, private departmentService: DepartmentService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -21,6 +21,8 @@ export class EnableDialogComponent implements OnInit {
   enable() {
     if(this.data.actualComponent === 'FACULTAD'){
       this.enableFaculty();
+    } else if(this.data.actualComponent === 'DEPARTAMENTO') {
+      this.enableDepartment();
     }
   }
 
@@ -31,6 +33,17 @@ export class EnableDialogComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, '/gestion-facultades');
+      }
+    });
+  }
+
+  enableDepartment() {
+    this.departmentService.enableDepartment(this.data.idComponent).subscribe({
+      next: enableDepartmentResponse => {
+        this.openDialog(enableDepartmentResponse.msg, '/gestion-departamentos');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.openDialog(error.error.msg, '/gestion-departamentos');
       }
     });
   }

@@ -41,16 +41,16 @@ export class DepartmentService {
     });
   }
 
-  disableDepartment(): Observable<any> {
-    return this.httpClient.delete(config.API_URL + '/api/departamentos/' + 'id', {
+  disableDepartment(idDepartment: number): Observable<any> {
+    return this.httpClient.delete(config.API_URL + '/api/departamentos/' + idDepartment, {
       headers: {
         'x-token': this.token
       }
     });
   }
 
-  enableDepartment(): Observable<any> {
-    return this.httpClient.put(config.API_URL + '/api/departamentos/' + 'id', {
+  enableDepartment(idDepartment: number): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/departamentos/' + idDepartment, {
       estado: true
     }, {
       headers: {
