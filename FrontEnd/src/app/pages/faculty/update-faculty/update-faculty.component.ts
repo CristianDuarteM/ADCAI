@@ -1,6 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { FacultyModel } from 'src/app/models/FacultyModel';
+import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
+import { FacultyService } from 'src/app/services/faculty/faculty.service';
 
 @Component({
   selector: 'app-update-faculty',
@@ -14,23 +19,54 @@ export class UpdateFacultyComponent implements OnInit {
   isPrincipalFaculty: boolean;
   actionButtonFaculty: string;
   descriptionFormFaculty: string;
-  dataFaculty: FacultyModel;
+  dataFaculty: FacultyResponse;
+  isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService) {
+  constructor(private ngxPermissonsService: NgxPermissionsService, private route: ActivatedRoute,
+    private facultyService: FacultyService, public dialog: MatDialog) {
     this.backRouteFaculty = "/gestion-facultades";
     this.titleFaculty = 'Detalles de la Facultad';
     this.isPrincipalFaculty = false;
     this.actionButtonFaculty = 'Actualizar';
     this.descriptionFormFaculty = 'Actualice los campos que desea modificar de la facultad';
     this.dataFaculty = {
-      id: '1', name: 'Ingeniería 2', description: 'La Facultad de Ingeniería 2 responde al reto y la necesidad ' +
-      'de formar profesionales que asuman la responsabilidad de generar procesos...', dean: 'Decano Pepita Perez'
+      id: 0, nombre: '', descripcion: '', estado: false, decano: { id: 0, nombre: '', apellido: '', correo: '', realizaCai: false }
     };
+    this.isLoaded = false;
   }
 
   ngOnInit(): void {
+    let idFaculty = this.route.snapshot.paramMap.get('id') || '';
+    this.getFaculty(idFaculty);
+
     let activeRole = sessionStorage.getItem("activeRole") || '';
     this.ngxPermissonsService.loadPermissions([activeRole]);
+  }
+
+  getFaculty(id: string) {
+    this.facultyService.getFacultyById(id).subscribe({
+      next: facultyData => {
+        this.dataFaculty = facultyData;
+        this.isLoaded = true;
+      },
+      error: (error: HttpErrorResponse) => {
+        let route = '/gestion-facultades/editar/' + id;
+        if(error.status === 401) {
+          route = '/login';
+        }
+        this.openDialog(error.error.msg, route);
+      }
+    });
+  }
+
+  openDialog(description: string, routeRedirect: string) {
+    this.dialog.open(InformativeDialogComponent, {
+      data: {
+        description,
+        routeRedirect
+      },
+      disableClose: true
+    });
   }
 
 }

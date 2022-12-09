@@ -9,12 +9,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { HttpClientModule } from "@angular/common/http";
 
+import { AdminGuard } from './guards/admin-guard';
 import { AuthService } from './services/auth/auth.service';
 
 import { AppComponent } from './app.component';
@@ -51,6 +53,7 @@ import { ManagementCaiComponent } from './pages/cai/management-cai/management-ca
 import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update-request-cai.component';
 import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.component';
 import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
+import { EnableDialogComponent } from './components/enable-dialog/enable-dialog.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +91,7 @@ import { InformativeDialogComponent } from './components/informative-dialog/info
     UpdateRequestCaiComponent,
     ValidateCaiComponent,
     InformativeDialogComponent,
+    EnableDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -101,6 +105,7 @@ import { InformativeDialogComponent } from './components/informative-dialog/info
     MatSelectModule,
     MatDialogModule,
     MatInputModule,
+    MatRadioModule,
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
@@ -108,6 +113,7 @@ import { InformativeDialogComponent } from './components/informative-dialog/info
     HttpClientModule,
   ],
   providers: [
+    AdminGuard,
     AuthService
   ],
   bootstrap: [AppComponent],

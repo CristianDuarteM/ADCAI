@@ -2,10 +2,10 @@
   <h1 mat-dialog-title>Mensaje de confirmación</h1>
 </div>
 <mat-dialog-content>
-  <span>{{description}}</span>
+  <span>¿Está seguro de deshabilitar {{data.description}}?</span>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-dialog-close class="accept-button">
+  <button mat-dialog-close class="accept-button" (click)="disable()">
     Aceptar
   </button>
   <button mat-dialog-close class="cancel-button">

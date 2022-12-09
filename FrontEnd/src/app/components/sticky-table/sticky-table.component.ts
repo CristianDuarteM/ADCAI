@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { DisableDialogComponent } from '../disable-dialog/disable-dialog.component';
 import { Router } from '@angular/router';
+import { EnableDialogComponent } from '../enable-dialog/enable-dialog.component';
 
 @Component({
   selector: 'app-sticky-table',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class StickyTableComponent implements OnInit {
 
+  @Input() actualComponent: string;
   @Input() withFilter: boolean;
   @Input() elementsData: any[];
   @Input() columnsToDisplay: string[];
@@ -25,6 +27,7 @@ export class StickyTableComponent implements OnInit {
   };
 
   constructor(public dialog: MatDialog,  private navigation: Router) {
+    this.actualComponent = '';
     this.withFilter = false;
     this.elementsData = [];
     this.columnsToDisplay = [];
@@ -43,10 +46,28 @@ export class StickyTableComponent implements OnInit {
     this.dataArray = new MatTableDataSource(this.elementsData);
   }
 
-  openDialog() {
+  openDialog(idComponent: number) {
     this.dialog.open(DisableDialogComponent, {
-      data: this.descriptionDialog
+      data: {
+        description: this.descriptionDialog,
+        actualComponent: this.actualComponent,
+        idComponent
+      }
     });
+  }
+
+  openDialogEnable(idComponent: number) {
+    this.dialog.open(EnableDialogComponent, {
+      data: {
+        description: this.descriptionDialog,
+        actualComponent: this.actualComponent,
+        idComponent
+      }
+    });
+  }
+
+  redirectButton(id: number) {
+    this.navigation.navigate([this.buttonRoute, id]);
   }
 
   applyFilter(event: Event){

@@ -27,7 +27,7 @@
 
       <ng-container matColumnDef="Nombre">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Nombre </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.name}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Nombre Completo">
@@ -67,7 +67,7 @@
 
       <ng-container matColumnDef="Descripción">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Descripción </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.description}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.descripcion}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Fecha">
@@ -82,7 +82,7 @@
 
       <ng-container matColumnDef="Decano">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Decano </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.dean}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{(item.estado) ? item.decano : 'No aplica'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Director">
@@ -113,14 +113,18 @@
           </td>
         </ng-container>
         <ng-container *ngIf="!viewCAI">
-          <td mat-cell *matCellDef class="border-color-table">
-            <button class="add-button">
+          <td mat-cell *matCellDef="let item" class="border-color-table">
+            <button class="add-button" *ngIf="item.estado" (click)="redirectButton(item.id)">
               <mat-icon>edit</mat-icon>
-              <a href="{{buttonRoute}}">{{(onlyView) ? 'Ver' : 'Editar'}}</a>
+              {{(onlyView) ? 'Ver' : 'Editar'}}
             </button>
-            <button class="disable-button" (click)="openDialog()">
+            <button class="disable-button" (click)="openDialog(item.id)" *ngIf="item.estado">
               <mat-icon> edit_attributes</mat-icon>
               <span>Deshabilitar</span>
+            </button>
+            <button class="add-button" (click)="openDialogEnable(item.id)" *ngIf="!item.estado">
+              <mat-icon> edit_attributes</mat-icon>
+              <span>Habilitar</span>
             </button>
           </td>
         </ng-container>

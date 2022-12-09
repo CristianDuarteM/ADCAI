@@ -1,0 +1,14 @@
+<div>
+    <h1 mat-dialog-title>Mensaje de confirmación</h1>
+  </div>
+  <mat-dialog-content>
+    <span>¿Está seguro de habilitar {{data.description}}?</span>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-dialog-close class="accept-button" (click)="enable()">
+      Aceptar
+    </button>
+    <button mat-dialog-close class="cancel-button">
+      Cancelar
+    </button>
+  </mat-dialog-actions>

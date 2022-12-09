@@ -6,11 +6,11 @@ import { FacultyService } from 'src/app/services/faculty/faculty.service';
 import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 
 @Component({
-  selector: 'app-disable-dialog',
-  templateUrl: './disable-dialog.component.html',
-  styleUrls: ['./disable-dialog.component.css']
+  selector: 'app-enable-dialog',
+  templateUrl: './enable-dialog.component.html',
+  styleUrls: ['./enable-dialog.component.css']
 })
-export class DisableDialogComponent implements OnInit {
+export class EnableDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {description: string, actualComponent: string, idComponent: number},
   private facultyService: FacultyService, private navigation: Router, public dialog: MatDialog) { }
@@ -18,16 +18,16 @@ export class DisableDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  disable() {
+  enable() {
     if(this.data.actualComponent === 'FACULTAD'){
-      this.disableFaculty();
+      this.enableFaculty();
     }
   }
 
-  disableFaculty() {
-    this.facultyService.disableFaculty(this.data.idComponent).subscribe({
-      next: disableFacultyResponse => {
-        this.openDialog(disableFacultyResponse.msg, '/gestion-facultades');
+  enableFaculty() {
+    this.facultyService.enableFaculty(this.data.idComponent).subscribe({
+      next: enableFacultyResponse => {
+        this.openDialog(enableFacultyResponse.msg, '/gestion-facultades');
       },
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, '/gestion-facultades');
