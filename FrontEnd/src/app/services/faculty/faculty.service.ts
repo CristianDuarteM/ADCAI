@@ -34,8 +34,12 @@ export class FacultyService {
     });
   }
 
-  updateFaculty() {
-
+  updateFaculty(facultyBody: {}, id: string): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/facultades/' + id, facultyBody, {
+      headers: {
+        'x-token': this.token
+      }
+    });
   }
 
   disableFaculty(idFaculty: number): Observable<any> {
@@ -54,6 +58,14 @@ export class FacultyService {
         'x-token': this.token
       }
     })
+  }
+
+  getFacultyById(id: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/facultades/' + id , {
+      headers: {
+        'x-token': this.token
+      }
+    });
   }
 
 }

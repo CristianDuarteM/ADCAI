@@ -66,6 +66,10 @@ export class StickyTableComponent implements OnInit {
     });
   }
 
+  redirectButton(id: number) {
+    this.navigation.navigate([this.buttonRoute, id]);
+  }
+
   applyFilter(event: Event){
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataArray.filter = filterValue.trim().toLowerCase();

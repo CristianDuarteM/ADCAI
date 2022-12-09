@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: "home", component: HomeComponent, pathMatch: "full" },
   { path: "gestion-facultades", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-facultades/agregar", component: AddFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "gestion-facultades/editar", component: UpdateFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "gestion-facultades/editar/:id", component: UpdateFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-departamentos", component: ManagementDepartmentComponent, pathMatch: "full" },
   { path: "gestion-departamentos/agregar", component: AddDepartmentComponent, pathMatch: "full" },
   { path: "gestion-departamentos/editar", component: UpdateDepartmentComponent, pathMatch: "full" },
