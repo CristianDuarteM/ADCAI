@@ -4,11 +4,8 @@
     <app-principal-row [backRoute]="backRouteUpdateTeacher" [title]="titleUpdateTeacher" [isPrincipal]="isPrincipalUpdateTeacher"></app-principal-row>
     <div class="principal-content">
       <span>Diligencie los campos que desea actualizar</span>
-      <app-user-details [userModel]="userModelUpdateTeacher" [isEditable]="isEditableUpdateTeacher"></app-user-details>
-      <div class="update-button">
-        <button (click)="updateData()">
-          Actualizar
-        </button>
+      <div>
+        <app-user-details [isEditable]="isEditableUpdateTeacher" [canUpdate]="true"></app-user-details>
       </div>
     </div>
   </div>

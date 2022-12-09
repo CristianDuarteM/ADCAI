@@ -25,7 +25,9 @@ export class AddMassiveTeacherComponent implements OnInit {
 
   constructor(private ngxPermissonsService: NgxPermissionsService, private route: ActivatedRoute, public dialog: MatDialog,
     private userService: UserService) {
-    this.backRouteTeacher = '/gestion-docentes/agregar';
+    let idFaculty = this.route.snapshot.paramMap.get('idFaculty') || '';
+    let idDepartment = this.route.snapshot.paramMap.get('idDepartment') || '';
+    this.backRouteTeacher = '/gestion-docentes/agregar/facultad/' + idFaculty + '/departamento/' + idDepartment;
     this.titleTeacher = 'Agregar Docentes - Masivo';
     this.isPrincipalTeacher = false;
     this.teacher = new FormGroup({

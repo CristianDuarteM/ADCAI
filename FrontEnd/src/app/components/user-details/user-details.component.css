@@ -1,4 +1,17 @@
+button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+  border-radius: 2vh;
+  cursor: pointer;
+  font-size: larger;
+  font-weight: bold;
+  padding: 0.5% 1% 0.5% 1%;
+  white-space: nowrap;
+  width: 30%;
+}
+
 input {
+  font-size: medium;
   font-weight: bold;
 }
 
@@ -56,7 +69,16 @@ span {
   flex-flow: column;
 }
 
+.button-form {
+  display: flex;
+  justify-content: center;
+}
+
 @media only screen and (max-width: 600px) {
+  button {
+    font-size: medium;
+    width: 80%;
+  }
   label {
     font-size: medium;
   }
@@ -73,6 +95,9 @@ span {
 }
 
 @media only screen and (min-width: 601px) and (max-width: 1400px) {
+  button {
+    width: 30%;
+  }
   label {
     font-size: medium;
   }
