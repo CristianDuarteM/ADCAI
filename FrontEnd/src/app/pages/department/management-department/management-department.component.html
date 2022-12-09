@@ -8,7 +8,9 @@
           <a href="/gestion-departamentos/agregar" title="Agregar">Agregar Departamento</a>
         </button>
       </div>
-      <app-sticky-table [columnsToDisplay]="columnsToDisplayDepartment" [headerTable]="headerTableDepartment" [buttonRoute]="updateRouteDepartment" [elementsData]="elementsDataDepartment" [descriptionDialog]="descriptionDisableDepartment"></app-sticky-table>
+      <div *ngIf="isLoaded">
+        <app-sticky-table [columnsToDisplay]="columnsToDisplayDepartment" [headerTable]="headerTableDepartment" [buttonRoute]="updateRouteDepartment" [elementsData]="elementsDataDepartment" [descriptionDialog]="descriptionActionDepartment" [actualComponent]="'DEPARTAMENTO'"></app-sticky-table>
+      </div>
     </div>
   </div>
   <footer></footer>

@@ -34,8 +34,8 @@ export class FacultyDetailsComponent implements OnInit {
     this.faculty = new FormGroup({
       name: new FormControl(this.dataFaculty.nombre, [Validators.required]),
       description: new FormControl(this.dataFaculty.descripcion, [Validators.required]),
-      dean: new FormControl((this.dataFaculty.decano !== null) ? this.dataFaculty.decano.correo : '', [Validators.email]),
-      doCai: new FormControl((this.dataFaculty.decano !== null) ? this.dataFaculty.decano.realizaCai : false + '')
+      dean: new FormControl((this.dataFaculty.decano !== null) ? this.dataFaculty.decano.correo : '', [Validators.email, Validators.required]),
+      doCai: new FormControl((this.dataFaculty.decano !== null) ? this.dataFaculty.decano.realizaCai + '' : false + '')
     });
   }
 
@@ -105,12 +105,14 @@ export class FacultyDetailsComponent implements OnInit {
     if(this.dataFaculty.descripcion !== this.getValueInput('description')) {
       facultyDataValidate['descripcion'] = this.getValueInput('description');
     }
-    if(this.dataFaculty.decano.correo !== this.getValueInput('dean')){
+    if((this.dataFaculty.decano === null) || this.dataFaculty.decano.realizaCai !== doCai){
       facultyDataValidate['correoDecano'] = this.getValueInput('dean');
-    }
-    if(this.dataFaculty.decano.realizaCai !== doCai){
       facultyDataValidate['realizaCai'] = doCai;
     }
+    if((this.dataFaculty.decano === null) || this.dataFaculty.decano.correo !== this.getValueInput('dean')){
+      facultyDataValidate['correoDecano'] = this.getValueInput('dean');
+    }
+
     return facultyDataValidate;
   }
 

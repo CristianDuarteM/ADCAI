@@ -58,13 +58,13 @@ export class ManagementFacultyComponent implements OnInit {
   getInfoDean(facultyList: FacultyResponse[]): FacultyTable[] {
     let facultyData: FacultyTable[] = [];
     for (let i = 0; i < facultyList.length; i++) {
-      let nameDean = '';
+      let emailDean = '';
       if(facultyList[i].decano !== null) {
-        nameDean = facultyList[i].decano.correo;
+        emailDean = facultyList[i].decano.correo;
       }
       facultyData[i] = {
         ...facultyList[i],
-        decano: nameDean.toLowerCase()
+        decano: emailDean.toLowerCase()
       }
     }
     return facultyData;
