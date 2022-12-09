@@ -129,6 +129,8 @@ export class ManagementTeacherComponent implements OnInit {
       next: userResponse => {
         this.departmentService.getDepartmentById(userResponse.usuario.id_departamento + '').subscribe({
           next: departmentResponse => {
+            sessionStorage.setItem('nameFaculty', departmentResponse.facultad.nombre);
+            sessionStorage.setItem('nameDepartment', departmentResponse.nombre);
             this.idFaculty = departmentResponse.id;
             this.idDepartment = departmentResponse.facultad.id;
             this.teacher.setControl('selectedFaculty', new FormControl({value: departmentResponse.facultad.nombre, disabled: true}));

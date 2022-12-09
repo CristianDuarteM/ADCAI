@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { CaiModel } from 'src/app/models/CaiModel';
-import { User } from 'src/app/models/User';
 
 @Component({
   selector: 'app-view-teacher',
@@ -14,7 +13,6 @@ export class ViewTeacherComponent implements OnInit {
   backRouteViewTeacher: string;
   titleViewTeacher: string;
   isPrincipalViewTeacher: boolean;
-  userModelViewTeacher: User;
   isEditableViewTeacher: boolean;
   heightTableViewTeacher: { height: string };
   columnsToDisplayViewTeacher: string[];
@@ -26,10 +24,9 @@ export class ViewTeacherComponent implements OnInit {
   ];
 
   constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
-    this.backRouteViewTeacher = '/gestion-docentes/buscados';
+    this.backRouteViewTeacher = '/gestion-docentes';
     this.titleViewTeacher = 'Visualizar Docente';
     this.isPrincipalViewTeacher = false;
-    this.userModelViewTeacher = {} as User;
     this.isEditableViewTeacher = false;
     this.heightTableViewTeacher = { height: '42vh' };
     this.headerTableViewTeacher = 'Listado de Cargas Académicas Integrales';

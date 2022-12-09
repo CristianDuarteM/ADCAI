@@ -44,7 +44,7 @@ const routes: Routes = [
   { path: "gestion-docentes/agregar/manual/departamento/:idDepartment", component: AddManualTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/masivo/departamento/:idDepartment", component: AddMassiveTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "perfil", component: ViewProfileComponent, pathMatch: "full" },
-  { path: "perfil/editar", component: UpdateProfileComponent, pathMatch: "full" },
+  { path: "perfil/editar/:idTeacher", component: UpdateProfileComponent, pathMatch: "full" },
   { path: "notificaciones", component: NotificationsComponent, pathMatch: "full" },
   { path: "historial-cai", component: HistoricalComponent, pathMatch: "full" },
   { path: "gestion-cai", component: ManagementCaiComponent, pathMatch: "full" },

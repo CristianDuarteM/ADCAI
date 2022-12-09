@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { config } from 'src/app/constants/config';
-import { User } from 'src/app/models/User';
 
 @Component({
   selector: 'app-update-profile',
@@ -14,7 +13,6 @@ export class UpdateProfileComponent implements OnInit {
   backRouteUpdateProfile: string;
   titleUpdateProfile: string;
   isPrincipalUpdateProfile: boolean;
-  userModelUpdateProfile: User;
   isEditableUpdateProfile: boolean;
   description: string;
 
@@ -22,7 +20,6 @@ export class UpdateProfileComponent implements OnInit {
     this.backRouteUpdateProfile = '/perfil';
     this.titleUpdateProfile = 'Actualizar Perfil';
     this.isPrincipalUpdateProfile = false;
-    this.userModelUpdateProfile = {} as User;
     this.isEditableUpdateProfile = true;
     this.description = 'Diligencie los campos que desea actualizar';
   }

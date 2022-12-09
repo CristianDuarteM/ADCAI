@@ -21,7 +21,9 @@ export class AddManualTeacherComponent implements OnInit {
 
   constructor(private ngxPermissonsService: NgxPermissionsService, private userService: UserService,
     private route: ActivatedRoute, public dialog: MatDialog) {
-    this.backRouteTeacher = '/gestion-docentes/agregar';
+    let idFaculty = this.route.snapshot.paramMap.get('idFaculty') || '';
+    let idDepartment = this.route.snapshot.paramMap.get('idDepartment') || '';
+    this.backRouteTeacher = '/gestion-docentes/agregar/facultad/' + idFaculty + '/departamento/' + idDepartment;
     this.titleTeacher = 'Agregar Docentes - Manual';
     this.isPrincipalTeacher = false;
     this.teacher = new FormGroup({
@@ -38,13 +40,14 @@ export class AddManualTeacherComponent implements OnInit {
 
   addManualTeacher() {
     if(this.teacher.valid) {
+      let idFaculty = this.route.snapshot.paramMap.get('idFaculty') || '';
       let idDepartment = this.route.snapshot.paramMap.get('idDepartment') || '';
       this.userService.addTeacherList([this.teacher.get('email')?.value], idDepartment).subscribe({
         next: addUserResponse => {
           this.openDialog(addUserResponse.msg, '/gestion-docentes');
         },
         error: (error: HttpErrorResponse) => {
-          let route = '/gestion-docentes/agregar/manual/departamento/' + idDepartment;
+          let route = '/gestion-docentes/agregar/manual/facultad/' + idFaculty + '/departamento/' + idDepartment;
           if(error.status === 401) {
             sessionStorage.clear();
             route = '/login';

@@ -4,7 +4,7 @@
     <app-principal-row [backRoute]="backRouteViewTeacher" [title]="titleViewTeacher" [isPrincipal]="isPrincipalViewTeacher"></app-principal-row>
     <div class="principal-content">
       <span>Diligencie los campos que desea actualizar</span>
-      <app-user-details [userModel]="userModelViewTeacher" [isEditable]="isEditableViewTeacher" [onlyViewDirector]="true"></app-user-details>
+      <app-user-details [isEditable]="isEditableViewTeacher" [onlyViewDirector]="true"></app-user-details>
       <div class="cai-table">
         <app-sticky-table [columnsToDisplay]="columnsToDisplayViewTeacher" [headerTable]="headerTableViewTeacher" [buttonRoute]="buttonRouteViewTeacher" [elementsData]="elementsDataViewTeacher" [heightTable]="heightTableViewTeacher" [viewCAI]="true"></app-sticky-table>
       </div>

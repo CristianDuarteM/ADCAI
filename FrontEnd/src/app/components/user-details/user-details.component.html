@@ -1,5 +1,5 @@
 <ng-container>
-  <form [formGroup]="user" (ngSubmit)="onSubmit()">
+  <form [formGroup]="user" (ngSubmit)="onSubmit()" *ngIf="isLoaded">
     <div class="principal-content">
       <div class="form-content">
         <div class="left-content">
@@ -60,7 +60,7 @@
             <mat-label>Seleccione Departamento</mat-label>
             <mat-select formControlName="departmentInput" name="departmentSelect">
               <mat-option *ngFor="let department of departmentList" [value]="department.id">
-                {{department.name}}
+                {{department.nombre}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -101,7 +101,7 @@
         </div>
       </div>
       <div class="button-form">
-        <button type="submit">
+        <button type="submit" **ngIf="canUpdate">
           {{textButton}}
         </button>
       </div>

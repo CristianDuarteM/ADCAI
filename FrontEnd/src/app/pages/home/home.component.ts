@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit {
 
   logInFirstTime() {
     if(this.activeRole !== 'ADMIN'){
-      this.navigation.navigate(['/perfil/editar']);
+      this.navigation.navigate(['/perfil/editar/' + sessionStorage.getItem(config.SESSION_STORAGE.ID_USER)]);
     }
   }
 
