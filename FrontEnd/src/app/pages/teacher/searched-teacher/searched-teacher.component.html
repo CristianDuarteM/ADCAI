@@ -8,7 +8,7 @@
           <span class="title-span">Facultad:</span>
         </div>
         <div>
-          <span>Facultad seleccionada</span>
+          <span>{{getNameFaculty()}}</span>
         </div>
       </div>
       <div class="container-information">
@@ -16,15 +16,15 @@
           <span class="title-span">Departamento:</span>
         </div>
         <div>
-          <span>Departamento seleccionado</span>
+          <span>{{getNameDepartment()}}</span>
         </div>
       </div>
       <div class="container-information">
         <div class="margin-information">
-          <span class="title-span">Filtro:</span>
+          <span class="title-span">Filtro{{(typeFilter !== '') ? ' - ' + typeFilter : '' }}:</span>
         </div>
         <div>
-          <span>Filtro seleccionado</span>
+          <span>{{(filter !== '') ? filter : 'No Aplica'}}</span>
         </div>
       </div>
       <div class="button-container">
@@ -33,8 +33,8 @@
         </button>
       </div>
     </div>
-    <div class="search-table">
-      <app-sticky-table [columnsToDisplay]="columnsToDisplayTeacher" [headerTable]="headerTableTeacher" [buttonRoute]="buttonRouteTeacher" [elementsData]="elementsDataTeacher" [descriptionDialog]="descriptionDisableTeacher" [heightTable]="heightTableSearchedTeacher"></app-sticky-table>
+    <div class="search-table" *ngIf="isLoaded">
+      <app-sticky-table [columnsToDisplay]="columnsToDisplayTeacher" [headerTable]="headerTableTeacher" [buttonRoute]="buttonRouteTeacher" [elementsData]="elementsDataTeacher" [descriptionDialog]="descriptionDisableTeacher" [heightTable]="heightTableSearchedTeacher" [actualComponent]="'DOCENTE'"></app-sticky-table>
     </div>
   </div>
   <footer></footer>

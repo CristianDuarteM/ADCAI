@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: "gestion-departamentos/agregar", component: AddDepartmentComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-departamentos/editar/:id", component: UpdateDepartmentComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-docentes", component: ManagementTeacherComponent, pathMatch: "full" },
-  { path: "gestion-docentes/buscados", component: SearchedTeacherComponent, pathMatch: "full" },
+  { path: "gestion-docentes/buscados/facultad/:idFaculty/departamento/:idDeparment", component: SearchedTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/buscados/editar", component: UpdateTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/buscados/ver", component: ViewTeacherComponent, pathMatch: "full" },
   { path: "gestion-docentes/agregar", component: AddTeacherComponent, pathMatch: "full" },

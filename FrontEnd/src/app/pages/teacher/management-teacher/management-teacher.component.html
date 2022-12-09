@@ -8,9 +8,9 @@
           <span>Facultad <span class="item-required">*</span></span>
           <mat-form-field appearance="fill">
             <mat-label>Seleccione Facultad</mat-label>
-            <mat-select formControlName="facultySelect" name="facultySelect">
+            <mat-select formControlName="facultySelect" name="facultySelect" (selectionChange)="getDepartmentList($event.value, $event.source.triggerValue)">
               <mat-option *ngFor="let faculty of facultyList" [value]="faculty.id">
-                {{faculty.name}}
+                {{faculty.nombre}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -19,9 +19,9 @@
           <span>Departamento <span class="item-required">*</span></span>
           <mat-form-field appearance="fill">
             <mat-label>Seleccione Departamento</mat-label>
-            <mat-select formControlName="departmentSelect" name="departmentSelect">
+            <mat-select formControlName="departmentSelect" name="departmentSelect" (selectionChange)="selectDepartment($event.source.triggerValue)">
               <mat-option *ngFor="let department of departmentList" [value]="department.id">
-                {{department.name}}
+                {{department.nombre}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -35,9 +35,10 @@
           <mat-form-field appearance="fill">
             <mat-label>Seleccione Filtro</mat-label>
             <mat-select formControlName="filterSelect" name="filterSelect">
-              <mat-option value="code">Código</mat-option>
-              <mat-option value="email">Correo</mat-option>
-              <mat-option value="name">Nombre Completo</mat-option>
+              <mat-option value="codigo">Código</mat-option>
+              <mat-option value="correo">Correo</mat-option>
+              <mat-option value="nombre">Nombre</mat-option>
+              <mat-option value="apellido">Apellido</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

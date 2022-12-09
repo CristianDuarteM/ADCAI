@@ -22,7 +22,7 @@
 
       <ng-container matColumnDef="Código">
         <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: center;"> Código </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{(viewCAI) ? item.teacher.code : item.code}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{(viewCAI) ? item.teacher.codigo : item.codigo}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Nombre">
@@ -32,7 +32,7 @@
 
       <ng-container matColumnDef="Nombre Completo">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Nombre Completo </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{(viewCAI) ? item.teacher.name + ' ' + item.teacher.lastName : item.name + ' ' + item.lastName}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{ (item.nombre !== null) ? item.nombre + ' ' + item.apellido : ''}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Id CAI">
@@ -57,12 +57,12 @@
 
       <ng-container matColumnDef="Correo">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Correo </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.email}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.correo}} </td>
       </ng-container>
 
       <ng-container matColumnDef="¿Realiza CAI?">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> ¿Realiza CAI? </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{(item.hasCAI) ? 'Sí' : 'No'}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{(item.realizaCai) ? 'Sí' : 'No'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Descripción">
@@ -114,15 +114,15 @@
         </ng-container>
         <ng-container *ngIf="!viewCAI">
           <td mat-cell *matCellDef="let item" class="border-color-table">
-            <button class="add-button" *ngIf="item.estado" (click)="redirectButton(item.id)">
+            <button class="add-button" *ngIf="item.estado || item.estaActivo" (click)="redirectButton(item.id)">
               <mat-icon>edit</mat-icon>
               {{(onlyView) ? 'Ver' : 'Editar'}}
             </button>
-            <button class="disable-button" (click)="openDialog(item.id)" *ngIf="item.estado">
+            <button class="disable-button" (click)="openDialog(item.id)" *ngIf="item.estado || item.estaActivo">
               <mat-icon> edit_attributes</mat-icon>
               <span>Deshabilitar</span>
             </button>
-            <button class="add-button" (click)="openDialogEnable(item.id)" *ngIf="!item.estado">
+            <button class="add-button" (click)="openDialogEnable(item.id)" *ngIf="!item.estado && !item.estaActivo">
               <mat-icon> edit_attributes</mat-icon>
               <span>Habilitar</span>
             </button>

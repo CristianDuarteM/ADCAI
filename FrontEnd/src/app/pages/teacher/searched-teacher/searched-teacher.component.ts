@@ -1,7 +1,12 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
+import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { UserResponse } from 'src/app/models/response/userResponse';
 import { UserModel } from 'src/app/models/UserModel';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-searched-teacher',
@@ -18,12 +23,13 @@ export class SearchedTeacherComponent implements OnInit {
   headerTableTeacher: string;
   buttonRouteTeacher: string;
   descriptionDisableTeacher: string;
-  elementsDataTeacher: UserModel[] = [
-    {code: '123456', name: 'Pepito', lastName: 'Perez', email: 'pepitoperez@ufps.edu.co',
-    hasCAI: true, role: ['DOCENTE'], faculty: '', department: 'Sistemas e informática', signature: ''},
-  ];
+  elementsDataTeacher: UserResponse[];
+  typeFilter: string;
+  filter: string;
+  isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
+  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router,
+    private userService: UserService, public dialog: MatDialog, private route: ActivatedRoute) {
     this.backRouteTeacher = '/gestion-docentes';
     this.titleTeacher = 'Docentes Buscados';
     this.isPrincipalTeacher = false;
@@ -31,10 +37,15 @@ export class SearchedTeacherComponent implements OnInit {
     this.headerTableTeacher = 'Listado de Docentes';
     this.buttonRouteTeacher = '';
     this.columnsToDisplayTeacher = ['Código','Nombre Completo', 'Correo', '¿Realiza CAI?', 'Acción'];
-    this.descriptionDisableTeacher = '¿Está seguro de deshabilitar el docente seleccionado?';
+    this.descriptionDisableTeacher = 'el docente seleccionado';
+    this.elementsDataTeacher = [];
+    this.typeFilter = this.getTypeFilter() || '';
+    this.filter = this.getFilter() || '';
+    this.isLoaded = false;
   }
 
   ngOnInit(): void {
+    this.searchTeacherList();
     let activeRole = sessionStorage.getItem("activeRole") || '';
     this.ngxPermissonsService.loadPermissions([activeRole]);
     this.buttonRouteTeacher = (activeRole === 'ADMIN') ? '/gestion-docentes/buscados/editar' : '/gestion-docentes/buscados/ver';
@@ -42,6 +53,54 @@ export class SearchedTeacherComponent implements OnInit {
 
   newSearch() {
     this.navigation.navigate(['/gestion-docentes']);
+  }
+
+  searchTeacherList() {
+    let idDepartment = this.route.snapshot.paramMap.get('idDeparment') || '';
+    this.userService.getUserFilter(idDepartment, this.typeFilter, this.filter).subscribe({
+      next: userResponse => {
+        this.elementsDataTeacher = userResponse.rows;
+        this.isLoaded = true;
+        this.clearSessionStorage();
+      },
+      error: (error: HttpErrorResponse) => {
+        sessionStorage.clear();
+        this.openDialog(error.error.msg, '/login');
+      }
+    });
+  }
+
+  getNameFaculty() {
+    return sessionStorage.getItem('nameFaculty');
+  }
+
+  getNameDepartment() {
+    return sessionStorage.getItem('nameDepartment');
+  }
+
+  getTypeFilter() {
+    return sessionStorage.getItem('typeFilter');
+  }
+
+  getFilter() {
+    return sessionStorage.getItem('filter');
+  }
+
+  clearSessionStorage() {
+    sessionStorage.removeItem('nameFaculty');
+    sessionStorage.removeItem('nameDepartment');
+    sessionStorage.removeItem('typeFilter');
+    sessionStorage.removeItem('filter');
+  }
+
+  openDialog(description: string, routeRedirect: string) {
+    this.dialog.open(InformativeDialogComponent, {
+      data: {
+        description,
+        routeRedirect
+      },
+      disableClose: true
+    });
   }
 
 }

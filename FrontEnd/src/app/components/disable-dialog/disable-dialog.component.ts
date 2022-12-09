@@ -1,8 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 
 @Component({
@@ -13,7 +15,8 @@ import { InformativeDialogComponent } from '../informative-dialog/informative-di
 export class DisableDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {description: string, actualComponent: string, idComponent: number},
-  private facultyService: FacultyService, public dialog: MatDialog, private departmentService: DepartmentService) { }
+  private facultyService: FacultyService, public dialog: MatDialog, private departmentService: DepartmentService,
+  private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
@@ -23,6 +26,8 @@ export class DisableDialogComponent implements OnInit {
       this.disableFaculty();
     } else if(this.data.actualComponent === 'DEPARTAMENTO') {
       this.disableDepartment();
+    } else if(this.data.actualComponent === 'DOCENTE') {
+      this.disableTeacher();
     }
   }
 
@@ -44,6 +49,17 @@ export class DisableDialogComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, '/gestion-departamentos');
+      }
+    });
+  }
+
+  disableTeacher() {
+    this.userService.disableUser(this.data.idComponent).subscribe({
+      next: disableUserResponse => {
+        this.openDialog(disableUserResponse.msg, '/gestion-docentes/');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.openDialog(error.error.msg, '/gestion-docentes');
       }
     });
   }
