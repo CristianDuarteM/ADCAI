@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
+import { User } from 'src/app/models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,14 @@ export class UserService {
 
   getUserById(idUser: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/usuarios/' + idUser, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+  }
+
+  updateUser(idUser: string, userBody: User): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/usuarios/' + idUser, userBody, {
       headers: {
         'x-token': this.token
       }

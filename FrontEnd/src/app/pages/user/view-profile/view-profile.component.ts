@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { UserModel } from 'src/app/models/UserModel';
+import { User } from 'src/app/models/User';
 
 @Component({
   selector: 'app-view-profile',
@@ -13,17 +13,14 @@ export class ViewProfileComponent implements OnInit {
   backRouteProfile: string;
   titleProfile: string;
   isPrincipalProfile: boolean;
-  userModelViewProfile: UserModel;
+  userModelViewProfile: User;
   isEditableViewProfile: boolean;
 
   constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
     this.backRouteProfile = '/home';
     this.titleProfile = 'Perfil';
     this.isPrincipalProfile = true;
-    this.userModelViewProfile = {
-      name: 'Pepito', lastName: 'Perez', code: '123456', department: 'Sistemas e Informática', faculty: '', email: 'pepitoperez@ufps.edu.co',
-      hasCAI: true, role: ['DIRECTOR', 'DOCENTE'], signature: 'firma.png'
-    };
+    this.userModelViewProfile = {} as User;
     this.isEditableViewProfile = false;
   }
 

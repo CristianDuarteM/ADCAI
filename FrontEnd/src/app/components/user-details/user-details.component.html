@@ -1,5 +1,5 @@
 <ng-container>
-  <form [formGroup]="user">
+  <form [formGroup]="user" (ngSubmit)="onSubmit()">
     <div class="principal-content">
       <div class="form-content">
         <div class="left-content">
@@ -99,6 +99,11 @@
             <span>Tamaño mínimo requerido de 1MB</span>
           </div>
         </div>
+      </div>
+      <div class="button-form">
+        <button type="submit">
+          {{textButton}}
+        </button>
       </div>
     </div>
   </form>
