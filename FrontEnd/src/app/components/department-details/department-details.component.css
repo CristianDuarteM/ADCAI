@@ -12,16 +12,6 @@ form {
   margin: 0 5% 0 5%;
 }
 
-input {
-  background-color: #d9d9d998;
-  border-color: #d9d9d998;
-  border-radius: 1vw;
-  font-size: 1.3vw;
-  margin-top: 0.5%;
-  outline: none;
-  padding: 0.2%;
-}
-
 h2 {
   margin: 0;
 }
@@ -31,14 +21,8 @@ span {
   margin-right: 2%;
 }
 
-textarea {
-  background-color: #d9d9d998;
-  border-color: #d9d9d998;
-  border-radius: 1vw;
-  font-size: 1.3vw;
-  margin-top: 0.5%;
+textarea.mat-input-element {
   resize: none;
-  outline: none;
 }
 
 .principal-container {
@@ -59,68 +43,8 @@ textarea {
   font-size: medium;
 }
 
-.radio {
-  cursor: pointer;
-  display: block;
-  font-size: 22px;
-  margin-bottom: 12px;
-  margin-right: 1%;
-  margin-top: 0.5%;
-  padding-left: 35px;
-  position: relative;
-  user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
-}
-
-.radio input {
-  cursor: pointer;
-  opacity: 0;
-  position: absolute;
-}
-
-.radio .check {
-  background-color: #eee;
-  border: 1px solid #B20808;
-  border-radius: 50%;
-  height: 20px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 20px;
-}
-
-.radio:hover input ~ .check {
-  border: 2px solid #B20808;
-}
-
-.radio input:checked ~ .check {
-  background-color: #B20808;
-  border:none;
-}
-
-.radio .check:after {
-  content: "";
-  display: none;
-  position: absolute;
-}
-
-.radio input:checked ~ .check:after {
-  display: block;
-}
-
-.radio .check:after {
-  background: white;
-  border-radius: 50%;
-  height: 7px;
-  left: 7px;
-  top: 7px;
-  width: 7px;
-}
-
-.radio-button-section {
-  display: flex;
+.mat-radio-button {
+  margin: 1%;
 }
 
 .button-form {
@@ -135,26 +59,10 @@ textarea {
   span {
     font-size: medium;
   }
-  input {
-    font-size: 4vw;
-  }
-  textarea {
-    font-size: 4vw;
-    height: 50px;
-  }
   .content-input {
     margin: 3% 1% 0 1%;
   }
   .informative-text {
     font-size: small;
-  }
-  .radio {
-    font-size: 100%;
-  }
-  .radio{
-    height: 15px;
-    margin-right: 5%;
-    padding-left: 10%;
-    width: 15px;
   }
 }

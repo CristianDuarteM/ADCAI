@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
+import { DepartmentRequest } from 'src/app/models/request/DepartmentRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -25,16 +26,16 @@ export class DepartmentService {
     });
   }
 
-  addDepartment(): Observable<any> {
-    return this.httpClient.post(config.API_URL + '/api/departamentos', {}, {
+  addDepartment(departmentBody: DepartmentRequest): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/departamentos', departmentBody, {
       headers: {
         'x-token': this.token
       }
     });
   }
 
-  updateDepartment(): Observable<any> {
-    return this.httpClient.put(config.API_URL + '/api/departamentos/' + 'id', {}, {
+  updateDepartment(departmentBody: {}, id: string): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/departamentos/' + id, departmentBody, {
       headers: {
         'x-token': this.token
       }
@@ -59,8 +60,8 @@ export class DepartmentService {
     })
   }
 
-  getDepartmentById(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/departamentos/' + 'id' , {
+  getDepartmentById(id: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/departamentos/' + id , {
       headers: {
         'x-token': this.token
       }
