@@ -5,10 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { config } from 'src/app/constants/config';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-management-teacher',
@@ -25,10 +27,14 @@ export class ManagementTeacherComponent implements OnInit {
   departmentList: DepartmentResponse[];
   facultyControl: FormControl;
   departmentControl: FormControl;
+  actionButton: string;
+  isDirector: boolean;
+  idFaculty: number;
+  idDepartment: number;
 
   constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router,
     private facultyService: FacultyService, private departmentService: DepartmentService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog, private userService: UserService) {
     this.backRouteTeacher = '/home';
     this.titleTeacher = 'Gestionar Docentes';
     this.isPrincipalTeacher = true;
@@ -37,39 +43,61 @@ export class ManagementTeacherComponent implements OnInit {
     this.departmentList = [];
     this.facultyControl = new FormControl(this.facultyList[0]);
     this.departmentControl = new FormControl(this.departmentList[0]);
+    this.actionButton = 'BUSCAR';
+    this.isDirector = false;
+    this.idFaculty = 0;
+    this.idDepartment = 0;
   }
 
   ngOnInit(): void {
-    this.getFacultyList();
     let activeRole = sessionStorage.getItem("activeRole") || '';
     this.ngxPermissonsService.loadPermissions([activeRole]);
 
     this.teacher = new FormGroup({
-      facultySelect: new FormControl('', [Validators.required, Validators.pattern('^[1-9]*')]),
-      departmentSelect: new FormControl('', [Validators.required, Validators.pattern('^[1-9]*')]),
+      selectedFaculty: new FormControl('', [Validators.required, Validators.pattern('^[1-9]*')]),
+      selectedDepartment: new FormControl('', [Validators.required, Validators.pattern('^[1-9]*')]),
       filterSelect: new FormControl(''),
       filterText: new FormControl(''),
     });
+
     if(activeRole === 'DIRECTOR'){
-      //Consulta al servicio por la facultad y departamento
-      let idFaculty = '2';
-      let idDepartment = '2';
-      this.teacher.setControl('facultySelect', new FormControl({value: idFaculty, disabled: true}, [Validators.required, Validators.pattern('^[1-9]*')]));
-      this.teacher.setControl('departmentSelect', new FormControl({value: idDepartment, disabled: true}, [Validators.required, Validators.pattern('^[1-9]*')]));
+      this.isDirector = true;
+      this.getDataDirector();
+    } else {
+      this.getFacultyList();
     }
   }
 
   onSubmitSearch() {
     if(this.teacher.valid) {
-      sessionStorage.setItem('typeFilter', this.teacher.get('filterSelect')?.value);
-      sessionStorage.setItem('filter', this.teacher.get('filterText')?.value);
-      this.navigation.navigate(['/gestion-docentes/buscados/facultad/' + this.teacher.get('facultySelect')?.value + '/departamento/' +
-      this.teacher.get('departmentSelect')?.value]);
+      sessionStorage.setItem('typeFilter', this.getItemValue('filterSelect'));
+      sessionStorage.setItem('filter',this.getItemValue('filterText'));
+      this.navigation.navigate(['/gestion-docentes/buscados/facultad/' + this.idFaculty + '/departamento/' +
+      this.idDepartment]);
     }
   }
 
   addTeacher() {
-    this.navigation.navigate(['/gestion-docentes/agregar']);
+    if(this.teacher.valid) {
+      this.navigation.navigate(['/gestion-docentes/agregar/facultad/' + this.idFaculty + '/departamento/' +
+      this.idDepartment]);
+    }
+  }
+
+  onSubmit() {
+    if(sessionStorage.getItem(config.SESSION_STORAGE.ACTIVE_ROLE) === 'ADMIN') {
+      this.idFaculty = this.getItemValue('selectedFaculty');
+      this.idDepartment = this.getItemValue('selectedDepartment');
+    }
+    if(this.actionButton === 'AGREGAR') {
+      this.addTeacher();
+    } else{
+      this.onSubmitSearch();
+    }
+  }
+
+  addButton() {
+    this.actionButton = 'AGREGAR';
   }
 
   getFacultyList() {
@@ -96,8 +124,42 @@ export class ManagementTeacherComponent implements OnInit {
     });
   }
 
+  getDataDirector() {
+    this.userService.getUserById(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '').subscribe({
+      next: userResponse => {
+        this.departmentService.getDepartmentById(userResponse.usuario.id_departamento + '').subscribe({
+          next: departmentResponse => {
+            this.idFaculty = departmentResponse.id;
+            this.idDepartment = departmentResponse.facultad.id;
+            this.teacher.setControl('selectedFaculty', new FormControl({value: departmentResponse.facultad.nombre, disabled: true}));
+            this.teacher.setControl('selectedDepartment', new FormControl({value: departmentResponse.nombre, disabled: true}));
+          },
+          error: (error: HttpErrorResponse) => {
+            this.openDialog(error.error.msg, this.validationRedirect(error));
+          }
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        this.openDialog(error.error.msg, this.validationRedirect(error));
+      }
+    });
+  }
+
+  validationRedirect(error: HttpErrorResponse) {
+    let route = '/gestion-docentes';
+    if(error.status === 401) {
+      sessionStorage.clear();
+      route = '/login';
+    }
+    return route;
+  }
+
   selectDepartment(nameDepartment: string) {
     sessionStorage.setItem('nameDepartment', nameDepartment);
+  }
+
+  getItemValue(name: string) {
+    return this.teacher.get(name)?.value;
   }
 
   openDialog(description: string, routeRedirect: string) {

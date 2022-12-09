@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
@@ -15,13 +15,14 @@ export class AddTeacherComponent implements OnInit {
   isPrincipalTeacher: boolean;
   teacher: FormGroup;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
+  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router,
+    private route: ActivatedRoute) {
     this.backRouteTeacher = '/gestion-docentes';
     this.titleTeacher = 'Agregar Docentes';
     this.isPrincipalTeacher = false;
     this.teacher = new FormGroup({
-      selectedFaculty: new FormControl({value: 'Facultad seleccionada', disabled: true}),
-      selectedDepartment: new FormControl({value: 'Departamento seleccionado', disabled: true}),
+      selectedFaculty: new FormControl({value: sessionStorage.getItem('nameFaculty'), disabled: true}),
+      selectedDepartment: new FormControl({value: sessionStorage.getItem('nameDepartment'), disabled: true}),
     });
   }
 
@@ -31,11 +32,13 @@ export class AddTeacherComponent implements OnInit {
   }
 
   massiveLoad(){
-    this.navigation.navigate(['/gestion-docentes/agregar/masivo']);
+    let idDepartment = this.route.snapshot.paramMap.get('idDepartment');
+    this.navigation.navigate(['/gestion-docentes/agregar/masivo/departamento/' + idDepartment]);
   }
 
   manualLoad(){
-    this.navigation.navigate(['/gestion-docentes/agregar/manual']);
+    let idDepartment = this.route.snapshot.paramMap.get('idDepartment');
+    this.navigation.navigate(['/gestion-docentes/agregar/manual/departamento/' + idDepartment]);
   }
 
 }

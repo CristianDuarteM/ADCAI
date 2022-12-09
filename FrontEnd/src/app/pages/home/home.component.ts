@@ -64,6 +64,7 @@ export class HomeComponent implements OnInit {
         this.activeRole = userResponse.usuario.rols[0].nombre;
         sessionStorage.setItem(config.SESSION_STORAGE.ACTIVE_ROLE, this.activeRole);
         this.validateIsCompleteUser(userResponse.esCompleto);
+        sessionStorage.setItem(config.SESSION_STORAGE.ID_USER, userResponse.usuario.id + '');
         this.loadRole();
       },
       error: (error: HttpErrorResponse) => {

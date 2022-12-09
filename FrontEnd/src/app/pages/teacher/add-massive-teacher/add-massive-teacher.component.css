@@ -10,6 +10,11 @@ button {
   width: 100%;
 }
 
+input {
+  font-size: medium;
+  font-weight: bold;
+}
+
 span {
   font-weight: bold;
   font-size: larger;
@@ -44,6 +49,11 @@ span {
   margin-top: 1%;
 }
 
+.informative {
+  font-size: medium;
+  font-weight: normal
+}
+
 @media only screen and (max-width: 600px) {
   .description-container {
     align-items: center;
@@ -59,5 +69,8 @@ span {
   }
   .input-file {
     margin-top: 2%;
+  }
+  .informative {
+    font-size: small;
   }
 }

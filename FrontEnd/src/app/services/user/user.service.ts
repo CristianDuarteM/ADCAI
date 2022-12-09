@@ -49,4 +49,25 @@ export class UserService {
     });
   }
 
+  addTeacherList(emailList: string[], idDepartment: string): Observable<any> {
+    let addTeacherBody = {
+      rol: "DOCENTE",
+      id_departamento: parseInt(idDepartment),
+      correos: emailList
+    };
+    return this.httpClient.post(config.API_URL + '/api/usuarios', addTeacherBody, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+  }
+
+  getUserById(idUser: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/usuarios/' + idUser, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+  }
+
 }

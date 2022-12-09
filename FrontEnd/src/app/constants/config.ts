@@ -4,6 +4,7 @@ export class config {
     TOKEN_GOOGLE: 'tokenGoogle',
     TOKEN: 'token',
     ACTIVE_ROLE: 'activeRole',
-    IS_COMPLETE: 'isComplete'
+    IS_COMPLETE: 'isComplete',
+    ID_USER: 'idUser'
   }
 }

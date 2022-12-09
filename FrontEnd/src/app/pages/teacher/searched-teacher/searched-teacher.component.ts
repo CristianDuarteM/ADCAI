@@ -56,12 +56,11 @@ export class SearchedTeacherComponent implements OnInit {
   }
 
   searchTeacherList() {
-    let idDepartment = this.route.snapshot.paramMap.get('idDeparment') || '';
+    let idDepartment = this.route.snapshot.paramMap.get('idDepartment') || '';
     this.userService.getUserFilter(idDepartment, this.typeFilter, this.filter).subscribe({
       next: userResponse => {
         this.elementsDataTeacher = userResponse.rows;
         this.isLoaded = true;
-        this.clearSessionStorage();
       },
       error: (error: HttpErrorResponse) => {
         sessionStorage.clear();

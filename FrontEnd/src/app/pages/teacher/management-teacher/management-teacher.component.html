@@ -2,13 +2,13 @@
   <app-navbar></app-navbar>
   <div class="main-container">
     <app-principal-row [backRoute]="backRouteTeacher" [title]="titleTeacher" [isPrincipal]="isPrincipalTeacher"></app-principal-row>
-    <form (ngSubmit)="onSubmitSearch()" [formGroup]="teacher">
-      <div class="content-init">
+    <form (ngSubmit)="onSubmit()" [formGroup]="teacher">
+      <div class="content-init" *ngIf="!isDirector">
         <div class="content-input">
           <span>Facultad <span class="item-required">*</span></span>
           <mat-form-field appearance="fill">
             <mat-label>Seleccione Facultad</mat-label>
-            <mat-select formControlName="facultySelect" name="facultySelect" (selectionChange)="getDepartmentList($event.value, $event.source.triggerValue)">
+            <mat-select formControlName="selectedFaculty" name="selectedFaculty" (selectionChange)="getDepartmentList($event.value, $event.source.triggerValue)">
               <mat-option *ngFor="let faculty of facultyList" [value]="faculty.id">
                 {{faculty.nombre}}
               </mat-option>
@@ -19,11 +19,25 @@
           <span>Departamento <span class="item-required">*</span></span>
           <mat-form-field appearance="fill">
             <mat-label>Seleccione Departamento</mat-label>
-            <mat-select formControlName="departmentSelect" name="departmentSelect" (selectionChange)="selectDepartment($event.source.triggerValue)">
+            <mat-select formControlName="selectedDepartment" name="selectedDepartment" (selectionChange)="selectDepartment($event.source.triggerValue)">
               <mat-option *ngFor="let department of departmentList" [value]="department.id">
                 {{department.nombre}}
               </mat-option>
             </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="content-init" *ngIf="isDirector">
+        <div class="content-input">
+          <span>Facultad <span class="item-required">*</span></span>
+          <mat-form-field>
+            <input matInput type="text" formControlName="selectedFaculty">
+          </mat-form-field>
+        </div>
+        <div class="content-input">
+          <span>Departamento <span class="item-required">*</span></span>
+          <mat-form-field>
+            <input matInput type="text" formControlName="selectedDepartment">
           </mat-form-field>
         </div>
       </div>
@@ -53,7 +67,7 @@
         <button type="submit" class="search-button">
           Buscar
         </button>
-        <button type="button" class="add-button" (click)="addTeacher()">
+        <button type="submit" class="add-button" (click)="addButton()">
           Agregar
         </button>
       </div>
