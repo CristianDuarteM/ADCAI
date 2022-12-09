@@ -44,7 +44,7 @@ export class DepartmentDetailsComponent implements OnInit {
       name: new FormControl(this.dataDepartment.nombre, [Validators.required]),
       description: new FormControl(this.dataDepartment.descripcion, [Validators.required]),
       director: new FormControl((this.dataDepartment.director !== null) ? this.dataDepartment.director.correo : '', [Validators.email, Validators.required]),
-      faculty: new FormControl((this.dataDepartment.facultad !== null) ? this.dataDepartment.facultad.id : '', [Validators.required, Validators.pattern('[1-9]')]),
+      faculty: new FormControl((this.dataDepartment.facultad !== null) ? this.dataDepartment.facultad.id : '', [Validators.required, Validators.pattern('^[1-9]*')]),
       doCai: new FormControl((this.dataDepartment.director !== null) ? this.dataDepartment.director.realizaCai + '' : false + '')
     });
   }

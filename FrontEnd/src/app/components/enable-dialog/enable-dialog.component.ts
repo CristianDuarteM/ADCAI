@@ -3,6 +3,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 
 @Component({
@@ -13,7 +14,8 @@ import { InformativeDialogComponent } from '../informative-dialog/informative-di
 export class EnableDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {description: string, actualComponent: string, idComponent: number},
-  private facultyService: FacultyService, private departmentService: DepartmentService, public dialog: MatDialog) { }
+  private facultyService: FacultyService, private departmentService: DepartmentService, public dialog: MatDialog,
+  private userService: UserService) { }
 
   ngOnInit(): void {
   }
@@ -23,6 +25,8 @@ export class EnableDialogComponent implements OnInit {
       this.enableFaculty();
     } else if(this.data.actualComponent === 'DEPARTAMENTO') {
       this.enableDepartment();
+    } else if(this.data.actualComponent === 'DOCENTE') {
+      this.enableUser();
     }
   }
 
@@ -44,6 +48,17 @@ export class EnableDialogComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, '/gestion-departamentos');
+      }
+    });
+  }
+
+  enableUser() {
+    this.userService.enableUser(this.data.idComponent).subscribe({
+      next: enableUserResponse => {
+        this.openDialog(enableUserResponse.msg, '/gestion-docentes');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.openDialog(error.error.msg, '/gestion-docentes');
       }
     });
   }

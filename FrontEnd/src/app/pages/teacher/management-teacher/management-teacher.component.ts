@@ -1,9 +1,16 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { DepartmentModel } from 'src/app/models/DepartmentModel';
-import { FacultyModel } from 'src/app/models/FacultyModel';
+import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { config } from 'src/app/constants/config';
+import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
+import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
+import { DepartmentService } from 'src/app/services/department/department.service';
+import { FacultyService } from 'src/app/services/faculty/faculty.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-management-teacher',
@@ -16,52 +23,153 @@ export class ManagementTeacherComponent implements OnInit {
   titleTeacher: string;
   isPrincipalTeacher: boolean;
   teacher: FormGroup;
-  facultyList: FacultyModel[];
-  departmentList: DepartmentModel[];
+  facultyList: FacultyResponse[];
+  departmentList: DepartmentResponse[];
   facultyControl: FormControl;
   departmentControl: FormControl;
+  actionButton: string;
+  isDirector: boolean;
+  idFaculty: number;
+  idDepartment: number;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
+  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router,
+    private facultyService: FacultyService, private departmentService: DepartmentService,
+    public dialog: MatDialog, private userService: UserService) {
     this.backRouteTeacher = '/home';
     this.titleTeacher = 'Gestionar Docentes';
     this.isPrincipalTeacher = true;
     this.teacher = new FormGroup({});
-    this.facultyList = [
-      {id: '1', name: 'Ingeniería', description: 'Descripción de ingeniería', dean: 'Decano 1'},
-      {id: '2', name: 'Ingeniería 2', description: 'Descripción de ingeniería 2', dean: 'Decano 2'},
-    ];
-    this.departmentList = [
-      {id: '1', name: 'Sistemas e informática', description: 'Descripción de Sistemas e informática', director: 'Director 1'},
-      {id: '2', name: 'Sistemas e informática 2', description: 'Descripción de Sistemas e informática 2', director: 'Director 2'},
-    ];
+    this.facultyList = [];
+    this.departmentList = [];
     this.facultyControl = new FormControl(this.facultyList[0]);
     this.departmentControl = new FormControl(this.departmentList[0]);
+    this.actionButton = 'BUSCAR';
+    this.isDirector = false;
+    this.idFaculty = 0;
+    this.idDepartment = 0;
   }
 
   ngOnInit(): void {
     let activeRole = sessionStorage.getItem("activeRole") || '';
     this.ngxPermissonsService.loadPermissions([activeRole]);
+
     this.teacher = new FormGroup({
-      facultySelect: new FormControl(''),
-      departmentSelect: new FormControl(''),
+      selectedFaculty: new FormControl('', [Validators.required, Validators.pattern('^[1-9]*')]),
+      selectedDepartment: new FormControl('', [Validators.required, Validators.pattern('^[1-9]*')]),
       filterSelect: new FormControl(''),
       filterText: new FormControl(''),
     });
+
     if(activeRole === 'DIRECTOR'){
-      //Consulta al servicio por la facultad y departamento
-      let idFaculty = '2';
-      let idDepartment = '2';
-      this.teacher.setControl('facultySelect', new FormControl({value: idFaculty, disabled: true}));
-      this.teacher.setControl('departmentSelect', new FormControl({value: idDepartment, disabled: true}));
+      this.isDirector = true;
+      this.getDataDirector();
+    } else {
+      this.getFacultyList();
     }
   }
 
   onSubmitSearch() {
-    this.navigation.navigate(['/gestion-docentes/buscados']);
+    if(this.teacher.valid) {
+      sessionStorage.setItem('typeFilter', this.getItemValue('filterSelect'));
+      sessionStorage.setItem('filter',this.getItemValue('filterText'));
+      this.navigation.navigate(['/gestion-docentes/buscados/facultad/' + this.idFaculty + '/departamento/' +
+      this.idDepartment]);
+    }
   }
 
   addTeacher() {
-    this.navigation.navigate(['/gestion-docentes/agregar']);
+    if(this.teacher.valid) {
+      this.navigation.navigate(['/gestion-docentes/agregar/facultad/' + this.idFaculty + '/departamento/' +
+      this.idDepartment]);
+    }
+  }
+
+  onSubmit() {
+    if(sessionStorage.getItem(config.SESSION_STORAGE.ACTIVE_ROLE) === 'ADMIN') {
+      this.idFaculty = this.getItemValue('selectedFaculty');
+      this.idDepartment = this.getItemValue('selectedDepartment');
+    }
+    if(this.actionButton === 'AGREGAR') {
+      this.addTeacher();
+    } else{
+      this.onSubmitSearch();
+    }
+  }
+
+  addButton() {
+    this.actionButton = 'AGREGAR';
+  }
+
+  getFacultyList() {
+    this.facultyService.getFacultyList().subscribe({
+      next: facultyListResponse => {
+        this.facultyList = facultyListResponse.rows;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.openDialog(error.error.msg, '/login');
+      }
+    });
+  }
+
+  getDepartmentList(idFaculty: string, nameFaculty: string) {
+    sessionStorage.setItem('nameFaculty', nameFaculty);
+    this.departmentService.getDepartmentListByFaculty(idFaculty).subscribe({
+      next: departmentListResponse => {
+        this.departmentList =  departmentListResponse;
+      },
+      error: (error: HttpErrorResponse) => {
+        sessionStorage.clear();
+        this.openDialog(error.error.msg, '/login');
+      }
+    });
+  }
+
+  getDataDirector() {
+    this.userService.getUserById(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '').subscribe({
+      next: userResponse => {
+        this.departmentService.getDepartmentById(userResponse.usuario.id_departamento + '').subscribe({
+          next: departmentResponse => {
+            this.idFaculty = departmentResponse.id;
+            this.idDepartment = departmentResponse.facultad.id;
+            this.teacher.setControl('selectedFaculty', new FormControl({value: departmentResponse.facultad.nombre, disabled: true}));
+            this.teacher.setControl('selectedDepartment', new FormControl({value: departmentResponse.nombre, disabled: true}));
+          },
+          error: (error: HttpErrorResponse) => {
+            this.openDialog(error.error.msg, this.validationRedirect(error));
+          }
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        this.openDialog(error.error.msg, this.validationRedirect(error));
+      }
+    });
+  }
+
+  validationRedirect(error: HttpErrorResponse) {
+    let route = '/gestion-docentes';
+    if(error.status === 401) {
+      sessionStorage.clear();
+      route = '/login';
+    }
+    return route;
+  }
+
+  selectDepartment(nameDepartment: string) {
+    sessionStorage.setItem('nameDepartment', nameDepartment);
+  }
+
+  getItemValue(name: string) {
+    return this.teacher.get(name)?.value;
+  }
+
+  openDialog(description: string, routeRedirect: string) {
+    this.dialog.open(InformativeDialogComponent, {
+      data: {
+        description,
+        routeRedirect
+      },
+      disableClose: true
+    });
   }
 
 }

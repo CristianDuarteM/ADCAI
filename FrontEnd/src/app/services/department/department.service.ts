@@ -68,4 +68,12 @@ export class DepartmentService {
     });
   }
 
+  getDepartmentListByFaculty(idFaculty: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/departamentos/facultad/' + idFaculty, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+  }
+
 }
