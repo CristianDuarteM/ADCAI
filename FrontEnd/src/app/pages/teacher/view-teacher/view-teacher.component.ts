@@ -17,10 +17,7 @@ export class ViewTeacherComponent implements OnInit {
   columnsToDisplayViewTeacher: string[];
   headerTableViewTeacher: string;
   buttonRouteViewTeacher: string;
-  elementsDataViewTeacher: CaiModel[] = [
-    {id: '001', semester: 'II', year: '2022', date: new Date(), teacher: {code: '123456', name: 'Pepito', lastName: 'Perez', email: 'pepitoperez@ufps.edu.co',
-    hasCAI: true, role: ['DOCENTE'], faculty: '', department: 'Sistemas e informática', signature: ''}},
-  ];
+  elementsDataViewTeacher: CaiModel[] = [];
 
   constructor(private ngxPermissonsService: NgxPermissionsService) {
     this.backRouteViewTeacher = '/gestion-docentes';
