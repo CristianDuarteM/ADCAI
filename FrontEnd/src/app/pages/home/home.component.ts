@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
       }
       let isComplete = sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE) || '';
       if(isComplete !== '') {
-        this.logInFirstTime();
+        this.logInFirstTime(parseInt(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) + ''));
       }
       this.loadRole();
     } else {
@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
         sessionStorage.removeItem(config.SESSION_STORAGE.TOKEN_GOOGLE);
         this.activeRole = userResponse.usuario.rols[0].nombre;
         sessionStorage.setItem(config.SESSION_STORAGE.ACTIVE_ROLE, this.activeRole);
-        this.validateIsCompleteUser(userResponse.esCompleto);
+        this.validateIsCompleteUser(userResponse.esCompleto, userResponse.usuario.id);
         sessionStorage.setItem(config.SESSION_STORAGE.ID_USER, userResponse.usuario.id + '');
         this.loadRole();
       },
@@ -74,10 +74,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  validateIsCompleteUser(isComplete: boolean) {
+  validateIsCompleteUser(isComplete: boolean, idUser: number) {
     if(!isComplete) {
       sessionStorage.setItem(config.SESSION_STORAGE.IS_COMPLETE, 'false');
-      this.logInFirstTime();
+      this.logInFirstTime(idUser);
     }
   }
 
@@ -86,9 +86,9 @@ export class HomeComponent implements OnInit {
     this.isLoaded = true;
   }
 
-  logInFirstTime() {
+  logInFirstTime(idUser: number) {
     if(this.activeRole !== 'ADMIN'){
-      this.navigation.navigate(['/perfil/editar/' + sessionStorage.getItem(config.SESSION_STORAGE.ID_USER)]);
+      this.navigation.navigate(['/perfil/editar/' + idUser]);
     }
   }
 

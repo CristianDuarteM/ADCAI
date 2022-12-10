@@ -4,20 +4,20 @@
 <mat-dialog-content>
   <h2>Selecciona el rol al que deseas cambiar</h2>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-dialog-close (click)="changeRole('ADMIN')">
+<mat-dialog-actions align="center" *ngIf="isLoaded">
+  <button mat-dialog-close (click)="changeRole('ADMIN')" *ngIf="roles['admin']">
     <mat-icon>how_to_reg</mat-icon> <br>
     Admin
   </button>
-  <button mat-dialog-close (click)="changeRole('DECANO')">
+  <button mat-dialog-close (click)="changeRole('DECANO')" *ngIf="roles['decano']">
     <mat-icon>assignment_ind</mat-icon> <br>
     Decano
   </button>
-  <button mat-dialog-close (click)="changeRole('DIRECTOR')">
+  <button mat-dialog-close (click)="changeRole('DIRECTOR')" *ngIf="roles['director']">
     <mat-icon>account_circle</mat-icon> <br>
     Director
   </button>
-  <button mat-dialog-close (click)="changeRole('DOCENTE')">
+  <button mat-dialog-close (click)="changeRole('DOCENTE')" *ngIf="roles['docente']">
     <mat-icon>person</mat-icon> <br>
     Docente
   </button>
