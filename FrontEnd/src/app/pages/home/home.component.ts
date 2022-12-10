@@ -102,7 +102,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  redirectButton(route: string) {
+  redirectButton(route: string, idUserRequired: boolean) {
+    if(idUserRequired) {
+      route += sessionStorage.getItem(config.SESSION_STORAGE.ID_USER);
+    }
     this.navigation.navigate([route]);
   }
 

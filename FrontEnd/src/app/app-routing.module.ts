@@ -25,6 +25,7 @@ import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update
 import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.component';
 import { AdminGuard } from './guards/admin-guard';
 import { AdminDirectorGuard } from './guards/admin-director-guard';
+import { NoAdminGuard } from './guards/no-admin-guard';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -43,9 +44,9 @@ const routes: Routes = [
   { path: "gestion-docentes/agregar/facultad/:idFaculty/departamento/:idDepartment", component: AddTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/manual/facultad/:idFaculty/departamento/:idDepartment", component: AddManualTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/masivo/facultad/:idFaculty/departamento/:idDepartment", component: AddMassiveTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
-  { path: "perfil", component: ViewProfileComponent, pathMatch: "full" },
-  { path: "perfil/editar/:idTeacher", component: UpdateProfileComponent, pathMatch: "full" },
-  { path: "notificaciones", component: NotificationsComponent, pathMatch: "full" },
+  { path: "perfil/:idUser", component: ViewProfileComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
+  { path: "perfil/editar/:idUser", component: UpdateProfileComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
+  { path: "notificaciones", component: NotificationsComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
   { path: "historial-cai", component: HistoricalComponent, pathMatch: "full" },
   { path: "gestion-cai", component: ManagementCaiComponent, pathMatch: "full" },
   { path: "gestion-cai/request", component: RequestCaiComponent, pathMatch: "full" },

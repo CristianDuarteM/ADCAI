@@ -56,7 +56,7 @@ export class UserDetailsComponent implements OnInit {
       this.isDean = true;
     }
 
-    if(sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE) !== ''){
+    if(sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE)){
       this.isComplete = false;
     }
 
@@ -122,8 +122,8 @@ export class UserDetailsComponent implements OnInit {
   }
 
   getDataUser() {
-    let idTeacher = this.route.snapshot.paramMap.get('idTeacher');
-    this.userService.getUserById(idTeacher +'').subscribe({
+    let idUser = this.route.snapshot.paramMap.get('idUser');
+    this.userService.getUserById(idUser +'').subscribe({
       next: userResponse => {
         this.userModel = userResponse.usuario;
         this.getDepartmentList();

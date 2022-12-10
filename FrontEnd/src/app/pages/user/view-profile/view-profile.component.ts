@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
@@ -14,7 +14,7 @@ export class ViewProfileComponent implements OnInit {
   isPrincipalProfile: boolean;
   isEditableViewProfile: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
+  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router, private route: ActivatedRoute) {
     this.backRouteProfile = '/home';
     this.titleProfile = 'Perfil';
     this.isPrincipalProfile = true;
@@ -27,7 +27,8 @@ export class ViewProfileComponent implements OnInit {
   }
 
   updateData() {
-    this.navigation.navigate(['/perfil/editar']);
+    let idUser = this.route.snapshot.paramMap.get('idUser');
+    this.navigation.navigate(['/perfil/editar/' + idUser]);
   }
 
 }
