@@ -32,13 +32,15 @@ export class AddTeacherComponent implements OnInit {
   }
 
   massiveLoad(){
+    let idFaculty = this.route.snapshot.paramMap.get('idFaculty');
     let idDepartment = this.route.snapshot.paramMap.get('idDepartment');
-    this.navigation.navigate(['/gestion-docentes/agregar/masivo/departamento/' + idDepartment]);
+    this.navigation.navigate(['/gestion-docentes/agregar/masivo/facultad/' + idFaculty  + '/departamento/' + idDepartment]);
   }
 
   manualLoad(){
+    let idFaculty = this.route.snapshot.paramMap.get('idFaculty');
     let idDepartment = this.route.snapshot.paramMap.get('idDepartment');
-    this.navigation.navigate(['/gestion-docentes/agregar/manual/departamento/' + idDepartment]);
+    this.navigation.navigate(['/gestion-docentes/agregar/manual/facultad/' + idFaculty + '/departamento/' + idDepartment]);
   }
 
 }

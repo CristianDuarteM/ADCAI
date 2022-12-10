@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { CaiModel } from 'src/app/models/CaiModel';
 
@@ -23,7 +22,7 @@ export class ViewTeacherComponent implements OnInit {
     hasCAI: true, role: ['DOCENTE'], faculty: '', department: 'Sistemas e informática', signature: ''}},
   ];
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
+  constructor(private ngxPermissonsService: NgxPermissionsService) {
     this.backRouteViewTeacher = '/gestion-docentes';
     this.titleViewTeacher = 'Visualizar Docente';
     this.isPrincipalViewTeacher = false;

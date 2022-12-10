@@ -29,10 +29,7 @@ export class DepartmentDetailsComponent implements OnInit {
     this.department = new FormGroup({});
     this.titleButton = '';
     this.descriptionForm = '';
-    this.dataDepartment = { id: '', nombre: '', descripcion: '', estado: false,
-    director: { id: 0, nombre: '', apellido: '', correo: '', realizaCai: false },
-    facultad: { id: 0, nombre: '', descripcion: '', estado: false,
-    decano: { id: 0, nombre: '', apellido: '', correo: '', realizaCai: false } }};
+    this.dataDepartment = {} as DepartmentResponse;
     this.facultyList = [];
     this.isUpdate = false;
     this.isLoaded = false;

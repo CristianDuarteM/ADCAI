@@ -29,10 +29,7 @@ export class UpdateDepartmentComponent implements OnInit {
     this.isPrincipalDepartment = false;
     this.actionButtonDepartment = 'Actualizar';
     this.descriptionFormDepartment = 'Actualice los campos que desea modificar del departamento';
-    this.dataDepartment = { id: '', nombre: '', descripcion: '', estado: false,
-      director: { id: 0, nombre: '', apellido: '', correo: '', realizaCai: false },
-      facultad: { id: 0, nombre: '', descripcion: '', estado: false,
-      decano: { id: 0, nombre: '', apellido: '', correo: '', realizaCai: false } }};
+    this.dataDepartment = {} as DepartmentResponse;
     this.isLoaded = false;
   }
 

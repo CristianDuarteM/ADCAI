@@ -4,12 +4,7 @@
     <app-principal-row [backRoute]="backRouteUpdateProfile" [title]="titleUpdateProfile" [isPrincipal]="isPrincipalUpdateProfile"></app-principal-row>
     <div class="principal-content">
       <span>{{description}}</span>
-      <app-user-details [isEditable]="isEditableUpdateProfile"></app-user-details>
-      <div class="update-button">
-        <button (click)="updateData()">
-          Actualizar
-        </button>
-      </div>
+      <app-user-details [isEditable]="isEditableUpdateProfile" [canUpdate]="true"></app-user-details>
     </div>
   </div>
   <footer></footer>

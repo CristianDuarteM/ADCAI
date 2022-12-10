@@ -7,5 +7,6 @@ export interface DepartmentResponse {
   descripcion: string;
   director: Director;
   estado: boolean;
+  id_facultad: number;
   facultad: FacultyResponse;
 }
