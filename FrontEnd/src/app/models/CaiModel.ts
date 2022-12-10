@@ -2,8 +2,10 @@ import { UserModel } from "./UserModel";
 
 export interface CaiModel {
   id: string;
-  year: string;
-  semester: string;
-  date: Date;
+  anno: string;
+  semestre: string;
+  inicio: string;
+  limite: string;
+  estado: boolean;
   teacher: UserModel;
 }

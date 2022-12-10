@@ -26,6 +26,7 @@ import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.comp
 import { AdminGuard } from './guards/admin-guard';
 import { AdminDirectorGuard } from './guards/admin-director-guard';
 import { NoAdminGuard } from './guards/no-admin-guard';
+import { DirectorGuard } from './guards/director-guard';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -48,9 +49,9 @@ const routes: Routes = [
   { path: "perfil/editar/:idUser", component: UpdateProfileComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
   { path: "notificaciones", component: NotificationsComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
   { path: "historial-cai", component: HistoricalComponent, pathMatch: "full" },
-  { path: "gestion-cai", component: ManagementCaiComponent, pathMatch: "full" },
-  { path: "gestion-cai/request", component: RequestCaiComponent, pathMatch: "full" },
-  { path: "gestion-cai/update-request", component: UpdateRequestCaiComponent, pathMatch: "full" },
+  { path: "gestion-cai", component: ManagementCaiComponent, pathMatch: "full",  canActivate: [DirectorGuard] },
+  { path: "gestion-cai/agregar", component: RequestCaiComponent, pathMatch: "full", canActivate: [DirectorGuard] },
+  { path: "gestion-cai/actualizar-periodo", component: UpdateRequestCaiComponent, pathMatch: "full", canActivate: [DirectorGuard] },
   { path: "evaluar-cai", component: ValidateCaiComponent, pathMatch: "full" },
 ];
 

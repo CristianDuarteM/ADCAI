@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { CaiModel } from 'src/app/models/CaiModel';
 
@@ -20,13 +18,22 @@ export class RequestCaiComponent implements OnInit {
     this.backRouteCai = '/gestion-cai';
     this.titleCai = 'Habilitar CAI';
     this.isPrincipalCai = false;
-    this.dataCai = {id: '001', semester: 'II', year: '2022', date: new Date(), teacher: {code: '123456', name: 'Pepito', lastName: 'Perez', email: 'pepitoperez@ufps.edu.co',
-    hasCAI: true, role: ['DOCENTE'], faculty: '', department: 'Sistemas e informática', signature: ''}};
+    this.dataCai = {} as CaiModel;
   }
 
   ngOnInit(): void {
+    this.getDataCai();
     let activeRole = sessionStorage.getItem("activeRole") || '';
     this.ngxPermissonsService.loadPermissions([activeRole]);
+  }
+
+  getDataCai() {
+    let date = new Date();
+    this.dataCai.anno = date.getFullYear() +'';
+    this.dataCai.semestre = 'II';
+    if(date.getMonth() <= 5) {
+      this.dataCai.semestre = 'I';
+    }
   }
 
 }

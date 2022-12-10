@@ -25,11 +25,11 @@ export class ManagementCaiComponent implements OnInit {
   }
 
   requestCAI() {
-    this.navigation.navigate(['/gestion-cai/request']);
+    this.navigation.navigate(['/gestion-cai/agregar']);
   }
 
   updateCAI() {
-    this.navigation.navigate(['/gestion-cai/update-request']);
+    this.navigation.navigate(['/gestion-cai/actualizar-periodo']);
   }
 
   validationCAI() {
