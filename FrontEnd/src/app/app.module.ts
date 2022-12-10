@@ -54,6 +54,8 @@ import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update
 import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.component';
 import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
 import { EnableDialogComponent } from './components/enable-dialog/enable-dialog.component';
+import { CaiStructureComponent } from './components/cai-structure/cai-structure.component';
+import { FillCaiComponent } from './pages/cai/fill-cai/fill-cai.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +94,8 @@ import { EnableDialogComponent } from './components/enable-dialog/enable-dialog.
     ValidateCaiComponent,
     InformativeDialogComponent,
     EnableDialogComponent,
+    CaiStructureComponent,
+    FillCaiComponent,
   ],
   imports: [
     FormsModule,
