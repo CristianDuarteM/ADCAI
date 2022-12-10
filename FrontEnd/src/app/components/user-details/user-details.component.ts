@@ -3,10 +3,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { config } from 'src/app/constants/config';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
+import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
 import { Role } from 'src/app/models/Role';
 import { User } from 'src/app/models/User';
 import { DepartmentService } from 'src/app/services/department/department.service';
+import { FacultyService } from 'src/app/services/faculty/faculty.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 
@@ -25,11 +28,14 @@ export class UserDetailsComponent implements OnInit {
   isAdmin: boolean;
   user: FormGroup;
   departmentList: DepartmentResponse[];
+  facultyList: FacultyResponse[];
   isLoaded: boolean;
   @Input() canUpdate: boolean;
+  isComplete: boolean;
+  idFaculty: number;
 
   constructor(public dialog: MatDialog, private departmentService: DepartmentService, private userService: UserService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute, private facultyService: FacultyService) {
     this.userModel = {} as User;
     this.isDean = false;
     this.isAdmin = sessionStorage.getItem('activeRole') === 'ADMIN';
@@ -37,14 +43,21 @@ export class UserDetailsComponent implements OnInit {
     this.onlyViewDirector = false;
     this.user = new FormGroup({});
     this.departmentList = [];
+    this.facultyList = [];
     this.textButton = 'Actualizar';
     this.isLoaded = false;
     this.canUpdate = false;
+    this.isComplete = true;
+    this.idFaculty = 0;
   }
 
   ngOnInit(): void {
     if(sessionStorage.getItem('activeRole') === 'DECANO'){
       this.isDean = true;
+    }
+
+    if(sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE) !== ''){
+      this.isComplete = false;
     }
 
     this.user = new FormGroup({
@@ -65,8 +78,10 @@ export class UserDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.textButton === 'Actualizar') {
-      this.updateUser();
+    if(this.user.valid) {
+      if(this.textButton === 'Actualizar') {
+        this.updateUser();
+      }
     }
   }
 
@@ -81,7 +96,12 @@ export class UserDetailsComponent implements OnInit {
     }
     this.userService.updateUser(this.userModel.id + '', this.userModel).subscribe({
       next: userUpdateResponse => {
-        this.openDialog(userUpdateResponse.msg, '/gestion-docentes/buscados/editar/' + this.userModel.id);
+        if(!this.isComplete){
+          sessionStorage.removeItem(config.SESSION_STORAGE.IS_COMPLETE);
+          this.openDialog(userUpdateResponse.msg, '/home');
+        } else{
+          this.openDialog(userUpdateResponse.msg, '/gestion-docentes/buscados/editar/' + this.userModel.id);
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, this.validationRedirect(error));
@@ -123,10 +143,28 @@ export class UserDetailsComponent implements OnInit {
     this.departmentService.getDepartmentListByFaculty(this.userModel.id_departamento + '').subscribe({
       next: departmentListResponse => {
         this.departmentList =  departmentListResponse;
-        this.loadInputs();
+        let departmentLoaded = this.departmentList.find(department => parseInt(department.id) === this.userModel.id_departamento);
+        this.idFaculty = departmentLoaded?.id_facultad || 0;
+        if(this.isDean) {
+          this.getFacultyList();
+        } else{
+          this.loadInputs();
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, this.validationRedirect(error));
+      }
+    });
+  }
+
+  getFacultyList() {
+    this.facultyService.getFacultyList().subscribe({
+      next: facultyListResponse => {
+        this.facultyList = facultyListResponse.rows;
+        this.loadInputs();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.openDialog(error.error.msg, '/login');
       }
     });
   }
@@ -137,9 +175,9 @@ export class UserDetailsComponent implements OnInit {
       nameInput: new FormControl({value: this.userModel.nombre, disabled: !this.isEditable}, [Validators.required]),
       lastNameInput: new FormControl({value: this.userModel.apellido, disabled: !this.isEditable}, [Validators.required]),
       codeInput: new FormControl({value: this.userModel.codigo, disabled: !this.isEditable}, [Validators.required]),
-      emailInput: new FormControl({value: this.userModel.correo, disabled: true}, [Validators.required, Validators.email]),
+      emailInput: new FormControl({value: this.userModel.correo, disabled: !this.isEditable}, [Validators.required, Validators.email]),
       departmentInput: new FormControl({value: this.userModel.id_departamento, disabled: activeRole !== 'ADMIN'}),
-      facultyInput: new FormControl({value: '', disabled: true}),
+      facultyInput: new FormControl({value: this.idFaculty, disabled: true}),
       isRoleDeanInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DECANO'), disabled: true}),
       isRoleDirectorInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DIRECTOR'), disabled: true}),
       isRoleTeacherInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DOCENTE'), disabled: true}),

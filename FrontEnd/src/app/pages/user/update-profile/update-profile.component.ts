@@ -28,7 +28,7 @@ export class UpdateProfileComponent implements OnInit {
     let activeRole = sessionStorage.getItem("activeRole") || '';
     this.ngxPermissonsService.loadPermissions([activeRole]);
     if(sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE) !== ''){
-      this.description = 'Diligencie los campos faltantes para continuar'
+      this.description = 'Diligencie los campos faltantes para continuar';
     }
   }
 
