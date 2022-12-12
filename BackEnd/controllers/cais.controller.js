@@ -365,7 +365,7 @@ const evaluarCaiDirector = async (req, res) => {
 };
 
 const evaluarCaiDecano = async (req, res) => {
-    if((req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)){
+    if(req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -380,7 +380,7 @@ const evaluarCaiDecano = async (req, res) => {
         const cai = await Periodo_docente.findByPk(id);
         let estado = await Estado.findOne({
             where: {
-                nombre: 'DILIGENCIADO'
+                nombre: 'APROBADO DIRECTOR'
             }
         });
         if(cai.id_estado !== estado.id){
@@ -389,12 +389,20 @@ const evaluarCaiDecano = async (req, res) => {
             });
         }
         const {aprobado, docencia, investigacion, extension, representacion, otras} = req.body;
-        const docente = await Usuario.findByPk(cai.id_usuario);
-        if(docente.id_departamento !== req.usuario.id_departamento){
+        const docente = await Usuario.findByPk(cai.id_usuario,{
+            include: {
+                model: Departamento,
+                attributes: ["id_facultad"]
+            }
+        });
+        const departamento = await Departamento.findByPk(req.usuario.id_departamento);
+        if(docente.departamento.id_facultad !== departamento.id_facultad){
             return res.status(401).json({
-                msg: "No puedes evaluar este cai porque es de otro departamento"
+                msg: "No puedes evaluar este cai porque es de otro departamento",
             });
         }
+
+        /*---------------------------------- Voy acá --------------------------------------------*/
         if(aprobado){
             const estado = await Estado.findOne({
                 where: {

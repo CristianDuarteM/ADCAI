@@ -20,6 +20,15 @@ const listarNotificacionesByUsuario = async (req, res) => {
             offset: Number(desde),
             limit: Number(limite)
         });
+        for(notificacion of notifiacaiones.rows){
+            let x = await Notificacion.findByPk(notificacion.id);
+            if(!x.leido){
+                x.update({
+                    fecha_lectura: moment(moment().format("YYYY-MM-DD")).subtract(5, "hours"),
+                    leido: true,
+                });
+            }
+        }
         res.json(notifiacaiones);
     } catch (error) {
         console.log(error);
