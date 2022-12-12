@@ -140,9 +140,9 @@ export class UserDetailsComponent implements OnInit {
   }
 
   getDepartmentList() {
-    this.departmentService.getDepartmentListByFaculty(this.userModel.id_departamento + '').subscribe({
+    this.departmentService.getDepartmentList().subscribe({
       next: departmentListResponse => {
-        this.departmentList =  departmentListResponse;
+        this.departmentList =  departmentListResponse.rows;
         let departmentLoaded = this.departmentList.find(department => parseInt(department.id) === this.userModel.id_departamento);
         this.idFaculty = departmentLoaded?.id_facultad || 0;
         if(this.isDean) {

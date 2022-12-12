@@ -7,7 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FillCaiComponent implements OnInit {
 
-  constructor() { }
+  backRouteFillCai: string;
+  titleFillCai: string;
+  isPrincipalFillCai: boolean;
+
+  constructor() {
+    this.backRouteFillCai = '/home';
+    this.titleFillCai = 'Diligenciar Carga Académica Integral';
+    this.isPrincipalFillCai = true;
+  }
 
   ngOnInit(): void {
   }

@@ -27,6 +27,8 @@ import { AdminGuard } from './guards/admin-guard';
 import { AdminDirectorGuard } from './guards/admin-director-guard';
 import { NoAdminGuard } from './guards/no-admin-guard';
 import { DirectorGuard } from './guards/director-guard';
+import { FillCaiComponent } from './pages/cai/fill-cai/fill-cai.component';
+import { TeacherGuard } from './guards/teacher-guard';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -40,8 +42,8 @@ const routes: Routes = [
   { path: "gestion-departamentos/editar/:id", component: UpdateDepartmentComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-docentes", component: ManagementTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/buscados/facultad/:idFaculty/departamento/:idDepartment", component: SearchedTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
-  { path: "gestion-docentes/buscados/editar/:idTeacher", component: UpdateTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
-  { path: "gestion-docentes/buscados/ver/:idTeacher", component: ViewTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
+  { path: "gestion-docentes/buscados/editar/:idUser", component: UpdateTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
+  { path: "gestion-docentes/buscados/ver/:idUser", component: ViewTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/facultad/:idFaculty/departamento/:idDepartment", component: AddTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/manual/facultad/:idFaculty/departamento/:idDepartment", component: AddManualTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/masivo/facultad/:idFaculty/departamento/:idDepartment", component: AddMassiveTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
@@ -53,6 +55,7 @@ const routes: Routes = [
   { path: "gestion-cai/agregar", component: RequestCaiComponent, pathMatch: "full", canActivate: [DirectorGuard] },
   { path: "gestion-cai/actualizar-periodo", component: UpdateRequestCaiComponent, pathMatch: "full", canActivate: [DirectorGuard] },
   { path: "evaluar-cai", component: ValidateCaiComponent, pathMatch: "full" },
+  { path: "diligenciar-cai", component: FillCaiComponent, pathMatch: "full", canActivate: [TeacherGuard] },
 ];
 
 @NgModule({

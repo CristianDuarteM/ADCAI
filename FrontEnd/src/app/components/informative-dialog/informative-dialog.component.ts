@@ -14,7 +14,9 @@ export class InformativeDialogComponent implements OnInit {
   }
 
   acceptInformation() {
-    location.replace(this.data.routeRedirect);
+    if(this.data.routeRedirect !== '') {
+      location.replace(this.data.routeRedirect);
+    }
   }
 
 }

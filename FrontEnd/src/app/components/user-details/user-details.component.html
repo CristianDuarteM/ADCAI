@@ -89,8 +89,8 @@
             <input matInput formControlName="signatureInput" type="text" class="signature-input">
           </mat-form-field>
           <div class="input-file" *ngIf="isEditable">
-            <input type="file" formControlName="signatureInputFile" accept=".jpg">
-            <span>Tamaño máximo requerido de 1MB</span>
+            <input type="file" formControlName="signatureInputFile" accept="image/*">
+            <span>Tamaño máximo requerido de 2MB</span>
           </div>
         </div>
       </div>

@@ -79,4 +79,14 @@ export class UserService {
     });
   }
 
+  addSignature(fileSignature: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('archivo', fileSignature);
+    return this.httpClient.post(config.API_URL + '/api/firmas' , formData, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+  }
+
 }

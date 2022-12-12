@@ -56,6 +56,7 @@ import { InformativeDialogComponent } from './components/informative-dialog/info
 import { EnableDialogComponent } from './components/enable-dialog/enable-dialog.component';
 import { CaiStructureComponent } from './components/cai-structure/cai-structure.component';
 import { FillCaiComponent } from './pages/cai/fill-cai/fill-cai.component';
+import { AddSignatureComponent } from './pages/user/add-signature/add-signature.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { FillCaiComponent } from './pages/cai/fill-cai/fill-cai.component';
     EnableDialogComponent,
     CaiStructureComponent,
     FillCaiComponent,
+    AddSignatureComponent,
   ],
   imports: [
     FormsModule,

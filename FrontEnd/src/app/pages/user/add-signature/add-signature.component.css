@@ -17,10 +17,13 @@ h1 {
   text-align: center;
 }
 
+input {
+  font-size: medium;
+}
+
 span {
   color: #000;
   font-size: larger;
-  font-weight: bold;
   text-align: center;
 }
 
@@ -32,6 +35,22 @@ span {
 .cancel-button {
   background-color: #E896A4;
   border-color: #E896A4;
+}
+
+.input-file {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  margin: 2%;
+}
+
+.informative-span {
+  font-size: smaller;
+}
+
+.informative-error-span {
+  color: #B20808;
+  margin-top: 2%;
 }
 
 @media only screen and (max-width: 600px) {
