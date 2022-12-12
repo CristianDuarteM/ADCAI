@@ -26,6 +26,14 @@ const Periodo = db.define("periodo", {
     estado: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
+    },
+    id_departamento: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        references: {
+            model: "Departamento",
+            key: "id"
+        }
     }
 });
 

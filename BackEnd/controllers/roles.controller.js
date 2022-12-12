@@ -2,6 +2,12 @@ const {request, response} = require("express");
 const {Rol} = require("../models");
 
 const listarRoles = async (req = request, res = response) => {
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
+        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
     try {
         const roles = await Rol.findAll({
             attributes: { exclude: ["createdAt", "updatedAt"]}
@@ -28,7 +34,7 @@ const registrarRol = async (req = request, res = response) => {
             descripcion
         });
         res.status(201).json({
-            msg: `Rol creado con exito`,
+            msg: `Rol creado con éxito`,
             rol
         });
     } catch (error) {
@@ -48,27 +54,12 @@ const actualizarRol = async (req, res) => {
     }
     try {
         const rol = await Rol.findByPk(id);
-        if(!rol){
-            return res.status(400).json({
-                msg: `No existe rol con ese id`
-            });
-        }
         if(req.body.nombre){
-            const existeRol = await Rol.findOne({
-                where:{
-                    nombre: req.body.nombre.toUpperCase()
-                } 
-            });
-            if(existeRol){
-                return res.status(400).json({
-                    msg: `Ya existe un rol con ese nombre`
-                });;
-            }
             req.body.nombre = req.body.nombre.toUpperCase();
         }
         await rol.update(req.body)
         return res.json({
-            msg: `Actualizado con exito`,
+            msg: `Actualizado con éxito`,
             rol
         });
     } catch (error) {
@@ -88,14 +79,9 @@ const eliminarRol = async (req, res) => {
     }
     try {
         const rol = await Rol.findByPk(id);
-        if(!rol){
-            return res.status(400).json({
-                msg: `No existe rol con ese id`
-            });
-        }
         await rol.destroy();
         res.json({
-            msg: `Rol eliminado con exito`,
+            msg: `Rol eliminado con éxito`,
             rol
         });
     } catch (error) {

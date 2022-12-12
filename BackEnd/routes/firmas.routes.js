@@ -5,18 +5,17 @@ const { validarCampos } = require("../middlewares/validar-campos.middleware");
 const { validarJwt } = require("../middlewares/validar-jwt");
 
 const { registrarFirma,
-        eliminarFirma } = require("../controllers/firmas.controller");
+        //eliminarFirma
+     } = require("../controllers/firmas.controller");
 
 const router = Router();
 
 router.post("/", [
     validarJwt,
-    check("ruta_firma", "La ruta de la firma es obligatoria").notEmpty(),
-    validarCampos
 ], registrarFirma);
 
-router.delete("/", [
+/*router.delete("/", [
     validarJwt,
-], eliminarFirma);
+], eliminarFirma);*/
 
 module.exports = router;

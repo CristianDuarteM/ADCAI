@@ -26,6 +26,7 @@ const Asignatura = db.define("asignatura", {
     horas_practicas: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        defaultValue: 0
     },
     id_programa: {
         allowNull: false,

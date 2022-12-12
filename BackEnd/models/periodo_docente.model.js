@@ -7,7 +7,6 @@ const Periodo_docente = db.define("periodo_docente", {
         autoIncrement: true,
         type: DataTypes.INTEGER
     },
-    
     id_periodo: {
         allowNull: false,
         type: DataTypes.INTEGER,
@@ -27,10 +26,17 @@ const Periodo_docente = db.define("periodo_docente", {
     id_estado: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        /*references: {
-            model: "Firma",
+        references: {
+            model: "Estado",
             key: "id"
-        }*/
+        }
+    },
+    dedicacion: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    fecha_diligenciamiento: {
+        type: DataTypes.DATE
     },
     horas_lectivas_semanales: {
         type: DataTypes.DOUBLE,
@@ -64,7 +70,7 @@ const Periodo_docente = db.define("periodo_docente", {
         type: DataTypes.STRING,
         allowNull: true
     },
-    estaActivo: {
+    esActivo: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,

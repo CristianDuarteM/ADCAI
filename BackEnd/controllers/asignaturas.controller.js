@@ -3,6 +3,12 @@ const { Op } = require("sequelize");
 const { Asignatura, Plan_estudio } = require("../models");
 
 const listarAsignaturas = async (req, res) => {
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
+        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
     const {limite = 20, desde = 0} = req.query;
     try {
         const asignaturas = await Asignatura.findAndCountAll({
@@ -24,14 +30,14 @@ const listarAsignaturas = async (req, res) => {
 };
 
 const buscarAsignaturaByPlan_Estudio = async (req, res) => {
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
+        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
     const {id} = req.params;
     try {
-        const existePlan_estudio = await Plan_estudio.findByPk(id);
-        if(!existePlan_estudio){
-            return res.status(400).json({
-                msg: "No existe Plan de estudio registrado con ese id"
-            });
-        }
         const asignaturas = await Asignatura.findAll({
             where: {
                 id_programa: id
@@ -84,7 +90,7 @@ const registrarVariasAsignaturas = async (req, res) => {
             }
         }
         res.status(201).json({
-            msg: "Asignatura creado con exito",
+            msg: "Asignatura creado con éxito",
             materias
         });
     } catch (error) {
@@ -112,7 +118,7 @@ const registrarAsignatura = async (req, res) => {
             id_programa
         });
         res.status(201).json({
-            msg: "Asignatura creado con exito",
+            msg: "Asignatura creado con éxito",
             asignatura
         });
     } catch (error) {
@@ -138,7 +144,7 @@ const actualizarAsignatura = async (req, res) => {
         const asignatura = await Asignatura.findByPk(id);
         await asignatura.update(req.body);
         res.status(201).json({
-            msg: "Asignatura actualizada con exito",
+            msg: "Asignatura actualizada con éxito",
             asignatura
         });
     } catch (error) {
@@ -163,7 +169,7 @@ const eliminarAsignatura = async (req, res) => {
             estado: false
         });
         res.status(201).json({
-            msg: "Asignatura eliminada con exito",
+            msg: "Asignatura deshabilitada con éxito",
             asignatura
         });
     } catch (error) {

@@ -12,7 +12,7 @@ const enviarCorreo = (correo, mensaje="") => {
     const mail_options = {
         from: "Administracion CAI",
         to: correo,
-        subject: `Registro ADCAI`,
+        subject: `Administracion de Carga ACademica Integral`,
         text: `${mensaje}${process.env.FRONTURL}`
     };
 

@@ -3,6 +3,12 @@ const { Op } = require("sequelize");
 const { Plan_estudio, Facultad} = require("../models");
 
 const listarPlanEstudios = async (req, res) => {
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
+        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
     const {limite = 20, desde = 0} = req.query;
     try {
         const plan_estudios = await Plan_estudio.findAndCountAll({
@@ -24,14 +30,14 @@ const listarPlanEstudios = async (req, res) => {
 };
 
 const buscarPlanEstudioByFacultad = async (req, res) => {
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
+        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
     const {id} = req.params;
     try {
-        const existeFacultad = await Facultad.findByPk(id);
-        if(!existeFacultad){
-            return res.status(400).json({
-                msg: "No existe facultad registrada con ese id"
-            });
-        }
         const plan_estudios = await Plan_estudio.findAll({
             where: {
                 id_facultad: id
@@ -49,20 +55,15 @@ const buscarPlanEstudioByFacultad = async (req, res) => {
 
 const registrarPlanEstudio = async (req, res) => {
     const {nombres, id_facultad} = req.body;
-    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    if((req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     const plan_estudios = [];
     try {
-        const existeFacultad = await Facultad.findByPk(id_facultad);
-        if(!existeFacultad){
-            return res.status(400).json({
-                msg: `No se encuentra facultad con ese id`
-            });
-        }
         for(let nombre of nombres){
+            nombre = nombre.toUpperCase();
             const existePlan_estudio = await Plan_estudio.findOne({
                 where: {
                     nombre
@@ -74,7 +75,7 @@ const registrarPlanEstudio = async (req, res) => {
             }
         }
         res.status(201).json({
-            msg: "Plan de estudio creado con exito",
+            msg: "Planes de estudios creados con exito",
             plan_estudios
         });
     } catch (error) {
@@ -87,42 +88,19 @@ const registrarPlanEstudio = async (req, res) => {
 
 const actualizarPlanEstudio = async (req, res) => {
     const {id} = req.params;
-    const {id_facultad, nombre} = req.body;
-    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    if((req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     try {
-        if(id_facultad){
-            const existeFacultad = await Facultad.findByPk(id_facultad);
-            if(!existeFacultad){
-                return res.status(400).json({
-                    msg: `No se encuentra facultad con ese id`
-                });
-            }
-        }
-        if(nombre){
-            const existePlan_estudio = await Plan_estudio.findOne({
-                where: {
-                    nombre
-                }
-            });
-            if(existePlan_estudio){
-                return res.status(400).json({
-                    msg: `Existe un plan de estudio registrado con ese nombre ${nombre}`
-                });
-            }
+        if(req.body.nombre){
+            req.body.nombre = req.body.nombre.toUpperCase();
         }
         const plan_estudio = await Plan_estudio.findByPk(id);
-        if(!plan_estudio){
-            return res.status(400).json({
-                msg: `No existe plan de estudio con ese id`
-            });
-        }
         await plan_estudio.update(req.body);
         res.status(201).json({
-            msg: "plan de estudio actualizada con exito",
+            msg: "plan de estudio actualizado con exito",
             plan_estudio
         });
     } catch (error) {
@@ -135,24 +113,19 @@ const actualizarPlanEstudio = async (req, res) => {
 
 const eliminarPlanEstudio = async (req, res) => {
     const {id} = req.params;
-    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
+    if((req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     try {
         const plan_estudio = await Plan_estudio.findByPk(id);
-        if(!plan_estudio){
-            return res.status(400).json({
-                msg: `No existe plan de estudio con ese id`
-            });
-        }
-        await plan_estudio.destroy()
-        /*await plan_estudio.update({
+        //await plan_estudio.destroy()
+        await plan_estudio.update({
             estado: false
-        });*/
+        });
         res.status(201).json({
-            msg: "Plan de estudio eliminado con exito",
+            msg: "Plan de estudio deshabilitado con exito",
             plan_estudio
         });
     } catch (error) {

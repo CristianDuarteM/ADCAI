@@ -1,10 +1,20 @@
 const { Op } = require("sequelize");
-
-const {Rol, Usuario, Departamento, Usuario_rol, Facultad} = require("../models/index");
-
 const enviarCorreo = require("../services/mailer");
 
+const {Rol,
+        Usuario,
+        Departamento,
+        Usuario_rol,
+        Facultad} = require("../models/index");
+const { registrarNotificacion } = require("./notificaciones.controller");
+
 const listarUsuarios = async (req, res) => {
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
+        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
     const {limite = 20, desde = 0} = req.query;
     try {
         const usuarios = await Usuario.findAndCountAll({
@@ -22,6 +32,12 @@ const listarUsuarios = async (req, res) => {
 };
 
 const listarUsuariosByDepartamento = async (req, res) => {
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
+        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
     const {id} = req.params;
     const {limite = 20, desde = 0} = req.query;
     try {
@@ -49,7 +65,13 @@ const listarUsuariosByDepartamento = async (req, res) => {
 };
 
 const buscarUsuarios = async (req, res) => {
-    const {codigo, nombre, correo, limite = 20, desde = 0} = req.query;
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
+        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
+    const {codigo, nombre, correo, departamento, limite = 20, desde = 0} = req.query;
     let buscar;
     if(codigo){
         if(!Number.isInteger(codigo)){
@@ -61,7 +83,7 @@ const buscarUsuarios = async (req, res) => {
                 codigo: {
                     [Op.substring]: codigo
                 },
-                estaActivo: true
+            id_departamento: departamento
             };
     } else if(nombre) {
         buscar = {
@@ -77,14 +99,18 @@ const buscarUsuarios = async (req, res) => {
                     }
                 }
             ],
-            estaActivo: true
+            id_departamento: departamento
         };
-    } else {
+    } else if(correo){
         buscar = {
             correo: {
                 [Op.substring]: correo
             },
-            estaActivo: true
+            id_departamento: departamento
+        };
+    } else {
+        buscar = {
+            id_departamento: departamento
         };
     }
     try {
@@ -104,6 +130,12 @@ const buscarUsuarios = async (req, res) => {
 };
 
 const buscarUsuarioById = async (req, res) => {
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
+        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
     const {id} = req.params;
     try {
         const usuario = await Usuario.findByPk(id, {
@@ -129,15 +161,15 @@ const buscarUsuarioById = async (req, res) => {
 };
 
 const registrarUsuarios = async (req, res) => {
-    let {correos, rol, id_departamento} = req.body;
-    /*if((rol.toUpperCase() === "DOCENTE") && 
+    let {correos, rol, id_departamento, realizaCai} = req.body;
+    if((rol.toUpperCase() === "DOCENTE") && 
         ((req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) && (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1))
     ){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
     }
-    if(((rol.toLowerCase() === "DECANO") || (rol.toLowerCase() === "DIRECTOR")) && 
+    /*if(((rol.toLowerCase() === "DECANO") || (rol.toLowerCase() === "DIRECTOR")) && 
         (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)
     ){
         return res.status(401).json({
@@ -151,17 +183,6 @@ const registrarUsuarios = async (req, res) => {
             nombre: rol
             }
         });
-        if(!rol){
-            return res.status(400).json({
-                msg: "El rol que ingreso no existe"
-            });
-        }
-        const existeDepartamento = await Departamento.findByPk(id_departamento);
-        if(!existeDepartamento){
-            return res.status(400).json({
-                msg: "El id_departamento que ingreso no existe"
-            });
-        }
         for(let correo of correos){
             const existeUsuario = await Usuario.findOne({
                 where: {
@@ -169,14 +190,32 @@ const registrarUsuarios = async (req, res) => {
                 }
             });
             if(!existeUsuario){
-                const usuario = await Usuario.create({correo, id_departamento});
-                await usuario.addrols(rol);
+                const usuario = await Usuario.create({
+                    correo,
+                    id_departamento,
+                    realizaCai
+                });
+                await usuario.addRols(rol);
                 usuarios.push(usuario);
-                enviarCorreo(correo, `Por favor complete su registro ingresando al siguiente link: `);
+                enviarCorreo(correo, `Has sido registrado en ADCAI \n Por favor complete su registro ingresando al siguiente link: `);
+                registrarNotificacion(usuario.id, "Has sido registrado en ADCAI");
+            }
+            if(existeUsuario && !existeUsuario.id_departamento){
+                await existeUsuario.update({
+                    id_departamento,
+                });
+            }
+            if(existeUsuario && !existeUsuario.estaActivo){
+                await existeUsuario.update({
+                    estaActivo: true
+                });
+                enviarCorreo(correo, `Has sido habilitado en ADCAI: `);
+                registrarNotificacion(existeUsuario.id, "Has sido habilitado en ADCAI ");
+                usuarios.push(existeUsuario);
             }
         }
         res.status(201).json({
-            msg: `Usuarios registrados`,
+            msg: `Usuarios registrados o habilitados`,
             usuarios
         });
     } catch (error) {
@@ -186,14 +225,14 @@ const registrarUsuarios = async (req, res) => {
         });
     }
 };
-
+/*
 const agregarRolToUsuario = async (req, res) => {
     let {id_departamento_facultad, correo, rol} = req.body;
-    /*if(req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1){
+    if(req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
-    }*/
+    }
     try {
         const usuario = await Usuario.findOne({
             where: {
@@ -264,17 +303,12 @@ const agregarRolToUsuario = async (req, res) => {
             msg: `Hable con el administrador`
         });
     }
-};
+};*/
 
 const actualizarUsuario = async (req, res) => {
     const {id} = req.params;
     try {
         const usuario = await Usuario.findByPk(id);
-        if(!usuario){
-            return res.status(400).json({
-                msg: `No existe usuario con ese id`
-            });
-        }
         await usuario.update(req.body);
         res.json({
             msg: `Actualizado con exito`,
@@ -297,16 +331,11 @@ const borrarUsuario = async (req, res) => {
     }
     try {
         const usuario = await Usuario.findByPk(id);
-        if(!usuario){
-            return res.status(400).json({
-                msg: `No existe usuario con ese id`,
-            });
-        }
         await usuario.update({
             estaActivo: false
         });
         res.json({
-            msg: `Usuario eliminado con exito`,
+            msg: `Usuario deshabilitado con exito`,
             usuario
         });
     } catch (error) {
@@ -316,14 +345,14 @@ const borrarUsuario = async (req, res) => {
         });
     }
 };
-
+/*
 const eliminarRolToUsuario = async (req, res) => {
     let {id_departamento_facultad, id_usuario, rol} = req.body;
-    /*if(req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1){
+    if(req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
-    }*/
+    }
     try {
         rol = await Rol.findOne({
             where: {
@@ -384,7 +413,7 @@ const eliminarRolToUsuario = async (req, res) => {
             msg: `Hable con el administrador`
         });
     }
-};
+};*/
 
 module.exports = {
     listarUsuarios,
@@ -392,8 +421,8 @@ module.exports = {
     buscarUsuarios,
     buscarUsuarioById,
     registrarUsuarios,
-    agregarRolToUsuario,
+    //agregarRolToUsuario,
     actualizarUsuario,
     borrarUsuario,
-    eliminarRolToUsuario
+    //eliminarRolToUsuario
 }

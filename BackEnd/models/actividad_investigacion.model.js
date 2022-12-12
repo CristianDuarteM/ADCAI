@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db/conexion");
 
-const Plan_estudio = db.define("plan_estudio", {
+const Actividad_investigacion = db.define("actividad_investigacion", {
     id:{
         primaryKey: true,
         autoIncrement: true,
@@ -11,13 +11,22 @@ const Plan_estudio = db.define("plan_estudio", {
         type: DataTypes.STRING,
         allowNull: false
     },
-    id_facultad: {
+    descripcion: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    horas_minimas: {
         allowNull: true,
         type: DataTypes.INTEGER,
-        references: {
-            model: "Facultad",
-            key: "id"
-        }
+        defaultValue: 0
+    },
+    horas_maximas: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+    },
+    descripcion_horas: {
+        allowNull: false,
+        type: DataTypes.STRING,
     },
     estado: {
         defaultValue: true,
@@ -26,4 +35,4 @@ const Plan_estudio = db.define("plan_estudio", {
     }
 });
 
-module.exports = Plan_estudio;
+module.exports = Actividad_investigacion;

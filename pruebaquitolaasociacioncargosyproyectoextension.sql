@@ -168,6 +168,34 @@ INSERT INTO `asignatura` VALUES (1,'INGENIERIA DE SOFTWARE','cualquier descripci
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cargo`
+--
+
+DROP TABLE IF EXISTS `cargo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cargo` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(150) NOT NULL,
+  `id_actividad_administracion` int NOT NULL,
+  `id_periodo_docente_administracion` int NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cargo`
+--
+
+LOCK TABLES `cargo` WRITE;
+/*!40000 ALTER TABLE `cargo` DISABLE KEYS */;
+INSERT INTO `cargo` VALUES (20,'Directora Programa de ingenieria de sistemas',1,21,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(25,'Directora Programa de ingenieria de sistemas',1,26,'2022-12-11 02:29:51','2022-12-11 02:29:51'),(26,'Directora Programa de ingenieria de sistemas',1,27,'2022-12-11 02:30:28','2022-12-11 02:30:28'),(27,'Directora Programa de ingenieria de sistemas',1,28,'2022-12-11 02:30:42','2022-12-11 02:30:42'),(28,'Directora Programa de ingenieria de sistemas',1,29,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(40,'Directora Programa de ingenieria de sistemas',1,41,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(41,'Directora Programa de ingenieria de sistemas',1,42,'2022-12-11 19:44:52','2022-12-11 19:44:52'),(42,'Directora Programa de ingenieria de sistemas',1,43,'2022-12-11 19:48:15','2022-12-11 19:48:15'),(43,'Directora Programa de ingenieria de sistemas',1,44,'2022-12-11 19:49:03','2022-12-11 19:49:03');
+/*!40000 ALTER TABLE `cargo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `departamento`
 --
 
@@ -301,7 +329,7 @@ CREATE TABLE `notificacion` (
   PRIMARY KEY (`id`),
   KEY `usuario_idx` (`id_usuario`),
   CONSTRAINT `usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,7 +338,7 @@ CREATE TABLE `notificacion` (
 
 LOCK TABLES `notificacion` WRITE;
 /*!40000 ALTER TABLE `notificacion` DISABLE KEYS */;
-INSERT INTO `notificacion` VALUES (1,39,'El usuario: CRISTIAN ANDRES ha registrado el cai.',NULL,0,'2022-12-11 19:21:37','2022-12-11 19:21:37'),(2,39,'El usuario: CRISTIAN ANDRES ha registrado el cai.',NULL,1,'2022-12-11 19:44:53','2022-12-11 19:44:53'),(3,39,'El usuario: Cristian Andres ha registrado el cai.',NULL,0,'2022-12-11 19:48:16','2022-12-11 19:48:16'),(4,39,'El usuario: Cristian Andres ha registrado el cai.',NULL,1,'2022-12-11 19:49:04','2022-12-11 19:49:04'),(5,2,'El usuario: CRISTIAN ANDRES ha registrado el cai.',NULL,0,'2022-12-11 21:32:10','2022-12-11 21:32:10'),(6,2,'El usuario: CRISTIAN ANDRES ha registrado el cai.',NULL,0,'2022-12-11 22:00:19','2022-12-11 22:00:19'),(7,2,'El usuario: CRISTIAN ANDRES ha registrado el cai.',NULL,0,'2022-12-11 22:05:40','2022-12-11 22:05:40'),(8,2,'El usuario: CRISTIAN ANDRES ha registrado el cai.',NULL,0,'2022-12-11 22:21:40','2022-12-11 22:21:40'),(9,2,'El usuario: CRISTIAN ANDRES ha registrado el cai.',NULL,0,'2022-12-11 22:37:48','2022-12-11 22:37:48');
+INSERT INTO `notificacion` VALUES (1,39,'El usuario: CRISTIAN ANDRES ha registrado el cai.',NULL,0,'2022-12-11 19:21:37','2022-12-11 19:21:37'),(2,39,'El usuario: CRISTIAN ANDRES ha registrado el cai.',NULL,1,'2022-12-11 19:44:53','2022-12-11 19:44:53'),(3,39,'El usuario: Cristian Andres ha registrado el cai.',NULL,0,'2022-12-11 19:48:16','2022-12-11 19:48:16'),(4,39,'El usuario: Cristian Andres ha registrado el cai.',NULL,1,'2022-12-11 19:49:04','2022-12-11 19:49:04'),(5,2,'El usuario: CRISTIAN ANDRES ha registrado el cai.',NULL,0,'2022-12-11 21:32:10','2022-12-11 21:32:10');
 /*!40000 ALTER TABLE `notificacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,7 +407,7 @@ CREATE TABLE `periodo_docente` (
   CONSTRAINT `docente` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `estado` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `odo` FOREIGN KEY (`id_periodo`) REFERENCES `periodo` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -388,7 +416,7 @@ CREATE TABLE `periodo_docente` (
 
 LOCK TABLES `periodo_docente` WRITE;
 /*!40000 ALTER TABLE `periodo_docente` DISABLE KEYS */;
-INSERT INTO `periodo_docente` VALUES (97,1,39,1,'2022-12-11 00:00:00','tc',18.8,12,0,10,3,0.5,44.3,'Cualquier observaciones es posible en esta situacion',1,'2022-12-11 22:21:40','2022-12-11 22:21:40'),(98,6,39,1,'2022-12-11 00:00:00','tc',18.8,23,0,0.5,6,1,49.3,'Cualquier observaciones es posible en esta situacion',1,'2022-12-11 22:37:47','2022-12-11 22:37:48');
+INSERT INTO `periodo_docente` VALUES (66,2,52,1,'2022-12-10 00:00:00','tp',18.8,23,0,0,6,0.5,48.3,'Cualquier observaciones es posible en esta situacion',1,'2022-12-10 22:19:24','2022-12-10 22:19:26'),(75,1,39,1,'2022-12-10 00:00:00','tc',18.8,23,0,0,6,0.5,48.3,'Cualquier observaciones es posible en esta situacion',1,'2022-12-11 02:29:51','2022-12-11 02:29:52'),(76,2,39,1,'2022-12-10 00:00:00','tc',18.8,23,0,0,6,0.5,48.3,'Cualquier observaciones es posible en esta situacion',1,'2022-12-11 02:30:28','2022-12-11 02:30:29'),(77,3,39,1,'2022-12-10 00:00:00','tc',18.8,23,0,0,6,0.5,48.3,'Cualquier observaciones es posible en esta situacion',1,'2022-12-11 02:30:42','2022-12-11 02:30:43'),(78,4,39,1,'2022-12-10 00:00:00','tc',18.8,23,0,0,6,0.5,48.3,'Cualquier observaciones es posible en esta situacion',1,'2022-12-11 02:30:58','2022-12-11 02:31:00'),(90,5,39,1,'2022-12-11 00:00:00','tc',18.8,23,0,0,6,0.5,48.3,'Cualquier observaciones es posible en esta situacion',1,'2022-12-11 19:28:57','2022-12-11 19:28:58'),(94,6,39,1,'2022-12-11 00:00:00','tc',18.8,23,0,0,6,0.5,48.3,'Cualquier observaciones es posible en esta situacion',1,'2022-12-11 21:32:09','2022-12-11 21:32:10');
 /*!40000 ALTER TABLE `periodo_docente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -412,7 +440,7 @@ CREATE TABLE `periodo_docente_actividad_administracion` (
   KEY `act_administracion_idx` (`id_actividad_administracion`),
   CONSTRAINT `act_administracion` FOREIGN KEY (`id_actividad_administracion`) REFERENCES `actividad_administracion` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `periodo` FOREIGN KEY (`id_periodo_docente`) REFERENCES `periodo_docente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -421,7 +449,7 @@ CREATE TABLE `periodo_docente_actividad_administracion` (
 
 LOCK TABLES `periodo_docente_actividad_administracion` WRITE;
 /*!40000 ALTER TABLE `periodo_docente_actividad_administracion` DISABLE KEYS */;
-INSERT INTO `periodo_docente_actividad_administracion` VALUES (48,1,97,10,'2022-12-11 22:21:40','2022-12-11 22:21:40','DESEMPEÑO DE CARGO ADMINISTRATIVO'),(49,1,98,0.5,'2022-12-11 22:37:48','2022-12-11 22:37:48','DESEMPEÑO DE CARGO ADMINISTRATIVO');
+INSERT INTO `periodo_docente_actividad_administracion` VALUES (21,1,66,0,'2022-12-10 22:19:25','2022-12-10 22:19:25',NULL),(26,1,75,0,'2022-12-11 02:29:51','2022-12-11 02:29:51',NULL),(27,1,76,0,'2022-12-11 02:30:28','2022-12-11 02:30:28',NULL),(28,1,77,0,'2022-12-11 02:30:42','2022-12-11 02:30:42',NULL),(29,1,78,0,'2022-12-11 02:30:59','2022-12-11 02:30:59',NULL),(41,1,90,0,'2022-12-11 19:28:57','2022-12-11 19:28:57',NULL),(45,1,94,0,'2022-12-11 21:32:09','2022-12-11 21:32:09','DESEMPEÑO DE CARGO ADMINISTRATIVO');
 /*!40000 ALTER TABLE `periodo_docente_actividad_administracion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,7 +474,7 @@ CREATE TABLE `periodo_docente_actividad_extension` (
   KEY `a_idx` (`id_actividad_extension`),
   CONSTRAINT `ae` FOREIGN KEY (`id_actividad_extension`) REFERENCES `actividad_extension` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `extensioncai` FOREIGN KEY (`id_periodo_docente`) REFERENCES `periodo_docente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -455,6 +483,7 @@ CREATE TABLE `periodo_docente_actividad_extension` (
 
 LOCK TABLES `periodo_docente_actividad_extension` WRITE;
 /*!40000 ALTER TABLE `periodo_docente_actividad_extension` DISABLE KEYS */;
+INSERT INTO `periodo_docente_actividad_extension` VALUES (31,1,66,0,'2022-12-10 22:19:25','2022-12-10 22:19:25',NULL),(36,1,75,0,'2022-12-11 02:29:51','2022-12-11 02:29:51',NULL),(37,1,76,0,'2022-12-11 02:30:28','2022-12-11 02:30:28',NULL),(38,1,77,0,'2022-12-11 02:30:42','2022-12-11 02:30:42',NULL),(39,1,78,0,'2022-12-11 02:30:59','2022-12-11 02:30:59',NULL),(49,1,90,0,'2022-12-11 19:28:57','2022-12-11 19:28:57',NULL),(53,1,94,0,'2022-12-11 21:32:09','2022-12-11 21:32:09','a');
 /*!40000 ALTER TABLE `periodo_docente_actividad_extension` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -484,7 +513,7 @@ CREATE TABLE `periodo_docente_actividad_investigacion` (
 
 LOCK TABLES `periodo_docente_actividad_investigacion` WRITE;
 /*!40000 ALTER TABLE `periodo_docente_actividad_investigacion` DISABLE KEYS */;
-INSERT INTO `periodo_docente_actividad_investigacion` VALUES (1,98,7,'2022-12-11 22:37:47','2022-12-11 22:37:47'),(3,98,4,'2022-12-11 22:37:47','2022-12-11 22:37:47'),(7,97,12,'2022-12-11 22:21:40','2022-12-11 22:21:40'),(7,98,12,'2022-12-11 22:37:47','2022-12-11 22:37:47');
+INSERT INTO `periodo_docente_actividad_investigacion` VALUES (1,66,7,'2022-12-10 22:19:24','2022-12-10 22:19:24'),(1,75,7,'2022-12-11 02:29:51','2022-12-11 02:29:51'),(1,76,7,'2022-12-11 02:30:28','2022-12-11 02:30:28'),(1,77,7,'2022-12-11 02:30:42','2022-12-11 02:30:42'),(1,78,7,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(1,90,7,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(1,94,7,'2022-12-11 21:32:09','2022-12-11 21:32:09'),(3,66,4,'2022-12-10 22:19:24','2022-12-10 22:19:24'),(3,75,4,'2022-12-11 02:29:51','2022-12-11 02:29:51'),(3,76,4,'2022-12-11 02:30:28','2022-12-11 02:30:28'),(3,77,4,'2022-12-11 02:30:42','2022-12-11 02:30:42'),(3,78,4,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(3,90,4,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(3,94,4,'2022-12-11 21:32:09','2022-12-11 21:32:09'),(7,66,12,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(7,75,12,'2022-12-11 02:29:51','2022-12-11 02:29:51'),(7,76,12,'2022-12-11 02:30:28','2022-12-11 02:30:28'),(7,77,12,'2022-12-11 02:30:42','2022-12-11 02:30:42'),(7,78,12,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(7,90,12,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(7,94,12,'2022-12-11 21:32:09','2022-12-11 21:32:09');
 /*!40000 ALTER TABLE `periodo_docente_actividad_investigacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -513,7 +542,7 @@ CREATE TABLE `periodo_docente_asignatura` (
 
 LOCK TABLES `periodo_docente_asignatura` WRITE;
 /*!40000 ALTER TABLE `periodo_docente_asignatura` DISABLE KEYS */;
-INSERT INTO `periodo_docente_asignatura` VALUES (1,98,'2022-12-11 22:37:47','2022-12-11 22:37:47'),(2,98,'2022-12-11 22:37:47','2022-12-11 22:37:47'),(3,97,'2022-12-11 22:21:40','2022-12-11 22:21:40'),(4,97,'2022-12-11 22:21:40','2022-12-11 22:21:40');
+INSERT INTO `periodo_docente_asignatura` VALUES (1,66,'2022-12-10 22:19:24','2022-12-10 22:19:24'),(1,75,'2022-12-11 02:29:51','2022-12-11 02:29:51'),(1,76,'2022-12-11 02:30:28','2022-12-11 02:30:28'),(1,77,'2022-12-11 02:30:42','2022-12-11 02:30:42'),(1,78,'2022-12-11 02:30:58','2022-12-11 02:30:58'),(1,90,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(1,94,'2022-12-11 21:32:09','2022-12-11 21:32:09'),(2,66,'2022-12-10 22:19:24','2022-12-10 22:19:24'),(2,75,'2022-12-11 02:29:51','2022-12-11 02:29:51'),(2,76,'2022-12-11 02:30:28','2022-12-11 02:30:28'),(2,77,'2022-12-11 02:30:42','2022-12-11 02:30:42'),(2,78,'2022-12-11 02:30:58','2022-12-11 02:30:58'),(2,90,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(2,94,'2022-12-11 21:32:09','2022-12-11 21:32:09');
 /*!40000 ALTER TABLE `periodo_docente_asignatura` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -535,7 +564,7 @@ CREATE TABLE `periodo_docente_firma` (
   KEY `cai_idx` (`id_periodo_docente`),
   CONSTRAINT `c` FOREIGN KEY (`id_periodo_docente`) REFERENCES `periodo_docente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `f` FOREIGN KEY (`id_firma`) REFERENCES `firma` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -544,7 +573,7 @@ CREATE TABLE `periodo_docente_firma` (
 
 LOCK TABLES `periodo_docente_firma` WRITE;
 /*!40000 ALTER TABLE `periodo_docente_firma` DISABLE KEYS */;
-INSERT INTO `periodo_docente_firma` VALUES (14,97,16,'2022-12-11 22:21:40','2022-12-11 22:21:40'),(15,98,16,'2022-12-11 22:37:48','2022-12-11 22:37:48');
+INSERT INTO `periodo_docente_firma` VALUES (7,90,16,'2022-12-11 19:28:58','2022-12-11 19:28:58'),(11,94,16,'2022-12-11 21:32:10','2022-12-11 21:32:10');
 /*!40000 ALTER TABLE `periodo_docente_firma` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -560,7 +589,6 @@ CREATE TABLE `periodo_docente_otra` (
   `id_actividad_otra` int NOT NULL,
   `id_periodo_docente` int NOT NULL,
   `horas` double DEFAULT NULL,
-  `nombre` varchar(1000) DEFAULT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -568,7 +596,7 @@ CREATE TABLE `periodo_docente_otra` (
   KEY `otra_act_idx` (`id_actividad_otra`),
   CONSTRAINT `otra_act` FOREIGN KEY (`id_actividad_otra`) REFERENCES `actividad_otra` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `per_doc` FOREIGN KEY (`id_periodo_docente`) REFERENCES `periodo_docente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -577,7 +605,7 @@ CREATE TABLE `periodo_docente_otra` (
 
 LOCK TABLES `periodo_docente_otra` WRITE;
 /*!40000 ALTER TABLE `periodo_docente_otra` DISABLE KEYS */;
-INSERT INTO `periodo_docente_otra` VALUES (77,1,97,0.5,NULL,'2022-12-11 22:21:40','2022-12-11 22:21:40'),(78,1,98,0.5,NULL,'2022-12-11 22:37:48','2022-12-11 22:37:48'),(79,2,98,0.5,'Integrante Comité Acreditación Institucional','2022-12-11 22:37:48','2022-12-11 22:37:48');
+INSERT INTO `periodo_docente_otra` VALUES (23,1,66,0.5,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(24,2,66,0,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(35,1,75,0.5,'2022-12-11 02:29:52','2022-12-11 02:29:52'),(36,2,75,0,'2022-12-11 02:29:52','2022-12-11 02:29:52'),(37,1,76,0.5,'2022-12-11 02:30:29','2022-12-11 02:30:29'),(38,2,76,0,'2022-12-11 02:30:29','2022-12-11 02:30:29'),(39,1,77,0.5,'2022-12-11 02:30:43','2022-12-11 02:30:43'),(40,2,77,0,'2022-12-11 02:30:43','2022-12-11 02:30:43'),(41,1,78,0.5,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(42,2,78,0,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(63,1,90,0.5,'2022-12-11 19:28:58','2022-12-11 19:28:58'),(64,2,90,0,'2022-12-11 19:28:58','2022-12-11 19:28:58'),(71,1,94,0.5,'2022-12-11 21:32:10','2022-12-11 21:32:10'),(72,2,94,0,'2022-12-11 21:32:10','2022-12-11 21:32:10');
 /*!40000 ALTER TABLE `periodo_docente_otra` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -593,7 +621,6 @@ CREATE TABLE `periodo_docente_representacion` (
   `id_periodo_docente` int NOT NULL,
   `id_tipo_representacion` int NOT NULL,
   `horas` double DEFAULT NULL,
-  `nombre` varchar(1000) DEFAULT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -601,7 +628,7 @@ CREATE TABLE `periodo_docente_representacion` (
   KEY `t_representacion_idx` (`id_tipo_representacion`),
   CONSTRAINT `p_d` FOREIGN KEY (`id_periodo_docente`) REFERENCES `periodo_docente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `t_representacion` FOREIGN KEY (`id_tipo_representacion`) REFERENCES `tipo_representacion` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=196 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -610,7 +637,7 @@ CREATE TABLE `periodo_docente_representacion` (
 
 LOCK TABLES `periodo_docente_representacion` WRITE;
 /*!40000 ALTER TABLE `periodo_docente_representacion` DISABLE KEYS */;
-INSERT INTO `periodo_docente_representacion` VALUES (206,97,2,2,NULL,'2022-12-11 22:21:40','2022-12-11 22:21:40'),(207,97,3,0.5,NULL,'2022-12-11 22:21:40','2022-12-11 22:21:40'),(208,97,4,0.5,NULL,'2022-12-11 22:21:40','2022-12-11 22:21:40'),(209,98,1,2,NULL,'2022-12-11 22:37:48','2022-12-11 22:37:48'),(210,98,2,2,NULL,'2022-12-11 22:37:48','2022-12-11 22:37:48'),(211,98,3,0.5,NULL,'2022-12-11 22:37:48','2022-12-11 22:37:48'),(212,98,4,0.5,NULL,'2022-12-11 22:37:48','2022-12-11 22:37:48'),(213,98,5,1,'comite curricular del programa','2022-12-11 22:37:48','2022-12-11 22:37:48');
+INSERT INTO `periodo_docente_representacion` VALUES (71,66,1,2,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(72,66,2,2,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(73,66,3,0.5,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(74,66,4,0.5,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(75,66,5,1,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(102,75,1,2,'2022-12-11 02:29:51','2022-12-11 02:29:51'),(103,75,2,2,'2022-12-11 02:29:51','2022-12-11 02:29:51'),(104,75,3,0.5,'2022-12-11 02:29:52','2022-12-11 02:29:52'),(105,75,4,0.5,'2022-12-11 02:29:52','2022-12-11 02:29:52'),(106,75,5,1,'2022-12-11 02:29:52','2022-12-11 02:29:52'),(107,76,1,2,'2022-12-11 02:30:28','2022-12-11 02:30:28'),(108,76,2,2,'2022-12-11 02:30:29','2022-12-11 02:30:29'),(109,76,3,0.5,'2022-12-11 02:30:29','2022-12-11 02:30:29'),(110,76,4,0.5,'2022-12-11 02:30:29','2022-12-11 02:30:29'),(111,76,5,1,'2022-12-11 02:30:29','2022-12-11 02:30:29'),(112,77,1,2,'2022-12-11 02:30:42','2022-12-11 02:30:42'),(113,77,2,2,'2022-12-11 02:30:42','2022-12-11 02:30:42'),(114,77,3,0.5,'2022-12-11 02:30:42','2022-12-11 02:30:42'),(115,77,4,0.5,'2022-12-11 02:30:43','2022-12-11 02:30:43'),(116,77,5,1,'2022-12-11 02:30:43','2022-12-11 02:30:43'),(117,78,1,2,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(118,78,2,2,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(119,78,3,0.5,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(120,78,4,0.5,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(121,78,5,1,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(171,90,1,2,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(172,90,2,2,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(173,90,3,0.5,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(174,90,4,0.5,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(175,90,5,1,'2022-12-11 19:28:58','2022-12-11 19:28:58'),(191,94,1,2,'2022-12-11 21:32:09','2022-12-11 21:32:09'),(192,94,2,2,'2022-12-11 21:32:09','2022-12-11 21:32:09'),(193,94,3,0.5,'2022-12-11 21:32:10','2022-12-11 21:32:10'),(194,94,4,0.5,'2022-12-11 21:32:10','2022-12-11 21:32:10'),(195,94,5,1,'2022-12-11 21:32:10','2022-12-11 21:32:10');
 /*!40000 ALTER TABLE `periodo_docente_representacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -645,6 +672,34 @@ INSERT INTO `plan_estudio` VALUES (9,'INGENIERIA CIVIL',7,'2022-12-08 05:37:34',
 UNLOCK TABLES;
 
 --
+-- Table structure for table `proyecto_extension`
+--
+
+DROP TABLE IF EXISTS `proyecto_extension`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `proyecto_extension` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `id_actividad_extension` int NOT NULL,
+  `id_periodo_docente_extension` int NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proyecto_extension`
+--
+
+LOCK TABLES `proyecto_extension` WRITE;
+/*!40000 ALTER TABLE `proyecto_extension` DISABLE KEYS */;
+INSERT INTO `proyecto_extension` VALUES (29,'a',1,31,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(34,'a',1,36,'2022-12-11 02:29:51','2022-12-11 02:29:51'),(35,'a',1,37,'2022-12-11 02:30:28','2022-12-11 02:30:28'),(36,'a',1,38,'2022-12-11 02:30:42','2022-12-11 02:30:42'),(37,'a',1,39,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(47,'a',1,49,'2022-12-11 19:28:57','2022-12-11 19:28:57'),(48,'a',1,50,'2022-12-11 19:44:52','2022-12-11 19:44:52'),(49,'a',1,51,'2022-12-11 19:48:15','2022-12-11 19:48:15'),(50,'a',1,52,'2022-12-11 19:49:03','2022-12-11 19:49:03');
+/*!40000 ALTER TABLE `proyecto_extension` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `rol`
 --
 
@@ -669,6 +724,70 @@ LOCK TABLES `rol` WRITE;
 /*!40000 ALTER TABLE `rol` DISABLE KEYS */;
 INSERT INTO `rol` VALUES (1,'ADMIN','Es el encargado de administrar la aplicacion.',NULL,NULL),(2,'DECANO','Es el encargado de una facultad, es el ultimo usuario que aprueba o rechaza el cai de un docente.',NULL,NULL),(3,'DIRECTOR','Es el encagado de un departamento es el primer usuario que aprueba o rechaza el cai de un docente.',NULL,NULL),(4,'DOCENTE','Es el usuario que diligencia el cai',NULL,NULL);
 /*!40000 ALTER TABLE `rol` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `subtipo_otra_actividad`
+--
+
+DROP TABLE IF EXISTS `subtipo_otra_actividad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `subtipo_otra_actividad` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `id_actividad_otra` int NOT NULL,
+  `id_periodo_docente_otra` int NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `actividad_otra_idx` (`id_actividad_otra`),
+  KEY `per_doc_otra_idx` (`id_periodo_docente_otra`),
+  CONSTRAINT `actividad_otra` FOREIGN KEY (`id_actividad_otra`) REFERENCES `actividad_otra` (`id`),
+  CONSTRAINT `per_doc_otra` FOREIGN KEY (`id_periodo_docente_otra`) REFERENCES `periodo_docente_otra` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `subtipo_otra_actividad`
+--
+
+LOCK TABLES `subtipo_otra_actividad` WRITE;
+/*!40000 ALTER TABLE `subtipo_otra_actividad` DISABLE KEYS */;
+INSERT INTO `subtipo_otra_actividad` VALUES (11,'Integrante Comité Acreditación Institucional',2,24,'2022-12-10 22:19:26','2022-12-10 22:19:26'),(18,'Integrante Comité Acreditación Institucional',2,36,'2022-12-11 02:29:52','2022-12-11 02:29:52'),(19,'Integrante Comité Acreditación Institucional',2,38,'2022-12-11 02:30:29','2022-12-11 02:30:29'),(20,'Integrante Comité Acreditación Institucional',2,40,'2022-12-11 02:30:43','2022-12-11 02:30:43'),(21,'Integrante Comité Acreditación Institucional',2,42,'2022-12-11 02:31:00','2022-12-11 02:31:00'),(31,'Integrante Comité Acreditación Institucional',2,64,'2022-12-11 19:28:58','2022-12-11 19:28:58'),(35,'Integrante Comité Acreditación Institucional',2,72,'2022-12-11 21:32:10','2022-12-11 21:32:10');
+/*!40000 ALTER TABLE `subtipo_otra_actividad` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `subtipo_representacion`
+--
+
+DROP TABLE IF EXISTS `subtipo_representacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `subtipo_representacion` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(200) DEFAULT NULL,
+  `id_tipo_representacion` int NOT NULL,
+  `id_periodo_docente_representacion` int NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `p_d_representacion_idx` (`id_periodo_docente_representacion`),
+  KEY `t_representacion_idx` (`id_tipo_representacion`),
+  CONSTRAINT `p_d_r` FOREIGN KEY (`id_periodo_docente_representacion`) REFERENCES `periodo_docente_representacion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `representacion` FOREIGN KEY (`id_tipo_representacion`) REFERENCES `tipo_representacion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `subtipo_representacion`
+--
+
+LOCK TABLES `subtipo_representacion` WRITE;
+/*!40000 ALTER TABLE `subtipo_representacion` DISABLE KEYS */;
+INSERT INTO `subtipo_representacion` VALUES (13,'comite curricular del programa',5,75,'2022-12-10 22:19:25','2022-12-10 22:19:25'),(18,'comite curricular del programa',5,106,'2022-12-11 02:29:52','2022-12-11 02:29:52'),(19,'comite curricular del programa',5,111,'2022-12-11 02:30:29','2022-12-11 02:30:29'),(20,'comite curricular del programa',5,116,'2022-12-11 02:30:43','2022-12-11 02:30:43'),(21,'comite curricular del programa',5,121,'2022-12-11 02:30:59','2022-12-11 02:30:59'),(33,'comite curricular del programa',5,175,'2022-12-11 19:28:58','2022-12-11 19:28:58'),(37,'comite curricular del programa',5,195,'2022-12-11 21:32:10','2022-12-11 21:32:10');
+/*!40000 ALTER TABLE `subtipo_representacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -777,4 +896,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-11 17:47:21
+-- Dump completed on 2022-12-11 16:42:36

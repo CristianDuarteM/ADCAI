@@ -28,6 +28,6 @@ const Facultad = db.define("facultad", {
         type: DataTypes.BOOLEAN,
         allowNull: false
     }
-});
+}); 
 
 module.exports = Facultad;

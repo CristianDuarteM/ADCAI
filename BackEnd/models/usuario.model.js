@@ -32,7 +32,7 @@ const Usuario = db.define("usuario", {
         allowNull: true
     },
     id_departamento: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.INTEGER,
         references: {
             model: "Departamento",
