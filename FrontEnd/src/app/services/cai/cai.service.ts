@@ -141,4 +141,20 @@ export class CaiService {
     });
   }
 
+  getCaiListByDepartmentAndEvaluate(idDepartment: string, isEvaluate: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/cai/departamento/' + idDepartment + '?paraEvaluar=' + isEvaluate, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getCaiListByFacultyAndEvaluate(idFaculty: string, isEvaluate: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/cai/facultad/' + idFaculty + '?paraEvaluar=' + isEvaluate, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
 }

@@ -1,3 +1,4 @@
+import { DepartmentResponse } from "./response/DepartmentResponse";
 import { Role } from "./Role";
 
 export interface User {
@@ -13,4 +14,5 @@ export interface User {
   estaActivo: boolean;
   rols: Role[];
   realizaCai: boolean;
+  departamento: DepartmentResponse;
 }
