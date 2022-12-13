@@ -17,7 +17,7 @@
 
       <ng-container matColumnDef="Código">
         <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: center;"> Código </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{(viewCAI) ? item.teacher.codigo : item.codigo}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.codigo}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Nombre">
@@ -27,7 +27,7 @@
 
       <ng-container matColumnDef="Nombre Completo">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Nombre Completo </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{ (item.nombre !== null) ? item.nombre + ' ' + item.apellido : ''}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Id CAI">
@@ -37,17 +37,17 @@
 
       <ng-container matColumnDef="Año">
         <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 5%; text-align: center;"> Año </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.year}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.anno}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Semestre">
         <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 10%; text-align: center;"> Semestre </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.semester}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.semestre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Departamento">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Departamento </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.teacher.department}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.departamento}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Correo">
