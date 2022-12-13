@@ -5,6 +5,7 @@ export class config {
     TOKEN: 'token',
     ACTIVE_ROLE: 'activeRole',
     IS_COMPLETE: 'isComplete',
-    ID_USER: 'idUser'
+    ID_USER: 'idUser',
+    UNREAD_NOTIFICATIONS: 'unreadNotifications'
   }
 }

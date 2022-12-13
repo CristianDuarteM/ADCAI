@@ -10,16 +10,17 @@ import { CaiRequest } from 'src/app/models/request/CaiRequest';
 })
 export class CaiService {
 
-  token: string;
-
   constructor(private httpClient: HttpClient) {
-    this.token = sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
+  }
+
+  get tokenSession() {
+    return sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
   }
 
   requestCai(requestCai: CaiModel): Observable<any> {
     return this.httpClient.post(config.API_URL + '/api/periodos', requestCai, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -29,7 +30,7 @@ export class CaiService {
       limite: date
     }, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -37,7 +38,7 @@ export class CaiService {
   getCaiByDepartment(idDepartment: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/periodos/departamento/' + idDepartment, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -45,7 +46,7 @@ export class CaiService {
   getSubjectListByStudyPlan(idProgram: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/asignaturas/programa/' + idProgram, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -53,7 +54,7 @@ export class CaiService {
   getSubjectListById(idSubject: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/asignaturas/' + idSubject, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -61,7 +62,7 @@ export class CaiService {
   getStudyPlanList(): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/plan_estudios', {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -71,7 +72,7 @@ export class CaiService {
       asignaturas: subjectList
     }, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -79,7 +80,7 @@ export class CaiService {
   getInvestigationActivityList(): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/actividadesInvestigacion', {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -87,7 +88,7 @@ export class CaiService {
   getExtensionActivityList(): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/actividadesExtension', {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -95,7 +96,7 @@ export class CaiService {
   getAdministrationActivityList(): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/actividadesAdministracion', {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -103,7 +104,7 @@ export class CaiService {
   getRepresentationActivityList(): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/representaciones', {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -111,7 +112,7 @@ export class CaiService {
   getOtherActivityList(): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/otrasActividades', {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -119,7 +120,7 @@ export class CaiService {
   getLastCaiByDepartment(idDepartment: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/periodos/departamento/' + idDepartment, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -127,7 +128,7 @@ export class CaiService {
   getCaiListByUser(idUser: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/cai/usuario/' + idUser, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -135,7 +136,7 @@ export class CaiService {
   fillCai(caiBody: CaiRequest): Observable<any> {
     return this.httpClient.post(config.API_URL + '/api/cai', caiBody, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }

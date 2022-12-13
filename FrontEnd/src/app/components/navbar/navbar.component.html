@@ -7,7 +7,8 @@
   </div>
   <div class="container">
     <button mat-raised-button class="action-buttons" *ngxPermissionsExcept="'ADMIN'">
-      <mat-icon>notifications_none</mat-icon>
+      <mat-icon *ngIf="!unreadNotification">notifications_none</mat-icon>
+      <mat-icon *ngIf="unreadNotification">notifications_active</mat-icon>
       <a href="/notificaciones" title="Notificaciones">Notificaciones</a>
     </button>
     <button mat-raised-button class="action-buttons" (click)="openDialog()">

@@ -1,35 +1,43 @@
-<app-navbar></app-navbar>
-<div class="main-container">
-  <div *ngIf="isLoaded">
-    <div class="margin-title">
-      <h2>Bienvenido al administrador de carga académica integral como {{roleList[activeRole]}}</h2>
-    </div>
-    <div class="principal-options">
-      <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-facultades/', false)">
-        Gestión de Facultades
-      </button>
-      <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-departamentos/', false)">
-        Gestión de Departamentos
-      </button>
-      <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/perfil/', true)">
-        Perfil
-      </button>
-      <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-docentes/', false)">
-        Gestión de Docentes
-      </button>
-      <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-cai/', false)">
-        Gestión del CAI
-      </button>
-      <button mat-raised-button *ngxPermissionsOnly="'DECANO'" (click)="redirectButton('/evaluar-cai/', false)">
-        Evaluar CAI
-      </button>
-      <button mat-raised-button *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/diligenciar-cai/', false)">
-        Diligenciar CAI
-      </button>
-      <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/historial-cai/', false)">
-        Historial de los CAI
-      </button>
+<div *ngIf="!isLoaded" class="spinner-align">
+  <app-spinner></app-spinner>
+</div>
+<div *ngIf="isLoaded">
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <div>
+      <div class="margin-title">
+        <h2>Bienvenido al administrador de carga académica integral como {{roleList[activeRole]}}</h2>
+      </div>
+      <div *ngIf="isCaiActive">
+        <h3 *ngxPermissionsOnly="['DIRECTOR', 'DOCENTE']">Actualmente se encuentra activa la solicitud de un CAI que inició en la fecha {{caiDataBasic.fecha_inicio}} y finaliza en la fecha {{caiDataBasic.fecha_limite}}</h3>
+      </div>
+      <div class="principal-options">
+        <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-facultades/', false)">
+          Gestión de Facultades
+        </button>
+        <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-departamentos/', false)">
+          Gestión de Departamentos
+        </button>
+        <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/perfil/', true)">
+          Perfil
+        </button>
+        <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-docentes/', false)">
+          Gestión de Docentes
+        </button>
+        <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-cai/', false)">
+          Gestión del CAI
+        </button>
+        <button mat-raised-button *ngxPermissionsOnly="'DECANO'" (click)="redirectButton('/evaluar-cai/', false)">
+          Evaluar CAI
+        </button>
+        <button mat-raised-button [disabled]="!isCaiActive" *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/diligenciar-cai/', false)">
+          Diligenciar CAI
+        </button>
+        <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/historial-cai/', false)">
+          Historial de los CAI
+        </button>
+      </div>
     </div>
   </div>
+  <footer></footer>
 </div>
-<footer></footer>

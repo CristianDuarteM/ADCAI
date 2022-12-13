@@ -23,6 +23,12 @@ h2 {
   margin: 0;
 }
 
+h3 {
+  font-weight: normal;
+  margin-top: 0;
+  margin-left: 2%;
+}
+
 .principal-options {
   display: flex;
   flex-wrap: wrap;
@@ -36,7 +42,14 @@ h2 {
 }
 
 .margin-title {
-  padding: 3vh;
+  padding: 2%;
+}
+
+.spinner-align {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 600px) {

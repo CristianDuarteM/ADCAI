@@ -13,6 +13,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { HttpClientModule } from "@angular/common/http";
 
@@ -57,6 +58,7 @@ import { EnableDialogComponent } from './components/enable-dialog/enable-dialog.
 import { CaiStructureComponent } from './components/cai-structure/cai-structure.component';
 import { FillCaiComponent } from './pages/cai/fill-cai/fill-cai.component';
 import { AddSignatureComponent } from './pages/user/add-signature/add-signature.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +100,7 @@ import { AddSignatureComponent } from './pages/user/add-signature/add-signature.
     CaiStructureComponent,
     FillCaiComponent,
     AddSignatureComponent,
+    SpinnerComponent,
   ],
   imports: [
     FormsModule,
@@ -115,6 +118,7 @@ import { AddSignatureComponent } from './pages/user/add-signature/add-signature.
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
     NgxPermissionsModule.forRoot(),
     HttpClientModule,
   ],

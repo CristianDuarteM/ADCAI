@@ -5,6 +5,7 @@ a {
 
 button {
   border-radius: 2vw;
+  font-size: medium;
   padding: 2%;
   margin: 1%;
   width: 45%;
@@ -41,7 +42,7 @@ tr, th {
 }
 
 td {
-  font-size: medium;
+  font-size: large;
   font-weight: normal;
   line-height: 100%;
 }
