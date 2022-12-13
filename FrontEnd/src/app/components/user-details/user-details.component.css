@@ -75,6 +75,10 @@ span {
   justify-content: center;
 }
 
+.mat-input-element:disabled {
+  color: rgba(0, 0, 0, 0.664);
+}
+
 @media only screen and (max-width: 600px) {
   button {
     font-size: medium;

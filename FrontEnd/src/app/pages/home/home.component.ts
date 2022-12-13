@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
     this.authService.logIn(this.tokenGoogle).subscribe({
       next: async (userResponse: Auth) => {
         await this.loadDataUser(userResponse);
-        if(this.activeRole === 'DOCENTE' || this.activeRole === 'DIRECTOR') {
+        if(this.activeRole === 'DOCENTE' && userResponse.usuario.realizaCai) {
           this.caiActive(userResponse.usuario.id_departamento + '');
         } else {
           this.loadRole();
@@ -107,7 +107,11 @@ export class HomeComponent implements OnInit {
   getUser() {
     this.userService.getUserById(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '').subscribe({
       next: userServiceResponse => {
-        this.caiActive(userServiceResponse.usuario.id_departamento);
+        if(userServiceResponse.usuario.realizaCai){
+          this.caiActive(userServiceResponse.usuario.id_departamento);
+        } else {
+          this.loadRole();
+        }
       },
     });
   }

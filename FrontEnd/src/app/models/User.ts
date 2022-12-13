@@ -12,4 +12,5 @@ export interface User {
   id_firma: number;
   estaActivo: boolean;
   rols: Role[];
+  realizaCai: boolean;
 }

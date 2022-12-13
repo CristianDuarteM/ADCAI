@@ -9,7 +9,7 @@
         <h2>Bienvenido al administrador de carga académica integral como {{roleList[activeRole]}}</h2>
       </div>
       <div *ngIf="isCaiActive">
-        <h3 *ngxPermissionsOnly="['DIRECTOR', 'DOCENTE']">Actualmente se encuentra activa la solicitud de un CAI que inició en la fecha {{caiDataBasic.fecha_inicio}} y finaliza en la fecha {{caiDataBasic.fecha_limite}}</h3>
+        <h3 *ngxPermissionsOnly="['DOCENTE']">Actualmente se encuentra activa la solicitud de un CAI que inició en la fecha {{caiDataBasic.fecha_inicio}} y finaliza en la fecha {{caiDataBasic.fecha_limite}}</h3>
       </div>
       <div class="principal-options">
         <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-facultades/', false)">

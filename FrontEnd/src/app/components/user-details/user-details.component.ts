@@ -33,6 +33,7 @@ export class UserDetailsComponent implements OnInit {
   @Input() canUpdate: boolean;
   isComplete: boolean;
   idFaculty: number;
+  fileEvent: File | null;
 
   constructor(public dialog: MatDialog, private departmentService: DepartmentService, private userService: UserService,
     private route: ActivatedRoute, private facultyService: FacultyService) {
@@ -49,6 +50,7 @@ export class UserDetailsComponent implements OnInit {
     this.canUpdate = false;
     this.isComplete = true;
     this.idFaculty = 0;
+    this.fileEvent = null;
   }
 
   ngOnInit(): void {
@@ -91,11 +93,13 @@ export class UserDetailsComponent implements OnInit {
       nombre: this.getItemValue('nameInput'),
       apellido: this.getItemValue('lastNameInput'),
       codigo: this.getItemValue('codeInput'),
-      correo: this.getItemValue('emailInput'),
       id_departamento: this.getItemValue('departmentInput'),
     }
     this.userService.updateUser(this.userModel.id + '', this.userModel).subscribe({
       next: userUpdateResponse => {
+        if(this.fileEvent !== null) {
+          this.addSignature(this.fileEvent);
+        }
         if(!this.isComplete){
           sessionStorage.removeItem(config.SESSION_STORAGE.IS_COMPLETE);
           this.openDialog(userUpdateResponse.msg, '/home');
@@ -106,6 +110,18 @@ export class UserDetailsComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, this.validationRedirect(error));
       }
+    });
+  }
+
+  loadFile(event: any) {
+    if(event.target.files.length > 0) {
+      this.fileEvent = event.target.files[0];
+    }
+  }
+
+  addSignature(file: File) {
+    this.userService.addSignature(file).subscribe({
+      next: () => {}
     });
   }
 
@@ -175,13 +191,13 @@ export class UserDetailsComponent implements OnInit {
       nameInput: new FormControl({value: this.userModel.nombre, disabled: !this.isEditable}, [Validators.required]),
       lastNameInput: new FormControl({value: this.userModel.apellido, disabled: !this.isEditable}, [Validators.required]),
       codeInput: new FormControl({value: this.userModel.codigo, disabled: !this.isEditable}, [Validators.required]),
-      emailInput: new FormControl({value: this.userModel.correo, disabled: !this.isEditable}, [Validators.required, Validators.email]),
+      emailInput: new FormControl({value: this.userModel.correo, disabled: true}, [Validators.required, Validators.email]),
       departmentInput: new FormControl({value: this.userModel.id_departamento, disabled: activeRole !== 'ADMIN'}),
       facultyInput: new FormControl({value: this.idFaculty, disabled: true}),
       isRoleDeanInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DECANO'), disabled: true}),
       isRoleDirectorInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DIRECTOR'), disabled: true}),
       isRoleTeacherInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DOCENTE'), disabled: true}),
-      signatureInput: new FormControl({value: 'this.userModel.signature', disabled: true}),
+      signatureInput: new FormControl({value: (this.userModel.id_firma !== null) ? 'Asociada' : 'No Asociada', disabled: true}),
       signatureInputFile: new FormControl(''),
     });
     this.isLoaded = true;
