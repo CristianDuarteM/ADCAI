@@ -74,6 +74,7 @@ export class UserDetailsComponent implements OnInit {
       isRoleTeacherInput: new FormControl(''),
       signatureInput: new FormControl(),
       signatureInputFile: new FormControl(''),
+      doCai: new FormControl(''),
     });
 
     this.getDataUser();
@@ -94,6 +95,7 @@ export class UserDetailsComponent implements OnInit {
       apellido: this.getItemValue('lastNameInput'),
       codigo: this.getItemValue('codeInput'),
       id_departamento: this.getItemValue('departmentInput'),
+      realizaCai: (this.getItemValue('doCai') === 'true') ? true : false,
     }
     this.userService.updateUser(this.userModel.id + '', this.userModel).subscribe({
       next: userUpdateResponse => {
@@ -199,6 +201,7 @@ export class UserDetailsComponent implements OnInit {
       isRoleTeacherInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DOCENTE'), disabled: true}),
       signatureInput: new FormControl({value: (this.userModel.id_firma !== null) ? 'Asociada' : 'No Asociada', disabled: true}),
       signatureInputFile: new FormControl(''),
+      doCai: new FormControl({value: this.userModel.realizaCai + '', disabled: (activeRole === 'ADMIN') ? false : true}),
     });
     this.isLoaded = true;
   }
