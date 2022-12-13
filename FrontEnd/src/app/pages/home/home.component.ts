@@ -113,6 +113,10 @@ export class HomeComponent implements OnInit {
           this.loadRole();
         }
       },
+      error: (error: HttpErrorResponse) => {
+        sessionStorage.clear();
+        this.openDialog(error.error.msg, '/login');
+      }
     });
   }
 
