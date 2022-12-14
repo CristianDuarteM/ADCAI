@@ -157,4 +157,12 @@ export class CaiService {
     });
   }
 
+  getCaiById(idCai: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/cai/' + idCai, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
 }

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -18,6 +18,10 @@ import { UserService } from 'src/app/services/user/user.service';
 import { config } from 'src/app/constants/config';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { AddSignatureComponent } from 'src/app/pages/user/add-signature/add-signature.component';
+import { Cai } from 'src/app/models/Cai';
+import { User } from 'src/app/models/User';
+import { Period } from 'src/app/models/Period';
+import { Feedback } from 'src/app/models/Feedback';
 
 @Component({
   selector: 'app-cai-structure',
@@ -47,6 +51,11 @@ export class CaiStructureComponent implements OnInit {
   totalHours: TotalHours;
   idSignature: string;
   validHours: boolean;
+  @Input() isViewCai: boolean;
+  @Input() dataCai: Cai;
+  @Input() loadedData: boolean;
+  loadActivities: number;
+  @Input() feedbackList: Feedback[];
 
   constructor(private caiService: CaiService, public dialog: MatDialog, private fb: FormBuilder, private userService: UserService,
     private departmentService: DepartmentService) {
@@ -80,17 +89,24 @@ export class CaiStructureComponent implements OnInit {
     };
     this.idSignature = '';
     this.validHours = true;
+    this.isViewCai = false;
+    this.dataCai = {} as Cai;
+    this.loadedData = false;
+    this.loadActivities = 0;
+    this.feedbackList = [];
   }
 
   ngOnInit(): void {
-    this.getDataUser();
-    this.elementsDataTeacherActivities = [{} as TeacherActivitiesTable];
-    this.dataArrayTeacherActivities = new MatTableDataSource(this.elementsDataTeacherActivities);
     this.inicializeCaiForm();
+    if(this.loadedData) {
+      this.getDataCaiLoaded();
+    } else {
+      this.dataCai = this.initDataCai;
+      this.getDataUser();
+    }
     this.studyPlanForm = Object.assign(new FormGroup({}), this.caiForm.get('studyPlan'));
     this.subjectForm = Object.assign(new FormGroup({}), this.caiForm.get('subject'));
     this.investigationActivitiesForm = Object.assign(new FormGroup({}), this.caiForm.get('investigationActivities'));
-    this.inicializeTeacherActivitiesForm();
     this.getStudyPlan();
     this.inicializeDataInvestigationActivities();
     this.inicializeDataExtensionActivities();
@@ -165,6 +181,14 @@ export class CaiStructureComponent implements OnInit {
     });
   }
 
+  getDataCaiLoaded() {
+    this.caiForm.setControl('department', new FormControl({value: this.dataCai.usuario.departamento.nombre, disabled: true}, [Validators.required]));
+    this.caiForm.setControl('semester', new FormControl({value: (this.dataCai.periodo.semestre === 2) ? 'II' : 'I', disabled: true}, [Validators.required]));
+    this.caiForm.setControl('teacher', new FormControl({value: this.dataCai.usuario.nombre + ' ' + this.dataCai.usuario.apellido, disabled: true}, [Validators.required]));
+    this.caiForm.setControl('code', new FormControl({value: this.dataCai.usuario.codigo, disabled: true}, [Validators.required]));
+    this.caiForm.setControl('dedication', new FormControl({value: this.dataCai.dedicacion, disabled: this.isViewCai}, [Validators.required]));
+  }
+
   getDepartment(idDepartment: string) {
     this.departmentService.getDepartmentById(idDepartment).subscribe({
       next: departmentResponse => {
@@ -188,6 +212,7 @@ export class CaiStructureComponent implements OnInit {
     this.caiService.getStudyPlanList().subscribe({
       next: studyPlanListServiceResponse => {
         this.studyPlanList = studyPlanListServiceResponse.rows;
+        this.inicializeTeacherActivitiesForm();
       },
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
@@ -197,35 +222,74 @@ export class CaiStructureComponent implements OnInit {
 
   loadSubjectList(idStudyPlan: string) {
     let idTable = idStudyPlan.split('-');
-    this.caiService.getSubjectListByStudyPlan(idTable[1]).subscribe({
-      next: subjectListResponse => {
-        let index = idTable[0].length - 1;
-        this.indexStudyPlan = idTable[0][index];
-        this.elementsDataTeacherActivities[parseInt(this.indexStudyPlan)].studyPlan = idTable[1];
-        this.elementsDataTeacherActivities[parseInt(this.indexStudyPlan)].subjectList = subjectListResponse;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
-      }
-    });
+    if(idTable[1] !== '0' && idTable[1] !== 'undefined') {
+      this.caiService.getSubjectListByStudyPlan(idTable[1]).subscribe({
+        next: subjectListResponse => {
+          let index = idTable[0].length - 1;
+          this.indexStudyPlan = idTable[0][index];
+          this.elementsDataTeacherActivities[parseInt(this.indexStudyPlan)].plan_estudio.id = idTable[1];
+          this.elementsDataTeacherActivities[parseInt(this.indexStudyPlan)].subjectList = subjectListResponse;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
+        }
+      });
+    }
   }
 
   loadSubjectData(idSubject: string) {
     let idTable = idSubject.split('-');
-    this.caiService.getSubjectListById(idTable[1]).subscribe({
-      next: subjectResponse => {
-        let index: number = idTable[0].length - 1;
-        index = parseInt(idTable[0][index]);
-        this.elementsDataTeacherActivities[index].subject = idTable[1];
-        this.elementsDataTeacherActivities[index].credits = subjectResponse.creditos;
-        this.elementsDataTeacherActivities[index].theoreticalHours = subjectResponse.horas_teoricas;
-        this.elementsDataTeacherActivities[index].practicalHours = subjectResponse.horas_practicas;
-        this.getHoursTeacherActivities();
-      },
-      error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error, '/diligenciar-cai'));
-      }
-    });
+    if(idTable[1] !== '0' && idTable[1] !== 'undefined') {
+      this.caiService.getSubjectListById(idTable[1]).subscribe({
+        next: subjectResponse => {
+          let index: number = idTable[0].length - 1;
+          index = parseInt(idTable[0][index]);
+          this.elementsDataTeacherActivities[index].id = idTable[1];
+          this.elementsDataTeacherActivities[index].creditos = subjectResponse.creditos;
+          this.elementsDataTeacherActivities[index].horas_teoricas = subjectResponse.horas_teoricas;
+          this.elementsDataTeacherActivities[index].horas_practicas = subjectResponse.horas_practicas;
+          this.getHoursTeacherActivities();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.openDialog(error.error.msg, this.validationRedirect(error, '/diligenciar-cai'));
+        }
+      });
+    }
+  }
+
+  get initTeacherActivities(): TeacherActivitiesTable {
+    return {
+      id: '0',
+      creditos: 0,
+      horas_practicas: 0,
+      horas_teoricas: 0,
+      nameFormStudyPlan: '',
+      nameFormSubject: '',
+      nombre: '',
+      plan_estudio: {} as StudyPlanResponse,
+      subjectList: []
+    };
+  }
+
+  get initDataCai(): Cai {
+    return {
+      id: '0',
+      esActivo: false,
+      dedicacion: '',
+      id_estado: 0,
+      id_periodo: 0,
+      id_usuario: 0,
+      observacion: '',
+      fecha_diligenciamiento: '',
+      usuario: {} as User,
+      periodo: {} as Period,
+      asignaturas: [],
+      actividad_investigacions: [],
+      actividad_extensions: [],
+      actividad_administracions: [],
+      tipo_representacions: [],
+      actividad_otras: [],
+    };
   }
 
   get extensionActivities(): FormArray {
@@ -266,7 +330,7 @@ export class CaiStructureComponent implements OnInit {
       semester: new FormControl({value: '', disabled: true}, [Validators.required]),
       teacher: new FormControl({value: '', disabled: true}, [Validators.required]),
       code: new FormControl({value: '', disabled: true}, [Validators.required]),
-      dedication: new FormControl('', [Validators.required]),
+      dedication: new FormControl({value: '', disabled: this.isViewCai}, [Validators.required]),
       studyPlan: new FormGroup({}),
       subject: new FormGroup({}),
       investigationActivities: new FormGroup({}),
@@ -280,62 +344,136 @@ export class CaiStructureComponent implements OnInit {
   }
 
   inicializeTeacherActivitiesForm() {
+    if(this.loadedData) {
+      this.elementsDataTeacherActivities = this.dataCai.asignaturas;
+    } else {
+      this.elementsDataTeacherActivities = [this.initTeacherActivities];
+    }
+
     for(let i = 0; i < this.elementsDataTeacherActivities.length; i++) {
-      this.studyPlanForm.addControl('studyPlan'+ i, new FormControl('0', [Validators.required]));
-      this.subjectForm.addControl('subject' + i, new FormControl('0', [Validators.required]));
+      this.studyPlanForm.addControl('studyPlan'+ i, new FormControl({
+          value: (this.elementsDataTeacherActivities[i].plan_estudio !== undefined) ? ('studyPlan' + i + '-' + this.elementsDataTeacherActivities[i].plan_estudio.id) : '0',
+          disabled: this.isViewCai
+        },
+        [Validators.required]
+      ));
+      this.subjectForm.addControl('subject' + i, new FormControl({
+          value: 'subject' + i + '-' + (this.elementsDataTeacherActivities[i].id || '0'),
+          disabled: this.isViewCai
+        },
+        [Validators.required]
+      ));
+      this.loadSubjectList('studyPlan' + i + '-' + this.elementsDataTeacherActivities[i].plan_estudio.id);
+      this.loadSubjectData('subject' + i + '-' + this.elementsDataTeacherActivities[i].id);
       this.elementsDataTeacherActivities[i].nameFormStudyPlan = 'studyPlan' + i;
       this.elementsDataTeacherActivities[i].nameFormSubject = 'subject' + i;
     }
+    this.dataArrayTeacherActivities = new MatTableDataSource(this.elementsDataTeacherActivities);
+    this.loadActivities++;
   }
 
   inicializeInvestigationActivitiesForm() {
-    for(let i = 0; i < this.elementsDataInvestigationActivities.length; i++) {
-      this.investigationActivitiesForm.addControl('investigationActivity' + i, new FormControl(''));
+    let hours;
+    for(let i = 0, j = 0; i < this.elementsDataInvestigationActivities.length; i++) {
+      hours = 0;
+      if((j < this.dataCai.actividad_investigacions.length) && this.elementsDataInvestigationActivities[i].id === this.dataCai.actividad_investigacions[j].id) {
+        hours = this.dataCai.actividad_investigacions[j].periodo_docente_actividad_investigacion.horas;
+        j++;
+      }
+      this.investigationActivitiesForm.addControl('investigationActivity' + i, new FormControl({value: hours, disabled: this.isViewCai}));
       this.elementsDataInvestigationActivities[i].nombreFormInput = 'investigationActivity' + i;
     }
+    this.dataArrayInvestigationActivities = new MatTableDataSource(this.elementsDataInvestigationActivities);
+    this.loadActivities++;
   }
 
   inicializeExtensionActivitiesForm() {
-    for(let i = 0; i < this.elementsDataExtensionActivities.length; i++) {
+    let hours;
+    let itemsText = '';
+    for(let i = 0, j = 0; i < this.elementsDataExtensionActivities.length; i++) {
+      hours = 0;
+      if((j < this.dataCai.actividad_extensions.length) && this.elementsDataExtensionActivities[i].id === this.dataCai.actividad_extensions[j].id){
+        hours = this.dataCai.actividad_extensions[j].periodo_docente_actividad_extension.horas;
+        if(this.elementsDataExtensionActivities[i].listar) {
+          itemsText = this.dataCai.actividad_extensions[j].periodo_docente_actividad_extension.nombre;
+        }
+        j++;
+      }
+
       this.extensionActivities.push(this.fb.group({
-        hours: new FormControl(),
-        itemsExtension: this.fb.array([new FormControl('')]),
+        hours: new FormControl({value: hours, disabled: this.isViewCai}),
+        itemsExtension: this.fb.array(this.getListItems(itemsText)),
       }));
     }
+    this.loadActivities++;
   }
 
   inicializeAdministrationActivitiesForm() {
-    for(let i = 0; i < this.elementsDataAdministrationActivities.length; i++) {
+    let hours;
+    let itemsText = '';
+    for(let i = 0, j = 0; i < this.elementsDataAdministrationActivities.length; i++) {
+      hours = 0;
+      if((j < this.dataCai.actividad_administracions.length) && this.elementsDataAdministrationActivities[i].id === this.dataCai.actividad_administracions[j].id) {
+        hours = this.dataCai.actividad_administracions[j].periodo_docente_actividad_administracion.horas;
+        if(this.elementsDataAdministrationActivities[i].listar) {
+          itemsText = this.dataCai.actividad_administracions[j].periodo_docente_actividad_administracion.nombre;
+        }
+        j++;
+      }
+
       this.administrationActivities.push(this.fb.group({
-        hours: new FormControl(),
-        itemsAdministration: this.fb.array([new FormControl('')]),
+        hours: new FormControl({value: hours, disabled: this.isViewCai}),
+        itemsAdministration: this.fb.array(this.getListItems(itemsText)),
       }));
     }
+    this.loadActivities++;
   }
 
   inicializeRepresentationActivitiesForm() {
-    for(let i = 0; i < this.elementsDataRepresentationActivities.length; i++) {
+    let hours;
+    let itemsText = '';
+    for(let i = 0, j = 0; i < this.elementsDataRepresentationActivities.length; i++) {
+      hours = 0;
+      if((j < this.dataCai.tipo_representacions.length) && this.elementsDataRepresentationActivities[i].id === this.dataCai.tipo_representacions[j].id) {
+        hours = this.dataCai.tipo_representacions[j].periodo_docente_representacion.horas;
+        if(this.elementsDataRepresentationActivities[i].listar) {
+          itemsText = this.dataCai.tipo_representacions[j].periodo_docente_representacion.nombre;
+        }
+        j++;
+      }
+
       this.representationActivities.push(this.fb.group({
-        hours: new FormControl(),
-        itemsRepresentation: this.fb.array([new FormControl('')]),
+        hours: new FormControl({value: hours, disabled: this.isViewCai}),
+        itemsRepresentation: this.fb.array(this.getListItems(itemsText)),
       }));
     }
+    this.loadActivities++;
   }
 
   inicializeOtherActivitiesForm() {
-    for(let i = 0; i < this.elementsDataOtherActivities.length; i++) {
+    let hours;
+    let itemsText = '';
+    for(let i = 0, j = 0; i < this.elementsDataOtherActivities.length; i++) {
+      hours = 0;
+      if((j < this.dataCai.actividad_otras.length) && this.elementsDataOtherActivities[i].id === this.dataCai.actividad_otras[j].id) {
+        hours = this.dataCai.actividad_otras[j].periodo_docente_otra.horas;
+        if(this.elementsDataOtherActivities[i].listar) {
+          itemsText = this.dataCai.actividad_otras[j].periodo_docente_otra.nombre;
+        }
+        j++;
+      }
       this.otherActivities.push(this.fb.group({
-        hours: new FormControl(),
-        itemsOther: this.fb.array([new FormControl('')]),
+        hours: new FormControl({value: hours, disabled: this.isViewCai}),
+        itemsOther: this.fb.array(this.getListItems(itemsText)),
       }));
     }
+    this.loadActivities++;
   }
 
   inicializeDataInvestigationActivities() {
     this.caiService.getInvestigationActivityList().subscribe({
       next: investigationActivitiesResponse => {
         this.elementsDataInvestigationActivities = investigationActivitiesResponse;
-        this.dataArrayInvestigationActivities = new MatTableDataSource(this.elementsDataInvestigationActivities);
         this.inicializeInvestigationActivitiesForm();
       },
       error: (error: HttpErrorResponse) => {
@@ -407,8 +545,8 @@ export class CaiStructureComponent implements OnInit {
 
   removeRowTeacherActivities() {
     let index = this.elementsDataTeacherActivities.length - 1;
-    this.totalHours.totalTeacherActivities -= this.elementsDataTeacherActivities[index].theoreticalHours -
-    this.elementsDataTeacherActivities[index].practicalHours;
+    this.totalHours.totalTeacherActivities -= this.elementsDataTeacherActivities[index].horas_teoricas -
+    this.elementsDataTeacherActivities[index].horas_practicas;
     this.studyPlanForm.removeControl('studyPlan' + index);
     this.subjectForm.removeControl('subject' + index);
     this.elementsDataTeacherActivities.pop();
@@ -453,7 +591,7 @@ export class CaiStructureComponent implements OnInit {
   loadTeacherActivities() {
     this.caiRequest.asignaturas = [];
     for(let i = 0; i < this.elementsDataTeacherActivities.length; i++) {
-      let subjectSelected = parseInt(this.elementsDataTeacherActivities[i].subject);
+      let subjectSelected = parseInt(this.elementsDataTeacherActivities[i].id);
       if(this.caiRequest.asignaturas.includes(subjectSelected)) {
         this.openDialog('No puede seleccionar dos asignaturas iguales', '');
       } else {
@@ -589,8 +727,8 @@ export class CaiStructureComponent implements OnInit {
   getHoursTeacherActivities() {
     this.totalHours.totalTeacherActivities = 0;
     for(let i = 0; i < this.elementsDataTeacherActivities.length; i++) {
-      this.totalHours.totalTeacherActivities += this.elementsDataTeacherActivities[i].theoreticalHours +
-      this.elementsDataTeacherActivities[i].practicalHours;
+      this.totalHours.totalTeacherActivities += this.elementsDataTeacherActivities[i].horas_teoricas +
+      this.elementsDataTeacherActivities[i].horas_practicas;
     }
   }
 
@@ -692,6 +830,17 @@ export class CaiStructureComponent implements OnInit {
       baseRoute = '/login';
     }
     return baseRoute;
+  }
+
+  getListItems(itemsText: string) {
+    let items = itemsText.split(',');
+    let formsControl: FormControl[] = [];
+    for(let i = 0; i < items.length; i++) {
+      formsControl.push(
+        new FormControl({value: items[i], disabled: this.isViewCai})
+      );
+    }
+    return formsControl;
   }
 
   formatText(text: string) {

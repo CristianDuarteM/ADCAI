@@ -1,7 +1,7 @@
 import { FacultyResponse } from "./FacultyResponse";
 
 export interface StudyPlanResponse {
-  id: number;
+  id: string;
   nombre: string;
   id_facultad: number;
   estado: boolean;

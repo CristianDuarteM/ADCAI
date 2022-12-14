@@ -1,3 +1,5 @@
+import { InvestigationActivities } from "../InvestigationActivities";
+
 export interface InvestigationActivitiesTable {
   id: number;
   nombre: string;
@@ -7,4 +9,5 @@ export interface InvestigationActivitiesTable {
   descripcion_horas: string,
   estado: boolean,
   nombreFormInput: string;
+  periodo_docente_actividad_investigacion: InvestigationActivities;
 }

@@ -1,3 +1,5 @@
+import { StudyPlanResponse } from "./StudyPlanResponse";
+
 export interface SubjectResponse {
   id: number;
   id_programa: string;
@@ -7,4 +9,5 @@ export interface SubjectResponse {
   creditos: string;
   horas_practicas: string;
   horas_teoricas: string;
+  plan_estudio: StudyPlanResponse;
 }

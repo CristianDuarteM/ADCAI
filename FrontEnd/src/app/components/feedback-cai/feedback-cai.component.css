@@ -1,0 +1,37 @@
+span {
+  font-size: large;
+}
+
+.principal-content {
+  margin: 0 5% 0 5%;
+}
+
+.title-section {
+  font-size: larger;
+  font-weight: bold;
+  margin: 3% 0 1% 0;
+}
+
+.color-title {
+  color: #B20808;
+  font-weight: bold;
+}
+
+.mat-subheader {
+  font-size: large;
+}
+
+.format-text {
+  font-style: italic;
+  font-weight: bold;
+}
+
+.content {
+  margin-bottom: 2%;
+}
+
+@media only screen and (max-width: 600px) {
+  .mat-list-item {
+    margin: 10% 0 25% 0;
+  }
+}

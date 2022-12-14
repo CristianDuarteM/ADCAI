@@ -35,7 +35,7 @@ export class HistoricalComponent implements OnInit {
     this.isDirector = false;
     this.heightTableHistoricalCai = { height: '45vh' };
     this.headerTableHistoricalCai = 'Listado de Cargas Académicas Integrales';
-    this.buttonRouteHistoricalCai = '/historial-cai/ver';
+    this.buttonRouteHistoricalCai = '/historial-cai/ver/';
     this.elementsDataHistoricalCai = [];
     this.columnsToDisplayHistoricalCai = ['Código','Nombre Completo', 'Id CAI', 'Año', 'Semestre', 'Departamento','Acción'];
     this.isLoaded = false;

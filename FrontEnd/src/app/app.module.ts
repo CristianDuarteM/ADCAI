@@ -14,6 +14,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatListModule } from '@angular/material/list';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { HttpClientModule } from "@angular/common/http";
 
@@ -59,6 +60,8 @@ import { CaiStructureComponent } from './components/cai-structure/cai-structure.
 import { FillCaiComponent } from './pages/cai/fill-cai/fill-cai.component';
 import { AddSignatureComponent } from './pages/user/add-signature/add-signature.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { ViewCaiComponent } from './pages/cai/view-cai/view-cai.component';
+import { FeedbackCaiComponent } from './components/feedback-cai/feedback-cai.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +104,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     FillCaiComponent,
     AddSignatureComponent,
     SpinnerComponent,
+    ViewCaiComponent,
+    FeedbackCaiComponent,
   ],
   imports: [
     FormsModule,
@@ -119,6 +124,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressSpinnerModule,
+    MatListModule,
     NgxPermissionsModule.forRoot(),
     HttpClientModule,
   ],

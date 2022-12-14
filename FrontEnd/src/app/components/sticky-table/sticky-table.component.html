@@ -105,8 +105,8 @@
       <ng-container matColumnDef="Acción">
         <th mat-header-cell *matHeaderCellDef class="border-column-table"> Acción </th>
         <ng-container *ngIf="viewCAI">
-          <td mat-cell *matCellDef class="border-color-table">
-            <button class="add-button" (click)="getCai()">
+          <td mat-cell *matCellDef="let item" class="border-color-table">
+            <button class="add-button" (click)="getCai(item.id)">
               <mat-icon>remove_red_eye</mat-icon>
               <span>Ver</span>
             </button>

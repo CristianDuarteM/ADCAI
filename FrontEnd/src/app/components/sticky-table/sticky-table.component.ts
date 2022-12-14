@@ -75,8 +75,8 @@ export class StickyTableComponent implements OnInit {
     this.dataArray.filter = filterValue.trim().toLowerCase();
   }
 
-  getCai() {
-    this.navigation.navigate([this.buttonRoute]);
+  getCai(id: number) {
+    this.navigation.navigate([this.buttonRoute, id]);
   }
 
   validateCai() {
