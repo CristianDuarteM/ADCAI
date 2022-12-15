@@ -61,6 +61,19 @@ const routes: Routes = [
   { path: "evaluar-cai", component: ValidateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
   { path: "evaluar-cai/:idCai", component: ViewEvaluateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
   { path: "diligenciar-cai", component: FillCaiComponent, pathMatch: "full", canActivate: [TeacherGuard] },
+  { path: "cai-admin", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/investigacion", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/investigacion/:idInvestigation", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/extension", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/extension/:idExtension", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/administracion", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/administracion/:idAdministration", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/representacion", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/representacion/:idRepresentation", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/otras", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/otras/:idOtra", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/notas", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/notas/:idNota", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
 ];
 
 @NgModule({
