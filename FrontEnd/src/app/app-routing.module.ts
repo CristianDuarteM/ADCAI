@@ -30,6 +30,8 @@ import { DirectorGuard } from './guards/director-guard';
 import { FillCaiComponent } from './pages/cai/fill-cai/fill-cai.component';
 import { TeacherGuard } from './guards/teacher-guard';
 import { ViewCaiComponent } from './pages/cai/view-cai/view-cai.component';
+import { DeanDirectorGuard } from './guards/dean-director-guard';
+import { ViewEvaluateCaiComponent } from './pages/cai/view-evaluate-cai/view-evaluate-cai.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -51,12 +53,13 @@ const routes: Routes = [
   { path: "perfil/:idUser", component: ViewProfileComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
   { path: "perfil/editar/:idUser", component: UpdateProfileComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
   { path: "notificaciones", component: NotificationsComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
-  { path: "historial-cai", component: HistoricalComponent, pathMatch: "full" },
-  { path: "historial-cai/ver/:idCai", component: ViewCaiComponent, pathMatch: "full" },
+  { path: "historial-cai", component: HistoricalComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
+  { path: "historial-cai/ver/:idCai", component: ViewCaiComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
   { path: "gestion-cai", component: ManagementCaiComponent, pathMatch: "full",  canActivate: [DirectorGuard] },
   { path: "gestion-cai/agregar", component: RequestCaiComponent, pathMatch: "full", canActivate: [DirectorGuard] },
   { path: "gestion-cai/actualizar-periodo", component: UpdateRequestCaiComponent, pathMatch: "full", canActivate: [DirectorGuard] },
-  { path: "evaluar-cai", component: ValidateCaiComponent, pathMatch: "full" },
+  { path: "evaluar-cai", component: ValidateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
+  { path: "evaluar-cai/:idCai", component: ViewEvaluateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
   { path: "diligenciar-cai", component: FillCaiComponent, pathMatch: "full", canActivate: [TeacherGuard] },
 ];
 

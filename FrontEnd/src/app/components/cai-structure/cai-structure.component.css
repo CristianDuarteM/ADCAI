@@ -182,6 +182,17 @@ td {
   margin: 1%;
 }
 
+.approve-button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+}
+
+.reject-button {
+  background-color: #E896A4;
+  border-color: #E896A4;
+}
+
+
 @media only screen and (max-width: 600px) {
   table {
     width: 200%;

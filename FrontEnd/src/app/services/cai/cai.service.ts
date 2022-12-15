@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
 import { CaiModel } from 'src/app/models/CaiModel';
+import { EvaluateCaiModel } from 'src/app/models/EvaluateCai';
 import { CaiRequest } from 'src/app/models/request/CaiRequest';
 
 @Injectable({
@@ -154,6 +155,14 @@ export class CaiService {
 
   getCaiById(idCai: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/cai/' + idCai, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  evaluateCai(idCai: string, evaluateCaiModel: EvaluateCaiModel): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/cai/evaluar/' + idCai, evaluateCaiModel, {
       headers: {
         'x-token': this.tokenSession
       }

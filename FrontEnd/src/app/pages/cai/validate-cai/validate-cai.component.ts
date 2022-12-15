@@ -7,7 +7,6 @@ import { config } from 'src/app/constants/config';
 import { CaiHistoricalResponse } from 'src/app/models/response/CaiHistoricalResponse';
 import { CaiHistoricalTable } from 'src/app/models/table/CaiHistoricalTable';
 import { CaiService } from 'src/app/services/cai/cai.service';
-import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-validate-cai',
@@ -26,8 +25,7 @@ export class ValidateCaiComponent implements OnInit {
   elementsDataHistoricalCai: CaiHistoricalTable[];
   isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private caiService: CaiService, public dialog: MatDialog,
-    private userService: UserService) {
+  constructor(private ngxPermissonsService: NgxPermissionsService, private caiService: CaiService, public dialog: MatDialog) {
     this.backRouteHistoricalCai = '/home';
     this.titleHistoricalCai = 'Cargas Académicas Integrales por Evaluar';
     this.isPrincipalHistoricalCai = false;

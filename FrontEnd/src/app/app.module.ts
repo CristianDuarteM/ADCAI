@@ -62,6 +62,7 @@ import { AddSignatureComponent } from './pages/user/add-signature/add-signature.
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ViewCaiComponent } from './pages/cai/view-cai/view-cai.component';
 import { FeedbackCaiComponent } from './components/feedback-cai/feedback-cai.component';
+import { ViewEvaluateCaiComponent } from './pages/cai/view-evaluate-cai/view-evaluate-cai.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { FeedbackCaiComponent } from './components/feedback-cai/feedback-cai.com
     SpinnerComponent,
     ViewCaiComponent,
     FeedbackCaiComponent,
+    ViewEvaluateCaiComponent,
   ],
   imports: [
     FormsModule,

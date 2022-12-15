@@ -79,7 +79,8 @@ export class StickyTableComponent implements OnInit {
     this.navigation.navigate([this.buttonRoute, id]);
   }
 
-  validateCai() {
+  validateCai(idCai: string) {
+    this.navigation.navigate(['/evaluar-cai/', idCai]);
   }
 
 }

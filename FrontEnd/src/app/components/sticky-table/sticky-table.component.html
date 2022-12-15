@@ -93,8 +93,8 @@
       <ng-container matColumnDef="Validar">
         <th mat-header-cell *matHeaderCellDef class="border-column-table"> Validar </th>
         <ng-container *ngIf="viewCAI">
-          <td mat-cell *matCellDef class="border-color-table">
-            <button class="add-button" (click)="validateCai()">
+          <td mat-cell *matCellDef="let item" class="border-color-table">
+            <button class="add-button" (click)="validateCai(item.id)">
               <mat-icon>remove_red_eye</mat-icon>
               <span>Evaluar</span>
             </button>
