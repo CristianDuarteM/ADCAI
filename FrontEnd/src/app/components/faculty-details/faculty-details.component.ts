@@ -25,7 +25,7 @@ export class FacultyDetailsComponent implements OnInit {
     this.titleButton = '';
     this.descriptionForm = '';
     this.dataFaculty = {
-      id: 0, nombre: '', descripcion: '', estado: false, decano: { id: 0, nombre: '', apellido: '', correo: '', realizaCai: false }
+      id: 0, nombre: '', descripcion: '', estado: false, decano: { id: 0, nombre: '', apellido: '', correo: '', realizaCai: true }
     };
     this.isUpdate = false;
   }

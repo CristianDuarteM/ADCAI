@@ -15,14 +15,9 @@
         <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.id}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="De">
-        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> De </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.from}} </td>
-      </ng-container>
-
       <ng-container matColumnDef="Código">
         <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: center;"> Código </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{(viewCAI) ? item.teacher.codigo : item.codigo}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.codigo}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Nombre">
@@ -32,7 +27,7 @@
 
       <ng-container matColumnDef="Nombre Completo">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Nombre Completo </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{ (item.nombre !== null) ? item.nombre + ' ' + item.apellido : ''}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Id CAI">
@@ -42,17 +37,17 @@
 
       <ng-container matColumnDef="Año">
         <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 5%; text-align: center;"> Año </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.year}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.anno}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Semestre">
         <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 10%; text-align: center;"> Semestre </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.semester}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.semestre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Departamento">
         <th mat-header-cell *matHeaderCellDef class="columns-table"> Departamento </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.teacher.department}} </td>
+        <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.departamento}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Correo">
@@ -70,14 +65,19 @@
         <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.descripcion}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="Mensaje">
+        <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 60%; text-align: justify;"> Mensaje </th>
+        <td mat-cell *matCellDef="let item" class="border-color-table" style="text-align: justify;"> {{item.mensaje}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="Fecha">
-        <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: center;"> Fecha </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.date}} </td>
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Fecha </th>
+        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.createdAt}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Estado">
-        <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: center;"> Estado </th>
-        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.state}} </td>
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Estado </th>
+        <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{(item.leido) ? 'Leído' : 'No leído'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Decano">
@@ -93,8 +93,8 @@
       <ng-container matColumnDef="Validar">
         <th mat-header-cell *matHeaderCellDef class="border-column-table"> Validar </th>
         <ng-container *ngIf="viewCAI">
-          <td mat-cell *matCellDef class="border-color-table">
-            <button class="add-button" (click)="validateCai()">
+          <td mat-cell *matCellDef="let item" class="border-color-table">
+            <button class="add-button" (click)="validateCai(item.id)">
               <mat-icon>remove_red_eye</mat-icon>
               <span>Evaluar</span>
             </button>
@@ -105,8 +105,8 @@
       <ng-container matColumnDef="Acción">
         <th mat-header-cell *matHeaderCellDef class="border-column-table"> Acción </th>
         <ng-container *ngIf="viewCAI">
-          <td mat-cell *matCellDef class="border-color-table">
-            <button class="add-button" (click)="getCai()">
+          <td mat-cell *matCellDef="let item" class="border-color-table">
+            <button class="add-button" (click)="getCai(item.id)">
               <mat-icon>remove_red_eye</mat-icon>
               <span>Ver</span>
             </button>
@@ -116,7 +116,7 @@
           <td mat-cell *matCellDef="let item" class="border-color-table">
             <button class="add-button" *ngIf="item.estado || item.estaActivo" (click)="redirectButton(item.id)">
               <mat-icon>edit</mat-icon>
-              {{(onlyView) ? 'Ver' : 'Editar'}}
+              <span>{{(onlyView) ? 'Ver' : 'Editar'}}</span>
             </button>
             <button class="disable-button" (click)="openDialog(item.id)" *ngIf="item.estado || item.estaActivo">
               <mat-icon> edit_attributes</mat-icon>

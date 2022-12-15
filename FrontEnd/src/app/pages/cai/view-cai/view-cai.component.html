@@ -1,0 +1,9 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteViewCai" [title]="titleViewCai" [isPrincipal]="isPrincipalViewCai"></app-principal-row>
+    <div *ngIf="isLoaded">
+      <app-cai-structure [isViewCai]="true" [dataCai]="dataCai" [loadedData]="true" [feedbackList]="feedbackList"></app-cai-structure>
+    </div>
+  </div>
+</ng-container>

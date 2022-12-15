@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
 import { UserResponse } from 'src/app/models/response/userResponse';
-import { UserModel } from 'src/app/models/UserModel';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({

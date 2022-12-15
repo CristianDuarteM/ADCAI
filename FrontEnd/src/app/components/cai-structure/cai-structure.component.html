@@ -1,0 +1,401 @@
+<ng-container>
+  <form [formGroup]="caiForm" (ngSubmit)="onSubmit()" *ngIf="loadActivities === 6">
+    <div class="principal-content">
+      <div class="init-information">
+        <div class="init-information-input">
+          <span>Departamento:</span>
+          <mat-form-field>
+            <input matInput formControlName="department" type="text">
+          </mat-form-field>
+        </div>
+        <div class="init-information-input">
+          <span>Semestre:</span>
+          <mat-form-field>
+            <input matInput formControlName="semester" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="init-information">
+        <div class="init-information-input">
+          <span>Docente:</span>
+          <mat-form-field>
+            <input matInput formControlName="teacher" type="text">
+          </mat-form-field>
+        </div>
+        <div class="init-information-input">
+          <span>Código:</span>
+          <mat-form-field>
+            <input matInput formControlName="code" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="init-information">
+        <div class="init-information-input">
+          <span>Dedicación:</span>
+          <mat-form-field>
+            <input matInput formControlName="dedication" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="button-content-teacher-activities" *ngIf="!isViewCai">
+        <button mat-raised-button type="button" class="button-teacher-activities" (click)="addRowTeacherActivities()">
+          Agregar Asignatura
+        </button>
+        <button mat-raised-button type="button" class="button-teacher-activities" [disabled]="(elementsDataTeacherActivities.length <= 1)" (click)="removeRowTeacherActivities()">
+          Eliminar Asignatura
+        </button>
+      </div>
+      <div class="table-format">
+        <table #tableTeacherActivities mat-table [dataSource]="dataArrayTeacherActivities" class="mat-elevation-z8">
+          <ng-container matColumnDef="PLAN DE ESTUDIOS">
+            <th mat-header-cell *matHeaderCellDef style="width: 40%;"> PLAN DE ESTUDIOS </th>
+            <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: start;">
+              <div formGroupName="studyPlan">
+                <mat-form-field appearance="fill">
+                  <mat-label>Seleccione plan de estudios</mat-label>
+                  <mat-select formControlName="{{item.nameFormStudyPlan}}" name="studyPlan" (selectionChange)="loadSubjectList($event.source.value)">
+                    <mat-option *ngFor="let studyPlan of studyPlanList" [value]="item.nameFormStudyPlan + '-' + studyPlan.id">
+                      {{studyPlan.nombre}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="ASIGNATURAS">
+            <th mat-header-cell *matHeaderCellDef style="width: 40%;"> ASIGNATURAS </th>
+            <td mat-cell *matCellDef="let item;" class="border-color-table mobile-label" style="text-align: start;">
+              <div formGroupName="subject">
+                <mat-form-field appearance="fill">
+                  <mat-label>Seleccione asignatura</mat-label>
+                  <mat-select formControlName="{{item.nameFormSubject}}" name="subject" (selectionChange)="loadSubjectData($event.source.value)">
+                    <div>
+                      <mat-option *ngFor="let subject of item.subjectList" [value]="item.nameFormSubject+ '-' + subject.id">
+                        {{subject.nombre}}
+                      </mat-option>
+                    </div>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="CR">
+            <th mat-header-cell *matHeaderCellDef style="width: 10%; text-align: center;"> CR </th>
+            <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> {{item.creditos}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="H.T.">
+            <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 10%; text-align: center;"> H.T. </th>
+            <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.horas_teoricas}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="H.P.">
+            <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 10%; text-align: center;"> H.P. </th>
+            <td mat-cell *matCellDef="let item" class="border-color-table" onchange="prueba()"> {{item.horas_practicas}} </td>
+          </ng-container>
+
+          <tr mat-header-row>Listado de Facultades</tr>
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplayTeacherActivities;"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnsToDisplayTeacherActivities;"></tr>
+        </table>
+      </div>
+      <div class="total-section">
+        <span class="span-total-section">Total: </span>
+        <span class="span-total-section">{{totalHours.totalTeacherActivities}}</span>
+      </div>
+      <div>
+        <div class = "title-section">
+          <span>1. ACTIVIDADES DE DOCENCIA</span>
+        </div>
+        <div class="section-content">
+          <span>1.1 Horas lectivas semanales (HL = Total HT + Total HP)</span>
+          <mat-form-field class="input-hours">
+            <input matInput type="text" [disabled]="true" value="{{totalHours.totalTeacherActivities}}">
+          </mat-form-field>
+        </div>
+        <div class="section-content">
+          <span>1.2 Preparación horas lectivas semanales (PHL = 0.75 HL)</span>
+          <mat-form-field class="input-hours">
+            <input matInput type="text" [disabled]="true" value="{{((totalHours.totalTeacherActivities) * 0.75).toFixed(1)}}">
+          </mat-form-field>
+        </div>
+        <div class="section-content">
+          <span>1.3 Asesoría académica a estudiantes semanal (AE = 0.3 HL)</span>
+          <mat-form-field class="input-hours">
+            <input matInput type="text" [disabled]="true" value="{{((totalHours.totalTeacherActivities) * 0.3).toFixed(1)}}">
+          </mat-form-field>
+        </div>
+        <div class="section-content">
+          <span>1.4 Evaluación a estudiantes semanal (EE = 0.3 HL)</span>
+          <mat-form-field class="input-hours">
+            <input matInput type="text" [disabled]="true" value="{{((totalHours.totalTeacherActivities) * 0.3).toFixed(1)}}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="total-section">
+        <span class="span-total-section">SUBTOTAL HORAS DOCENCIA</span>
+        <span class="span-total-section">{{getSubtotalTeacherActivities()}}</span>
+      </div>
+      <div>
+        <div class = "title-section">
+          <span>2. ACTIVIDADES DE INVESTIGACIÓN (Acuerdo 056 de 2012*) (Acuerdo 057 de 2012)**</span>
+        </div>
+        <div class="table-format">
+          <table #tableInvestigationActivities mat-table [dataSource]="dataArrayInvestigationActivities" class="mat-elevation-z8">
+            <ng-container matColumnDef="ACTIVIDAD">
+              <th mat-header-cell *matHeaderCellDef style="width: 80%;"> </th>
+              <td mat-cell *matCellDef="let item;" class="border-color-table mobile-label" style="text-align: start;">
+                {{item.nombre}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="DESCRIPCION">
+              <th mat-header-cell *matHeaderCellDef style="width: 90%; text-align: center;"></th>
+              <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: justify;"> {{item.descripcion_horas}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="HORAS">
+              <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 2%; text-align: center;"> </th>
+              <td mat-cell *matCellDef="let item" class="border-color-table">
+                <div formGroupName="investigationActivities">
+                  <mat-form-field class="input-hours-investigation">
+                    <input matInput type="number" min="0" formControlName="{{item.nombreFormInput}}" (change)="getSubtotalInvestigationActivities()">
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columsToDisplayInvestigationActivities;"></tr>
+            <tr mat-row *matRowDef="let row; columns: columsToDisplayInvestigationActivities;"> </tr>
+          </table>
+        </div>
+      </div>
+      <div class="total-section">
+        <span class="span-total-section">SUBTOTAL INVESTIGACIÓN</span>
+        <span class="span-total-section">{{getSubtotalInvestigationActivities()}}</span>
+      </div>
+      <div>
+        <div class = "title-section">
+          <span>3. ACTIVIDADES DE EXTENSIÓN</span>
+        </div>
+        <div>
+          <div formArrayName="extensionActivities">
+            <div *ngFor="let item of extensionActivities.controls; let i = index;">
+              <div formGroupName="{{i}}">
+                <div class="section-content">
+                  <span>3.{{(i + 1) + ' ' + elementsDataExtensionActivities[i].nombre + '. ' + elementsDataExtensionActivities[i].descripcion}}</span>
+                  <mat-form-field class="input-hours">
+                    <input formControlName="hours" matInput type="number" min="0">
+                  </mat-form-field>
+                </div>
+                <div *ngIf="elementsDataExtensionActivities[i].listar">
+                  <div class="item-add">
+                    <div style="width: 100%;">
+                      <span>Identificar <span class="format-text-lower-case">{{elementsDataExtensionActivities[i].nombre}}</span></span>
+                    </div>
+                    <div class="add-button" *ngIf="!isViewCai">
+                      <button mat-fab class="add-icon-button" type="button" (click)="addItemExtension(i)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                      <button mat-fab class="remove-icon-button" type="button" [disabled]="(getItemsExtension(i).controls.length <= 1)" (click)="removeItemExtension(i)" >
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <div formArrayName="itemsExtension">
+                    <div *ngFor="let itemExtension of getItemsExtension(i).controls; let iExtension = index;">
+                      <div class="add-row-input">
+                        <mat-form-field>
+                          <input formControlName="{{iExtension}}" matInput type="text" (change)="getSubtotalExtensionActivities()">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="total-section">
+        <span class="span-total-section">SUBTOTAL EXTENSIÓN</span>
+        <span class="span-total-section">{{getSubtotalExtensionActivities()}}</span>
+      </div>
+      <div>
+        <div class = "title-section">
+          <span>4. ADMINISTRACIÓN</span>
+        </div>
+        <div>
+          <div formArrayName="administrationActivities">
+            <div *ngFor="let item of administrationActivities.controls; let i = index;">
+              <div formGroupName="{{i}}">
+                <div class="section-content">
+                  <span>{{formatText(elementsDataAdministrationActivities[i].nombre)}}</span>
+                  <mat-form-field class="input-hours">
+                    <input formControlName="hours" matInput type="number" min="0">
+                  </mat-form-field>
+                </div>
+                <div *ngIf="elementsDataAdministrationActivities[i].listar">
+                  <div class="item-add">
+                    <span>Enunciar</span>
+                    <div class="add-button" *ngIf="!isViewCai">
+                      <button mat-fab class="add-icon-button" type="button" (click)="addItemAdministration(i)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                      <button mat-fab class="remove-icon-button" type="button"  [disabled]="(getItemsAdministration(i).controls.length <= 1)" (click)="removeItemAdministration(i)" >
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <div formArrayName="itemsAdministration">
+                    <div *ngFor="let itemAdministration of getItemsAdministration(i).controls; let iAdministration = index;">
+                      <div class="add-row-input">
+                        <mat-form-field>
+                          <input formControlName="{{iAdministration}}" matInput type="text">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class = "title-section">
+          <span>5. REPRESENTACIONES</span>
+        </div>
+        <div>
+          <div formArrayName="representationActivities">
+            <div *ngFor="let item of representationActivities.controls; let i = index;">
+              <div formGroupName="{{i}}">
+                <div class="section-content">
+                  <span><span style="font-weight: bold; margin: 0;"> 5.{{(i + 1) + ' ' + elementsDataRepresentationActivities[i].nombre + ':'}}</span> {{elementsDataRepresentationActivities[i].descripcion}}</span>
+                  <mat-form-field class="input-hours">
+                    <input formControlName="hours" matInput type="number" min="0">
+                  </mat-form-field>
+                </div>
+                <div *ngIf="elementsDataRepresentationActivities[i].listar">
+                  <div class="item-add">
+                    <div style="width: 100%;">
+                      <span>Describir</span>
+                    </div>
+                    <div class="add-button" *ngIf="!isViewCai">
+                      <button mat-fab class="add-icon-button" type="button" (click)="addItemRepresentation(i)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                      <button mat-fab class="remove-icon-button" type="button"  [disabled]="(getItemsRepresentation(i).controls.length <= 1)" (click)="removeItemRepresentation(i)" >
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <div formArrayName="itemsRepresentation">
+                    <div *ngFor="let itemRepresentation of getItemsRepresentation(i).controls; let iRepresentation = index;">
+                      <div class="add-row-input">
+                        <mat-form-field>
+                          <input formControlName="{{iRepresentation}}" matInput type="text" (change)="getSubtotalRepresentationActivities()">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="total-section">
+        <span class="span-total-section">SUBTOTAL REPRESENTACIÓN</span>
+        <span class="span-total-section">{{getSubtotalRepresentationActivities()}}</span>
+      </div>
+      <div>
+        <div class = "title-section">
+          <span>6. OTRAS ACTIVIDADES</span>
+        </div>
+        <div>
+          <div formArrayName="otherActivities">
+            <div *ngFor="let item of otherActivities.controls; let i = index;">
+              <div formGroupName="{{i}}">
+                <div class="section-content">
+                  <span>6.{{(i + 1) + ' ' + elementsDataOtherActivities[i].nombre + ' ' + elementsDataOtherActivities[i].descripcion}}</span>
+                  <mat-form-field class="input-hours">
+                    <input formControlName="hours" matInput type="number" min="0">
+                  </mat-form-field>
+                </div>
+                <div *ngIf="elementsDataOtherActivities[i].listar">
+                  <div class="item-add">
+                    <div style="width: 100%;">
+                      <span>Enunciar</span>
+                    </div>
+                    <div class="add-button" *ngIf="!isViewCai">
+                      <button mat-fab class="add-icon-button" type="button" (click)="addItemOther(i)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                      <button mat-fab class="remove-icon-button" type="button" [disabled]="(getItemsOther(i).controls.length <= 1)" (click)="removeItemOther(i)">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <div formArrayName="itemsOther">
+                    <div *ngFor="let itemOther of getItemsOther(i).controls; let iOther = index;">
+                      <div class="add-row-input">
+                        <mat-form-field>
+                          <input formControlName="{{iOther}}" matInput type="text" (change)="getSubtotalOtherActivities()">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="total-section">
+        <span class="span-total-section">SUBTOTAL ACTIVIDADES</span>
+        <span class="span-total-section">{{getSubtotalOtherActivities()}}</span>
+      </div>
+      <div class="total-section">
+        <span class="span-total-section">TOTAL HORAS SEMANALES</span>
+        <span class="span-total-section">{{getTotalHoursCai(true)}}</span>
+      </div>
+      <div>
+        <span class="span-total-section">OBSERVACIONES</span>
+        <mat-form-field>
+          <textarea matInput rows="3" formControlName="observations"></textarea>
+        </mat-form-field>
+      </div>
+      <div>
+        <p>
+          Nota: Al finalizar el semestre académico el profesor presentará al Decano de la Facultad y al Director de Departamento al
+          cual esté adscrito, un informe sobre la ejecución de las actividades programadas en el plan propuesto al inicio del semestre, la
+          cual deberá ser sustentado con las certificaciones y documentos pertinentes (Artículo 17, Acuerdo 046 de 1991).
+        </p>
+      </div>
+      <div>
+        <div class = "title-section">
+          <span>FIRMAS</span>
+        </div>
+        <span>¿Desea agregar la firma asociada a su perfil?</span>
+        <div>
+          <mat-radio-group aria-label="Seleccione una opción" formControlName="signature">
+            <mat-radio-button value="true" color="warn">Sí</mat-radio-button>
+            <mat-radio-button value="false" color="warn">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <p *ngIf="!isViewCai">Recuerde: Si decide no agregar la firma asociada a su perfil, no se enviará a valoración hasta que descargue el documento y lo suba firmado.</p>
+      </div>
+    </div>
+    <div>
+      <app-feedback-cai [feedbackList]="feedbackList"></app-feedback-cai>
+    </div>
+    <div class="button-content" *ngIf="!isViewCai">
+      <button mat-raised-button type="submit" class="button-submit">
+        Guardar
+      </button>
+    </div>
+  </form>
+</ng-container>

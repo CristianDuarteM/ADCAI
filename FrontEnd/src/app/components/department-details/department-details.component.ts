@@ -40,9 +40,9 @@ export class DepartmentDetailsComponent implements OnInit {
     this.department = new FormGroup({
       name: new FormControl(this.dataDepartment.nombre, [Validators.required]),
       description: new FormControl(this.dataDepartment.descripcion, [Validators.required]),
-      director: new FormControl((this.dataDepartment.director !== null) ? this.dataDepartment.director.correo : '', [Validators.email, Validators.required]),
-      faculty: new FormControl((this.dataDepartment.facultad !== null) ? this.dataDepartment.facultad.id : '', [Validators.required, Validators.pattern('^[1-9]*')]),
-      doCai: new FormControl((this.dataDepartment.director !== null) ? this.dataDepartment.director.realizaCai + '' : false + '')
+      director: new FormControl((this.dataDepartment.director !== undefined) ? this.dataDepartment.director.correo : '', [Validators.email, Validators.required]),
+      faculty: new FormControl((this.dataDepartment.facultad !== undefined) ? this.dataDepartment.facultad.id : '', [Validators.required, Validators.pattern('^[1-9]*')]),
+      doCai: new FormControl((this.dataDepartment.director !== undefined) ? this.dataDepartment.director.realizaCai + '' : true + '')
     });
   }
 

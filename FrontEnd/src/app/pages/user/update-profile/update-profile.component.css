@@ -29,7 +29,7 @@ span {
 }
 
 .main-container {
-  height: 103vh;
+  height: 110vh;
 }
 
 @media only screen and (max-width: 600px) {
@@ -43,7 +43,7 @@ span {
     margin-bottom: 5%;
   }
   .main-container {
-    height: 155vh;
+    height: 165vh;
   }
 }
 
@@ -55,7 +55,7 @@ span {
     font-size: larger;
   }
   .main-container {
-    height: 125vh;
+    height: 135vh;
   }
 }
 

@@ -80,6 +80,19 @@
           <p><mat-checkbox formControlName="isRoleTeacherInput" color="warn">Docente</mat-checkbox></p>
         </div>
       </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>¿Realiza CAI?: </label>
+        </div>
+        <div class="right-content">
+          <div>
+            <mat-radio-group aria-label="Seleccione una opción" formControlName="doCai">
+              <mat-radio-button value="true" color="warn">Sí</mat-radio-button>
+              <mat-radio-button value="false" color="warn">No</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
       <div class="form-content" *ngIf="!isAdmin && !onlyViewDirector && isComplete">
         <div class="left-content">
           <label>Firma:</label>
@@ -89,8 +102,8 @@
             <input matInput formControlName="signatureInput" type="text" class="signature-input">
           </mat-form-field>
           <div class="input-file" *ngIf="isEditable">
-            <input type="file" formControlName="signatureInputFile" accept=".jpg">
-            <span>Tamaño máximo requerido de 1MB</span>
+          <input type="file" formControlName="signatureInputFile" accept="image/*" (change)="loadFile($event)">
+            <span>Tamaño máximo requerido de 2MB</span>
           </div>
         </div>
       </div>

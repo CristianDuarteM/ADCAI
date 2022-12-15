@@ -9,10 +9,11 @@ import { User } from 'src/app/models/User';
 })
 export class UserService {
 
-  token: string;
-
   constructor(private httpClient: HttpClient) {
-    this.token = sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
+  }
+
+  get tokenSession() {
+    return sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
   }
 
   getUserFilter(idDepartment: string, typeFilter: string, filter: string): Observable<any> {
@@ -27,7 +28,7 @@ export class UserService {
 
     return this.httpClient.get(route, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -35,7 +36,7 @@ export class UserService {
   disableUser(idUser: number): Observable<any> {
     return this.httpClient.delete(config.API_URL + '/api/usuarios/' + idUser, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -45,7 +46,7 @@ export class UserService {
       estaActivo: true
     }, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -58,7 +59,7 @@ export class UserService {
     };
     return this.httpClient.post(config.API_URL + '/api/usuarios', addTeacherBody, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -66,7 +67,7 @@ export class UserService {
   getUserById(idUser: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/usuarios/' + idUser, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -74,7 +75,25 @@ export class UserService {
   updateUser(idUser: string, userBody: User): Observable<any> {
     return this.httpClient.put(config.API_URL + '/api/usuarios/' + idUser, userBody, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  addSignature(fileSignature: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('archivo', fileSignature);
+    return this.httpClient.post(config.API_URL + '/api/firmas' , formData, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getNotificationsByIdUser(idUser: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/notificaciones/' + idUser, {
+      headers: {
+        'x-token': this.tokenSession
       }
     });
   }

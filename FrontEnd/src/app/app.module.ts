@@ -13,6 +13,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatListModule } from '@angular/material/list';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { HttpClientModule } from "@angular/common/http";
 
@@ -54,6 +56,13 @@ import { UpdateRequestCaiComponent } from './pages/cai/update-request-cai/update
 import { ValidateCaiComponent } from './pages/cai/validate-cai/validate-cai.component';
 import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
 import { EnableDialogComponent } from './components/enable-dialog/enable-dialog.component';
+import { CaiStructureComponent } from './components/cai-structure/cai-structure.component';
+import { FillCaiComponent } from './pages/cai/fill-cai/fill-cai.component';
+import { AddSignatureComponent } from './pages/user/add-signature/add-signature.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { ViewCaiComponent } from './pages/cai/view-cai/view-cai.component';
+import { FeedbackCaiComponent } from './components/feedback-cai/feedback-cai.component';
+import { ViewEvaluateCaiComponent } from './pages/cai/view-evaluate-cai/view-evaluate-cai.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +101,13 @@ import { EnableDialogComponent } from './components/enable-dialog/enable-dialog.
     ValidateCaiComponent,
     InformativeDialogComponent,
     EnableDialogComponent,
+    CaiStructureComponent,
+    FillCaiComponent,
+    AddSignatureComponent,
+    SpinnerComponent,
+    ViewCaiComponent,
+    FeedbackCaiComponent,
+    ViewEvaluateCaiComponent,
   ],
   imports: [
     FormsModule,
@@ -109,6 +125,8 @@ import { EnableDialogComponent } from './components/enable-dialog/enable-dialog.
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
+    MatListModule,
     NgxPermissionsModule.forRoot(),
     HttpClientModule,
   ],

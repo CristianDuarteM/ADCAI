@@ -27,6 +27,11 @@ import { AdminGuard } from './guards/admin-guard';
 import { AdminDirectorGuard } from './guards/admin-director-guard';
 import { NoAdminGuard } from './guards/no-admin-guard';
 import { DirectorGuard } from './guards/director-guard';
+import { FillCaiComponent } from './pages/cai/fill-cai/fill-cai.component';
+import { TeacherGuard } from './guards/teacher-guard';
+import { ViewCaiComponent } from './pages/cai/view-cai/view-cai.component';
+import { DeanDirectorGuard } from './guards/dean-director-guard';
+import { ViewEvaluateCaiComponent } from './pages/cai/view-evaluate-cai/view-evaluate-cai.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -40,19 +45,22 @@ const routes: Routes = [
   { path: "gestion-departamentos/editar/:id", component: UpdateDepartmentComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-docentes", component: ManagementTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/buscados/facultad/:idFaculty/departamento/:idDepartment", component: SearchedTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
-  { path: "gestion-docentes/buscados/editar/:idTeacher", component: UpdateTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
-  { path: "gestion-docentes/buscados/ver/:idTeacher", component: ViewTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
+  { path: "gestion-docentes/buscados/editar/:idUser", component: UpdateTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
+  { path: "gestion-docentes/buscados/ver/:idUser", component: ViewTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/facultad/:idFaculty/departamento/:idDepartment", component: AddTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/manual/facultad/:idFaculty/departamento/:idDepartment", component: AddManualTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/masivo/facultad/:idFaculty/departamento/:idDepartment", component: AddMassiveTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "perfil/:idUser", component: ViewProfileComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
   { path: "perfil/editar/:idUser", component: UpdateProfileComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
   { path: "notificaciones", component: NotificationsComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
-  { path: "historial-cai", component: HistoricalComponent, pathMatch: "full" },
+  { path: "historial-cai", component: HistoricalComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
+  { path: "historial-cai/ver/:idCai", component: ViewCaiComponent, pathMatch: "full", canActivate: [NoAdminGuard] },
   { path: "gestion-cai", component: ManagementCaiComponent, pathMatch: "full",  canActivate: [DirectorGuard] },
   { path: "gestion-cai/agregar", component: RequestCaiComponent, pathMatch: "full", canActivate: [DirectorGuard] },
   { path: "gestion-cai/actualizar-periodo", component: UpdateRequestCaiComponent, pathMatch: "full", canActivate: [DirectorGuard] },
-  { path: "evaluar-cai", component: ValidateCaiComponent, pathMatch: "full" },
+  { path: "evaluar-cai", component: ValidateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
+  { path: "evaluar-cai/:idCai", component: ViewEvaluateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
+  { path: "diligenciar-cai", component: FillCaiComponent, pathMatch: "full", canActivate: [TeacherGuard] },
 ];
 
 @NgModule({

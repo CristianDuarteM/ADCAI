@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginComponent } from '../../pages/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RolesComponent } from '../roles/roles.component';
+import { config } from 'src/app/constants/config';
 
 @Component({
   selector: 'app-navbar',
@@ -11,9 +12,17 @@ import { RolesComponent } from '../roles/roles.component';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private loginComponent: LoginComponent, public dialog: MatDialog) { }
+  unreadNotification: boolean;
+
+  constructor(private loginComponent: LoginComponent, public dialog: MatDialog) {
+    this.unreadNotification = false;
+  }
 
   ngOnInit(): void {
+    let notifications = sessionStorage.getItem(config.SESSION_STORAGE.UNREAD_NOTIFICATIONS) || '';
+    if(notifications !== '' && notifications === 'true') {
+      this.unreadNotification = true;
+    }
   }
 
   openDialog(): void {

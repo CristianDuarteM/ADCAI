@@ -9,10 +9,11 @@ import { FacultyRequest } from 'src/app/models/request/FacultyRequest';
 })
 export class FacultyService {
 
-  token: string;
-
   constructor(private httpClient: HttpClient) {
-    this.token = sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
+  }
+
+  get tokenSession() {
+    return sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
   }
 
   getFacultyList(): Observable<any> {
@@ -21,7 +22,7 @@ export class FacultyService {
 
     return this.httpClient.get(config.API_URL + '/api/facultades?desde=' + from + '&limite=' + limit, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -29,7 +30,7 @@ export class FacultyService {
   addFaculty(facultyBody: FacultyRequest): Observable<any> {
     return this.httpClient.post(config.API_URL + '/api/facultades', facultyBody, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -37,7 +38,7 @@ export class FacultyService {
   updateFaculty(facultyBody: {}, id: string): Observable<any> {
     return this.httpClient.put(config.API_URL + '/api/facultades/' + id, facultyBody, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -45,7 +46,7 @@ export class FacultyService {
   disableFaculty(idFaculty: number): Observable<any> {
     return this.httpClient.delete(config.API_URL + '/api/facultades/' + idFaculty, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
@@ -55,7 +56,7 @@ export class FacultyService {
       estado: true
     }, {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     })
   }
@@ -63,7 +64,7 @@ export class FacultyService {
   getFacultyById(id: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/facultades/' + id , {
       headers: {
-        'x-token': this.token
+        'x-token': this.tokenSession
       }
     });
   }
