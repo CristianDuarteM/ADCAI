@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-update-teacher',
@@ -14,7 +14,7 @@ export class UpdateTeacherComponent implements OnInit {
   isPrincipalUpdateTeacher: boolean;
   isEditableUpdateTeacher: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
+  constructor(private rolePermission: RolePermission, private navigation: Router) {
     this.backRouteUpdateTeacher = '/gestion-docentes';
     this.titleUpdateTeacher = 'Actualizar Docente';
     this.isPrincipalUpdateTeacher = false;
@@ -22,8 +22,7 @@ export class UpdateTeacherComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   updateData(){

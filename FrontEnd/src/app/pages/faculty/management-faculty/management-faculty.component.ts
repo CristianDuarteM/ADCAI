@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
 import { FacultyTable } from 'src/app/models/table/FacultyTable';
+import { Dialog } from 'src/app/models/Dialog';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-management-faculty',
@@ -24,8 +23,7 @@ export class ManagementFacultyComponent implements OnInit {
   elementsDataFaculty: FacultyTable[];
   isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private facultyService: FacultyService,
-    public dialog: MatDialog) {
+  constructor(private rolePermission: RolePermission, private facultyService: FacultyService, private dialog: Dialog) {
     this.backRouteFaculty = '/home';
     this.titleFaculty = 'Gestión de Facultades';
     this.isPrincipalFaculty = true;
@@ -39,8 +37,7 @@ export class ManagementFacultyComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListFaculty();
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   getListFaculty() {
@@ -50,7 +47,7 @@ export class ManagementFacultyComponent implements OnInit {
         this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, '/login');
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), '/login');
       }
     });
   }
@@ -68,16 +65,6 @@ export class ManagementFacultyComponent implements OnInit {
       }
     }
     return facultyData;
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

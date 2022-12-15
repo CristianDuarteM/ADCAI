@@ -1,13 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
 import { config } from 'src/app/constants/config';
+import { Dialog } from 'src/app/models/Dialog';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -32,9 +31,8 @@ export class ManagementTeacherComponent implements OnInit {
   idFaculty: number;
   idDepartment: number;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router,
-    private facultyService: FacultyService, private departmentService: DepartmentService,
-    public dialog: MatDialog, private userService: UserService) {
+  constructor(private rolePermission: RolePermission, private navigation: Router, private facultyService: FacultyService,
+    private departmentService: DepartmentService, public dialog: Dialog, private userService: UserService) {
     this.backRouteTeacher = '/home';
     this.titleTeacher = 'Gestionar Docentes';
     this.isPrincipalTeacher = true;
@@ -51,11 +49,11 @@ export class ManagementTeacherComponent implements OnInit {
 
   ngOnInit(): void {
     let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
 
     this.teacher = new FormGroup({
-      selectedFaculty: new FormControl('', [Validators.required, Validators.pattern('^[1-9]*')]),
-      selectedDepartment: new FormControl('', [Validators.required, Validators.pattern('^[1-9]*')]),
+      selectedFaculty: new FormControl('', [Validators.required]),
+      selectedDepartment: new FormControl('', [Validators.required]),
       filterSelect: new FormControl(''),
       filterText: new FormControl(''),
     });
@@ -106,7 +104,7 @@ export class ManagementTeacherComponent implements OnInit {
         this.facultyList = facultyListResponse.rows;
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, '/login');
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), '/login');
       }
     });
   }
@@ -119,7 +117,7 @@ export class ManagementTeacherComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         sessionStorage.clear();
-        this.openDialog(error.error.msg, '/login');
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), '/login');
       }
     });
   }
@@ -137,23 +135,14 @@ export class ManagementTeacherComponent implements OnInit {
             this.teacher.setControl('selectedDepartment', new FormControl({value: departmentResponse.nombre, disabled: true}));
           },
           error: (error: HttpErrorResponse) => {
-            this.openDialog(error.error.msg, this.validationRedirect(error));
+            this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));
           }
         });
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));
       }
     });
-  }
-
-  validationRedirect(error: HttpErrorResponse) {
-    let route = '/gestion-docentes';
-    if(error.status === 401) {
-      sessionStorage.clear();
-      route = '/login';
-    }
-    return route;
   }
 
   selectDepartment(nameDepartment: string) {
@@ -162,16 +151,6 @@ export class ManagementTeacherComponent implements OnInit {
 
   getItemValue(name: string) {
     return this.teacher.get(name)?.value;
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

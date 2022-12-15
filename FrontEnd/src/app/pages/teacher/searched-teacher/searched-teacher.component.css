@@ -48,6 +48,10 @@ span {
   margin: 0 1% 0 1%;
 }
 
+.spinner-align {
+  height: 50vh;
+}
+
 @media only screen and (max-width: 600px) {
   button {
     font-size: medium;

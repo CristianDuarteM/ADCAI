@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-add-teacher',
@@ -15,8 +15,7 @@ export class AddTeacherComponent implements OnInit {
   isPrincipalTeacher: boolean;
   teacher: FormGroup;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router,
-    private route: ActivatedRoute) {
+  constructor(private rolePermission: RolePermission, private navigation: Router, private route: ActivatedRoute) {
     this.backRouteTeacher = '/gestion-docentes';
     this.titleTeacher = 'Agregar Docentes';
     this.isPrincipalTeacher = false;
@@ -27,8 +26,7 @@ export class AddTeacherComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   massiveLoad(){

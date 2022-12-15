@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
-import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 import { FacultyRequest } from 'src/app/models/request/FacultyRequest';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
+import { Dialog } from 'src/app/models/Dialog';
 
 @Component({
   selector: 'app-faculty-details',
@@ -20,13 +19,11 @@ export class FacultyDetailsComponent implements OnInit {
   @Input() dataFaculty: FacultyResponse;
   @Input() isUpdate: boolean;
 
-  constructor(private facultyService: FacultyService, public dialog: MatDialog) {
+  constructor(private facultyService: FacultyService, private dialog: Dialog) {
     this.faculty = new FormGroup({});
     this.titleButton = '';
     this.descriptionForm = '';
-    this.dataFaculty = {
-      id: 0, nombre: '', descripcion: '', estado: false, decano: { id: 0, nombre: '', apellido: '', correo: '', realizaCai: true }
-    };
+    this.dataFaculty = new FacultyResponse();
     this.isUpdate = false;
   }
 
@@ -34,8 +31,8 @@ export class FacultyDetailsComponent implements OnInit {
     this.faculty = new FormGroup({
       name: new FormControl(this.dataFaculty.nombre, [Validators.required]),
       description: new FormControl(this.dataFaculty.descripcion, [Validators.required]),
-      dean: new FormControl((this.dataFaculty.decano !== null) ? this.dataFaculty.decano.correo : '', [Validators.email, Validators.required]),
-      doCai: new FormControl((this.dataFaculty.decano !== null) ? this.dataFaculty.decano.realizaCai + '' : false + '')
+      dean: new FormControl(this.dataFaculty.decano.correo, [Validators.email, Validators.required]),
+      doCai: new FormControl(this.dataFaculty.decano.realizaCai + '')
     });
   }
 
@@ -65,14 +62,10 @@ export class FacultyDetailsComponent implements OnInit {
   addFaculty(facultyData: FacultyRequest) {
     this.facultyService.addFaculty(facultyData).subscribe({
       next: facultyResponse => {
-        this.openDialog(facultyResponse.msg, '/gestion-facultades');
+        this.dialog.openDialog(facultyResponse.msg, '/gestion-facultades');
       },
       error: (error: HttpErrorResponse) => {
-        let route = '/gestion-facultades/agregar';
-        if(error.status === 401) {
-          route = '/login';
-        }
-        this.openDialog(error.error.msg, route);
+        this.dialog.openDialog(error.error.msg, this.dialog.validateError('/gestion-facultades/agregar', error));
       }
     });
   }
@@ -80,14 +73,14 @@ export class FacultyDetailsComponent implements OnInit {
   updateFaculty(facultyData: {}) {
     this.facultyService.updateFaculty(facultyData, this.dataFaculty.id + '').subscribe({
       next: facultyResponse => {
-        this.openDialog(facultyResponse.msg, '/gestion-facultades');
+        this.dialog.openDialog(facultyResponse.msg, '/gestion-facultades');
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = error.error.msg;
         if(errorMessage === undefined){
           errorMessage = "¡Ha ocurrido un error!";
         }
-        this.openDialog(errorMessage, '/gestion-facultades/editar/' + this.dataFaculty.id);
+        this.dialog.openDialog(errorMessage, '/gestion-facultades/editar/' + this.dataFaculty.id);
       }
     });
   }
@@ -118,16 +111,6 @@ export class FacultyDetailsComponent implements OnInit {
 
   getValueInput(name: string) {
     return this.faculty.get(name)?.value;
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

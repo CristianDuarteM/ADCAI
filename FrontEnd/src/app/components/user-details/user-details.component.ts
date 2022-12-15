@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { config } from 'src/app/constants/config';
+import { Dialog } from 'src/app/models/Dialog';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
 import { Role } from 'src/app/models/Role';
@@ -11,7 +11,6 @@ import { User } from 'src/app/models/User';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 
 @Component({
   selector: 'app-user-details',
@@ -35,9 +34,9 @@ export class UserDetailsComponent implements OnInit {
   idFaculty: number;
   fileEvent: File | null;
 
-  constructor(public dialog: MatDialog, private departmentService: DepartmentService, private userService: UserService,
+  constructor(public dialog: Dialog, private departmentService: DepartmentService, private userService: UserService,
     private route: ActivatedRoute, private facultyService: FacultyService) {
-    this.userModel = {} as User;
+    this.userModel = new User();
     this.isDean = false;
     this.isAdmin = sessionStorage.getItem('activeRole') === 'ADMIN';
     this.isEditable = false;
@@ -104,13 +103,13 @@ export class UserDetailsComponent implements OnInit {
         }
         if(!this.isComplete){
           sessionStorage.removeItem(config.SESSION_STORAGE.IS_COMPLETE);
-          this.openDialog(userUpdateResponse.msg, '/home');
+          this.dialog.openDialog(userUpdateResponse.msg, '/home');
         } else{
-          this.openDialog(userUpdateResponse.msg, '/gestion-docentes/buscados/editar/' + this.userModel.id);
+          this.dialog.openDialog(userUpdateResponse.msg, '/gestion-docentes/buscados/editar/' + this.userModel.id);
         }
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));
       }
     });
   }
@@ -147,12 +146,7 @@ export class UserDetailsComponent implements OnInit {
         this.getDepartmentList();
       },
       error: (error: HttpErrorResponse) => {
-        let route = '/gestion-docentes';
-        if(error.status === 401) {
-          sessionStorage.clear();
-          route = '/login';
-        }
-        this.openDialog(error.error.msg, route);
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));
       }
     });
   }
@@ -170,7 +164,7 @@ export class UserDetailsComponent implements OnInit {
         }
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));
       }
     });
   }
@@ -182,7 +176,7 @@ export class UserDetailsComponent implements OnInit {
         this.loadInputs();
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, '/login');
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), '/login');
       }
     });
   }
@@ -206,27 +200,8 @@ export class UserDetailsComponent implements OnInit {
     this.isLoaded = true;
   }
 
-  validationRedirect(error: HttpErrorResponse) {
-    let route = '/gestion-docentes';
-    if(error.status === 401) {
-      sessionStorage.clear();
-      route = '/login';
-    }
-    return route;
-  }
-
   getItemValue(name: string) {
     return this.user.get(name)?.value;
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

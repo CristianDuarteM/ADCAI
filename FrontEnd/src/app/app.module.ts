@@ -130,10 +130,7 @@ import { ViewEvaluateCaiComponent } from './pages/cai/view-evaluate-cai/view-eva
     NgxPermissionsModule.forRoot(),
     HttpClientModule,
   ],
-  providers: [
-    AdminGuard,
-    AuthService
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

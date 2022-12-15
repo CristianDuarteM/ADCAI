@@ -1,4 +1,4 @@
-import { UserModel } from "./UserModel";
+import { User } from "./User";
 
 export interface CaiModel {
   id: string;
@@ -7,5 +7,5 @@ export interface CaiModel {
   inicio: string;
   limite: string;
   estado: boolean;
-  teacher: UserModel;
+  teacher: User;
 }

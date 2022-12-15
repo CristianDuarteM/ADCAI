@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-add-department',
@@ -14,7 +14,7 @@ export class AddDepartmentComponent implements OnInit {
   actionButtonDepartment: string;
   descriptionFormDepartment: string;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService) {
+  constructor(private rolePermission: RolePermission) {
     this.backRouteDepartment = '/gestion-departamentos';
     this.titleDepartment = 'Agregar Departamento';
     this.isPrincipalDepartment = false;
@@ -23,8 +23,7 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
 }
