@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { DepartmentTable } from 'src/app/models/table/DepartmentTable';
 import { DepartmentService } from 'src/app/services/department/department.service';
-import { MatDialog } from '@angular/material/dialog';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
+import { RolePermission } from 'src/app/models/RolePermission';
+import { Dialog } from 'src/app/models/Dialog';
 
 @Component({
   selector: 'app-management-department',
@@ -24,8 +23,8 @@ export class ManagementDepartmentComponent implements OnInit {
   elementsDataDepartment: DepartmentTable[];
   isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private departmentService: DepartmentService,
-    public dialog: MatDialog) {
+  constructor(private rolePermission: RolePermission, private departmentService: DepartmentService,
+    private dialog: Dialog) {
     this.backRouteDepartment = '/home';
     this.titleDepartment = 'Gestión de Departamentos';
     this.isPrincipalDepartment = true;
@@ -39,8 +38,7 @@ export class ManagementDepartmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListDepartment();
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   getListDepartment() {
@@ -50,7 +48,7 @@ export class ManagementDepartmentComponent implements OnInit {
         this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, '/login');
+        this.dialog.openDialog(error.error.msg, '/login');
       }
     });
   }
@@ -68,16 +66,6 @@ export class ManagementDepartmentComponent implements OnInit {
       }
     }
     return departmentData;
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

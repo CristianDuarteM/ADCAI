@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
 import { config } from 'src/app/constants/config';
 import { Auth } from 'src/app/models/Auth';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CaiService } from 'src/app/services/cai/cai.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { CaiResponse } from 'src/app/models/response/CaiResponse';
+import { Dialog } from 'src/app/models/Dialog';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   caiDataBasic: CaiResponse;
 
   constructor(private navigation: Router, private ngxPermissonsService: NgxPermissionsService,
-    private authService: AuthService, public dialog: MatDialog, private caiService: CaiService,
+    private authService: AuthService, private dialog: Dialog, private caiService: CaiService,
     private userService: UserService) {
     this.tokenGoogle = '';
     this.token = '';
@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         sessionStorage.clear();
-        this.openDialog(error.error.msg, '/login');
+        this.dialog.openDialog(error.error.msg, '/login');
       }
     });
   }
@@ -115,7 +115,7 @@ export class HomeComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         sessionStorage.clear();
-        this.openDialog(error.error.msg, '/login');
+        this.dialog.openDialog(error.error.msg, '/login');
       }
     });
   }
@@ -150,16 +150,6 @@ export class HomeComponent implements OnInit {
     if(this.activeRole !== 'ADMIN'){
       this.navigation.navigate(['/perfil/editar/' + idUser]);
     }
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
   redirectButton(route: string, idUserRequired: boolean) {

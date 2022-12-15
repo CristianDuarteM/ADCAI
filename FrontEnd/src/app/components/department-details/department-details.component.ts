@@ -1,13 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { Dialog } from 'src/app/models/Dialog';
 import { DepartmentRequest } from 'src/app/models/request/DepartmentRequest';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
-import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 
 @Component({
   selector: 'app-department-details',
@@ -24,12 +23,12 @@ export class DepartmentDetailsComponent implements OnInit {
   @Input() facultyList: FacultyResponse[];
   isLoaded: boolean;
 
-  constructor(private facultyService: FacultyService, public dialog: MatDialog,
+  constructor(private facultyService: FacultyService, public dialog: Dialog,
     private departmentService: DepartmentService) {
     this.department = new FormGroup({});
     this.titleButton = '';
     this.descriptionForm = '';
-    this.dataDepartment = {} as DepartmentResponse;
+    this.dataDepartment = new DepartmentResponse();
     this.facultyList = [];
     this.isUpdate = false;
     this.isLoaded = false;
@@ -40,9 +39,9 @@ export class DepartmentDetailsComponent implements OnInit {
     this.department = new FormGroup({
       name: new FormControl(this.dataDepartment.nombre, [Validators.required]),
       description: new FormControl(this.dataDepartment.descripcion, [Validators.required]),
-      director: new FormControl((this.dataDepartment.director !== undefined) ? this.dataDepartment.director.correo : '', [Validators.email, Validators.required]),
-      faculty: new FormControl((this.dataDepartment.facultad !== undefined) ? this.dataDepartment.facultad.id : '', [Validators.required, Validators.pattern('^[1-9]*')]),
-      doCai: new FormControl((this.dataDepartment.director !== undefined) ? this.dataDepartment.director.realizaCai + '' : true + '')
+      director: new FormControl( this.dataDepartment.director.correo, [Validators.email, Validators.required]),
+      faculty: new FormControl((this.dataDepartment.facultad.id === 0) ? '' : this.dataDepartment.facultad.id, [Validators.required]),
+      doCai: new FormControl(this.dataDepartment.director.realizaCai + '')
     });
   }
 
@@ -73,14 +72,10 @@ export class DepartmentDetailsComponent implements OnInit {
   addDepartment(departmentData: DepartmentRequest) {
     this.departmentService.addDepartment(departmentData).subscribe({
       next: departmentResponse => {
-        this.openDialog(departmentResponse.msg, '/gestion-departamentos');
+        this.dialog.openDialog(departmentResponse.msg, '/gestion-departamentos');
       },
       error: (error: HttpErrorResponse) => {
-        let route = '/gestion-departamentos/agregar';
-        if(error.status === 401) {
-          route = '/login';
-        }
-        this.openDialog(error.error.msg, route);
+        this.dialog.openDialog(error.error.msg, this.dialog.validateError('/gestion-departamentos/agregar', error));
       }
     });
   }
@@ -88,14 +83,14 @@ export class DepartmentDetailsComponent implements OnInit {
   updateDepartment(departmentData: {}) {
     this.departmentService.updateDepartment(departmentData, this.dataDepartment.id + '').subscribe({
       next: departmentResponse => {
-        this.openDialog(departmentResponse.msg, '/gestion-departamentos');
+        this.dialog.openDialog(departmentResponse.msg, '/gestion-departamentos');
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = error.error.msg;
         if(errorMessage === undefined){
           errorMessage = "¡Ha ocurrido un error!";
         }
-        this.openDialog(errorMessage, '/gestion-departamentos/editar/' + this.dataDepartment.id);
+        this.dialog.openDialog(errorMessage, '/gestion-departamentos/editar/' + this.dataDepartment.id);
       }
     });
   }
@@ -134,23 +129,13 @@ export class DepartmentDetailsComponent implements OnInit {
         this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, '/login');
+        this.dialog.openDialog(error.error.msg, '/login');
       }
     });
   }
 
   getValueInput(name: string) {
     return this.department.get(name)?.value;
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

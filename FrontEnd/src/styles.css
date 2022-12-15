@@ -32,6 +32,13 @@ header {
   height: 84vh;
 }
 
+.spinner-align {
+  align-items: center;
+  display: flex;
+  height: 70vh;
+  justify-content: center;
+}
+
 @font-face {
   font-family: "Inika Regular";
   src: local("Inika Regular"), url(./assets/fonts/Inika-Regular.ttf);

@@ -1,7 +1,7 @@
 import { Director } from "../Director";
 import { FacultyResponse } from "./FacultyResponse";
 
-export interface DepartmentResponse {
+export class DepartmentResponse {
   id: string;
   nombre: string;
   descripcion: string;
@@ -9,4 +9,15 @@ export interface DepartmentResponse {
   estado: boolean;
   id_facultad: number;
   facultad: FacultyResponse;
+
+  constructor() {
+    this.id = '';
+    this.nombre = '';
+    this.descripcion = '';
+    this.director = new Director();
+    this.estado = false;
+    this.id_facultad = 0;
+    this.facultad = new FacultyResponse();
+  }
+
 }

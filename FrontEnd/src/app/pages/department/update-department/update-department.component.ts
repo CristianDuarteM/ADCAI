@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { Dialog } from 'src/app/models/Dialog';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { DepartmentService } from 'src/app/services/department/department.service';
 
 @Component({
@@ -22,7 +21,7 @@ export class UpdateDepartmentComponent implements OnInit {
   dataDepartment: DepartmentResponse;
   isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, public dialog: MatDialog,
+  constructor(private rolePermission: RolePermission, private dialog: Dialog,
     private departmentService: DepartmentService, private route: ActivatedRoute) {
     this.backRouteDepartment = '/gestion-departamentos';
     this.titleDepartment = 'Detalles del Departamento';
@@ -36,9 +35,7 @@ export class UpdateDepartmentComponent implements OnInit {
   ngOnInit(): void {
     let idDepartment = this.route.snapshot.paramMap.get('id') || '';
     this.getDepartment(idDepartment);
-
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   getDepartment(id: string) {
@@ -52,18 +49,8 @@ export class UpdateDepartmentComponent implements OnInit {
         if(error.status === 401) {
           route = '/login';
         }
-        this.openDialog(error.error.msg, route);
+        this.dialog.openDialog(error.error.msg, route);
       }
-    });
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
     });
   }
 
