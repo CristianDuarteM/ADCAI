@@ -18,9 +18,6 @@ import { MatListModule } from '@angular/material/list';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { HttpClientModule } from "@angular/common/http";
 
-import { AdminGuard } from './guards/admin-guard';
-import { AuthService } from './services/auth/auth.service';
-
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RolesComponent } from './components/roles/roles.component';
@@ -63,6 +60,13 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ViewCaiComponent } from './pages/cai/view-cai/view-cai.component';
 import { FeedbackCaiComponent } from './components/feedback-cai/feedback-cai.component';
 import { ViewEvaluateCaiComponent } from './pages/cai/view-evaluate-cai/view-evaluate-cai.component';
+import { StructureCaiComponent } from './pages/cai/admin-structure/structure-cai/structure-cai.component';
+import { ItemInvestigationComponent } from './pages/cai/admin-structure/item-investigation/item-investigation.component';
+import { ItemExtensionComponent } from './pages/cai/admin-structure/item-extension/item-extension.component';
+import { ItemAdministrationComponent } from './pages/cai/admin-structure/item-administration/item-administration.component';
+import { ItemRepresentationComponent } from './pages/cai/admin-structure/item-representation/item-representation.component';
+import { ItemOthersComponent } from './pages/cai/admin-structure/item-others/item-others.component';
+import { NoteComponent } from './pages/cai/admin-structure/note/note.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +112,13 @@ import { ViewEvaluateCaiComponent } from './pages/cai/view-evaluate-cai/view-eva
     ViewCaiComponent,
     FeedbackCaiComponent,
     ViewEvaluateCaiComponent,
+    StructureCaiComponent,
+    ItemInvestigationComponent,
+    ItemExtensionComponent,
+    ItemAdministrationComponent,
+    ItemRepresentationComponent,
+    ItemOthersComponent,
+    NoteComponent,
   ],
   imports: [
     FormsModule,
