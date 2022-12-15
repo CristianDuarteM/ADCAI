@@ -386,13 +386,13 @@
             <mat-radio-button value="false" color="warn">No</mat-radio-button>
           </mat-radio-group>
         </div>
-        <p>Recuerde: Si decide no agregar la firma asociada a su perfil, no se enviará a valoración hasta que descargue el documento y lo suba firmado.</p>
+        <p *ngIf="!isViewCai">Recuerde: Si decide no agregar la firma asociada a su perfil, no se enviará a valoración hasta que descargue el documento y lo suba firmado.</p>
       </div>
     </div>
     <div>
       <app-feedback-cai [feedbackList]="feedbackList"></app-feedback-cai>
     </div>
-    <div class="button-content">
+    <div class="button-content" *ngIf="!isViewCai">
       <button mat-raised-button type="submit" class="button-submit">
         Guardar
       </button>

@@ -7,7 +7,6 @@ import { config } from 'src/app/constants/config';
 import { CaiHistoricalResponse } from 'src/app/models/response/CaiHistoricalResponse';
 import { CaiHistoricalTable } from 'src/app/models/table/CaiHistoricalTable';
 import { CaiService } from 'src/app/services/cai/cai.service';
-import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-historical',
@@ -27,8 +26,7 @@ export class HistoricalComponent implements OnInit {
   elementsDataHistoricalCai: CaiHistoricalTable[];
   isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private caiService: CaiService, public dialog: MatDialog,
-    private userService: UserService) {
+  constructor(private ngxPermissonsService: NgxPermissionsService, private caiService: CaiService, public dialog: MatDialog) {
     this.backRouteHistoricalCai = '/home';
     this.titleHistoricalCai = 'Historial de los CAI';
     this.isPrincipalHistoricalCai = true;
@@ -46,45 +44,24 @@ export class HistoricalComponent implements OnInit {
     this.ngxPermissonsService.loadPermissions([activeRole]);
     if(activeRole === 'DIRECTOR'){
       this.isDirector = true;
-      this.getHistoricalCaiDirector();
+      this.getHistoricalCaiByRole('director');
     } else if(activeRole === 'DOCENTE') {
-      this.getHistoricalCaiTeacher();
+      this.getHistoricalCaiByRole('docente');
+    } else if(activeRole === 'DECANO') {
+      this.getHistoricalCaiByRole('decano');
     }
   }
 
-  getHistoricalCaiTeacher() {
+  getHistoricalCaiByRole(role: string) {
     let idUser = sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '';
-    this.caiService.getCaiListByUser(idUser).subscribe({
-      next: caiHistoricalTeacherResponse => {
-        this.formatDataToTable(caiHistoricalTeacherResponse.rows);
+    this.caiService.getCaiList(idUser, role, 'no').subscribe({
+      next: caiHistoricalResponse => {
+        this.formatDataToTable(caiHistoricalResponse.rows);
       },
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, this.validateError('/home', error));
       }
     });
-  }
-
-  getHistoricalCaiDirector() {
-    let idUser = sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '';
-    this.userService.getUserById(idUser).subscribe({
-      next: userResponse => {
-        this.caiService.getCaiListByDepartmentAndEvaluate(userResponse.usuario.id_departamento, 'no').subscribe({
-          next: caiHistoricalDirectorResponse => {
-            this.formatDataToTable(caiHistoricalDirectorResponse.rows);
-          },
-          error: (error: HttpErrorResponse) => {
-            this.openDialog(error.error.msg, this.validateError('/home', error));
-          }
-        });
-      },
-      error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validateError('/home', error));
-      }
-    });
-  }
-
-  getHistoricalCaiDean() {
-
   }
 
   formatDataToTable(data: CaiHistoricalResponse[]) {

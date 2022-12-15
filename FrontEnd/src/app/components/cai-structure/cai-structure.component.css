@@ -6,6 +6,10 @@ button {
   padding: 0.5%;
 }
 
+form {
+  padding-bottom: 3%;
+}
+
 input {
   width: 100%;
 }

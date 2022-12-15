@@ -47,30 +47,22 @@ export class ValidateCaiComponent implements OnInit {
     }
     if(activeRole === 'DIRECTOR'){
       this.isDirector = true;
-      this.getEvaluateCaiDirector();
+      this.getEvaluateCaiList('director');
+    } else if(activeRole === 'DECANO') {
+      this.getEvaluateCaiList('decano');
     }
   }
 
-  getEvaluateCaiDirector() {
+  getEvaluateCaiList(role: string) {
     let idUser = sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '';
-    this.userService.getUserById(idUser).subscribe({
-      next: userResponse => {
-        this.caiService.getCaiListByDepartmentAndEvaluate(userResponse.usuario.id_departamento, 'si').subscribe({
-          next: caiEvaluateDirectorResponse => {
-            this.formatDataToTable(caiEvaluateDirectorResponse.rows);
-          },
-          error: (error: HttpErrorResponse) => {
-            this.openDialog(error.error.msg, this.validateError('/home', error));
-          }
-        });
+    this.caiService.getCaiList(idUser, role, 'si').subscribe({
+      next: caiEvaluateListResponse => {
+        this.formatDataToTable(caiEvaluateListResponse.rows);
       },
       error: (error: HttpErrorResponse) => {
         this.openDialog(error.error.msg, this.validateError('/home', error));
       }
     });
-  }
-
-  getEvaluateCaiDean() {
   }
 
   formatDataToTable(data: CaiHistoricalResponse[]) {
