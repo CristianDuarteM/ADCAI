@@ -18,7 +18,7 @@ export class UserService {
 
   getUserFilter(idDepartment: string, typeFilter: string, filter: string): Observable<any> {
     let from = 0;
-    let limit = 10000;
+    let limit = 100000;
 
     let route = config.API_URL + '/api/usuarios/buscar?desde=' + from + '&limite=' + limit;
     if(typeFilter !== ''){
@@ -53,8 +53,7 @@ export class UserService {
 
   addTeacherList(emailList: string[], idDepartment: string): Observable<any> {
     let addTeacherBody = {
-      rol: "DOCENTE",
-      id_departamento: parseInt(idDepartment),
+      id_departamento: idDepartment,
       correos: emailList
     };
     return this.httpClient.post(config.API_URL + '/api/usuarios', addTeacherBody, {

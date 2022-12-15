@@ -1,5 +1,10 @@
-<ng-container>
-  <form [formGroup]="user" (ngSubmit)="onSubmit()" *ngIf="isLoaded">
+<ng-container *ngIf="!isLoaded">
+  <div class="spinner-align">
+    <app-spinner></app-spinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="isLoaded">
+  <form [formGroup]="user" (ngSubmit)="onSubmit()">
     <div class="principal-content">
       <div class="form-content">
         <div class="left-content">

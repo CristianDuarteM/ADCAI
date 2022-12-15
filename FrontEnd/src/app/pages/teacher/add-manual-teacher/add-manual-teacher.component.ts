@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { Dialog } from 'src/app/models/Dialog';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -19,8 +18,8 @@ export class AddManualTeacherComponent implements OnInit {
   isPrincipalTeacher: boolean;
   teacher: FormGroup;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private userService: UserService,
-    private route: ActivatedRoute, public dialog: MatDialog) {
+  constructor(private rolePermission: RolePermission, private userService: UserService, private route: ActivatedRoute,
+    private dialog: Dialog) {
     let idFaculty = this.route.snapshot.paramMap.get('idFaculty') || '';
     let idDepartment = this.route.snapshot.paramMap.get('idDepartment') || '';
     this.backRouteTeacher = '/gestion-docentes/agregar/facultad/' + idFaculty + '/departamento/' + idDepartment;
@@ -34,8 +33,7 @@ export class AddManualTeacherComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   addManualTeacher() {
@@ -44,28 +42,14 @@ export class AddManualTeacherComponent implements OnInit {
       let idDepartment = this.route.snapshot.paramMap.get('idDepartment') || '';
       this.userService.addTeacherList([this.teacher.get('email')?.value], idDepartment).subscribe({
         next: addUserResponse => {
-          this.openDialog(addUserResponse.msg, '/gestion-docentes');
+          this.dialog.openDialog(addUserResponse.msg, '/gestion-docentes');
         },
         error: (error: HttpErrorResponse) => {
           let route = '/gestion-docentes/agregar/manual/facultad/' + idFaculty + '/departamento/' + idDepartment;
-          if(error.status === 401) {
-            sessionStorage.clear();
-            route = '/login';
-          }
-          this.openDialog(error.error.msg, route);
+          this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError(route, error));
         }
       });
     }
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

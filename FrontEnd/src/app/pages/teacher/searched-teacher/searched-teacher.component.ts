@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { Dialog } from 'src/app/models/Dialog';
 import { UserResponse } from 'src/app/models/response/userResponse';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -27,8 +26,8 @@ export class SearchedTeacherComponent implements OnInit {
   filter: string;
   isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router,
-    private userService: UserService, public dialog: MatDialog, private route: ActivatedRoute) {
+  constructor(private rolePermission: RolePermission, private navigation: Router,
+    private userService: UserService, public dialog: Dialog, private route: ActivatedRoute) {
     this.backRouteTeacher = '/gestion-docentes';
     this.titleTeacher = 'Docentes Buscados';
     this.isPrincipalTeacher = false;
@@ -46,7 +45,7 @@ export class SearchedTeacherComponent implements OnInit {
   ngOnInit(): void {
     this.searchTeacherList();
     let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
     this.buttonRouteTeacher = (activeRole === 'ADMIN') ? '/gestion-docentes/buscados/editar' : '/gestion-docentes/buscados/ver';
   }
 
@@ -63,7 +62,7 @@ export class SearchedTeacherComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         sessionStorage.clear();
-        this.openDialog(error.error.msg, '/login');
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), '/login');
       }
     });
   }
@@ -82,23 +81,6 @@ export class SearchedTeacherComponent implements OnInit {
 
   getFilter() {
     return sessionStorage.getItem('filter');
-  }
-
-  clearSessionStorage() {
-    sessionStorage.removeItem('nameFaculty');
-    sessionStorage.removeItem('nameDepartment');
-    sessionStorage.removeItem('typeFilter');
-    sessionStorage.removeItem('filter');
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

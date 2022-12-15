@@ -48,7 +48,7 @@ export class ManagementDepartmentComponent implements OnInit {
         this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
-        this.dialog.openDialog(error.error.msg, '/login');
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), '/login');
       }
     });
   }

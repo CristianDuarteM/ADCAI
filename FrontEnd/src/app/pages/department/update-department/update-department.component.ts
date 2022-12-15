@@ -45,11 +45,8 @@ export class UpdateDepartmentComponent implements OnInit {
         this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
-        let route = '/gestion-departamentos/editar/' + id;
-        if(error.status === 401) {
-          route = '/login';
-        }
-        this.dialog.openDialog(error.error.msg, route);
+        this.dialog.openDialog(this.dialog.getErrorMessage(error),
+        this.dialog.validateError('/gestion-departamentos/editar/' + id, error));
       }
     });
   }

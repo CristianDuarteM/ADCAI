@@ -28,9 +28,7 @@ export class UpdateFacultyComponent implements OnInit {
     this.isPrincipalFaculty = false;
     this.actionButtonFaculty = 'Actualizar';
     this.descriptionFormFaculty = 'Actualice los campos que desea modificar de la facultad';
-    this.dataFaculty = {
-      id: 0, nombre: '', descripcion: '', estado: false, decano: { id: 0, nombre: '', apellido: '', correo: '', realizaCai: false }
-    };
+    this.dataFaculty = new FacultyResponse();
     this.isLoaded = false;
   }
 
@@ -47,11 +45,7 @@ export class UpdateFacultyComponent implements OnInit {
         this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
-        let route = '/gestion-facultades/editar/' + id;
-        if(error.status === 401) {
-          route = '/login';
-        }
-        this.dialog.openDialog(error.error.msg, route);
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-facultades/editar/' + id, error));
       }
     });
   }

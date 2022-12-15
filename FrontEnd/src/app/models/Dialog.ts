@@ -13,8 +13,17 @@ export class Dialog {
     this.routeRedirect = '';
   }
 
+  getErrorMessage(error: HttpErrorResponse) {
+    let errorMessage = error.error.msg;
+    if(errorMessage === undefined){
+      errorMessage = error.error.errors[0].msg;
+    }
+    return errorMessage;
+  }
+
   validateError(routeRedirect: string, error: HttpErrorResponse) {
     if(error.status === 401) {
+      sessionStorage.clear();
       routeRedirect = '/login';
     }
     return routeRedirect;

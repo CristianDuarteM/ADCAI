@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { Dialog } from 'src/app/models/Dialog';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -23,7 +22,7 @@ export class AddMassiveTeacherComponent implements OnInit {
   }) fileLoaded: ElementRef;
   dataFile: string[];
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private route: ActivatedRoute, public dialog: MatDialog,
+  constructor(private rolePermission: RolePermission, private route: ActivatedRoute, public dialog: Dialog,
     private userService: UserService) {
     let idFaculty = this.route.snapshot.paramMap.get('idFaculty') || '';
     let idDepartment = this.route.snapshot.paramMap.get('idDepartment') || '';
@@ -40,13 +39,17 @@ export class AddMassiveTeacherComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   onSubmit() {
     if(this.teacher.valid) {
       this.getDataFile();
+    } else{
+      let idDepartment = this.route.snapshot.paramMap.get('idDepartment');
+      let idFaculty = this.route.snapshot.paramMap.get('idFaculty');
+      this.dialog.openDialog('¡Debe seleccionar un archivo!',
+      '/gestion-docentes/agregar/masivo/facultad/' + idFaculty + '/departamento/' + idDepartment);
     }
   }
 
@@ -59,39 +62,28 @@ export class AddMassiveTeacherComponent implements OnInit {
       reader.readAsText(fileSelected, 'ISO-8859-1');
     } else{
       let idDepartment = this.route.snapshot.paramMap.get('idDepartment');
-      this.openDialog("El tipo de archivo es incorrecto", '/gestion-docentes/agregar/masivo/departamento/' + idDepartment);
+      let idFaculty = this.route.snapshot.paramMap.get('idFaculty');
+      this.dialog.openDialog("El tipo de archivo es incorrecto",
+      '/gestion-docentes/agregar/masivo/facultad/' + idFaculty + '/departamento/' + idDepartment);
     }
   }
 
   addMassiveTeacher(content: string | ArrayBuffer | null) {
     if(typeof content === 'string') {
       let idDepartment = this.route.snapshot.paramMap.get('idDepartment');
+      let idFaculty = this.route.snapshot.paramMap.get('idFaculty');
       content = content.replace(/\s+/g, '');
       this.dataFile = content.split(',');
       this.userService.addTeacherList(this.dataFile, idDepartment || '').subscribe({
         next: userResponse => {
-          this.openDialog(userResponse.msg, '/gestion-docentes');
+          this.dialog.openDialog(userResponse.msg, '/gestion-docentes');
         },
         error: (error: HttpErrorResponse) => {
-          let route = '/gestion-docentes/agregar/masivo/departamento/' + idDepartment;
-          if(error.status === 401) {
-            sessionStorage.clear();
-            route = '/login';
-          }
-          this.openDialog(error.error.msg, route);
+          let route = '/gestion-docentes/agregar/masivo/facultad/' + idFaculty + '/departamento/' + idDepartment;
+          this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError(route, error));
         }
       });
     }
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

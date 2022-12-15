@@ -1,4 +1,4 @@
-export interface UserResponse {
+export class UserResponse {
   id: number;
   correo: string;
   nombre: string;
@@ -8,5 +8,17 @@ export interface UserResponse {
   estaActivo: boolean;
   id_departamento: number;
   id_firma: number;
-  telefono: string;
+
+  constructor() {
+    this.id = 0;
+    this.correo = '';
+    this.nombre = '';
+    this.apellido = '';
+    this.realizaCai = true;
+    this.codigo = '';
+    this.estaActivo = false;
+    this.id_departamento = 0;
+    this.id_firma = 0;
+  }
+
 }
