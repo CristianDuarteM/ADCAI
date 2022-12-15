@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-add-faculty',
@@ -14,7 +14,7 @@ export class AddFacultyComponent implements OnInit {
   actionButtonFaculty: string;
   descriptionFormFaculty: string;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService) {
+  constructor(private rolePermission: RolePermission) {
     this.backRouteFaculty = "/gestion-facultades";
     this.titleFaculty = 'Agregar Facultad';
     this.isPrincipalFaculty = false;
@@ -23,8 +23,7 @@ export class AddFacultyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
 }

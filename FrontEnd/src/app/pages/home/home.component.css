@@ -46,10 +46,7 @@ h3 {
 }
 
 .spinner-align {
-  align-items: center;
-  display: flex;
   height: 100vh;
-  justify-content: center;
 }
 
 @media only screen and (max-width: 600px) {
