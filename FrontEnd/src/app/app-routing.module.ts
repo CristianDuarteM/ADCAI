@@ -78,9 +78,9 @@ const routes: Routes = [
   { path: "cai-admin/representacion", component: ItemRepresentationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "cai-admin/representacion/:idRepresentation", component: ItemRepresentationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "cai-admin/otras", component: ItemOthersComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/otras/:idOtra", component: ItemOthersComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/otras/:idOther", component: ItemOthersComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "cai-admin/notas", component: NoteComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/notas/:idNota", component: NoteComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/notas/:idNote", component: NoteComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
 ];
 
 @NgModule({
