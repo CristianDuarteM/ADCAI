@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Dialog } from 'src/app/models/Dialog';
 import { InvestigationActivitiesRequest } from 'src/app/models/request/InvestigationItemRequest';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { CaiService } from 'src/app/services/cai/cai.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class ItemInvestigationComponent implements OnInit {
   dataInvestigationItem: InvestigationActivitiesRequest;
   isLoaded: boolean;
 
-  constructor(private route: ActivatedRoute, private dialog: Dialog, private caiService: CaiService) {
+  constructor(private route: ActivatedRoute, private dialog: Dialog, private caiService: CaiService, private rolePermission: RolePermission) {
     this.idInvestigation = route.snapshot.paramMap.get('idInvestigation') || '';
     this.investigationForm = new FormGroup({});
     this.backRouteInvestigationItem = '/cai-admin';
@@ -32,6 +33,7 @@ export class ItemInvestigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.rolePermission.loadRole();
     if(this.idInvestigation !== '') {
       this.getDataItemInvestigation();
     } else{

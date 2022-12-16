@@ -159,6 +159,14 @@ export class CaiService {
     });
   }
 
+  getNoteListWithFilter(isEnable: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/notas?habilitada=' + isEnable, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   getLastCaiByDepartment(idDepartment: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/periodos/departamento/' + idDepartment, {
       headers: {
@@ -246,6 +254,96 @@ export class CaiService {
 
   getInvestigationItemById(idInvestigationItem: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/actividadesInvestigacion/' + idInvestigationItem, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  disableExtensionItem(idExtensionItem: string): Observable<any> {
+    return this.httpClient.delete(config.API_URL + '/api/actividadesExtension/' + idExtensionItem, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  enableExtensionItem(idExtensionItem: string): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/actividadesExtension/' + idExtensionItem, {
+      estado: true
+    }, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  disableAdministrationItem(idAdministrationItem: string): Observable<any> {
+    return this.httpClient.delete(config.API_URL + '/api/actividadesAdministracion/' + idAdministrationItem, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  enableAdministrationItem(idAdministrationItem: string): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/actividadesAdministracion/' + idAdministrationItem, {
+      estado: true
+    }, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  disableRepresentationItem(idRepresentationItem: string): Observable<any> {
+    return this.httpClient.delete(config.API_URL + '/api/representaciones/' + idRepresentationItem, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  enableRepresentationItem(idRepresentationItem: string): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/representaciones/' + idRepresentationItem, {
+      estado: true
+    }, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  disableOtherItem(idOtherItem: string): Observable<any> {
+    return this.httpClient.delete(config.API_URL + '/api/otrasActividades/' + idOtherItem, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  enableOtherItem(idOtherItem: string): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/otrasActividades/' + idOtherItem, {
+      estado: true
+    }, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  disableNote(idNote: string): Observable<any> {
+    return this.httpClient.delete(config.API_URL + '/api/notas/' + idNote, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  enableNote(idNote: string): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/notas/' + idNote, {
+      estado: true
+    }, {
       headers: {
         'x-token': this.tokenSession
       }

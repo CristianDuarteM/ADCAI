@@ -22,14 +22,34 @@ export class DisableDialogComponent implements OnInit {
   }
 
   disable() {
-    if(this.data.actualComponent === 'FACULTAD'){
-      this.disableFaculty();
-    } else if(this.data.actualComponent === 'DEPARTAMENTO') {
-      this.disableDepartment();
-    } else if(this.data.actualComponent === 'DOCENTE') {
-      this.disableTeacher();
-    } else if(this.data.actualComponent === 'INVESTIGACION') {
-      this.disableItemInvestigation();
+    switch(this.data.actualComponent) {
+      case 'FACULTAD':
+        this.disableFaculty();
+        break;
+      case 'DEPARTAMENTO':
+        this.disableDepartment();
+        break;
+      case 'DOCENTE':
+        this.disableTeacher();
+        break;
+      case 'INVESTIGACION':
+        this.disableItemInvestigation();
+        break;
+      case 'EXTENSION':
+        this.disableItemExtension();
+        break;
+      case 'ADMINISTRACION':
+        this.disableItemAdministration();
+        break;
+      case 'REPRESENTACION':
+        this.disableItemRepresentation();
+        break;
+      case 'OTRA':
+        this.disableItemOther();
+        break;
+      case 'NOTA':
+        this.disableNote();
+        break;
     }
   }
 
@@ -70,6 +90,61 @@ export class DisableDialogComponent implements OnInit {
     this.caiService.disableInvestigationItem(this.data.idComponent + '').subscribe({
       next: disableItemInvestigationResponse => {
         this.dialog.openDialog(disableItemInvestigationResponse.msg, '/cai-admin');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/cai-admin', error));
+      }
+    });
+  }
+
+  disableItemExtension() {
+    this.caiService.disableExtensionItem(this.data.idComponent + '').subscribe({
+      next: disableItemExtensionResponse => {
+        this.dialog.openDialog(disableItemExtensionResponse.msg, '/cai-admin');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/cai-admin', error));
+      }
+    });
+  }
+
+  disableItemAdministration() {
+    this.caiService.disableAdministrationItem(this.data.idComponent + '').subscribe({
+      next: disableItemAdministrationResponse => {
+        this.dialog.openDialog(disableItemAdministrationResponse.msg, '/cai-admin');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/cai-admin', error));
+      }
+    });
+  }
+
+  disableItemRepresentation() {
+    this.caiService.disableRepresentationItem(this.data.idComponent + '').subscribe({
+      next: disableItemRepresentationResponse => {
+        this.dialog.openDialog(disableItemRepresentationResponse.msg, '/cai-admin');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/cai-admin', error));
+      }
+    });
+  }
+
+  disableItemOther() {
+    this.caiService.disableOtherItem(this.data.idComponent + '').subscribe({
+      next: disableItemOtherResponse => {
+        this.dialog.openDialog(disableItemOtherResponse.msg, '/cai-admin');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/cai-admin', error));
+      }
+    });
+  }
+
+  disableNote() {
+    this.caiService.disableNote(this.data.idComponent + '').subscribe({
+      next: disableNote => {
+        this.dialog.openDialog(disableNote.msg, '/cai-admin');
       },
       error: (error: HttpErrorResponse) => {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/cai-admin', error));

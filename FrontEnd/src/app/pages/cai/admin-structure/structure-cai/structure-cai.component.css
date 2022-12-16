@@ -1,6 +1,7 @@
 button {
   border-radius: 1vw;
   cursor: pointer;
+  text-align: center;
 }
 
 form {
@@ -50,7 +51,7 @@ td {
 }
 
 td.mat-cell {
-  padding: 0 0.2% 0 0.2%;
+  padding: 1%;
 }
 
 .spinner-align {
