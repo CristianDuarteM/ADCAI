@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
 import { CaiModel } from 'src/app/models/CaiModel';
 import { EvaluateCaiModel } from 'src/app/models/EvaluateCai';
+import { ExtensionActivities } from 'src/app/models/ExtensionActivities';
 import { CaiRequest } from 'src/app/models/request/CaiRequest';
 import { InvestigationActivitiesRequest } from 'src/app/models/request/InvestigationItemRequest';
 
@@ -260,6 +261,22 @@ export class CaiService {
     });
   }
 
+  addExtensionItem(extensionItemBody: ExtensionActivities): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/actividadesExtension', extensionItemBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  updateExtensionItem(idExtensionItem: string, extensionItemBody: ExtensionActivities): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/actividadesExtension/' + idExtensionItem, extensionItemBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   disableExtensionItem(idExtensionItem: string): Observable<any> {
     return this.httpClient.delete(config.API_URL + '/api/actividadesExtension/' + idExtensionItem, {
       headers: {
@@ -272,6 +289,14 @@ export class CaiService {
     return this.httpClient.put(config.API_URL + '/api/actividadesExtension/' + idExtensionItem, {
       estado: true
     }, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getExtensionItemById(idExtensionItem: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/actividadesExtension/' + idExtensionItem, {
       headers: {
         'x-token': this.tokenSession
       }
