@@ -13,9 +13,11 @@ import { config } from 'src/app/constants/config';
 export class NavbarComponent implements OnInit {
 
   unreadNotification: boolean;
+  isComplete: string;
 
   constructor(private loginComponent: LoginComponent, public dialog: MatDialog) {
     this.unreadNotification = false;
+    this.isComplete = '';
   }
 
   ngOnInit(): void {
@@ -23,6 +25,7 @@ export class NavbarComponent implements OnInit {
     if(notifications !== '' && notifications === 'true') {
       this.unreadNotification = true;
     }
+    this.isComplete = sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE) || '';
   }
 
   openDialog(): void {

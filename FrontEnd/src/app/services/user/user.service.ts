@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
-import { User } from 'src/app/models/User';
+import { UserRequest } from 'src/app/models/request/UserRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +71,7 @@ export class UserService {
     });
   }
 
-  updateUser(idUser: string, userBody: User): Observable<any> {
+  updateUser(idUser: string, userBody: UserRequest): Observable<any> {
     return this.httpClient.put(config.API_URL + '/api/usuarios/' + idUser, userBody, {
       headers: {
         'x-token': this.tokenSession
