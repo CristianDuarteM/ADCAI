@@ -14,6 +14,15 @@
           <textarea matInput rows="3" formControlName="activityName" placeholder="Obligatorio"></textarea>
         </mat-form-field>
       </div>
+      <div class="content-input">
+        <span>¿Requiere que la actividad sea listada? <span class="item-required">*</span></span>
+        <div class="radio-button-section">
+          <mat-radio-group aria-label="Seleccione una opción" formControlName="isList">
+            <mat-radio-button value="true" color="warn">Sí</mat-radio-button>
+            <mat-radio-button value="false" color="warn">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
       <div class="button-form">
         <button type="submit">
           {{(idAdministration === '') ? 'Agregar' : 'Actualizar'}}

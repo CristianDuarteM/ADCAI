@@ -44,6 +44,7 @@ export class ItemAdministrationComponent implements OnInit {
   initForm() {
     this.administrationForm = new FormGroup({
       activityName: new FormControl(this.dataAdministrationItem.nombre, [Validators.required]),
+      isList: new FormControl(this.dataAdministrationItem.listar + '', [Validators.required]),
     });
     this.isLoaded = true;
   }
@@ -97,6 +98,7 @@ export class ItemAdministrationComponent implements OnInit {
 
   loadItemAdministrationData() {
     this.dataAdministrationItem.nombre = this.administrationForm.get('activityName')?.value;
+    this.dataAdministrationItem.listar = (this.administrationForm.get('isList')?.value === 'true') ? true : false;
   }
 
 }

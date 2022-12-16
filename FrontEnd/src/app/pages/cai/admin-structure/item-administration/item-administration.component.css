@@ -31,3 +31,7 @@ span {
   display: flex;
   justify-content: center;
 }
+
+.mat-radio-button {
+  margin: 1%;
+}
