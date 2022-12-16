@@ -2,9 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
+import { AdministrationActivities } from 'src/app/models/AdministrationActivities';
 import { CaiModel } from 'src/app/models/CaiModel';
 import { EvaluateCaiModel } from 'src/app/models/EvaluateCai';
 import { ExtensionActivities } from 'src/app/models/ExtensionActivities';
+import { Note } from 'src/app/models/Note';
+import { OtherActivities } from 'src/app/models/OtherActivities';
+import { RepresentationActivities } from 'src/app/models/RepresentationActivities';
 import { CaiRequest } from 'src/app/models/request/CaiRequest';
 import { InvestigationActivitiesRequest } from 'src/app/models/request/InvestigationItemRequest';
 
@@ -303,6 +307,22 @@ export class CaiService {
     });
   }
 
+  addAdministrationItem(administrationItemBody: AdministrationActivities): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/actividadesAdministracion', administrationItemBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  updateAdministrationItem(idAdministrationItem: string, administrationItemBody: AdministrationActivities): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/actividadesAdministracion/' + idAdministrationItem, administrationItemBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   disableAdministrationItem(idAdministrationItem: string): Observable<any> {
     return this.httpClient.delete(config.API_URL + '/api/actividadesAdministracion/' + idAdministrationItem, {
       headers: {
@@ -315,6 +335,30 @@ export class CaiService {
     return this.httpClient.put(config.API_URL + '/api/actividadesAdministracion/' + idAdministrationItem, {
       estado: true
     }, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getAdministrationItemById(idAdministrationItem: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/actividadesAdministracion/' + idAdministrationItem, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  addRepresentationItem(representationItemBody: RepresentationActivities): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/representaciones', representationItemBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  updateRepresentationItem(idRepresentationItem: string, representationItemBody: RepresentationActivities): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/representaciones/' + idRepresentationItem, representationItemBody, {
       headers: {
         'x-token': this.tokenSession
       }
@@ -339,6 +383,30 @@ export class CaiService {
     });
   }
 
+  getRepresentationItemById(idRepresentationItem: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/representaciones/' + idRepresentationItem, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  addOtherItem(otherItemBody: OtherActivities): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/otrasActividades', otherItemBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  updateOtherItem(idOtherItem: string, otherItemBody: OtherActivities): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/otrasActividades/' + idOtherItem, otherItemBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   disableOtherItem(idOtherItem: string): Observable<any> {
     return this.httpClient.delete(config.API_URL + '/api/otrasActividades/' + idOtherItem, {
       headers: {
@@ -357,6 +425,30 @@ export class CaiService {
     });
   }
 
+  getOtherItemById(idOtherItem: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/otrasActividades/' + idOtherItem, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  addNote(noteBody: Note): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/notas', noteBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  updateNote(idNote: string, noteBody: ExtensionActivities): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/notas/' + idNote, noteBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   disableNote(idNote: string): Observable<any> {
     return this.httpClient.delete(config.API_URL + '/api/notas/' + idNote, {
       headers: {
@@ -369,6 +461,14 @@ export class CaiService {
     return this.httpClient.put(config.API_URL + '/api/notas/' + idNote, {
       estado: true
     }, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getNoteItemById(idNote: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/notas/' + idNote, {
       headers: {
         'x-token': this.tokenSession
       }
