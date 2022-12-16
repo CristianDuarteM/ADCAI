@@ -1,0 +1,165 @@
+button {
+  border-radius: 1vw;
+  cursor: pointer;
+}
+
+form {
+  padding-bottom: 3%;
+}
+
+p {
+  font-weight: bold;
+}
+
+span {
+  font-size: large;
+  margin-right: 1%;
+}
+
+table {
+  width: 100%;
+}
+
+textarea.mat-input-element {
+  resize: none;
+}
+
+th {
+  border-color: #9D0303;
+}
+
+tr, th {
+  background-color: #FFF;
+  color: #000;
+  font-weight: bold;
+  text-align: center;
+}
+
+tr, td {
+  background-color: transparent;
+}
+
+tr, th {
+  font-size: large;
+}
+
+td {
+  font-size: medium;
+  font-weight: normal;
+  line-height: 100%;
+}
+
+.spinner-align {
+  height: 90vh;
+}
+
+.principal-content {
+  display: flex;
+  flex-flow: column;
+  margin: 0 5% 0 5%;
+}
+
+.init-information {
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+}
+
+.init-information-input {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  margin-right: 1%;
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.total-section {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+  margin: 2% 0 3% 0;
+}
+
+.span-total-section {
+  font-size: large;
+  font-weight: bold;
+}
+
+.title-section {
+  font-size: larger;
+  font-weight: bold;
+  margin: 3% 0 1% 0;
+}
+
+.section-content {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.input-hours {
+  font-weight: bolder;
+  text-align: center;
+  width: 5%;
+}
+
+.mat-input-element:disabled {
+  color: #000;
+}
+
+.input-hours-investigation {
+  font-weight: bolder;
+  text-align: center;
+  width: 20%;
+}
+
+.update-button {
+  background-color: #96C0E8;
+  border-color: #96C0E8;
+}
+
+.disable-button {
+  background-color: #E896A4;
+  border-color: #E896A4;
+}
+
+.enable-button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+}
+
+.mat-icon {
+  display: none;
+}
+
+.button-table {
+  padding: 2%;
+  margin: 1%;
+  width: 40%;
+}
+
+.span-table {
+  font-size: small;
+}
+
+.add-button-content {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+  font-weight: bold;
+  padding: 0.3% 1% 0.3% 1%;
+  margin: 1%;
+}
+
+.span-add {
+  font-size: medium;
+}

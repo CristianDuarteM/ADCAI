@@ -1,6 +1,6 @@
 import { StudyPlanResponse } from "./StudyPlanResponse";
 
-export interface SubjectResponse {
+export class SubjectResponse {
   id: number;
   id_programa: string;
   nombre: number;
@@ -10,4 +10,17 @@ export interface SubjectResponse {
   horas_practicas: string;
   horas_teoricas: string;
   plan_estudio: StudyPlanResponse;
+
+  constructor() {
+    this.id = 0;
+    this.id_programa = '';
+    this.nombre = 0;
+    this.estado = true;
+    this.descripcion = '';
+    this.creditos = '';
+    this.horas_practicas = '';
+    this.horas_teoricas = '';
+    this.plan_estudio = new StudyPlanResponse();
+  }
+
 }

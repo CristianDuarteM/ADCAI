@@ -1,1 +1,30 @@
-<p>item-investigation works!</p>
+<ng-container>
+  <app-navbar></app-navbar>
+  <ng-container *ngIf="!isLoaded">
+    <div class="spinner-align">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-container>
+  <div class="main-container" *ngIf="isLoaded">
+    <app-principal-row [backRoute]="backRouteInvestigationItem" [title]="titleInvestigationItem" [isPrincipal]="isPrincipalInvestigationItem"></app-principal-row>
+    <form [formGroup]="investigationForm" (ngSubmit)="onSubmit()">
+      <div class="content-input">
+        <span>Actividad <span class="item-required">*</span></span>
+        <mat-form-field>
+          <textarea matInput rows="3" formControlName="activityName" placeholder="Obligatorio"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="content-input">
+        <span>Descripción de las horas <span class="item-required">*</span></span>
+        <mat-form-field>
+          <textarea matInput rows="3" formControlName="hoursDescription" placeholder="Obligatorio"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="button-form">
+        <button type="submit">
+          {{(idInvestigation === '') ? 'Agregar' : 'Actualizar'}}
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-container>

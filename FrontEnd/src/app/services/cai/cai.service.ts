@@ -5,6 +5,7 @@ import { config } from 'src/app/constants/config';
 import { CaiModel } from 'src/app/models/CaiModel';
 import { EvaluateCaiModel } from 'src/app/models/EvaluateCai';
 import { CaiRequest } from 'src/app/models/request/CaiRequest';
+import { InvestigationActivitiesRequest } from 'src/app/models/request/InvestigationItemRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -163,6 +164,48 @@ export class CaiService {
 
   evaluateCai(idCai: string, evaluateCaiModel: EvaluateCaiModel): Observable<any> {
     return this.httpClient.put(config.API_URL + '/api/cai/evaluar/' + idCai, evaluateCaiModel, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  addInvestigationItem(investigationItemBody: InvestigationActivitiesRequest): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/actividadesInvestigacion', investigationItemBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  updateInvestigationItem(idInvestigationItem: string, investigationItemBody: InvestigationActivitiesRequest): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/actividadesInvestigacion/' + idInvestigationItem, investigationItemBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  disableInvestigationItem(idInvestigationItem: string): Observable<any> {
+    return this.httpClient.delete(config.API_URL + '/api/actividadesInvestigacion/' + idInvestigationItem, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  enableInvestigationItem(idInvestigationItem: string): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/actividadesInvestigacion/' + idInvestigationItem, {
+      estado: true
+    }, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getInvestigationItemById(idInvestigationItem: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/actividadesInvestigacion/' + idInvestigationItem, {
       headers: {
         'x-token': this.tokenSession
       }

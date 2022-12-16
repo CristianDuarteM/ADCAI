@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { DisableDialogComponent } from "../components/disable-dialog/disable-dialog.component";
+import { EnableDialogComponent } from "../components/enable-dialog/enable-dialog.component";
 import { InformativeDialogComponent } from "../components/informative-dialog/informative-dialog.component";
 
 @Injectable({ providedIn: 'root' })
@@ -36,6 +38,26 @@ export class Dialog {
         routeRedirect
       },
       disableClose: true
+    });
+  }
+
+  openDialogDisable(description: string, actualComponent: string, idComponent: string) {
+    this.dialog.open(DisableDialogComponent, {
+      data: {
+        description,
+        actualComponent,
+        idComponent
+      }
+    });
+  }
+
+  openDialogEnable(description: string, actualComponent: string, idComponent: string) {
+    this.dialog.open(EnableDialogComponent, {
+      data: {
+        description,
+        actualComponent,
+        idComponent
+      }
     });
   }
 

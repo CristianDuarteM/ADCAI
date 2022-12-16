@@ -32,6 +32,13 @@ import { TeacherGuard } from './guards/teacher-guard';
 import { ViewCaiComponent } from './pages/cai/view-cai/view-cai.component';
 import { DeanDirectorGuard } from './guards/dean-director-guard';
 import { ViewEvaluateCaiComponent } from './pages/cai/view-evaluate-cai/view-evaluate-cai.component';
+import { StructureCaiComponent } from './pages/cai/admin-structure/structure-cai/structure-cai.component';
+import { ItemInvestigationComponent } from './pages/cai/admin-structure/item-investigation/item-investigation.component';
+import { ItemExtensionComponent } from './pages/cai/admin-structure/item-extension/item-extension.component';
+import { ItemAdministrationComponent } from './pages/cai/admin-structure/item-administration/item-administration.component';
+import { ItemRepresentationComponent } from './pages/cai/admin-structure/item-representation/item-representation.component';
+import { ItemOthersComponent } from './pages/cai/admin-structure/item-others/item-others.component';
+import { NoteComponent } from './pages/cai/admin-structure/note/note.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -61,19 +68,19 @@ const routes: Routes = [
   { path: "evaluar-cai", component: ValidateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
   { path: "evaluar-cai/:idCai", component: ViewEvaluateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
   { path: "diligenciar-cai", component: FillCaiComponent, pathMatch: "full", canActivate: [TeacherGuard] },
-  { path: "cai-admin", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/investigacion", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/investigacion/:idInvestigation", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/extension", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/extension/:idExtension", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/administracion", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/administracion/:idAdministration", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/representacion", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/representacion/:idRepresentation", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/otras", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/otras/:idOtra", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/notas", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "cai-admin/notas/:idNota", component: ManagementFacultyComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin", component: StructureCaiComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/investigacion", component: ItemInvestigationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/investigacion/:idInvestigation", component: ItemInvestigationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/extension", component: ItemExtensionComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/extension/:idExtension", component: ItemExtensionComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/administracion", component: ItemAdministrationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/administracion/:idAdministration", component: ItemAdministrationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/representacion", component: ItemRepresentationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/representacion/:idRepresentation", component: ItemRepresentationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/otras", component: ItemOthersComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/otras/:idOtra", component: ItemOthersComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/notas", component: NoteComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai-admin/notas/:idNota", component: NoteComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
 ];
 
 @NgModule({

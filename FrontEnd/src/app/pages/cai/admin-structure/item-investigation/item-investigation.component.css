@@ -1,0 +1,33 @@
+button {
+  background-color: #96C0E8;
+  border-color: #96C0E8;
+  border-radius: 2vh;
+  cursor: pointer;
+  font-size: large;
+  font-weight: bold;
+  padding: 0.5% 3% 0.5% 3%;
+}
+
+form {
+  margin: 0 5% 0 5%;
+}
+
+span {
+  font-size: larger;
+  margin-right: 2%;
+}
+
+.content-input {
+  display: flex;
+  flex-flow: column;
+  margin: 1% 1% 0 1%;
+}
+
+.item-required {
+  color: #B20808;
+}
+
+.button-form {
+  display: flex;
+  justify-content: center;
+}
