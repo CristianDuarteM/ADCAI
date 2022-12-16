@@ -24,7 +24,10 @@
         <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-docentes/', false)">
           Gestión de Docentes
         </button>
-        <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-cai/', false)">
+        <button mat-raised-button *ngxPermissionsOnly="'DIRECTOR'" (click)="redirectButton('/gestion-cai/', false)">
+          Gestión del CAI
+        </button>
+        <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/cai-admin/', false)">
           Gestión del CAI
         </button>
         <button mat-raised-button *ngxPermissionsOnly="'DECANO'" (click)="redirectButton('/evaluar-cai/', false)">
