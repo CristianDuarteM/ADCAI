@@ -87,8 +87,24 @@ export class CaiService {
     });
   }
 
+  getInvestigationActivityListWithFilter(isEnable: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/actividadesInvestigacion?habilitada=' + isEnable, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   getExtensionActivityList(): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/actividadesExtension', {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getExtensionActivityListWithFilter(isEnable: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/actividadesExtension?habilitada=' + isEnable, {
       headers: {
         'x-token': this.tokenSession
       }
@@ -103,6 +119,14 @@ export class CaiService {
     });
   }
 
+  getAdministrationActivityListWithFilter(isEnable: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/actividadesAdministracion?habilitada=' + isEnable, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   getRepresentationActivityList(): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/representaciones', {
       headers: {
@@ -111,8 +135,24 @@ export class CaiService {
     });
   }
 
+  getRepresentationActivityListWithFilter(isEnable: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/representaciones?habilitada=' + isEnable, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   getOtherActivityList(): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/otrasActividades', {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getOtherActivityListWithFilter(isEnable: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/otrasActividades?habilitada=' + isEnable, {
       headers: {
         'x-token': this.tokenSession
       }
