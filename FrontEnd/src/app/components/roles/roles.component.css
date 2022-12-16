@@ -1,8 +1,12 @@
 button {
+  align-items: center;
   border: none;
   border-radius: 0.5vw;
   cursor: pointer;
+  display: flex;
+  flex-flow: column;
   font-size: 1.2vw;
+  justify-content: center;
   margin: 2% 1% 4% 1%;
   padding: 2%;
 }
@@ -20,8 +24,15 @@ h2 {
 }
 
 .mat-icon {
+  align-items: center;
   color: #B20808;
+  display: flex;
   font-size: 2vw;
+  justify-content: center;
+}
+
+.spinner-align {
+  height: 20vh;
 }
 
 @media only screen and (max-width: 600px) {

@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { config } from 'src/app/constants/config';
 import { Dialog } from 'src/app/models/Dialog';
+import { UserRequest } from 'src/app/models/request/UserRequest';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
 import { Role } from 'src/app/models/Role';
@@ -57,7 +58,7 @@ export class UserDetailsComponent implements OnInit {
       this.isDean = true;
     }
 
-    if(sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE)){
+    if((sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE) || '') !== ''){
       this.isComplete = false;
     }
 
@@ -84,19 +85,21 @@ export class UserDetailsComponent implements OnInit {
       if(this.textButton === 'Actualizar') {
         this.updateUser();
       }
+    } else {
+      this.dialog.openDialog('Debe llenar todos los campos requeridos', '');
     }
   }
 
   updateUser() {
-    this.userModel = {
-      ...this.userModel,
+    let userRequest: UserRequest = {
+      id: this.userModel.id,
       nombre: this.getItemValue('nameInput'),
       apellido: this.getItemValue('lastNameInput'),
       codigo: this.getItemValue('codeInput'),
       id_departamento: this.getItemValue('departmentInput'),
       realizaCai: (this.getItemValue('doCai') === 'true') ? true : false,
     }
-    this.userService.updateUser(this.userModel.id + '', this.userModel).subscribe({
+    this.userService.updateUser(userRequest.id + '', userRequest).subscribe({
       next: userUpdateResponse => {
         if(this.fileEvent !== null) {
           this.addSignature(this.fileEvent);
@@ -105,7 +108,7 @@ export class UserDetailsComponent implements OnInit {
           sessionStorage.removeItem(config.SESSION_STORAGE.IS_COMPLETE);
           this.dialog.openDialog(userUpdateResponse.msg, '/home');
         } else{
-          this.dialog.openDialog(userUpdateResponse.msg, '/gestion-docentes/buscados/editar/' + this.userModel.id);
+          this.dialog.openDialog(userUpdateResponse.msg, '/gestion-docentes/buscados/editar/' + userRequest.id);
         }
       },
       error: (error: HttpErrorResponse) => {

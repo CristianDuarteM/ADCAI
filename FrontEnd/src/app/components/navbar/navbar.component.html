@@ -6,11 +6,13 @@
     </div>
   </div>
   <div class="container">
-    <button mat-raised-button class="action-buttons" *ngxPermissionsExcept="'ADMIN'">
-      <mat-icon *ngIf="!unreadNotification">notifications_none</mat-icon>
-      <mat-icon *ngIf="unreadNotification">notifications_active</mat-icon>
-      <a href="/notificaciones" title="Notificaciones">Notificaciones</a>
-    </button>
+    <ng-container *ngIf="isComplete === ''">
+      <button mat-raised-button class="action-buttons" *ngxPermissionsExcept="'ADMIN'">
+        <mat-icon *ngIf="!unreadNotification">notifications_none</mat-icon>
+        <mat-icon *ngIf="unreadNotification">notifications_active</mat-icon>
+        <a href="/notificaciones" title="Notificaciones">Notificaciones</a>
+      </button>
+    </ng-container>
     <button mat-raised-button class="action-buttons" (click)="openDialog()">
       <mat-icon>cached</mat-icon>
       Cambio de Rol
