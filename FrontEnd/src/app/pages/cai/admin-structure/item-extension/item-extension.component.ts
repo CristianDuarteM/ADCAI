@@ -26,7 +26,7 @@ export class ItemExtensionComponent implements OnInit {
     this.idExtension = route.snapshot.paramMap.get('idExtension') || '';
     this.extensionForm = new FormGroup({});
     this.backRouteExtensionItem = '/cai-admin';
-    this.titleExtensionItem = ((this.idExtension === '') ? 'Agregar' : 'Actualizar') + 'Actividad de Extensión';
+    this.titleExtensionItem = ((this.idExtension === '') ? 'Agregar ' : 'Actualizar ') + 'Actividad de Extensión';
     this.isPrincipalExtensionItem = false;
     this.dataExtensionItem = new ExtensionActivities();
     this.isLoaded = false;
@@ -69,7 +69,7 @@ export class ItemExtensionComponent implements OnInit {
         this.dialog.openDialog(itemExtensionResponse.msg, '/cai-admin');
       },
       error: (error: HttpErrorResponse) => {
-        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/cai-admin/extension/' + this.idExtension, error))
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/cai-admin/extension/', error))
       }
     });
   }
