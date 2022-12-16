@@ -1,1 +1,24 @@
-<p>note works!</p>
+<ng-container>
+  <app-navbar></app-navbar>
+  <ng-container *ngIf="!isLoaded">
+    <div class="spinner-align">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-container>
+  <div class="main-container" *ngIf="isLoaded">
+    <app-principal-row [backRoute]="backRouteNote" [title]="titleNote" [isPrincipal]="isPrincipalNote"></app-principal-row>
+    <form [formGroup]="noteForm" (ngSubmit)="onSubmit()">
+      <div class="content-input">
+        <span>Enunciado <span class="item-required">*</span></span>
+        <mat-form-field>
+          <textarea matInput rows="3" formControlName="activityName" placeholder="Obligatorio"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="button-form">
+        <button type="submit">
+          {{(idNote === '') ? 'Agregar' : 'Actualizar'}}
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-container>

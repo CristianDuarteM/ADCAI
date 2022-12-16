@@ -441,7 +441,7 @@ export class CaiService {
     });
   }
 
-  updateNote(idNote: string, noteBody: ExtensionActivities): Observable<any> {
+  updateNote(idNote: string, noteBody: Note): Observable<any> {
     return this.httpClient.put(config.API_URL + '/api/notas/' + idNote, noteBody, {
       headers: {
         'x-token': this.tokenSession
