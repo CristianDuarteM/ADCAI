@@ -146,6 +146,14 @@ export class CaiService {
     });
   }
 
+  updateCai(idCai: string, caiBody: CaiRequest): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/cai/' + idCai, caiBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   getCaiList(idUser: string, role: string, evaluate: string): Observable<any> {
     let from = 0;
     let limit = 100000;

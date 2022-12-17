@@ -39,7 +39,7 @@ import { ItemAdministrationComponent } from './pages/cai/admin-structure/item-ad
 import { ItemRepresentationComponent } from './pages/cai/admin-structure/item-representation/item-representation.component';
 import { ItemOthersComponent } from './pages/cai/admin-structure/item-others/item-others.component';
 import { NoteComponent } from './pages/cai/admin-structure/note/note.component';
-import { UpdateCaiComponent } from './pages/update-cai/update-cai.component';
+import { UpdateCaiComponent } from './pages/cai/update-cai/update-cai.component';
 import { RejectCaiComponent } from './pages/cai/reject-cai/reject-cai.component';
 
 const routes: Routes = [
@@ -71,7 +71,7 @@ const routes: Routes = [
   { path: "evaluar-cai/:idCai", component: ViewEvaluateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
   { path: "evaluar-cai/rechazar/:idCai", component: RejectCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
   { path: "diligenciar-cai", component: FillCaiComponent, pathMatch: "full", canActivate: [TeacherGuard] },
-  { path: "actualizar-cai/:idUser", component: UpdateCaiComponent, pathMatch: "full", canActivate: [TeacherGuard] },
+  { path: "actualizar-cai/:idCai", component: UpdateCaiComponent, pathMatch: "full", canActivate: [TeacherGuard] },
   { path: "cai-admin", component: StructureCaiComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "cai-admin/investigacion", component: ItemInvestigationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "cai-admin/investigacion/:idInvestigation", component: ItemInvestigationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },

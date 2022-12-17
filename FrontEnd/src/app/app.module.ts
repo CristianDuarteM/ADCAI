@@ -67,7 +67,7 @@ import { ItemAdministrationComponent } from './pages/cai/admin-structure/item-ad
 import { ItemRepresentationComponent } from './pages/cai/admin-structure/item-representation/item-representation.component';
 import { ItemOthersComponent } from './pages/cai/admin-structure/item-others/item-others.component';
 import { NoteComponent } from './pages/cai/admin-structure/note/note.component';
-import { UpdateCaiComponent } from './pages/update-cai/update-cai.component';
+import { UpdateCaiComponent } from './pages/cai/update-cai/update-cai.component';
 import { RejectCaiComponent } from './pages/cai/reject-cai/reject-cai.component';
 
 @NgModule({

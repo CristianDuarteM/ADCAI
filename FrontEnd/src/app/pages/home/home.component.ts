@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   isCaiCompleted: boolean;
   isRejectCai: boolean;
   caiDataBasic: CaiResponse;
+  idCai: string;
 
   constructor(private navigation: Router, private ngxPermissonsService: NgxPermissionsService,
     private authService: AuthService, private dialog: Dialog, private caiService: CaiService,
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit {
     this.isCaiCompleted = false;
     this.isRejectCai = false;
     this.caiDataBasic = new CaiResponse();
+    this.idCai = '';
   }
 
   ngOnInit(): void {
@@ -162,6 +164,7 @@ export class HomeComponent implements OnInit {
               this.isCaiCompleted = true;
               if(cai.id_estado === 4 || cai.id_estado === 5) {
                 this.isRejectCai = true;
+                this.idCai = cai.id;
               }
             }
           }
@@ -185,9 +188,11 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  redirectButton(route: string, idUserRequired: boolean) {
-    if(idUserRequired) {
+  redirectButton(route: string, id: string) {
+    if(id === 'user') {
       route += sessionStorage.getItem(config.SESSION_STORAGE.ID_USER);
+    } else if(id === 'cai') {
+      route += this.idCai;
     }
     this.navigation.navigate([route]);
   }

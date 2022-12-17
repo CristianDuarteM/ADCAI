@@ -3,6 +3,7 @@ import { ExtensionActivities } from "./ExtensionActivities";
 import { OtherActivities } from "./OtherActivities";
 import { Period } from "./Period";
 import { RepresentationActivities } from "./RepresentationActivities";
+import { Signature } from "./Signature";
 import { InvestigationActivitiesTable } from "./table/InvestigationActivitiesTable";
 import { TeacherActivitiesTable } from "./table/TeacherActivitiesTable";
 import { User } from "./User";
@@ -24,6 +25,7 @@ export class Cai {
   actividad_otras: OtherActivities[];
   periodo: Period;
   usuario: User;
+  firmas: Signature[];
 
   constructor() {
     this.id = '';
@@ -42,6 +44,7 @@ export class Cai {
     this.actividad_otras = [];
     this.periodo = new Period();
     this.usuario = new User();
+    this.firmas = [];
   }
 
 }

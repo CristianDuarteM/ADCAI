@@ -8,28 +8,28 @@ import { RolePermission } from 'src/app/models/RolePermission';
 import { CaiService } from 'src/app/services/cai/cai.service';
 
 @Component({
-  selector: 'app-view-cai',
-  templateUrl: './view-cai.component.html',
-  styleUrls: ['./view-cai.component.css']
+  selector: 'app-update-cai',
+  templateUrl: './update-cai.component.html',
+  styleUrls: ['./update-cai.component.css']
 })
-export class ViewCaiComponent implements OnInit {
+export class UpdateCaiComponent implements OnInit {
 
-  backRouteViewCai: string;
-  titleViewCai: string;
-  isPrincipalViewCai: boolean;
+  backRouteUpdateCai: string;
+  titleUpdateCai: string;
+  isPrincipalUpdateCai: boolean;
   isLoaded: boolean;
   dataCai: Cai;
   feedbackList: Feedback[];
 
   constructor(private route: ActivatedRoute, private caiService: CaiService, public dialog: Dialog,
     private rolePermission: RolePermission) {
-    this.backRouteViewCai = '/historial-cai';
-    this.titleViewCai = 'Carga Académica Integral';
-    this.isPrincipalViewCai = false;
-    this.dataCai = new Cai();
-    this.isLoaded = false;
-    this.feedbackList = [];
-  }
+      this.backRouteUpdateCai = '/home';
+      this.titleUpdateCai = 'Actualizar Carga Académica Integral';
+      this.isPrincipalUpdateCai = true;
+      this.isLoaded = false;
+      this.dataCai = new Cai();
+      this.feedbackList = [];
+    }
 
   ngOnInit(): void {
     this.rolePermission.loadRole();

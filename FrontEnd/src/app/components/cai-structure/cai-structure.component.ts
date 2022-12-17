@@ -125,19 +125,38 @@ export class CaiStructureComponent implements OnInit {
         this.validHours = true;
         return this.dialog.openDialog('¡¡No se aceptan números negativos!!', '');
       }
-      if(this.idSignature === ''){
-        if(sessionStorage.getItem('idSignature') !== null) {
-          this.idSignature = sessionStorage.getItem('idSignature') || '';
-        } else {
-          return this.addSignature();
-        }
-      }
       this.loadDataCai();
-      this.fillCai();
+      if(this.loadedData) {
+        this.updateCai();
+      } else {
+        this.addCai();
+      }
     } else {
       console.log(this.caiForm);
       this.dialog.openDialog('¡¡Faltan campos por diligenciar!!', '');
     }
+  }
+
+  addCai() {
+    if(this.idSignature === ''){
+      if(sessionStorage.getItem('idSignature') !== null) {
+        this.idSignature = sessionStorage.getItem('idSignature') || '';
+      } else {
+        return this.addSignature();
+      }
+    }
+    this.fillCai();
+  }
+
+  updateCai() {
+    this.caiService.updateCai(this.dataCai.id, this.caiRequest).subscribe({
+      next: updateCaiResponse => {
+        this.dialog.openDialog(updateCaiResponse.msg, '/home');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('', error));
+      }
+    });
   }
 
   fillCai() {
