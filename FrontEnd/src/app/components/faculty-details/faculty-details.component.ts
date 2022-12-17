@@ -31,8 +31,8 @@ export class FacultyDetailsComponent implements OnInit {
     this.faculty = new FormGroup({
       name: new FormControl(this.dataFaculty.nombre, [Validators.required]),
       description: new FormControl(this.dataFaculty.descripcion, [Validators.required]),
-      dean: new FormControl(this.dataFaculty.decano.correo, [Validators.email, Validators.required]),
-      doCai: new FormControl(this.dataFaculty.decano.realizaCai + '')
+      dean: new FormControl((this.dataFaculty.decano !== null) ? this.dataFaculty.decano.correo : '', [Validators.email, Validators.required]),
+      doCai: new FormControl(((this.dataFaculty.decano !== null) ? this.dataFaculty.decano.correo : true) + '')
     });
   }
 

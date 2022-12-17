@@ -2,16 +2,23 @@
   <app-navbar></app-navbar>
   <div class="main-container">
     <app-principal-row [backRoute]="backRouteViewEvaluateCai" [title]="titleViewEvaluateCai" [isPrincipal]="isPrincipalViewEvaluateCai"></app-principal-row>
-    <div *ngIf="isLoaded">
-      <app-cai-structure [isViewCai]="true" [dataCai]="dataCai" [loadedData]="true" [feedbackList]="feedbackList"></app-cai-structure>
-    </div>
-    <div class="button-content">
-      <button mat-raised-button class="button-submit approve-button" (click)="evaluateCai(true)">
-        Aprobar
-      </button>
-      <button mat-raised-button class="button-submit reject-button" (click)="evaluateCai(false)">
-        Rechazar
-      </button>
-    </div>
+    <ng-container *ngIf="!isLoaded">
+      <div class="spinner-align">
+        <app-spinner></app-spinner>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isLoaded">
+      <div>
+        <app-cai-structure [isViewCai]="true" [dataCai]="dataCai" [loadedData]="true" [feedbackList]="feedbackList"></app-cai-structure>
+      </div>
+      <div class="button-content">
+        <button mat-raised-button class="button-submit approve-button" (click)="approveEvaluateCai()">
+          <span>Aprobar</span>
+        </button>
+        <button mat-raised-button class="button-submit reject-button" (click)="rejectEvaluateCai()">
+          <span>Rechazar</span>
+        </button>
+      </div>
+    </ng-container>
   </div>
 </ng-container>

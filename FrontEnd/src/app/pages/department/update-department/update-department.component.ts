@@ -28,7 +28,7 @@ export class UpdateDepartmentComponent implements OnInit {
     this.isPrincipalDepartment = false;
     this.actionButtonDepartment = 'Actualizar';
     this.descriptionFormDepartment = 'Actualice los campos que desea modificar del departamento';
-    this.dataDepartment = {} as DepartmentResponse;
+    this.dataDepartment = new DepartmentResponse();
     this.isLoaded = false;
   }
 

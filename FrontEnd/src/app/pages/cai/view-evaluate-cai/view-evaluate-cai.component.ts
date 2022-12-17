@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { config } from 'src/app/constants/config';
 import { Cai } from 'src/app/models/Cai';
+import { Dialog } from 'src/app/models/Dialog';
 import { EvaluateCaiModel } from 'src/app/models/EvaluateCai';
 import { Feedback } from 'src/app/models/Feedback';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { CaiService } from 'src/app/services/cai/cai.service';
 
 @Component({
@@ -22,16 +23,18 @@ export class ViewEvaluateCaiComponent implements OnInit {
   dataCai: Cai;
   feedbackList: Feedback[];
 
-  constructor(private route: ActivatedRoute, private caiService: CaiService, public dialog: MatDialog) {
+  constructor(private route: ActivatedRoute, private caiService: CaiService, public dialog: Dialog,
+    private rolePermission: RolePermission, private navigation: Router) {
     this.backRouteViewEvaluateCai = '/evaluar-cai';
     this.titleViewEvaluateCai = 'Evaluar Carga Académica Integral';
     this.isPrincipalViewEvaluateCai = false;
-    this.dataCai = {} as Cai;
+    this.dataCai = new Cai();
     this.isLoaded = false;
     this.feedbackList = [];
   }
 
   ngOnInit(): void {
+    this.rolePermission.loadRole();
     this.getCai();
   }
 
@@ -44,52 +47,44 @@ export class ViewEvaluateCaiComponent implements OnInit {
         this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
-        let redirectRoute = '/home';
-        if(error.status === 401) {
-          redirectRoute = '/login';
-        }
-        this.openDialog(error.error.msg, redirectRoute);
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
 
-  initEvaluateCai(approved: boolean): EvaluateCaiModel {
-    return {
-      aprobado: approved,
-      docencia: '',
-      investigacion: '',
-      extension: '',
-      administracion: '',
-      representacion: '',
-      otras: '',
+  approveEvaluateCai() {
+    let activeRole = sessionStorage.getItem(config.SESSION_STORAGE.ACTIVE_ROLE);
+    if(activeRole === 'DIRECTOR') {
+      this.approveCaiDirector();
+    } else if(activeRole === 'DECANO') {
+      this.approveCaiDean();
     }
   }
 
-  evaluateCai(approved: boolean) {
-    if(approved) {
-      this.caiService.evaluateCai(this.dataCai.id, this.initEvaluateCai(approved)).subscribe({
-        next: evaluateCaiResponse => {
-          this.openDialog(evaluateCaiResponse.msg, '/evaluar-cai');
-        },
-        error: (error: HttpErrorResponse) => {
-          let redirectRoute = '/home';
-          if(error.status === 401) {
-            redirectRoute = '/login';
-          }
-          this.openDialog(error.error.msg, redirectRoute);
-        }
-      });
-    }
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
+  approveCaiDirector() {
+    this.caiService.evaluateCaiDirector(this.dataCai.id, new EvaluateCaiModel(true)).subscribe({
+      next: approveCaiDirectorResponse => {
+        this.dialog.openDialog(approveCaiDirectorResponse.msg, '/evaluar-cai');
       },
-      disableClose: true
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
+      }
     });
+  }
+
+  approveCaiDean() {
+    this.caiService.evaluateCaiDean(this.dataCai.id, new EvaluateCaiModel(true)).subscribe({
+      next: approveCaiDeanResponse => {
+        this.dialog.openDialog(approveCaiDeanResponse.msg, '/evaluar-cai');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
+      }
+    });
+  }
+
+  rejectEvaluateCai() {
+
   }
 
 }

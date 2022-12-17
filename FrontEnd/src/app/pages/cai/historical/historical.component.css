@@ -7,3 +7,7 @@ span {
   flex-flow: column;
   margin: 0 2% 0 2%;
 }
+
+.spinner-align {
+  height: 84vh;
+}

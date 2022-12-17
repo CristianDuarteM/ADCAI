@@ -165,8 +165,16 @@ export class CaiService {
     });
   }
 
-  evaluateCai(idCai: string, evaluateCaiModel: EvaluateCaiModel): Observable<any> {
-    return this.httpClient.put(config.API_URL + '/api/cai/evaluar/' + idCai, evaluateCaiModel, {
+  evaluateCaiDirector(idCai: string, evaluateCaiModel: EvaluateCaiModel): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/cai/evaluarDirector/' + idCai, evaluateCaiModel, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  evaluateCaiDean(idCai: string, evaluateCaiModel: EvaluateCaiModel): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/cai/evaluarDecano/' + idCai, evaluateCaiModel, {
       headers: {
         'x-token': this.tokenSession
       }

@@ -90,22 +90,27 @@ export class CaiStructureComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializeCaiForm();
-    if(this.loadedData) {
-      this.getDataCaiLoaded();
-    } else {
-      this.dataCai = new Cai();
-      this.getDataUser();
-    }
     this.studyPlanForm = Object.assign(new FormGroup({}), this.caiForm.get('studyPlan'));
     this.subjectForm = Object.assign(new FormGroup({}), this.caiForm.get('subject'));
     this.investigationActivitiesForm = Object.assign(new FormGroup({}), this.caiForm.get('investigationActivities'));
     this.getStudyPlan();
-    this.inicializeDataInvestigationActivities();
-    this.inicializeDataExtensionActivities();
-    this.inicializeDataAdministrationActivities();
-    this.inicializeDataRepresentationActivities();
-    this.inicializeDataOtherActivities();
     this.inicializeDataNotes();
+    if(this.loadedData) {
+      this.getDataCaiLoaded();
+      this.inicializeDataInvestigationActivitiesWithData();
+      this.inicializeDataExtensionActivitiesWithData();
+      this.inicializeDataAdministrationActivitiesWithData();
+      this.inicializeDataRepresentationActivitiesWithData();
+      this.inicializeDataOtherActivitiesWithData();
+    } else {
+      this.dataCai = new Cai();
+      this.getDataUser();
+      this.inicializeDataInvestigationActivities();
+      this.inicializeDataExtensionActivities();
+      this.inicializeDataAdministrationActivities();
+      this.inicializeDataRepresentationActivities();
+      this.inicializeDataOtherActivities();
+    }
   }
 
   onSubmit() {
@@ -174,6 +179,7 @@ export class CaiStructureComponent implements OnInit {
     this.caiForm.setControl('teacher', new FormControl({value: this.dataCai.usuario.nombre + ' ' + this.dataCai.usuario.apellido, disabled: true}, [Validators.required]));
     this.caiForm.setControl('code', new FormControl({value: this.dataCai.usuario.codigo, disabled: true}, [Validators.required]));
     this.caiForm.setControl('dedication', new FormControl({value: this.dataCai.dedicacion, disabled: this.isViewCai}, [Validators.required]));
+    this.caiForm.setControl('observations', new FormControl({value: this.dataCai.observacion, disabled: this.isViewCai}));
   }
 
   getDepartment(idDepartment: string) {
@@ -290,7 +296,7 @@ export class CaiStructureComponent implements OnInit {
       administrationActivities: this.fb.array([]),
       representationActivities: this.fb.array([]),
       otherActivities: this.fb.array([]),
-      observations: new FormControl(''),
+      observations: new FormControl({value: '', disabled: this.isViewCai}),
       signature: new FormControl('true', [Validators.required]),
     });
   }
@@ -325,14 +331,8 @@ export class CaiStructureComponent implements OnInit {
   }
 
   inicializeInvestigationActivitiesForm() {
-    let hours;
-    for(let i = 0, j = 0; i < this.elementsDataInvestigationActivities.length; i++) {
-      hours = 0;
-      if((j < this.dataCai.actividad_investigacions.length) && this.elementsDataInvestigationActivities[i].id === this.dataCai.actividad_investigacions[j].id) {
-        hours = this.dataCai.actividad_investigacions[j].periodo_docente_actividad_investigacion.horas;
-        j++;
-      }
-      this.investigationActivitiesForm.addControl('investigationActivity' + i, new FormControl({value: hours, disabled: this.isViewCai}));
+    for(let i = 0; i < this.elementsDataInvestigationActivities.length; i++) {
+      this.investigationActivitiesForm.addControl('investigationActivity' + i, new FormControl({value: 0, disabled: this.isViewCai}));
       this.elementsDataInvestigationActivities[i].nombreFormInput = 'investigationActivity' + i;
     }
     this.dataArrayInvestigationActivities = new MatTableDataSource(this.elementsDataInvestigationActivities);
@@ -340,83 +340,40 @@ export class CaiStructureComponent implements OnInit {
   }
 
   inicializeExtensionActivitiesForm() {
-    let hours;
-    let itemsText = '';
-    for(let i = 0, j = 0; i < this.elementsDataExtensionActivities.length; i++) {
-      hours = 0;
-      if((j < this.dataCai.actividad_extensions.length) && this.elementsDataExtensionActivities[i].id === this.dataCai.actividad_extensions[j].id){
-        hours = this.dataCai.actividad_extensions[j].periodo_docente_actividad_extension.horas;
-        if(this.elementsDataExtensionActivities[i].listar) {
-          itemsText = this.dataCai.actividad_extensions[j].periodo_docente_actividad_extension.nombre;
-        }
-        j++;
-      }
-
+    for(let i = 0; i < this.elementsDataExtensionActivities.length; i++) {
       this.extensionActivities.push(this.fb.group({
-        hours: new FormControl({value: hours, disabled: this.isViewCai}),
-        itemsExtension: this.fb.array(this.getListItems(itemsText)),
+        hours: new FormControl({value: 0, disabled: this.isViewCai}),
+        itemsExtension: this.fb.array([]),
       }));
     }
     this.loadActivities++;
   }
 
   inicializeAdministrationActivitiesForm() {
-    let hours;
-    let itemsText = '';
-    for(let i = 0, j = 0; i < this.elementsDataAdministrationActivities.length; i++) {
-      hours = 0;
-      if((j < this.dataCai.actividad_administracions.length) && this.elementsDataAdministrationActivities[i].id === this.dataCai.actividad_administracions[j].id) {
-        hours = this.dataCai.actividad_administracions[j].periodo_docente_actividad_administracion.horas;
-        if(this.elementsDataAdministrationActivities[i].listar) {
-          itemsText = this.dataCai.actividad_administracions[j].periodo_docente_actividad_administracion.nombre;
-        }
-        j++;
-      }
-
+    for(let i = 0; i < this.elementsDataAdministrationActivities.length; i++) {
       this.administrationActivities.push(this.fb.group({
-        hours: new FormControl({value: hours, disabled: this.isViewCai}),
-        itemsAdministration: this.fb.array(this.getListItems(itemsText)),
+        hours: new FormControl({value: 0, disabled: this.isViewCai}),
+        itemsAdministration: this.fb.array([]),
       }));
     }
     this.loadActivities++;
   }
 
   inicializeRepresentationActivitiesForm() {
-    let hours;
-    let itemsText = '';
-    for(let i = 0, j = 0; i < this.elementsDataRepresentationActivities.length; i++) {
-      hours = 0;
-      if((j < this.dataCai.tipo_representacions.length) && this.elementsDataRepresentationActivities[i].id === this.dataCai.tipo_representacions[j].id) {
-        hours = this.dataCai.tipo_representacions[j].periodo_docente_representacion.horas;
-        if(this.elementsDataRepresentationActivities[i].listar) {
-          itemsText = this.dataCai.tipo_representacions[j].periodo_docente_representacion.nombre;
-        }
-        j++;
-      }
-
+    for(let i = 0; i < this.elementsDataRepresentationActivities.length; i++) {
       this.representationActivities.push(this.fb.group({
-        hours: new FormControl({value: hours, disabled: this.isViewCai}),
-        itemsRepresentation: this.fb.array(this.getListItems(itemsText)),
+        hours: new FormControl({value: 0, disabled: this.isViewCai}),
+        itemsRepresentation: this.fb.array([]),
       }));
     }
     this.loadActivities++;
   }
 
   inicializeOtherActivitiesForm() {
-    let hours;
-    let itemsText = '';
-    for(let i = 0, j = 0; i < this.elementsDataOtherActivities.length; i++) {
-      hours = 0;
-      if((j < this.dataCai.actividad_otras.length) && this.elementsDataOtherActivities[i].id === this.dataCai.actividad_otras[j].id) {
-        hours = this.dataCai.actividad_otras[j].periodo_docente_otra.horas;
-        if(this.elementsDataOtherActivities[i].listar) {
-          itemsText = this.dataCai.actividad_otras[j].periodo_docente_otra.nombre;
-        }
-        j++;
-      }
+    for(let i = 0; i < this.elementsDataOtherActivities.length; i++) {
       this.otherActivities.push(this.fb.group({
-        hours: new FormControl({value: hours, disabled: this.isViewCai}),
-        itemsOther: this.fb.array(this.getListItems(itemsText)),
+        hours: new FormControl({value: 0, disabled: this.isViewCai}),
+        itemsOther: this.fb.array([]),
       }));
     }
     this.loadActivities++;
@@ -434,6 +391,19 @@ export class CaiStructureComponent implements OnInit {
     });
   }
 
+  inicializeDataInvestigationActivitiesWithData() {
+    this.elementsDataInvestigationActivities = this.dataCai.actividad_investigacions;
+    for(let i = 0; i < this.dataCai.actividad_investigacions.length; i++) {
+      this.investigationActivitiesForm.addControl('investigationActivity' + i, new FormControl({
+        value: this.dataCai.actividad_investigacions[i].periodo_docente_actividad_investigacion.horas,
+        disabled: this.isViewCai
+      }));
+      this.elementsDataInvestigationActivities[i].nombreFormInput = 'investigationActivity' + i;
+    }
+    this.dataArrayInvestigationActivities = new MatTableDataSource(this.elementsDataInvestigationActivities);
+    this.loadActivities++;
+  }
+
   inicializeDataExtensionActivities() {
     this.caiService.getExtensionActivityListWithFilter('si').subscribe({
       next: extensionActivitiesResponse => {
@@ -444,6 +414,20 @@ export class CaiStructureComponent implements OnInit {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
+  }
+
+  inicializeDataExtensionActivitiesWithData() {
+    this.elementsDataExtensionActivities = this.dataCai.actividad_extensions;
+    for(let i = 0; i < this.dataCai.actividad_extensions.length; i++) {
+      this.extensionActivities.push(this.fb.group({
+        hours: new FormControl({
+          value: this.dataCai.actividad_extensions[i].periodo_docente_actividad_extension.horas,
+          disabled: this.isViewCai
+        }),
+        itemsExtension: this.fb.array(this.getListItems(this.dataCai.actividad_extensions[i].periodo_docente_actividad_extension.nombre)),
+      }));
+    }
+    this.loadActivities++;
   }
 
   inicializeDataAdministrationActivities() {
@@ -458,6 +442,20 @@ export class CaiStructureComponent implements OnInit {
     });
   }
 
+  inicializeDataAdministrationActivitiesWithData() {
+    this.elementsDataAdministrationActivities = this.dataCai.actividad_administracions;
+    for(let i = 0; i < this.dataCai.actividad_administracions.length; i++) {
+      this.administrationActivities.push(this.fb.group({
+        hours: new FormControl({
+          value: this.dataCai.actividad_administracions[i].periodo_docente_actividad_administracion.horas,
+          disabled: this.isViewCai
+        }),
+        itemsAdministration: this.fb.array(this.getListItems(this.dataCai.actividad_administracions[i].periodo_docente_actividad_administracion.nombre)),
+      }));
+    }
+    this.loadActivities++;
+  }
+
   inicializeDataRepresentationActivities() {
     this.caiService.getRepresentationActivityListWithFilter('si').subscribe({
       next: representationActivitiesResponse => {
@@ -470,6 +468,20 @@ export class CaiStructureComponent implements OnInit {
     });
   }
 
+  inicializeDataRepresentationActivitiesWithData() {
+    this.elementsDataRepresentationActivities = this.dataCai.tipo_representacions;
+    for(let i = 0; i < this.dataCai.tipo_representacions.length; i++) {
+      this.representationActivities.push(this.fb.group({
+        hours: new FormControl({
+          value: this.dataCai.tipo_representacions[i].periodo_docente_representacion.horas,
+          disabled: this.isViewCai
+        }),
+        itemsRepresentation: this.fb.array(this.getListItems(this.dataCai.tipo_representacions[i].periodo_docente_representacion.nombre)),
+      }));
+    }
+    this.loadActivities++;
+  }
+
   inicializeDataOtherActivities() {
     this.caiService.getOtherActivityListWithFilter('si').subscribe({
       next: otherActivitiesResponse => {
@@ -480,6 +492,20 @@ export class CaiStructureComponent implements OnInit {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
+  }
+
+  inicializeDataOtherActivitiesWithData() {
+    this.elementsDataOtherActivities = this.dataCai.actividad_otras;
+    for(let i = 0; i < this.dataCai.actividad_otras.length; i++) {
+      this.otherActivities.push(this.fb.group({
+        hours: new FormControl({
+          value: this.dataCai.actividad_otras[i].periodo_docente_otra.horas,
+          disabled: this.isViewCai
+        }),
+        itemsOther: this.fb.array(this.getListItems(this.dataCai.actividad_otras[i].periodo_docente_otra.nombre)),
+      }));
+    }
+    this.loadActivities++;
   }
 
   inicializeDataNotes() {
@@ -566,20 +592,16 @@ export class CaiStructureComponent implements OnInit {
 
   loadInvestigationActivities() {
     this.caiRequest.investigacion = [];
-    let item;
+    let item: number;
     for(let i = 0; i < this.elementsDataInvestigationActivities.length; i++) {
-      item = this.investigationActivitiesForm.get('investigationActivity' + i)?.value;
-      if(item != '') {
-        if(item < 0) {
-          return this.validHours = false;
-        }
-        if(item > 0) {
-          this.caiRequest.investigacion.push({
-            id: this.elementsDataInvestigationActivities[i].id,
-            horas: item,
-          });
-        }
+      item = this.investigationActivitiesForm.get('investigationActivity' + i)?.value || 0;
+      if(item < 0) {
+        return this.validHours = false;
       }
+      this.caiRequest.investigacion.push({
+        id: this.elementsDataInvestigationActivities[i].id,
+        horas: item,
+      });
     }
     return true;
   }
@@ -599,13 +621,11 @@ export class CaiStructureComponent implements OnInit {
           itemsExtension += this.getItemsExtension(i).controls[j].value;
         }
       }
-      if(this.extensionActivities.controls[i].get('hours')?.value > 0 || itemsExtension !== '') {
-        this.caiRequest.extension.push({
-          id: this.elementsDataExtensionActivities[i].id,
-          horas: this.extensionActivities.controls[i].get('hours')?.value,
-          nombre: itemsExtension
-        });
-      }
+      this.caiRequest.extension.push({
+        id: this.elementsDataExtensionActivities[i].id,
+        horas: this.extensionActivities.controls[i].get('hours')?.value,
+        nombre: itemsExtension
+      });
     }
     return true;
   }
@@ -625,13 +645,11 @@ export class CaiStructureComponent implements OnInit {
           itemsAdministration += this.getItemsAdministration(i).controls[j].value;
         }
       }
-      if(this.administrationActivities.controls[i].get('hours')?.value > 0 || itemsAdministration !== '') {
-        this.caiRequest.administracion.push({
-          id: this.elementsDataAdministrationActivities[i].id,
-          horas: this.administrationActivities.controls[i].get('hours')?.value,
-          nombre: itemsAdministration
-        });
-      }
+      this.caiRequest.administracion.push({
+        id: this.elementsDataAdministrationActivities[i].id,
+        horas: this.administrationActivities.controls[i].get('hours')?.value,
+        nombre: itemsAdministration
+      });
     }
     return true;
   }
@@ -651,13 +669,11 @@ export class CaiStructureComponent implements OnInit {
           itemsRepresentation += this.getItemsRepresentation(i).controls[j].value;
         }
       }
-      if(this.representationActivities.controls[i].get('hours')?.value > 0 || itemsRepresentation !== '') {
-        this.caiRequest.representaciones.push({
-          id: this.elementsDataRepresentationActivities[i].id,
-          horas: this.representationActivities.controls[i].get('hours')?.value,
-          nombre: itemsRepresentation
-        });
-      }
+      this.caiRequest.representaciones.push({
+        id: this.elementsDataRepresentationActivities[i].id,
+        horas: this.representationActivities.controls[i].get('hours')?.value,
+        nombre: itemsRepresentation
+      });
     }
     return true;
   }
@@ -677,13 +693,11 @@ export class CaiStructureComponent implements OnInit {
           itemsOther += this.getItemsOther(i).controls[j].value;
         }
       }
-      if(this.otherActivities.controls[i].get('hours')?.value > 0 || itemsOther !== '') {
-        this.caiRequest.otras.push({
-          id: this.elementsDataOtherActivities[i].id,
-          horas: this.otherActivities.controls[i].get('hours')?.value,
-          nombre: itemsOther
-        });
-      }
+      this.caiRequest.otras.push({
+        id: this.elementsDataOtherActivities[i].id,
+        horas: this.otherActivities.controls[i].get('hours')?.value,
+        nombre: itemsOther
+      });
     }
     return true;
   }

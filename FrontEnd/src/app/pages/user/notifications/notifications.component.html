@@ -1,8 +1,13 @@
 <ng-container>
   <app-navbar></app-navbar>
-  <div class="main-container">
+  <ng-container *ngIf="!isLoaded">
+    <div class="spinner-align">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-container>
+  <div class="main-container" *ngIf="isLoaded">
     <app-principal-row [backRoute]="backRouteNotifications" [isPrincipal]="isPrincipalNotifications"></app-principal-row>
-    <div *ngIf="isLoaded" class="principal-content">
+    <div class="principal-content">
       <app-sticky-table [columnsToDisplay]="columnsToDisplayNotifications" [headerTable]="headerTableNotifications" [elementsData]="elementsDataNotifications" [heightTable]="heightTableNotifications" ></app-sticky-table>
     </div>
   </div>
