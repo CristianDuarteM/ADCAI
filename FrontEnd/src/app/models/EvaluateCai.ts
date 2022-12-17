@@ -1,4 +1,4 @@
-export class EvaluateCaiModel {
+export class EvaluateCai {
   aprobado: boolean;
   docencia: string;
   investigacion: string;

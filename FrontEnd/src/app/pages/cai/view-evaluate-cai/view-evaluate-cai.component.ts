@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { config } from 'src/app/constants/config';
 import { Cai } from 'src/app/models/Cai';
 import { Dialog } from 'src/app/models/Dialog';
-import { EvaluateCaiModel } from 'src/app/models/EvaluateCai';
+import { EvaluateCai } from 'src/app/models/EvaluateCai';
 import { Feedback } from 'src/app/models/Feedback';
 import { RolePermission } from 'src/app/models/RolePermission';
 import { CaiService } from 'src/app/services/cai/cai.service';
@@ -62,29 +62,29 @@ export class ViewEvaluateCaiComponent implements OnInit {
   }
 
   approveCaiDirector() {
-    this.caiService.evaluateCaiDirector(this.dataCai.id, new EvaluateCaiModel(true)).subscribe({
+    this.caiService.evaluateCaiDirector(this.dataCai.id, new EvaluateCai(true)).subscribe({
       next: approveCaiDirectorResponse => {
         this.dialog.openDialog(approveCaiDirectorResponse.msg, '/evaluar-cai');
       },
       error: (error: HttpErrorResponse) => {
-        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('', error));
       }
     });
   }
 
   approveCaiDean() {
-    this.caiService.evaluateCaiDean(this.dataCai.id, new EvaluateCaiModel(true)).subscribe({
+    this.caiService.evaluateCaiDean(this.dataCai.id, new EvaluateCai(true)).subscribe({
       next: approveCaiDeanResponse => {
         this.dialog.openDialog(approveCaiDeanResponse.msg, '/evaluar-cai');
       },
       error: (error: HttpErrorResponse) => {
-        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('', error));
       }
     });
   }
 
   rejectEvaluateCai() {
-
+    this.navigation.navigate(['/evaluar-cai/rechazar/', this.dataCai.id])
   }
 
 }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
 import { AdministrationActivities } from 'src/app/models/AdministrationActivities';
 import { CaiModel } from 'src/app/models/CaiModel';
-import { EvaluateCaiModel } from 'src/app/models/EvaluateCai';
+import { EvaluateCai } from 'src/app/models/EvaluateCai';
 import { ExtensionActivities } from 'src/app/models/ExtensionActivities';
 import { Note } from 'src/app/models/Note';
 import { OtherActivities } from 'src/app/models/OtherActivities';
@@ -165,7 +165,7 @@ export class CaiService {
     });
   }
 
-  evaluateCaiDirector(idCai: string, evaluateCaiModel: EvaluateCaiModel): Observable<any> {
+  evaluateCaiDirector(idCai: string, evaluateCaiModel: EvaluateCai): Observable<any> {
     return this.httpClient.put(config.API_URL + '/api/cai/evaluarDirector/' + idCai, evaluateCaiModel, {
       headers: {
         'x-token': this.tokenSession
@@ -173,7 +173,7 @@ export class CaiService {
     });
   }
 
-  evaluateCaiDean(idCai: string, evaluateCaiModel: EvaluateCaiModel): Observable<any> {
+  evaluateCaiDean(idCai: string, evaluateCaiModel: EvaluateCai): Observable<any> {
     return this.httpClient.put(config.API_URL + '/api/cai/evaluarDecano/' + idCai, evaluateCaiModel, {
       headers: {
         'x-token': this.tokenSession

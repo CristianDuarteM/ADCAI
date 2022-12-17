@@ -68,6 +68,7 @@ import { ItemRepresentationComponent } from './pages/cai/admin-structure/item-re
 import { ItemOthersComponent } from './pages/cai/admin-structure/item-others/item-others.component';
 import { NoteComponent } from './pages/cai/admin-structure/note/note.component';
 import { UpdateCaiComponent } from './pages/update-cai/update-cai.component';
+import { RejectCaiComponent } from './pages/cai/reject-cai/reject-cai.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { UpdateCaiComponent } from './pages/update-cai/update-cai.component';
     ItemOthersComponent,
     NoteComponent,
     UpdateCaiComponent,
+    RejectCaiComponent,
   ],
   imports: [
     FormsModule,
