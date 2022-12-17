@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-management-cai',
@@ -13,15 +13,14 @@ export class ManagementCaiComponent implements OnInit {
   titleCai: string;
   isPrincipalCai: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
+  constructor(private rolePermission: RolePermission, private navigation: Router) {
     this.backRouteCai = '/home';
     this.titleCai = 'Gestionar Carga Académica Integral';
     this.isPrincipalCai = true;
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   requestCAI() {

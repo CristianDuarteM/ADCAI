@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { CaiModel } from 'src/app/models/CaiModel';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-request-cai',
@@ -14,7 +14,7 @@ export class RequestCaiComponent implements OnInit {
   isPrincipalCai: boolean;
   dataCai: CaiModel;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService) {
+  constructor(private rolePermission: RolePermission) {
     this.backRouteCai = '/gestion-cai';
     this.titleCai = 'Habilitar CAI';
     this.isPrincipalCai = false;
@@ -23,8 +23,7 @@ export class RequestCaiComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataCai();
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   getDataCai() {

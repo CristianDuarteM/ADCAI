@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { CaiModel } from 'src/app/models/CaiModel';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-view-teacher',
@@ -19,7 +19,7 @@ export class ViewTeacherComponent implements OnInit {
   buttonRouteViewTeacher: string;
   elementsDataViewTeacher: CaiModel[] = [];
 
-  constructor(private ngxPermissonsService: NgxPermissionsService) {
+  constructor(private rolePermission: RolePermission) {
     this.backRouteViewTeacher = '/gestion-docentes';
     this.titleViewTeacher = 'Visualizar Docente';
     this.isPrincipalViewTeacher = false;
@@ -31,8 +31,7 @@ export class ViewTeacherComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
 }

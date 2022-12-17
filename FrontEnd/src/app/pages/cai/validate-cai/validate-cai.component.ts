@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
 import { config } from 'src/app/constants/config';
+import { Dialog } from 'src/app/models/Dialog';
 import { CaiHistoricalResponse } from 'src/app/models/response/CaiHistoricalResponse';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { CaiHistoricalTable } from 'src/app/models/table/CaiHistoricalTable';
 import { CaiService } from 'src/app/services/cai/cai.service';
 
@@ -25,7 +24,7 @@ export class ValidateCaiComponent implements OnInit {
   elementsDataHistoricalCai: CaiHistoricalTable[];
   isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private caiService: CaiService, public dialog: MatDialog) {
+  constructor(private rolePermission: RolePermission, private caiService: CaiService, public dialog: Dialog) {
     this.backRouteHistoricalCai = '/home';
     this.titleHistoricalCai = 'Cargas Académicas Integrales por Evaluar';
     this.isPrincipalHistoricalCai = false;
@@ -39,7 +38,7 @@ export class ValidateCaiComponent implements OnInit {
 
   ngOnInit(): void {
     let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
     if(activeRole === 'DECANO'){
       this.isPrincipalHistoricalCai = true;
     }
@@ -58,7 +57,7 @@ export class ValidateCaiComponent implements OnInit {
         this.formatDataToTable(caiEvaluateListResponse.rows);
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validateError('/home', error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
@@ -75,26 +74,7 @@ export class ValidateCaiComponent implements OnInit {
         departamento: data[i].usuario.departamento.nombre,
       });
     }
-    console.log(data);
-    console.log(this.elementsDataHistoricalCai);
     this.isLoaded = true;
-  }
-
-  validateError(route: string, error: HttpErrorResponse) {
-    if(error.status === 401) {
-      route = '/login';
-    }
-    return route;
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

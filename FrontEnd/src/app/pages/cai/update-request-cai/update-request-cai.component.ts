@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
 import { config } from 'src/app/constants/config';
+import { Dialog } from 'src/app/models/Dialog';
 import { CaiResponse } from 'src/app/models/response/CaiResponse';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { CaiService } from 'src/app/services/cai/cai.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -21,8 +20,8 @@ export class UpdateRequestCaiComponent implements OnInit {
   dataCai: CaiResponse;
   isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private userService: UserService, private caiService: CaiService,
-    public dialog: MatDialog) {
+  constructor(private rolePermission: RolePermission, private userService: UserService, private caiService: CaiService,
+    public dialog: Dialog) {
     this.backRouteCai = '/gestion-cai';
     this.titleCai = 'Actualizar CAI';
     this.isPrincipalCai = false;
@@ -32,8 +31,7 @@ export class UpdateRequestCaiComponent implements OnInit {
 
   ngOnInit(): void {
     this.getActualDepartment();
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   getActualDepartment() {
@@ -42,7 +40,7 @@ export class UpdateRequestCaiComponent implements OnInit {
         this.getActualCai(userServiceResponse.usuario.id_departamento);
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.getRedirectRoute(error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-cai/actualizar-periodo', error));
       }
     });
   }
@@ -61,31 +59,13 @@ export class UpdateRequestCaiComponent implements OnInit {
         this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.getRedirectRoute(error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-cai/actualizar-periodo', error));
       }
     });
   }
 
   formatDate(date: Date) {
     return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-  }
-
-  getRedirectRoute(error: HttpErrorResponse) {
-    let route = '/gestion-cai/actualizar-periodo';
-    if(error.status === 401) {
-      route = '/login';
-    }
-    return route;
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }
