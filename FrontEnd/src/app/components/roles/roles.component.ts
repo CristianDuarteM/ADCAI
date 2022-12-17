@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { config } from 'src/app/constants/config';
+import { Dialog } from 'src/app/models/Dialog';
 import { Role } from 'src/app/models/Role';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { UserService } from 'src/app/services/user/user.service';
-import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 
 @Component({
   selector: 'app-roles',
@@ -19,7 +18,7 @@ export class RolesComponent implements OnInit {
     [key: string]: boolean
   };
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private userService: UserService, public dialog: MatDialog) {
+  constructor(private rolePermission: RolePermission, private userService: UserService, public dialog: Dialog) {
     this.isLoaded = false;
     this.roles = {
       admin: false,
@@ -35,7 +34,7 @@ export class RolesComponent implements OnInit {
 
   changeRole(role: string) {
     sessionStorage.setItem("activeRole", role);
-    this.ngxPermissonsService.loadPermissions([role]);
+    this.rolePermission.loadRole();
     location.replace('/home');
   }
 
@@ -45,11 +44,7 @@ export class RolesComponent implements OnInit {
         this.validateRoles(userServiceResponse.usuario.rols);
       },
       error: (error: HttpErrorResponse) => {
-        let route = '/home';
-        if(error.status === 401) {
-          route = '/login';
-        }
-        this.openDialog(error.error.msg, route);
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
@@ -70,16 +65,6 @@ export class RolesComponent implements OnInit {
     if(roleActual === roleSearched){
       this.roles[roleField] = true;
     }
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

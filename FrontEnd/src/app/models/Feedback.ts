@@ -1,6 +1,6 @@
 import { User } from "./User";
 
-export interface Feedback {
+export class Feedback {
   id: number;
   id_periodo_docente: number;
   id_usuario: number;
@@ -12,4 +12,19 @@ export interface Feedback {
   representacion: string;
   rol: string;
   usuario: User;
+
+  constructor() {
+    this.id = 0;
+    this.id_periodo_docente = 0;
+    this.id_usuario = 0;
+    this.docencia = '';
+    this.investigacion = '';
+    this.extension = '';
+    this.administracion = '';
+    this.otras = '';
+    this.representacion = '';
+    this.rol = '';
+    this.usuario = new User();
+  }
+
 }

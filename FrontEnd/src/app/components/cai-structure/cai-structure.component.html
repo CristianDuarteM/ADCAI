@@ -1,5 +1,10 @@
+<ng-container *ngIf="loadActivities < 7">
+  <div class="spinner-align">
+    <app-spinner></app-spinner>
+  </div>
+</ng-container>
 <ng-container>
-  <form [formGroup]="caiForm" (ngSubmit)="onSubmit()" *ngIf="loadActivities === 6">
+  <form [formGroup]="caiForm" (ngSubmit)="onSubmit()" *ngIf="loadActivities === 7">
     <div class="principal-content">
       <div class="init-information">
         <div class="init-information-input">
@@ -369,11 +374,14 @@
         </mat-form-field>
       </div>
       <div>
-        <p>
-          Nota: Al finalizar el semestre académico el profesor presentará al Decano de la Facultad y al Director de Departamento al
-          cual esté adscrito, un informe sobre la ejecución de las actividades programadas en el plan propuesto al inicio del semestre, la
-          cual deberá ser sustentado con las certificaciones y documentos pertinentes (Artículo 17, Acuerdo 046 de 1991).
-        </p>
+        <div class = "title-section">
+          <span>NOTAS</span>
+        </div>
+        <div *ngFor="let item of elementsDataNotes">
+          <p>
+            {{item.descripcion}}
+          </p>
+        </div>
       </div>
       <div>
         <div class = "title-section">
@@ -389,7 +397,7 @@
         <p *ngIf="!isViewCai">Recuerde: Si decide no agregar la firma asociada a su perfil, no se enviará a valoración hasta que descargue el documento y lo suba firmado.</p>
       </div>
     </div>
-    <div>
+    <div *ngIf="feedbackList.length > 0">
       <app-feedback-cai [feedbackList]="feedbackList"></app-feedback-cai>
     </div>
     <div class="button-content" *ngIf="!isViewCai">

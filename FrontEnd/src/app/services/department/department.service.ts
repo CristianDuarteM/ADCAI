@@ -18,7 +18,7 @@ export class DepartmentService {
 
   getDepartmentList(): Observable<any> {
     let from = 0;
-    let limit = 100000;
+    let limit = 10000;
 
     return this.httpClient.get(config.API_URL + '/api/departamentos?desde=' + from + '&limite=' + limit, {
       headers: {

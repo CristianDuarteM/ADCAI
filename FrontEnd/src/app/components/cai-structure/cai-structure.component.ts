@@ -10,7 +10,6 @@ import { InvestigationActivitiesTable } from 'src/app/models/table/Investigation
 import { TeacherActivitiesTable } from 'src/app/models/table/TeacherActivitiesTable';
 import { TotalHours } from 'src/app/models/TotalHours';
 import { CaiService } from 'src/app/services/cai/cai.service';
-import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 import { AdministrationActivities } from 'src/app/models/AdministrationActivities';
 import { RepresentationActivities } from 'src/app/models/RepresentationActivities';
 import { OtherActivities } from 'src/app/models/OtherActivities';
@@ -19,9 +18,9 @@ import { config } from 'src/app/constants/config';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { AddSignatureComponent } from 'src/app/pages/user/add-signature/add-signature.component';
 import { Cai } from 'src/app/models/Cai';
-import { User } from 'src/app/models/User';
-import { Period } from 'src/app/models/Period';
 import { Feedback } from 'src/app/models/Feedback';
+import { Dialog } from 'src/app/models/Dialog';
+import { Note } from 'src/app/models/Note';
 
 @Component({
   selector: 'app-cai-structure',
@@ -44,6 +43,7 @@ export class CaiStructureComponent implements OnInit {
   elementsDataAdministrationActivities: AdministrationActivities[];
   elementsDataRepresentationActivities: RepresentationActivities[];
   elementsDataOtherActivities: OtherActivities[];
+  elementsDataNotes: Note[];
   dataArrayTeacherActivities: MatTableDataSource<TeacherActivitiesTable>;
   dataArrayInvestigationActivities: MatTableDataSource<InvestigationActivitiesTable>;
   @ViewChild('tableTeacherActivities') table: MatTable<any> | undefined;
@@ -57,9 +57,9 @@ export class CaiStructureComponent implements OnInit {
   loadActivities: number;
   @Input() feedbackList: Feedback[];
 
-  constructor(private caiService: CaiService, public dialog: MatDialog, private fb: FormBuilder, private userService: UserService,
-    private departmentService: DepartmentService) {
-    this.caiRequest = {} as CaiRequest;
+  constructor(private caiService: CaiService, public dialog: Dialog, private fb: FormBuilder, private userService: UserService,
+    private departmentService: DepartmentService, private generalDialog: MatDialog) {
+    this.caiRequest = new CaiRequest();
     this.columnsToDisplayTeacherActivities = ['PLAN DE ESTUDIOS', 'ASIGNATURAS', 'CR', 'H.T.', 'H.P.'];
     this.columsToDisplayInvestigationActivities = ['ACTIVIDAD', 'DESCRIPCION', 'HORAS'];
     this.caiForm = new FormGroup({});
@@ -73,24 +73,16 @@ export class CaiStructureComponent implements OnInit {
     this.elementsDataAdministrationActivities = [];
     this.elementsDataRepresentationActivities = [];
     this.elementsDataOtherActivities = [];
+    this.elementsDataNotes = [];
     this.dataArrayTeacherActivities = new MatTableDataSource(undefined);
     this.dataArrayInvestigationActivities = new MatTableDataSource(undefined);
     this.table = undefined;
     this.indexStudyPlan = '';
-    this.totalHours = {
-      totalTeacherActivities: 0,
-      subtotalTeacherActivities: 0,
-      subtotalInvestigationActivities: 0,
-      subtotalExtensionActivities: 0,
-      subtotalAdministrationActivities: 0,
-      subtotalRepresentationActivities: 0,
-      subtotalOtherActivities: 0,
-      totalCai: 0
-    };
+    this.totalHours = new TotalHours();
     this.idSignature = '';
     this.validHours = true;
     this.isViewCai = false;
-    this.dataCai = {} as Cai;
+    this.dataCai = new Cai();
     this.loadedData = false;
     this.loadActivities = 0;
     this.feedbackList = [];
@@ -101,7 +93,7 @@ export class CaiStructureComponent implements OnInit {
     if(this.loadedData) {
       this.getDataCaiLoaded();
     } else {
-      this.dataCai = this.initDataCai;
+      this.dataCai = new Cai();
       this.getDataUser();
     }
     this.studyPlanForm = Object.assign(new FormGroup({}), this.caiForm.get('studyPlan'));
@@ -113,6 +105,7 @@ export class CaiStructureComponent implements OnInit {
     this.inicializeDataAdministrationActivities();
     this.inicializeDataRepresentationActivities();
     this.inicializeDataOtherActivities();
+    this.inicializeDataNotes();
   }
 
   onSubmit() {
@@ -125,7 +118,7 @@ export class CaiStructureComponent implements OnInit {
       this.loadOtherActivities();
       if(!this.validHours) {
         this.validHours = true;
-        return this.openDialog('¡¡No se aceptan números negativos!!', '');
+        return this.dialog.openDialog('¡¡No se aceptan números negativos!!', '');
       }
       if(this.idSignature === ''){
         if(sessionStorage.getItem('idSignature') !== null) {
@@ -138,23 +131,17 @@ export class CaiStructureComponent implements OnInit {
       this.fillCai();
     } else {
       console.log(this.caiForm);
-      this.openDialog('¡¡Faltan campos por diligenciar!!', '');
+      this.dialog.openDialog('¡¡Faltan campos por diligenciar!!', '');
     }
   }
 
   fillCai() {
     this.caiService.fillCai(this.caiRequest).subscribe({
       next: caiServiceResponse => {
-        this.openDialog(caiServiceResponse.msg, '/home');
+        this.dialog.openDialog(caiServiceResponse.msg, '/home');
       },
       error: (error: HttpErrorResponse) => {
-        let route = '';
-        let errorMessage = (error.error.msg === undefined) ? error.error.errors[0].msg : error.error.msg;
-        if(error.status === 401) {
-          sessionStorage.clear();
-          route = '/login';
-        }
-        this.openDialog(errorMessage, route);
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('', error));
       }
     });
   }
@@ -163,7 +150,7 @@ export class CaiStructureComponent implements OnInit {
     this.userService.getUserById(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '').subscribe({
       next: userServiceResponse => {
         if(userServiceResponse.usuario.id_departamento === null) {
-          return this.openDialog('No se encuentra asociado a algún departamento', '/home');
+          return this.dialog.openDialog('No se encuentra asociado a algún departamento', '/home');
         } else{
           if(userServiceResponse.usuario.id_firma !== null && userServiceResponse.usuario.id_firma !== '') {
             this.idSignature = userServiceResponse.usuario.id_firma;
@@ -176,7 +163,7 @@ export class CaiStructureComponent implements OnInit {
         }
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error, '/diligenciar-cai'));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/diligenciar-cai', error));
       }
     });
   }
@@ -195,7 +182,7 @@ export class CaiStructureComponent implements OnInit {
         this.caiForm.setControl('department', new FormControl({value: departmentResponse.nombre, disabled: true}, [Validators.required]));
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
@@ -209,21 +196,21 @@ export class CaiStructureComponent implements OnInit {
   }
 
   getStudyPlan() {
-    this.caiService.getStudyPlanList().subscribe({
+    this.caiService.getStudyPlanListWithFilter('si').subscribe({
       next: studyPlanListServiceResponse => {
         this.studyPlanList = studyPlanListServiceResponse.rows;
         this.inicializeTeacherActivitiesForm();
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
 
   loadSubjectList(idStudyPlan: string) {
     let idTable = idStudyPlan.split('-');
-    if(idTable[1] !== '0' && idTable[1] !== 'undefined') {
-      this.caiService.getSubjectListByStudyPlan(idTable[1]).subscribe({
+    if(idTable[1] !== '0' && idTable[1] !== '') {
+      this.caiService.getSubjectListByStudyPlan(idTable[1], 'si').subscribe({
         next: subjectListResponse => {
           let index = idTable[0].length - 1;
           this.indexStudyPlan = idTable[0][index];
@@ -231,7 +218,7 @@ export class CaiStructureComponent implements OnInit {
           this.elementsDataTeacherActivities[parseInt(this.indexStudyPlan)].subjectList = subjectListResponse;
         },
         error: (error: HttpErrorResponse) => {
-          this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
+          this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
         }
       });
     }
@@ -239,7 +226,7 @@ export class CaiStructureComponent implements OnInit {
 
   loadSubjectData(idSubject: string) {
     let idTable = idSubject.split('-');
-    if(idTable[1] !== '0' && idTable[1] !== 'undefined') {
+    if(idTable[1] !== '0' && idTable[1] !== '') {
       this.caiService.getSubjectListById(idTable[1]).subscribe({
         next: subjectResponse => {
           let index: number = idTable[0].length - 1;
@@ -251,45 +238,10 @@ export class CaiStructureComponent implements OnInit {
           this.getHoursTeacherActivities();
         },
         error: (error: HttpErrorResponse) => {
-          this.openDialog(error.error.msg, this.validationRedirect(error, '/diligenciar-cai'));
+          this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/diligenciar-cai', error));
         }
       });
     }
-  }
-
-  get initTeacherActivities(): TeacherActivitiesTable {
-    return {
-      id: '0',
-      creditos: 0,
-      horas_practicas: 0,
-      horas_teoricas: 0,
-      nameFormStudyPlan: '',
-      nameFormSubject: '',
-      nombre: '',
-      plan_estudio: {} as StudyPlanResponse,
-      subjectList: []
-    };
-  }
-
-  get initDataCai(): Cai {
-    return {
-      id: '0',
-      esActivo: false,
-      dedicacion: '',
-      id_estado: 0,
-      id_periodo: 0,
-      id_usuario: 0,
-      observacion: '',
-      fecha_diligenciamiento: '',
-      usuario: {} as User,
-      periodo: {} as Period,
-      asignaturas: [],
-      actividad_investigacions: [],
-      actividad_extensions: [],
-      actividad_administracions: [],
-      tipo_representacions: [],
-      actividad_otras: [],
-    };
   }
 
   get extensionActivities(): FormArray {
@@ -347,7 +299,7 @@ export class CaiStructureComponent implements OnInit {
     if(this.loadedData) {
       this.elementsDataTeacherActivities = this.dataCai.asignaturas;
     } else {
-      this.elementsDataTeacherActivities = [this.initTeacherActivities];
+      this.elementsDataTeacherActivities = [new TeacherActivitiesTable()];
     }
 
     for(let i = 0; i < this.elementsDataTeacherActivities.length; i++) {
@@ -471,67 +423,79 @@ export class CaiStructureComponent implements OnInit {
   }
 
   inicializeDataInvestigationActivities() {
-    this.caiService.getInvestigationActivityList().subscribe({
+    this.caiService.getInvestigationActivityListWithFilter('si').subscribe({
       next: investigationActivitiesResponse => {
         this.elementsDataInvestigationActivities = investigationActivitiesResponse;
         this.inicializeInvestigationActivitiesForm();
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
 
   inicializeDataExtensionActivities() {
-    this.caiService.getExtensionActivityList().subscribe({
+    this.caiService.getExtensionActivityListWithFilter('si').subscribe({
       next: extensionActivitiesResponse => {
         this.elementsDataExtensionActivities = extensionActivitiesResponse.rows;
         this.inicializeExtensionActivitiesForm();
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
 
   inicializeDataAdministrationActivities() {
-    this.caiService.getAdministrationActivityList().subscribe({
+    this.caiService.getAdministrationActivityListWithFilter('si').subscribe({
       next: administrationActivitiesResponse => {
         this.elementsDataAdministrationActivities = administrationActivitiesResponse;
         this.inicializeAdministrationActivitiesForm();
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
 
   inicializeDataRepresentationActivities() {
-    this.caiService.getRepresentationActivityList().subscribe({
+    this.caiService.getRepresentationActivityListWithFilter('si').subscribe({
       next: representationActivitiesResponse => {
         this.elementsDataRepresentationActivities = representationActivitiesResponse;
         this.inicializeRepresentationActivitiesForm();
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
 
   inicializeDataOtherActivities() {
-    this.caiService.getOtherActivityList().subscribe({
+    this.caiService.getOtherActivityListWithFilter('si').subscribe({
       next: otherActivitiesResponse => {
         this.elementsDataOtherActivities = otherActivitiesResponse;
         this.inicializeOtherActivitiesForm();
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validationRedirect(error, '/home'));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
+      }
+    });
+  }
+
+  inicializeDataNotes() {
+    this.caiService.getNoteListWithFilter('si').subscribe({
+      next: notesResponse => {
+        this.elementsDataNotes = notesResponse;
+        this.loadActivities++;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
 
   addRowTeacherActivities() {
-    this.elementsDataTeacherActivities.push({} as TeacherActivitiesTable);
+    this.elementsDataTeacherActivities.push(new TeacherActivitiesTable());
     let index = this.elementsDataTeacherActivities.length - 1;
     this.elementsDataTeacherActivities[index].nameFormStudyPlan = 'studyPlan' + index;
     this.elementsDataTeacherActivities[index].nameFormSubject = 'subject' + index;
@@ -593,7 +557,7 @@ export class CaiStructureComponent implements OnInit {
     for(let i = 0; i < this.elementsDataTeacherActivities.length; i++) {
       let subjectSelected = parseInt(this.elementsDataTeacherActivities[i].id);
       if(this.caiRequest.asignaturas.includes(subjectSelected)) {
-        this.openDialog('No puede seleccionar dos asignaturas iguales', '');
+        this.dialog.openDialog('No puede seleccionar dos asignaturas iguales', '');
       } else {
         this.caiRequest.asignaturas.push(subjectSelected);
       }
@@ -824,14 +788,6 @@ export class CaiStructureComponent implements OnInit {
     return this.caiForm.get(name)?.value;
   }
 
-  validationRedirect(error: HttpErrorResponse, baseRoute: string) {
-    if(error.status === 401) {
-      sessionStorage.clear();
-      baseRoute = '/login';
-    }
-    return baseRoute;
-  }
-
   getListItems(itemsText: string) {
     let items = itemsText.split(',');
     let formsControl: FormControl[] = [];
@@ -848,18 +804,8 @@ export class CaiStructureComponent implements OnInit {
     return text[0].toUpperCase() + text.slice(1);
   }
 
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
-  }
-
   addSignature() {
-    this.dialog.open(AddSignatureComponent);
+    this.generalDialog.open(AddSignatureComponent);
   }
 
 }

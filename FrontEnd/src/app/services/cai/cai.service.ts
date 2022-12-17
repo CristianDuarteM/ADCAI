@@ -50,8 +50,8 @@ export class CaiService {
     });
   }
 
-  getSubjectListByStudyPlan(idProgram: string): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/asignaturas/programa/' + idProgram, {
+  getSubjectListByStudyPlan(idProgram: string, isEnable: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/asignaturas/programa/' + idProgram + '?habilitada=' + isEnable, {
       headers: {
         'x-token': this.tokenSession
       }
@@ -66,26 +66,8 @@ export class CaiService {
     });
   }
 
-  getStudyPlanList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/plan_estudios', {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
-  fillSubjects(subjectList: []): Observable<any> {
-    return this.httpClient.post(config.API_URL + '/api/cai', {
-      asignaturas: subjectList
-    }, {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
-  getInvestigationActivityList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/actividadesInvestigacion', {
+  getStudyPlanListWithFilter(isEnable: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/plan_estudios?habilitado=' + isEnable, {
       headers: {
         'x-token': this.tokenSession
       }
@@ -100,24 +82,8 @@ export class CaiService {
     });
   }
 
-  getExtensionActivityList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/actividadesExtension', {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
   getExtensionActivityListWithFilter(isEnable: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/actividadesExtension?habilitada=' + isEnable, {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
-  getAdministrationActivityList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/actividadesAdministracion', {
       headers: {
         'x-token': this.tokenSession
       }
@@ -132,24 +98,8 @@ export class CaiService {
     });
   }
 
-  getRepresentationActivityList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/representaciones', {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
   getRepresentationActivityListWithFilter(isEnable: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/representaciones?habilitada=' + isEnable, {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
-  getOtherActivityList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/otrasActividades', {
       headers: {
         'x-token': this.tokenSession
       }

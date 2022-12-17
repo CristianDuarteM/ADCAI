@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { config } from 'src/app/constants/config';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-update-profile',
@@ -16,7 +16,7 @@ export class UpdateProfileComponent implements OnInit {
   isEditableUpdateProfile: boolean;
   description: string;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router) {
+  constructor(private rolePermission: RolePermission, private navigation: Router) {
     this.backRouteUpdateProfile = '/perfil';
     this.titleUpdateProfile = 'Actualizar Perfil';
     this.isPrincipalUpdateProfile = false;
@@ -25,8 +25,7 @@ export class UpdateProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
     if((sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE) || '') !== ''){
       this.description = 'Diligencie los campos faltantes para continuar';
     }

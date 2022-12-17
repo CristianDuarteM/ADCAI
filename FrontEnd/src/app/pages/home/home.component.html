@@ -36,6 +36,9 @@
         <button mat-raised-button [disabled]="!isCaiActive" *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/diligenciar-cai/', false)">
           Diligenciar CAI
         </button>
+        <button mat-raised-button *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/actualizar-cai/', true)">
+          Actualizar CAI
+        </button>
         <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/historial-cai/', false)">
           Historial de los CAI
         </button>
