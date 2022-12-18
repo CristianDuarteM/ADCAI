@@ -14,10 +14,12 @@ export class NavbarComponent implements OnInit {
 
   unreadNotification: boolean;
   isComplete: string;
+  changeRole: boolean;
 
   constructor(private loginComponent: LoginComponent, public dialog: MatDialog) {
     this.unreadNotification = false;
     this.isComplete = '';
+    this.changeRole = true;
   }
 
   ngOnInit(): void {
@@ -25,7 +27,11 @@ export class NavbarComponent implements OnInit {
     if(notifications !== '' && notifications === 'true') {
       this.unreadNotification = true;
     }
+    let activeRole = sessionStorage.getItem(config.SESSION_STORAGE.ACTIVE_ROLE) || '';
     this.isComplete = sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE) || '';
+    if(this.isComplete !== '' && activeRole !== 'ADMIN') {
+      this.changeRole = false;
+    }
   }
 
   openDialog(): void {

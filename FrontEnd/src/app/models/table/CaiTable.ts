@@ -1,4 +1,4 @@
-export interface CaiHistoricalTable {
+export interface CaiTable {
   codigo: string;
   nombre: string;
   id: string;

@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FacultyTable } from 'src/app/models/table/FacultyTable';
 import { Dialog } from 'src/app/models/Dialog';
 import { RolePermission } from 'src/app/models/RolePermission';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-management-faculty',
@@ -23,7 +24,8 @@ export class ManagementFacultyComponent implements OnInit {
   elementsDataFaculty: FacultyTable[];
   isLoaded: boolean;
 
-  constructor(private rolePermission: RolePermission, private facultyService: FacultyService, private dialog: Dialog) {
+  constructor(private rolePermission: RolePermission, private facultyService: FacultyService, private dialog: Dialog,
+    private navigation: Router) {
     this.backRouteFaculty = '/home';
     this.titleFaculty = 'Gestión de Facultades';
     this.isPrincipalFaculty = true;
@@ -65,6 +67,10 @@ export class ManagementFacultyComponent implements OnInit {
       }
     }
     return facultyData;
+  }
+
+  redirectButton() {
+    this.navigation.navigate(['/gestion-facultades/agregar']);
   }
 
 }

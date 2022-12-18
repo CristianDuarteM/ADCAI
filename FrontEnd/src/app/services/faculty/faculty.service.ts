@@ -69,4 +69,12 @@ export class FacultyService {
     });
   }
 
+  getFacultyByDean(idDean: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/facultades/buscarFacultad/' + idDean , {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
 }

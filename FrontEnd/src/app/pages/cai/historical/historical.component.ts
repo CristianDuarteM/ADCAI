@@ -4,7 +4,7 @@ import { config } from 'src/app/constants/config';
 import { Dialog } from 'src/app/models/Dialog';
 import { CaiHistoricalResponse } from 'src/app/models/response/CaiHistoricalResponse';
 import { RolePermission } from 'src/app/models/RolePermission';
-import { CaiHistoricalTable } from 'src/app/models/table/CaiHistoricalTable';
+import { CaiTable } from 'src/app/models/table/CaiTable';
 import { CaiService } from 'src/app/services/cai/cai.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class HistoricalComponent implements OnInit {
   columnsToDisplayHistoricalCai: string[];
   headerTableHistoricalCai: string;
   buttonRouteHistoricalCai: string;
-  elementsDataHistoricalCai: CaiHistoricalTable[];
+  elementsDataHistoricalCai: CaiTable[];
   isLoaded: boolean;
 
   constructor(private rolePermission: RolePermission, private caiService: CaiService, public dialog: Dialog) {

@@ -30,6 +30,7 @@ export class ManagementTeacherComponent implements OnInit {
   isDirector: boolean;
   idFaculty: number;
   idDepartment: number;
+  isLoaded: boolean;
 
   constructor(private rolePermission: RolePermission, private navigation: Router, private facultyService: FacultyService,
     private departmentService: DepartmentService, public dialog: Dialog, private userService: UserService) {
@@ -45,6 +46,7 @@ export class ManagementTeacherComponent implements OnInit {
     this.isDirector = false;
     this.idFaculty = 0;
     this.idDepartment = 0;
+    this.isLoaded = false;
   }
 
   ngOnInit(): void {
@@ -102,6 +104,7 @@ export class ManagementTeacherComponent implements OnInit {
     this.facultyService.getFacultyList().subscribe({
       next: facultyListResponse => {
         this.facultyList = facultyListResponse.rows;
+        this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), '/login');
@@ -129,10 +132,11 @@ export class ManagementTeacherComponent implements OnInit {
           next: departmentResponse => {
             sessionStorage.setItem('nameFaculty', departmentResponse.facultad.nombre);
             sessionStorage.setItem('nameDepartment', departmentResponse.nombre);
-            this.idFaculty = departmentResponse.id;
-            this.idDepartment = departmentResponse.facultad.id;
+            this.idFaculty = departmentResponse.facultad.id;
+            this.idDepartment = departmentResponse.id;
             this.teacher.setControl('selectedFaculty', new FormControl({value: departmentResponse.facultad.nombre, disabled: true}));
             this.teacher.setControl('selectedDepartment', new FormControl({value: departmentResponse.nombre, disabled: true}));
+            this.isLoaded = true;
           },
           error: (error: HttpErrorResponse) => {
             this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));

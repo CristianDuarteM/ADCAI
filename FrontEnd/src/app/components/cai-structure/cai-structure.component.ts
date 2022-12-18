@@ -362,7 +362,7 @@ export class CaiStructureComponent implements OnInit {
     for(let i = 0; i < this.elementsDataExtensionActivities.length; i++) {
       this.extensionActivities.push(this.fb.group({
         hours: new FormControl({value: 0, disabled: this.isViewCai}),
-        itemsExtension: this.fb.array([]),
+        itemsExtension: this.fb.array([new FormControl('')]),
       }));
     }
     this.loadActivities++;
@@ -372,7 +372,7 @@ export class CaiStructureComponent implements OnInit {
     for(let i = 0; i < this.elementsDataAdministrationActivities.length; i++) {
       this.administrationActivities.push(this.fb.group({
         hours: new FormControl({value: 0, disabled: this.isViewCai}),
-        itemsAdministration: this.fb.array([]),
+        itemsAdministration: this.fb.array([new FormControl('')]),
       }));
     }
     this.loadActivities++;
@@ -382,7 +382,7 @@ export class CaiStructureComponent implements OnInit {
     for(let i = 0; i < this.elementsDataRepresentationActivities.length; i++) {
       this.representationActivities.push(this.fb.group({
         hours: new FormControl({value: 0, disabled: this.isViewCai}),
-        itemsRepresentation: this.fb.array([]),
+        itemsRepresentation: this.fb.array([new FormControl('')]),
       }));
     }
     this.loadActivities++;
@@ -392,7 +392,7 @@ export class CaiStructureComponent implements OnInit {
     for(let i = 0; i < this.elementsDataOtherActivities.length; i++) {
       this.otherActivities.push(this.fb.group({
         hours: new FormControl({value: 0, disabled: this.isViewCai}),
-        itemsOther: this.fb.array([]),
+        itemsOther: this.fb.array([new FormControl('')]),
       }));
     }
     this.loadActivities++;

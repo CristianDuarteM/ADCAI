@@ -1,6 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CaiModel } from 'src/app/models/CaiModel';
+import { ActivatedRoute } from '@angular/router';
+import { Dialog } from 'src/app/models/Dialog';
 import { RolePermission } from 'src/app/models/RolePermission';
+import { CaiTable } from 'src/app/models/table/CaiTable';
+import { CaiService } from 'src/app/services/cai/cai.service';
 
 @Component({
   selector: 'app-view-teacher',
@@ -17,9 +21,10 @@ export class ViewTeacherComponent implements OnInit {
   columnsToDisplayViewTeacher: string[];
   headerTableViewTeacher: string;
   buttonRouteViewTeacher: string;
-  elementsDataViewTeacher: CaiModel[] = [];
+  elementsDataViewTeacher: CaiTable[];
 
-  constructor(private rolePermission: RolePermission) {
+  constructor(private rolePermission: RolePermission, private route: ActivatedRoute, public dialog: Dialog,
+    private caiService: CaiService) {
     this.backRouteViewTeacher = '/gestion-docentes';
     this.titleViewTeacher = 'Visualizar Docente';
     this.isPrincipalViewTeacher = false;
@@ -28,10 +33,24 @@ export class ViewTeacherComponent implements OnInit {
     this.headerTableViewTeacher = 'Listado de Cargas Académicas Integrales';
     this.buttonRouteViewTeacher = '/gestion-docentes/buscados/ver/cai';
     this.columnsToDisplayViewTeacher = ['Código','Nombre Completo', 'Id CAI', 'Año', 'Semestre', 'Acción'];
+    this.elementsDataViewTeacher = [];
   }
 
   ngOnInit(): void {
     this.rolePermission.loadRole();
+    this.getCaiListByUser();
+  }
+
+  getCaiListByUser() {
+    let idUser = this.route.snapshot.paramMap.get('idUser') || '';
+    this.caiService.getCaiList(idUser, 'docente', 'no').subscribe({
+      next: caiListResponse => {
+        console.log(caiListResponse);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes/buscados/ver/' + idUser, error));
+      }
+    });
   }
 
 }

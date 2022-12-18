@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
 import { RolePermission } from 'src/app/models/RolePermission';
 import { Dialog } from 'src/app/models/Dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-management-department',
@@ -24,7 +25,7 @@ export class ManagementDepartmentComponent implements OnInit {
   isLoaded: boolean;
 
   constructor(private rolePermission: RolePermission, private departmentService: DepartmentService,
-    private dialog: Dialog) {
+    private dialog: Dialog, private navigation: Router) {
     this.backRouteDepartment = '/home';
     this.titleDepartment = 'Gestión de Departamentos';
     this.isPrincipalDepartment = true;
@@ -66,6 +67,10 @@ export class ManagementDepartmentComponent implements OnInit {
       }
     }
     return departmentData;
+  }
+
+  redirectButton() {
+    this.navigation.navigate(['/gestion-departamentos/agregar']);
   }
 
 }

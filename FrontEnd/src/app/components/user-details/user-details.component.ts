@@ -158,10 +158,8 @@ export class UserDetailsComponent implements OnInit {
     this.departmentService.getDepartmentList().subscribe({
       next: departmentListResponse => {
         this.departmentList =  departmentListResponse.rows;
-        let departmentLoaded = this.departmentList.find(department => parseInt(department.id) === this.userModel.id_departamento);
-        this.idFaculty = departmentLoaded?.id_facultad || 0;
         if(this.isDean) {
-          this.getFacultyList();
+          this.getFacultyByDean();
         } else{
           this.loadInputs();
         }
@@ -172,26 +170,30 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  getFacultyList() {
-    this.facultyService.getFacultyList().subscribe({
-      next: facultyListResponse => {
-        this.facultyList = facultyListResponse.rows;
+  getFacultyByDean() {
+    this.facultyService.getFacultyByDean(this.userModel.id + '').subscribe({
+      next: facultyByDeanResponse => {
+        this.idFaculty = facultyByDeanResponse.nombre;
         this.loadInputs();
       },
       error: (error: HttpErrorResponse) => {
-        this.dialog.openDialog(this.dialog.getErrorMessage(error), '/login');
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
 
   loadInputs() {
     let activeRole = sessionStorage.getItem('activeRole');
+    let changeDepartment = (activeRole !== 'ADMIN'); //REVISAR
+    if(activeRole === 'DECANO' && !this.isComplete && this.userModel.id_departamento === null) {
+      changeDepartment = false;
+    }
     this.user = new FormGroup({
       nameInput: new FormControl({value: this.userModel.nombre, disabled: !this.isEditable}, [Validators.required]),
       lastNameInput: new FormControl({value: this.userModel.apellido, disabled: !this.isEditable}, [Validators.required]),
       codeInput: new FormControl({value: this.userModel.codigo, disabled: !this.isEditable}, [Validators.required]),
       emailInput: new FormControl({value: this.userModel.correo, disabled: true}, [Validators.required, Validators.email]),
-      departmentInput: new FormControl({value: this.userModel.id_departamento, disabled: activeRole !== 'ADMIN'}),
+      departmentInput: new FormControl({value: this.userModel.id_departamento, disabled: changeDepartment}, [Validators.required]),
       facultyInput: new FormControl({value: this.idFaculty, disabled: true}),
       isRoleDeanInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DECANO'), disabled: true}),
       isRoleDirectorInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DIRECTOR'), disabled: true}),

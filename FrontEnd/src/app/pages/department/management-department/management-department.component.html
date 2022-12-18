@@ -9,8 +9,8 @@
     </ng-container>
     <div class="principal-content" *ngIf="isLoaded">
       <div class="add-button">
-        <button>
-          <a href="/gestion-departamentos/agregar" title="Agregar">Agregar Departamento</a>
+        <button (click)="redirectButton()">
+          Agregar Departamento
         </button>
       </div>
       <div>
