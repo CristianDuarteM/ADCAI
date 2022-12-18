@@ -132,7 +132,6 @@ export class CaiStructureComponent implements OnInit {
         this.addCai();
       }
     } else {
-      console.log(this.caiForm);
       this.dialog.openDialog('¡¡Faltan campos por diligenciar!!', '');
     }
   }
@@ -173,6 +172,7 @@ export class CaiStructureComponent implements OnInit {
   getDataUser() {
     this.userService.getUserById(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '').subscribe({
       next: userServiceResponse => {
+        console.log(userServiceResponse);
         if(userServiceResponse.usuario.id_departamento === null) {
           return this.dialog.openDialog('No se encuentra asociado a algún departamento', '/home');
         } else{

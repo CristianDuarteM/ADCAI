@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { config } from 'src/app/constants/config';
 import { RolePermission } from 'src/app/models/RolePermission';
 
@@ -16,8 +16,9 @@ export class UpdateProfileComponent implements OnInit {
   isEditableUpdateProfile: boolean;
   description: string;
 
-  constructor(private rolePermission: RolePermission, private navigation: Router) {
-    this.backRouteUpdateProfile = '/perfil';
+  constructor(private rolePermission: RolePermission, private navigation: Router, private route: ActivatedRoute) {
+    let idUser = route.snapshot.paramMap.get('idUser');
+    this.backRouteUpdateProfile = '/perfil/' + idUser;
     this.titleUpdateProfile = 'Actualizar Perfil';
     this.isPrincipalUpdateProfile = false;
     this.isEditableUpdateProfile = true;
@@ -29,10 +30,6 @@ export class UpdateProfileComponent implements OnInit {
     if((sessionStorage.getItem(config.SESSION_STORAGE.IS_COMPLETE) || '') !== ''){
       this.description = 'Diligencie los campos faltantes para continuar';
     }
-  }
-
-  updateData() {
-    this.navigation.navigate(['/perfil']);
   }
 
 }
