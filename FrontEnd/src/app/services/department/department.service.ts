@@ -3,18 +3,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
 import { DepartmentRequest } from 'src/app/models/request/DepartmentRequest';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepartmentService {
 
-  constructor(private httpClient: HttpClient, private authService: AuthService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   get tokenSession() {
-    return this.authService.idToken;
+    return sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
   }
 
   getDepartmentList(): Observable<any> {

@@ -3,18 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
 import { FacultyRequest } from 'src/app/models/request/FacultyRequest';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FacultyService {
 
-  constructor(private httpClient: HttpClient, private authService: AuthService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   get tokenSession() {
-    return this.authService.idToken;
+    return sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
   }
 
   getFacultyList(): Observable<any> {

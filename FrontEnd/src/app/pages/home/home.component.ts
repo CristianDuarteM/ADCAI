@@ -19,6 +19,7 @@ import { Cai } from 'src/app/models/Cai';
 export class HomeComponent implements OnInit {
 
   tokenGoogle: string;
+  token: string;
   roleList: { [key: string]: string };
   activeRole: string;
   isLoaded: boolean;
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit {
     private authService: AuthService, private dialog: Dialog, private caiService: CaiService,
     private userService: UserService) {
     this.tokenGoogle = '';
+    this.token = '';
     this.roleList = {
       "ADMIN": "súper administrador",
       "DECANO": "decano",
@@ -49,10 +51,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.tokenGoogle = sessionStorage.getItem(config.SESSION_STORAGE.TOKEN_GOOGLE) || '';
+    this.token = sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
 
     if(this.tokenGoogle !== '') {
       this.logIn();
-    } else {
+    } else if(this.token !== '') {
       this.activeRole = sessionStorage.getItem(config.SESSION_STORAGE.ACTIVE_ROLE) || '';
       if(this.activeRole === '') {
         sessionStorage.clear();
@@ -69,6 +72,8 @@ export class HomeComponent implements OnInit {
       } else {
         this.loadRole();
       }
+    } else {
+      this.navigation.navigate(['/login']);
     }
   }
 
@@ -91,7 +96,7 @@ export class HomeComponent implements OnInit {
   }
 
   async loadDataUser(userResponse: Auth) {
-    this.authService.token = userResponse.token;
+    sessionStorage.setItem(config.SESSION_STORAGE.TOKEN, userResponse.token);
     sessionStorage.removeItem(config.SESSION_STORAGE.TOKEN_GOOGLE);
     this.activeRole = userResponse.usuario.rols[0].nombre;
     sessionStorage.setItem(config.SESSION_STORAGE.ACTIVE_ROLE, this.activeRole);

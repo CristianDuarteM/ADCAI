@@ -32,7 +32,7 @@ export class UserDetailsComponent implements OnInit {
   isLoaded: boolean;
   @Input() canUpdate: boolean;
   isComplete: boolean;
-  idFaculty: number;
+  nameFaculty: string;
   fileEvent: File | null;
 
   constructor(public dialog: Dialog, private departmentService: DepartmentService, private userService: UserService,
@@ -49,7 +49,7 @@ export class UserDetailsComponent implements OnInit {
     this.isLoaded = false;
     this.canUpdate = false;
     this.isComplete = true;
-    this.idFaculty = 0;
+    this.nameFaculty = '';
     this.fileEvent = null;
   }
 
@@ -146,7 +146,15 @@ export class UserDetailsComponent implements OnInit {
     this.userService.getUserById(idUser +'').subscribe({
       next: userResponse => {
         this.userModel = userResponse.usuario;
-        this.getDepartmentList();
+        this.departmentService.getDepartmentById(userResponse.usuario.id_departamento).subscribe({
+          next: departmentResponse => {
+            this.nameFaculty = departmentResponse.facultad.nombre;
+            this.getDepartmentListByFaculty(departmentResponse.id_facultad);
+          },
+          error: (error: HttpErrorResponse) => {
+            this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));
+          }
+        });
       },
       error: (error: HttpErrorResponse) => {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));
@@ -154,11 +162,11 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  getDepartmentList() {
-    this.departmentService.getDepartmentList().subscribe({
+  getDepartmentListByFaculty(idFaculty: string) {
+    this.departmentService.getDepartmentListByFaculty(idFaculty).subscribe({
       next: departmentListResponse => {
-        this.departmentList =  departmentListResponse.rows;
-        if(this.isDean) {
+        this.departmentList = departmentListResponse;
+        if(this.isDean && this.nameFaculty === '') {
           this.getFacultyByDean();
         } else{
           this.loadInputs();
@@ -173,7 +181,7 @@ export class UserDetailsComponent implements OnInit {
   getFacultyByDean() {
     this.facultyService.getFacultyByDean(this.userModel.id + '').subscribe({
       next: facultyByDeanResponse => {
-        this.idFaculty = facultyByDeanResponse.nombre;
+        this.nameFaculty = facultyByDeanResponse.nombre;
         this.loadInputs();
       },
       error: (error: HttpErrorResponse) => {
@@ -184,17 +192,20 @@ export class UserDetailsComponent implements OnInit {
 
   loadInputs() {
     let activeRole = sessionStorage.getItem('activeRole');
-    let changeDepartment = (activeRole !== 'ADMIN'); //REVISAR
+    let changeDepartmentDisable = activeRole !== 'ADMIN';
     if(activeRole === 'DECANO' && !this.isComplete && this.userModel.id_departamento === null) {
-      changeDepartment = false;
+      changeDepartmentDisable = false;
+    }
+    if(this.containsRole(this.userModel.rols, 'DIRECTOR') && activeRole === 'ADMIN') {
+      changeDepartmentDisable = true;
     }
     this.user = new FormGroup({
       nameInput: new FormControl({value: this.userModel.nombre, disabled: !this.isEditable}, [Validators.required]),
       lastNameInput: new FormControl({value: this.userModel.apellido, disabled: !this.isEditable}, [Validators.required]),
       codeInput: new FormControl({value: this.userModel.codigo, disabled: !this.isEditable}, [Validators.required]),
       emailInput: new FormControl({value: this.userModel.correo, disabled: true}, [Validators.required, Validators.email]),
-      departmentInput: new FormControl({value: this.userModel.id_departamento, disabled: changeDepartment}, [Validators.required]),
-      facultyInput: new FormControl({value: this.idFaculty, disabled: true}),
+      departmentInput: new FormControl({value: this.userModel.id_departamento, disabled: changeDepartmentDisable}, [Validators.required]),
+      facultyInput: new FormControl({value: this.nameFaculty, disabled: true}),
       isRoleDeanInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DECANO'), disabled: true}),
       isRoleDirectorInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DIRECTOR'), disabled: true}),
       isRoleTeacherInput: new FormControl({value: this.containsRole(this.userModel.rols, 'DOCENTE'), disabled: true}),

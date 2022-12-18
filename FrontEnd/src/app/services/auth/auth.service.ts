@@ -8,19 +8,7 @@ import { config } from 'src/app/constants/config';
 })
 export class AuthService {
 
-  token: string;
-
-  constructor(private httpClient: HttpClient) {
-    this.token = '';
-  }
-
-  get idToken() {
-    return this.token;
-  }
-
-  set idToken(idToken: string) {
-    this.token = idToken;
-  }
+  constructor(private httpClient: HttpClient) {}
 
   logIn(tokenGoogle: string): Observable<any> {
     let body = {
