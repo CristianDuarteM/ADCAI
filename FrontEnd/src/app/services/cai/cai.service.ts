@@ -11,17 +11,18 @@ import { OtherActivities } from 'src/app/models/OtherActivities';
 import { RepresentationActivities } from 'src/app/models/RepresentationActivities';
 import { CaiRequest } from 'src/app/models/request/CaiRequest';
 import { InvestigationActivitiesRequest } from 'src/app/models/request/InvestigationItemRequest';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CaiService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private authService: AuthService) {
   }
 
   get tokenSession() {
-    return sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
+    return this.authService.idToken;
   }
 
   requestCai(requestCai: CaiModel): Observable<any> {
