@@ -42,6 +42,11 @@
         <button mat-raised-button [disabled]="!isRejectCai" *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/actualizar-cai/', 'cai')">
           Actualizar CAI
         </button>
+        <ng-container *ngIf="withoutSignature">
+          <button mat-raised-button *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/cargar-archivo-cai/', 'cai')">
+            Subir Archivo Firmado
+          </button>
+        </ng-container>
         <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/historial-cai/', '')">
           Historial de los CAI
         </button>

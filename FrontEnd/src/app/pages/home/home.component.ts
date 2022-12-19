@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   isCaiActive: boolean;
   isCaiCompleted: boolean;
   isRejectCai: boolean;
+  withoutSignature: boolean;
   caiDataBasic: CaiResponse;
   idCai: string;
 
@@ -47,6 +48,7 @@ export class HomeComponent implements OnInit {
     this.isRejectCai = false;
     this.caiDataBasic = new CaiResponse();
     this.idCai = '';
+    this.withoutSignature = false;
   }
 
   ngOnInit(): void {
@@ -138,7 +140,7 @@ export class HomeComponent implements OnInit {
           let dateLimit = new Date(caiServiceResponse.fecha_limite);
           dateActual.setHours(0,0,0,0);
           dateLimit.setHours(0,0,0,0);
-          if(dateActual <= dateLimit) {
+          if(dateActual.getTime() <= dateLimit.getTime()) {
             this.isCaiActive = true;
           } else {
             this.isCaiActive = false;
@@ -157,14 +159,17 @@ export class HomeComponent implements OnInit {
     this.caiService.getCaiList(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '', 'docente', 'no').subscribe({
       next: caiServiceResponse => {
         if(caiServiceResponse.rows.length > 0) {
-          let cai: Cai = caiServiceResponse.rows[caiServiceResponse.rows.length - 1];
+          let cai: Cai = caiServiceResponse.rows[0];
           let actualDate = new Date();
           if(cai.periodo !== null && cai.periodo.anno === actualDate.getFullYear()) {
             if(((cai.periodo.semestre === 1 && actualDate.getMonth() < 6) || (cai.periodo.semestre === 2 && actualDate.getMonth() >= 6))) {
               this.isCaiCompleted = true;
+              this.idCai = cai.id;
               if(cai.id_estado === 4 || cai.id_estado === 5) {
                 this.isRejectCai = true;
-                this.idCai = cai.id;
+              }
+              if(cai.id_estado === 8) {
+                this.withoutSignature = true;
               }
             }
           }

@@ -54,8 +54,11 @@ export class CaiStructureComponent implements OnInit {
   @Input() isViewCai: boolean;
   @Input() dataCai: Cai;
   @Input() loadedData: boolean;
+  @Input() isFillCai: boolean;
   loadActivities: number;
   @Input() feedbackList: Feedback[];
+  userValidateHours: boolean;
+  limitHours: number;
 
   constructor(private caiService: CaiService, public dialog: Dialog, private fb: FormBuilder, private userService: UserService,
     private departmentService: DepartmentService, private generalDialog: MatDialog) {
@@ -86,6 +89,9 @@ export class CaiStructureComponent implements OnInit {
     this.loadedData = false;
     this.loadActivities = 0;
     this.feedbackList = [];
+    this.isFillCai = false;
+    this.userValidateHours = false;
+    this.limitHours = config.LIMIT_BASE_HOURS;
   }
 
   ngOnInit(): void {
@@ -115,21 +121,22 @@ export class CaiStructureComponent implements OnInit {
 
   onSubmit() {
     if(this.caiForm.valid) {
-      this.loadTeacherActivities();
-      this.loadInvestigationActivities();
-      this.loadExtensionActivities();
-      this.loadAdministrationActivities();
-      this.loadRepresentationActivities();
-      this.loadOtherActivities();
-      if(!this.validHours) {
-        this.validHours = true;
-        return this.dialog.openDialog('¡¡No se aceptan números negativos!!', '');
-      }
-      this.loadDataCai();
-      if(this.loadedData) {
-        this.updateCai();
-      } else {
-        this.addCai();
+      if(this.loadTeacherActivities()) {
+        this.loadInvestigationActivities();
+        this.loadExtensionActivities();
+        this.loadAdministrationActivities();
+        this.loadRepresentationActivities();
+        this.loadOtherActivities();
+        if(!this.validHours) {
+          this.validHours = true;
+          return this.dialog.openDialog('¡¡No se aceptan números negativos!!', '');
+        }
+        this.loadDataCai();
+        if(!this.isFillCai) {
+          this.updateCai();
+        } else {
+          this.addCai();
+        }
       }
     } else {
       this.dialog.openDialog('¡¡Faltan campos por diligenciar!!', '');
@@ -137,17 +144,31 @@ export class CaiStructureComponent implements OnInit {
   }
 
   addCai() {
-    if(this.idSignature === ''){
-      if(sessionStorage.getItem('idSignature') !== null) {
-        this.idSignature = sessionStorage.getItem('idSignature') || '';
-      } else {
-        return this.addSignature();
+    let acceptSignature = (this.caiForm.get('signature')?.value === 'true') ? true : false;
+    if(acceptSignature){
+      if(this.idSignature === '') {
+        if(sessionStorage.getItem('idSignature') !== null) {
+          this.idSignature = sessionStorage.getItem('idSignature') || '';
+          this.caiRequest.id_firma = this.idSignature;
+        } else {
+          return this.addSignature();
+        }
       }
+    } else {
+      delete this.caiRequest.id_firma;
     }
     this.fillCai();
   }
 
-  updateCai() {
+  async updateCai() {
+    let acceptSignature = (this.caiForm.get('signature')?.value === 'true') ? true : false;
+    if(acceptSignature) {
+      await this.findSignature();
+      this.caiRequest.id_firma = this.idSignature;
+    } else {
+      delete this.caiRequest.id_firma;
+    }
+
     this.caiService.updateCai(this.dataCai.id, this.caiRequest).subscribe({
       next: updateCaiResponse => {
         this.dialog.openDialog(updateCaiResponse.msg, '/home');
@@ -156,6 +177,14 @@ export class CaiStructureComponent implements OnInit {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('', error));
       }
     });
+  }
+
+  async findSignature() {
+    for(let i = 0; i < this.dataCai.firmas.length; i++) {
+      if(this.dataCai.firmas[i].periodo_docente_firma['rol'] === 'DOCENTE') {
+        this.idSignature = this.dataCai.firmas[i].id + '';
+      }
+    }
   }
 
   fillCai() {
@@ -199,6 +228,7 @@ export class CaiStructureComponent implements OnInit {
     this.caiForm.setControl('code', new FormControl({value: this.dataCai.usuario.codigo, disabled: true}, [Validators.required]));
     this.caiForm.setControl('dedication', new FormControl({value: this.dataCai.dedicacion, disabled: this.isViewCai}, [Validators.required]));
     this.caiForm.setControl('observations', new FormControl({value: this.dataCai.observacion, disabled: this.isViewCai}));
+    this.caiForm.setControl('signature', new FormControl({value: (this.dataCai.firmas.length > 0) ? 'true' : 'false', disabled: this.isViewCai}));
   }
 
   getDepartment(idDepartment: string) {
@@ -599,14 +629,18 @@ export class CaiStructureComponent implements OnInit {
 
   loadTeacherActivities() {
     this.caiRequest.asignaturas = [];
+    let validSubjects = true;
     for(let i = 0; i < this.elementsDataTeacherActivities.length; i++) {
       let subjectSelected = parseInt(this.elementsDataTeacherActivities[i].id);
       if(this.caiRequest.asignaturas.includes(subjectSelected)) {
+        validSubjects = false;
         this.dialog.openDialog('No puede seleccionar dos asignaturas iguales', '');
+        return validSubjects;
       } else {
         this.caiRequest.asignaturas.push(subjectSelected);
       }
     }
+    return validSubjects;
   }
 
   loadInvestigationActivities() {
@@ -808,6 +842,13 @@ export class CaiStructureComponent implements OnInit {
     this.totalHours.totalCai = this.totalHours.subtotalTeacherActivities + this.totalHours.subtotalInvestigationActivities +
     this.totalHours.subtotalExtensionActivities + this.totalHours.subtotalAdministrationActivities +
     this.totalHours.subtotalRepresentationActivities + this.totalHours.subtotalOtherActivities;
+
+    if(this.totalHours.totalCai > 0 && this.totalHours.totalCai < this.limitHours) {
+      this.userValidateHours = false;
+    } else {
+      this.userValidateHours = true;
+    }
+
     return this.totalHours.totalCai.toFixed(1);
   }
 
@@ -839,6 +880,12 @@ export class CaiStructureComponent implements OnInit {
 
   addSignature() {
     this.generalDialog.open(AddSignatureComponent);
+  }
+
+  informativeSignature() {
+    if(this.getDataItemForm('signature') === 'false') {
+      this.dialog.openDialog('Recuerda, el CAI no será enviado a valoración hasta que no subas el documento firmado', '');
+    }
   }
 
 }

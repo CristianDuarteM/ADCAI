@@ -66,6 +66,7 @@ export class ViewTeacherComponent implements OnInit {
         anno: data[i].periodo.anno,
         semestre: data[i].periodo.semestre,
         departamento: data[i].usuario.departamento.nombre,
+        id_estado: data[i].id_estado,
       });
     }
     this.isLoaded = true;

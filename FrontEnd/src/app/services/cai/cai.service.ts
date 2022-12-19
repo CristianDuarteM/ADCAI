@@ -441,4 +441,30 @@ export class CaiService {
     });
   }
 
+  getCaiFile(idCai: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/cai/pdf/' + idCai, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getCaiFileSigned(idCai: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/evidencias/' + idCai, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  addSignedFile(role: string, idCai: string, signedFile: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('archivo', signedFile);
+    return this.httpClient.post(config.API_URL + '/api/evidencias/sinFirma/' + idCai + '?rol=' + role, formData, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
 }

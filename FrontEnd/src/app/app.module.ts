@@ -69,6 +69,7 @@ import { ItemOthersComponent } from './pages/cai/admin-structure/item-others/ite
 import { NoteComponent } from './pages/cai/admin-structure/note/note.component';
 import { UpdateCaiComponent } from './pages/cai/update-cai/update-cai.component';
 import { RejectCaiComponent } from './pages/cai/reject-cai/reject-cai.component';
+import { LoadFileSignatureComponent } from './pages/cai/load-file-signature/load-file-signature.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { RejectCaiComponent } from './pages/cai/reject-cai/reject-cai.component'
     NoteComponent,
     UpdateCaiComponent,
     RejectCaiComponent,
+    LoadFileSignatureComponent,
   ],
   imports: [
     FormsModule,

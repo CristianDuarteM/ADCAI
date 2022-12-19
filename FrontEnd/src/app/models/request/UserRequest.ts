@@ -2,7 +2,7 @@ export class UserRequest {
   id: number;
   nombre: string;
   apellido: string;
-  codigo: string;
+  codigo?: string;
   id_departamento: number;
   realizaCai: boolean;
 

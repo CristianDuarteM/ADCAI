@@ -15,4 +15,5 @@ export class config {
     4: 'RECHAZADO DECANO',
     5: 'RECHAZADO DIRECTOR',
   };
+  public static LIMIT_BASE_HOURS = 40;
 }

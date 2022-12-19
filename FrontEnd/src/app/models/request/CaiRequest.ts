@@ -13,7 +13,7 @@ export class CaiRequest {
   otras: OtherActivitiesRequest[];
   observaciones: string;
   dedicacion: string;
-  id_firma: string;
+  id_firma?: string;
 
   constructor() {
     this.asignaturas = [];

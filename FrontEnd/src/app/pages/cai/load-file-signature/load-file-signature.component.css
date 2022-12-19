@@ -1,0 +1,98 @@
+button {
+  border-radius: 2vh;
+  cursor: pointer;
+  font-size: large;
+  font-weight: bold;
+  margin: 1%;
+  padding: 1% 0 1% 0;
+  width: 100%;
+}
+
+input {
+  font-size: medium;
+  font-weight: bold;
+}
+
+span {
+  align-items: center;
+  display: flex;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.description-container {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+
+.description-container {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+
+.item-container {
+  display: flex;
+  flex-flow: column;
+  margin: 2% 25% 0 25%;
+}
+
+.item-container-download {
+  display: flex;
+  flex-flow: row;
+  margin: 2% 25% 0 25%;
+}
+
+.informative {
+  font-size: medium;
+  font-weight: normal
+}
+
+.input-file {
+  margin-top: 1%;
+}
+
+.button-container {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row;
+  margin-top: 2%;
+  width: 20%;
+}
+
+.download-file {
+  background-color: #96C0E8;
+  border-color: #96C0E8;
+  width: 30%;
+}
+
+.upload-file {
+  background-color: #96E8B6;
+  border-color: #96E8B6;
+  padding: 2%;
+}
+
+@media only screen and (max-width: 600px) {
+  .item-container {
+    display: flex;
+    flex-flow: column;
+    margin: 2% 5% 0 5%;
+  }
+  .item-container-download {
+    flex-flow: column;
+    width: 100%;
+    margin: 5%;
+  }
+  .download-file {
+    width: 90%;
+  }
+  .buttons {
+    width: 90%;
+  }
+}

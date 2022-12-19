@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { config } from 'src/app/constants/config';
+import { Cai } from 'src/app/models/Cai';
 import { Dialog } from 'src/app/models/Dialog';
 import { CaiHistoricalResponse } from 'src/app/models/response/CaiHistoricalResponse';
 import { RolePermission } from 'src/app/models/RolePermission';
@@ -23,6 +24,7 @@ export class ValidateCaiComponent implements OnInit {
   headerTableHistoricalCai: string;
   elementsDataHistoricalCai: CaiTable[];
   isLoaded: boolean;
+  dataCai: Cai;
 
   constructor(private rolePermission: RolePermission, private caiService: CaiService, public dialog: Dialog) {
     this.backRouteHistoricalCai = '/home';
@@ -34,6 +36,7 @@ export class ValidateCaiComponent implements OnInit {
     this.elementsDataHistoricalCai = [];
     this.columnsToDisplayHistoricalCai = ['Código','Nombre Completo', 'Id CAI', 'Año', 'Semestre', 'Departamento','Validar'];
     this.isLoaded = false;
+    this.dataCai = new Cai();
   }
 
   ngOnInit(): void {
@@ -54,6 +57,7 @@ export class ValidateCaiComponent implements OnInit {
     let idUser = sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '';
     this.caiService.getCaiList(idUser, role, 'si').subscribe({
       next: caiEvaluateListResponse => {
+        this.dataCai = caiEvaluateListResponse.rows;
         this.formatDataToTable(caiEvaluateListResponse.rows);
       },
       error: (error: HttpErrorResponse) => {
@@ -72,6 +76,7 @@ export class ValidateCaiComponent implements OnInit {
         anno: data[i].periodo.anno,
         semestre: data[i].periodo.semestre,
         departamento: data[i].usuario.departamento.nombre,
+        id_estado: data[i].id_estado,
       });
     }
     this.isLoaded = true;

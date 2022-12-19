@@ -5,4 +5,5 @@ export interface CaiTable {
   anno: number;
   semestre: number;
   departamento: string;
+  id_estado: number;
 }

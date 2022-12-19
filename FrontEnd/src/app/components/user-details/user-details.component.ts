@@ -99,6 +99,9 @@ export class UserDetailsComponent implements OnInit {
       id_departamento: this.getItemValue('departmentInput'),
       realizaCai: (this.getItemValue('doCai') === 'true') ? true : false,
     }
+    if(this.userModel.codigo === userRequest.codigo) {
+      delete userRequest.codigo;
+    }
     this.userService.updateUser(userRequest.id + '', userRequest).subscribe({
       next: userUpdateResponse => {
         if(this.fileEvent !== null) {
@@ -108,7 +111,7 @@ export class UserDetailsComponent implements OnInit {
           sessionStorage.removeItem(config.SESSION_STORAGE.IS_COMPLETE);
           this.dialog.openDialog(userUpdateResponse.msg, '/home');
         } else{
-          this.dialog.openDialog(userUpdateResponse.msg, '/gestion-docentes/buscados/editar/' + userRequest.id);
+          this.dialog.openDialog(userUpdateResponse.msg, '/perfil/editar/' + this.userModel.id);
         }
       },
       error: (error: HttpErrorResponse) => {

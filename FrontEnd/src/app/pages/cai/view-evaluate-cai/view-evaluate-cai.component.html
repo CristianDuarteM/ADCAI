@@ -11,7 +11,21 @@
       <div>
         <app-cai-structure [isViewCai]="true" [dataCai]="dataCai" [loadedData]="true" [feedbackList]="feedbackList"></app-cai-structure>
       </div>
-      <div class="button-content">
+      <div class="content-file" *ngIf="dataCai.id_estado === 9 || dataCai.id_estado === 10">
+        <div class = "title-section">
+          <span>ARCHIVO DE TEXTO</span>
+        </div>
+        <input class="input-file" type="file" (change)="loadFile($event)">
+      </div>
+      <div class="button-content-file">
+        <button mat-raised-button type="button" class="button-submit" (click)="getFile()" *ngIf="dataCai.firmas.length === 0">
+          Descargar
+        </button>
+        <button mat-raised-button type="button" class="button-submit" (click)="addSignedFile()" *ngIf="dataCai.id_estado === 9 || dataCai.id_estado === 10">
+          Subir Archivo
+        </button>
+      </div>
+      <div class="button-content" *ngIf="dataCai.id_estado !== 9 && dataCai.id_estado !== 10">
         <button mat-raised-button class="button-submit approve-button" (click)="approveEvaluateCai()">
           <span>Aprobar</span>
         </button>

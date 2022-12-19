@@ -20,6 +20,7 @@ export class ViewCaiComponent implements OnInit {
   isLoaded: boolean;
   dataCai: Cai;
   feedbackList: Feedback[];
+  pathFile: string;
 
   constructor(private route: ActivatedRoute, private caiService: CaiService, public dialog: Dialog,
     private rolePermission: RolePermission) {
@@ -29,6 +30,7 @@ export class ViewCaiComponent implements OnInit {
     this.dataCai = new Cai();
     this.isLoaded = false;
     this.feedbackList = [];
+    this.pathFile = '';
   }
 
   ngOnInit(): void {
@@ -48,6 +50,50 @@ export class ViewCaiComponent implements OnInit {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
+  }
+
+  getFile() {
+    let idCai = this.route.snapshot.paramMap.get('idCai') || '';
+    if(this.dataCai.firmas.length > 0) {
+      this.getCaiLoaded(idCai);
+    } else {
+      this.getCaiEvidence(idCai);
+    }
+  }
+
+  getCaiLoaded(idCai: string) {
+    this.caiService.getCaiFile(idCai).subscribe({
+      next: caiFileResponse => {
+        this.pathFile = caiFileResponse.msg;
+        this.download();
+        this.isLoaded = true;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('', error));
+      }
+    });
+  }
+
+  getCaiEvidence(idCai: string) {
+    this.caiService.getCaiFileSigned(idCai).subscribe({
+      next: caiFileResponse => {
+        this.pathFile = caiFileResponse.msg;
+        this.download();
+        this.isLoaded = true;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('', error));
+      }
+    });
+  }
+
+  download() {
+    const downloadLink = document.createElement('a');
+    downloadLink.href = this.pathFile;
+    downloadLink.setAttribute('download', '123456.pdf');
+    downloadLink.setAttribute('target', '_blank');
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
   }
 
 }

@@ -27,7 +27,7 @@
         <span>Fecha Límite:</span>
         <mat-form-field appearance="fill">
           <mat-label>Seleccione la fecha</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="dateInput">
+          <input matInput [matDatepicker]="picker" formControlName="dateInput" min="{{getDateFormat(actualDate)}}">
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker color="warn" disabled="false"></mat-datepicker>

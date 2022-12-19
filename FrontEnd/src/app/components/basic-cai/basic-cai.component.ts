@@ -17,23 +17,20 @@ export class BasicCaiComponent implements OnInit {
   @Input() basicCaiUpdate: CaiResponse;
   @Input() isUpdate: boolean;
   requestCaiForm: FormGroup;
+  actualDate: Date;
 
   constructor(public dialog: Dialog, private caiService: CaiService) {
     this.basicCaiRequest = {} as CaiModel;
-    this.basicCaiUpdate = {} as CaiResponse;
+    this.basicCaiUpdate = new CaiResponse();
     this.requestCaiForm = new FormGroup({});
     this.isUpdate = false;
+    this.actualDate = new Date();
+    this.actualDate.setDate(this.actualDate.getDate() + 1);
   }
 
   ngOnInit(): void {
-    let dateLimit = new Date();
-    if(this.isUpdate) {
-      let date = new Date(this.basicCaiUpdate.fecha_limite);
-      date.setDate(date.getDate() + 1);
-      dateLimit = date;
-    } else {
-      dateLimit = new Date(this.basicCaiRequest.limite);
-    }
+    let prueba = this.basicCaiUpdate.fecha_limite.split('-');
+    let dateLimit = new Date(parseInt(prueba[0]), parseInt(prueba[1]) - 1, parseInt(prueba[2]));
     this.requestCaiForm = new FormGroup({
       semesterInput: new FormControl({value: (this.isUpdate) ? this.basicCaiUpdate.semestre : this.basicCaiRequest.semestre, disabled: true}),
       yearInput: new FormControl({value: (this.isUpdate) ? this.basicCaiUpdate.anno : this.basicCaiRequest.anno, disabled: true}),
@@ -91,6 +88,7 @@ export class BasicCaiComponent implements OnInit {
   }
 
   getDateFormat(date: Date) {
+    date.setHours(0,0,0,0);
     return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
   }
 

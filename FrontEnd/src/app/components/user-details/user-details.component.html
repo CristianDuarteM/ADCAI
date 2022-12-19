@@ -4,7 +4,7 @@
   </div>
 </ng-container>
 <ng-container *ngIf="isLoaded">
-  <form [formGroup]="user" (ngSubmit)="onSubmit()">
+  <form [formGroup]="user" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
     <div class="principal-content">
       <div class="form-content">
         <div class="left-content">

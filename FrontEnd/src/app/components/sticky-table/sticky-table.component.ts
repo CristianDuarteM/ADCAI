@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DisableDialogComponent } from '../disable-dialog/disable-dialog.component';
 import { Router } from '@angular/router';
 import { EnableDialogComponent } from '../enable-dialog/enable-dialog.component';
+import { Cai } from 'src/app/models/Cai';
 
 @Component({
   selector: 'app-sticky-table',
@@ -22,6 +23,7 @@ export class StickyTableComponent implements OnInit {
   @Input() onlyView: boolean;
   @Input() viewCAI: boolean;
   dataArray: MatTableDataSource<any>;
+  @Input() dataCai: Cai;
   @Input() heightTable: {
     height: string
   };
@@ -37,6 +39,7 @@ export class StickyTableComponent implements OnInit {
     this.onlyView = sessionStorage.getItem('activeRole') === 'DIRECTOR';
     this.viewCAI = false;
     this.dataArray = new MatTableDataSource(undefined);
+    this.dataCai = new Cai();
     this.heightTable = {
       height: '50vh'
     };

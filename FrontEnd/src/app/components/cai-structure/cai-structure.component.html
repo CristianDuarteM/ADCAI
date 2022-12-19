@@ -98,7 +98,7 @@
 
           <ng-container matColumnDef="H.P.">
             <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 10%; text-align: center;"> H.P. </th>
-            <td mat-cell *matCellDef="let item" class="border-color-table" onchange="prueba()"> {{item.horas_practicas}} </td>
+            <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.horas_practicas}} </td>
           </ng-container>
 
           <tr mat-header-row>Listado de Facultades</tr>
@@ -389,12 +389,15 @@
         </div>
         <span>¿Desea agregar la firma asociada a su perfil?</span>
         <div>
-          <mat-radio-group aria-label="Seleccione una opción" formControlName="signature">
+          <mat-radio-group aria-label="Seleccione una opción" formControlName="signature" (change)="informativeSignature()">
             <mat-radio-button value="true" color="warn">Sí</mat-radio-button>
             <mat-radio-button value="false" color="warn">No</mat-radio-button>
           </mat-radio-group>
         </div>
         <p *ngIf="!isViewCai">Recuerde: Si decide no agregar la firma asociada a su perfil, no se enviará a valoración hasta que descargue el documento y lo suba firmado.</p>
+      </div>
+      <div *ngIf="!userValidateHours">
+        <h3 class="informative-text">La carga académica actual se encuentra por debajo de las {{limitHours}} horas establecidas</h3>
       </div>
     </div>
     <div *ngIf="feedbackList.length > 0">
