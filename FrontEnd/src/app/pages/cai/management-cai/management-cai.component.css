@@ -15,8 +15,16 @@ h2 {
   margin: 0;
 }
 
+h3 {
+  margin: 0;
+}
+
 .margin-title {
   padding: 3vh;
+}
+
+.margin-informative-content {
+  padding: 0 3vh 3vh 3vh;
 }
 
 .principal-options {
@@ -25,6 +33,10 @@ h2 {
   flex-flow: row wrap;
   justify-content: space-evenly;
   word-wrap: break-word;
+}
+
+.spinner-align {
+  height: 84vh;
 }
 
 @media only screen and (max-width: 600px) {

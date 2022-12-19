@@ -1,11 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
 import { config } from 'src/app/constants/config';
+import { Cai } from 'src/app/models/Cai';
+import { Dialog } from 'src/app/models/Dialog';
 import { CaiHistoricalResponse } from 'src/app/models/response/CaiHistoricalResponse';
-import { CaiHistoricalTable } from 'src/app/models/table/CaiHistoricalTable';
+import { RolePermission } from 'src/app/models/RolePermission';
+import { CaiTable } from 'src/app/models/table/CaiTable';
 import { CaiService } from 'src/app/services/cai/cai.service';
 
 @Component({
@@ -22,10 +22,11 @@ export class ValidateCaiComponent implements OnInit {
   heightTableHistoricalCai: { height: string };
   columnsToDisplayHistoricalCai: string[];
   headerTableHistoricalCai: string;
-  elementsDataHistoricalCai: CaiHistoricalTable[];
+  elementsDataHistoricalCai: CaiTable[];
   isLoaded: boolean;
+  dataCai: Cai;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private caiService: CaiService, public dialog: MatDialog) {
+  constructor(private rolePermission: RolePermission, private caiService: CaiService, public dialog: Dialog) {
     this.backRouteHistoricalCai = '/home';
     this.titleHistoricalCai = 'Cargas Académicas Integrales por Evaluar';
     this.isPrincipalHistoricalCai = false;
@@ -35,11 +36,12 @@ export class ValidateCaiComponent implements OnInit {
     this.elementsDataHistoricalCai = [];
     this.columnsToDisplayHistoricalCai = ['Código','Nombre Completo', 'Id CAI', 'Año', 'Semestre', 'Departamento','Validar'];
     this.isLoaded = false;
+    this.dataCai = new Cai();
   }
 
   ngOnInit(): void {
     let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
     if(activeRole === 'DECANO'){
       this.isPrincipalHistoricalCai = true;
     }
@@ -55,10 +57,11 @@ export class ValidateCaiComponent implements OnInit {
     let idUser = sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '';
     this.caiService.getCaiList(idUser, role, 'si').subscribe({
       next: caiEvaluateListResponse => {
+        this.dataCai = caiEvaluateListResponse.rows;
         this.formatDataToTable(caiEvaluateListResponse.rows);
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validateError('/home', error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
@@ -73,28 +76,10 @@ export class ValidateCaiComponent implements OnInit {
         anno: data[i].periodo.anno,
         semestre: data[i].periodo.semestre,
         departamento: data[i].usuario.departamento.nombre,
+        id_estado: data[i].id_estado,
       });
     }
-    console.log(data);
-    console.log(this.elementsDataHistoricalCai);
     this.isLoaded = true;
-  }
-
-  validateError(route: string, error: HttpErrorResponse) {
-    if(error.status === 401) {
-      route = '/login';
-    }
-    return route;
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

@@ -21,7 +21,7 @@ button {
 }
 
 .main-container {
-  height: 93vh;
+  height: 100vh;
 }
 
 @media only screen and (max-width: 600px) {
@@ -29,13 +29,13 @@ button {
     font-size: smaller;
   }
   .main-container {
-    height: 137vh;
+    height: 157vh;
   }
 }
 
 @media only screen and (min-width:601px) and (max-width: 1500px) {
   .main-container {
-    height: 110vh;
+    height: 130vh;
   }
 }
 

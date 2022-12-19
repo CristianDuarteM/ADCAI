@@ -1,0 +1,49 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteRejectCai" [title]="titleRejectCai" [isPrincipal]="isPrincipalRejectCai"></app-principal-row>
+    <form [formGroup]="rejectCaiForm" (ngSubmit)="onSubmit()" *ngIf="isLoaded">
+      <span>Diligencie el motivo de rechazo</span>
+      <div class="button-content-add">
+        <button type="button" [disabled]="observations.controls.length === 6">
+          <span (click)="addObservation()">Adicionar</span>
+        </button>
+        <button type="button" [disabled]="observations.controls.length <= 1">
+          <span (click)="removeObservation()">Eliminar</span>
+        </button>
+      </div>
+      <div formArrayName="observationItems">
+        <div *ngFor="let item of observations.controls; let i = index;">
+          <div formGroupName="{{i}}">
+            <hr *ngIf="i > 0">
+            <div class="content-input">
+              <span>Observación <span class="item-required">*</span></span>
+              <mat-form-field>
+                <textarea matInput rows="3" formControlName="observation" placeholder="Obligatorio"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="content-input">
+              <span>Sección <span class="item-required">*</span></span>
+              <mat-form-field appearance="fill">
+                <mat-label>Seleccione Sección</mat-label>
+                <mat-select formControlName="section" name="sectionSelect">
+                  <mat-option value="1">Actividades de docencia</mat-option>
+                  <mat-option value="2">Actividades de investigación</mat-option>
+                  <mat-option value="3">Actividades de extensión</mat-option>
+                  <mat-option value="4">Administración</mat-option>
+                  <mat-option value="5">Representaciones</mat-option>
+                  <mat-option value="6">Otras actividades</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="button-form">
+        <button type="submit" class="reject-button">
+          <span>Rechazar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-container>

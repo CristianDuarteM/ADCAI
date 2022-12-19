@@ -9,6 +9,7 @@ import { CaiService } from 'src/app/services/cai/cai.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { CaiResponse } from 'src/app/models/response/CaiResponse';
 import { Dialog } from 'src/app/models/Dialog';
+import { Cai } from 'src/app/models/Cai';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,11 @@ export class HomeComponent implements OnInit {
   activeRole: string;
   isLoaded: boolean;
   isCaiActive: boolean;
+  isCaiCompleted: boolean;
+  isRejectCai: boolean;
+  withoutSignature: boolean;
   caiDataBasic: CaiResponse;
+  idCai: string;
 
   constructor(private navigation: Router, private ngxPermissonsService: NgxPermissionsService,
     private authService: AuthService, private dialog: Dialog, private caiService: CaiService,
@@ -39,7 +44,11 @@ export class HomeComponent implements OnInit {
     this.activeRole = '';
     this.isLoaded = false;
     this.isCaiActive = false;
-    this.caiDataBasic = {} as CaiResponse;
+    this.isCaiCompleted = false;
+    this.isRejectCai = false;
+    this.caiDataBasic = new CaiResponse();
+    this.idCai = '';
+    this.withoutSignature = false;
   }
 
   ngOnInit(): void {
@@ -76,6 +85,7 @@ export class HomeComponent implements OnInit {
         await this.loadDataUser(userResponse);
         if(this.activeRole === 'DOCENTE' && userResponse.usuario.realizaCai) {
           this.caiActive(userResponse.usuario.id_departamento + '');
+          this.caiCompleted();
         } else {
           this.loadRole();
         }
@@ -109,6 +119,7 @@ export class HomeComponent implements OnInit {
       next: userServiceResponse => {
         if(userServiceResponse.usuario.realizaCai){
           this.caiActive(userServiceResponse.usuario.id_departamento);
+          this.caiCompleted();
         } else {
           this.loadRole();
         }
@@ -129,16 +140,46 @@ export class HomeComponent implements OnInit {
           let dateLimit = new Date(caiServiceResponse.fecha_limite);
           dateActual.setHours(0,0,0,0);
           dateLimit.setHours(0,0,0,0);
-          if(dateActual <= dateLimit) {
+          if(dateActual.getTime() <= dateLimit.getTime()) {
             this.isCaiActive = true;
           } else {
             this.isCaiActive = false;
           }
         }
-        this.loadRole();
+        this.caiCompleted();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('', error));
       }
     });
     return false;
+  }
+
+  caiCompleted() {
+    this.caiService.getCaiList(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '', 'docente', 'no').subscribe({
+      next: caiServiceResponse => {
+        if(caiServiceResponse.rows.length > 0) {
+          let cai: Cai = caiServiceResponse.rows[0];
+          let actualDate = new Date();
+          if(cai.periodo !== null && cai.periodo.anno === actualDate.getFullYear()) {
+            if(((cai.periodo.semestre === 1 && actualDate.getMonth() < 6) || (cai.periodo.semestre === 2 && actualDate.getMonth() >= 6))) {
+              this.isCaiCompleted = true;
+              this.idCai = cai.id;
+              if(cai.id_estado === 4 || cai.id_estado === 5) {
+                this.isRejectCai = true;
+              }
+              if(cai.id_estado === 8) {
+                this.withoutSignature = true;
+              }
+            }
+          }
+        }
+        this.loadRole();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('', error));
+      }
+    });
   }
 
   loadRole() {
@@ -152,9 +193,11 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  redirectButton(route: string, idUserRequired: boolean) {
-    if(idUserRequired) {
+  redirectButton(route: string, id: string) {
+    if(id === 'user') {
       route += sessionStorage.getItem(config.SESSION_STORAGE.ID_USER);
+    } else if(id === 'cai') {
+      route += this.idCai;
     }
     this.navigation.navigate([route]);
   }

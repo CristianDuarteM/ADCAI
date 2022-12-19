@@ -9,8 +9,7 @@ import { UserRequest } from 'src/app/models/request/UserRequest';
 })
 export class UserService {
 
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   get tokenSession() {
     return sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
@@ -18,7 +17,7 @@ export class UserService {
 
   getUserFilter(idDepartment: string, typeFilter: string, filter: string): Observable<any> {
     let from = 0;
-    let limit = 100000;
+    let limit = 10000;
 
     let route = config.API_URL + '/api/usuarios/buscar?desde=' + from + '&limite=' + limit;
     if(typeFilter !== ''){
@@ -89,8 +88,8 @@ export class UserService {
     });
   }
 
-  getNotificationsByIdUser(idUser: string): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/notificaciones/' + idUser, {
+  getNotificationsByIdUser(idUser: string, activeRole: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/notificaciones/' + idUser + '?rol=' + activeRole, {
       headers: {
         'x-token': this.tokenSession
       }

@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { FormControl, FormGroup } from '@angular/forms';
 import { CaiModel } from 'src/app/models/CaiModel';
+import { Dialog } from 'src/app/models/Dialog';
 import { CaiResponse } from 'src/app/models/response/CaiResponse';
 import { CaiService } from 'src/app/services/cai/cai.service';
-import { InformativeDialogComponent } from '../informative-dialog/informative-dialog.component';
 
 @Component({
   selector: 'app-basic-cai',
@@ -18,23 +17,20 @@ export class BasicCaiComponent implements OnInit {
   @Input() basicCaiUpdate: CaiResponse;
   @Input() isUpdate: boolean;
   requestCaiForm: FormGroup;
+  actualDate: Date;
 
-  constructor(public dialog: MatDialog, private caiService: CaiService) {
+  constructor(public dialog: Dialog, private caiService: CaiService) {
     this.basicCaiRequest = {} as CaiModel;
-    this.basicCaiUpdate = {} as CaiResponse;
+    this.basicCaiUpdate = new CaiResponse();
     this.requestCaiForm = new FormGroup({});
     this.isUpdate = false;
+    this.actualDate = new Date();
+    this.actualDate.setDate(this.actualDate.getDate() + 1);
   }
 
   ngOnInit(): void {
-    let dateLimit = new Date();
-    if(this.isUpdate) {
-      let date = new Date(this.basicCaiUpdate.fecha_limite);
-      date.setDate(date.getDate() + 1);
-      dateLimit = date;
-    } else {
-      dateLimit = new Date(this.basicCaiRequest.limite);
-    }
+    let prueba = this.basicCaiUpdate.fecha_limite.split('-');
+    let dateLimit = new Date(parseInt(prueba[0]), parseInt(prueba[1]) - 1, parseInt(prueba[2]));
     this.requestCaiForm = new FormGroup({
       semesterInput: new FormControl({value: (this.isUpdate) ? this.basicCaiUpdate.semestre : this.basicCaiRequest.semestre, disabled: true}),
       yearInput: new FormControl({value: (this.isUpdate) ? this.basicCaiUpdate.anno : this.basicCaiRequest.anno, disabled: true}),
@@ -52,9 +48,9 @@ export class BasicCaiComponent implements OnInit {
         actualDate = new Date(this.basicCaiUpdate.fecha_inicio);
       }
       if(this.getDateFormat(dateInput) === this.getDateFormat(actualDate)) {
-        this.openDialog("La fecha límite no puede ser la actual", '/gestion-cai/agregar');
+        this.dialog.openDialog("La fecha límite no puede ser la actual", '/gestion-cai/agregar');
       } else if(this.getDateFormat(dateInput) < this.getDateFormat(actualDate)) {
-        this.openDialog("La fecha límite no puede ser menor a la actual", '/gestion-cai/agregar');
+        this.dialog.openDialog("La fecha límite no puede ser menor a la actual", '/gestion-cai/agregar');
       } else {
         if(this.isUpdate) {
           this.updateCai(dateSelected);
@@ -63,7 +59,7 @@ export class BasicCaiComponent implements OnInit {
         }
       }
     } else {
-      this.openDialog("Fecha seleccionada errónea", '/gestion-cai/agregar');
+      this.dialog.openDialog("Fecha seleccionada errónea", '/gestion-cai/agregar');
     }
   }
 
@@ -72,10 +68,10 @@ export class BasicCaiComponent implements OnInit {
     this.basicCaiRequest.limite = this.getDateFormat(dateInput);
     this.caiService.requestCai(this.basicCaiRequest).subscribe({
       next: caiServiceResponse => {
-        this.openDialog(caiServiceResponse.msg, '/gestion-cai');
+        this.dialog.openDialog(caiServiceResponse.msg, '/gestion-cai');
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.getRedirectRoute(error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-cai/agregar', error));
       }
     });
   }
@@ -83,34 +79,17 @@ export class BasicCaiComponent implements OnInit {
   updateCai(date: string) {
     this.caiService.updateDateCai(this.basicCaiUpdate.id, date).subscribe({
       next: caiServiceUpdate => {
-        this.openDialog(caiServiceUpdate.msg, '/gestion-cai');
+        this.dialog.openDialog(caiServiceUpdate.msg, '/gestion-cai');
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.getRedirectRoute(error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-cai/agregar', error));
       }
     });
   }
 
-  getRedirectRoute(error: HttpErrorResponse) {
-    let route = '/gestion-cai/agregar';
-    if(error.status === 401) {
-      route = '/login';
-    }
-    return route;
-  }
-
   getDateFormat(date: Date) {
+    date.setHours(0,0,0,0);
     return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

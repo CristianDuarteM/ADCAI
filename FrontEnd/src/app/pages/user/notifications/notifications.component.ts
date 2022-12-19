@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
 import { config } from 'src/app/constants/config';
+import { Dialog } from 'src/app/models/Dialog';
 import { NotificationResponse } from 'src/app/models/response/NotificationResponse';
+import { RolePermission } from 'src/app/models/RolePermission';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -22,7 +21,7 @@ export class NotificationsComponent implements OnInit {
   elementsDataNotifications: NotificationResponse[];
   isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private userService: UserService, public dialog: MatDialog) {
+  constructor(private rolePermission: RolePermission, private userService: UserService, public dialog: Dialog) {
     this.backRouteNotifications = '/home';
     this.isPrincipalNotifications = true;
     this.heightTableNotifications = { height: '60vh' };
@@ -33,13 +32,13 @@ export class NotificationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
     this.getNotifications();
   }
 
   getNotifications() {
-    this.userService.getNotificationsByIdUser(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) + '').subscribe({
+    this.userService.getNotificationsByIdUser(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) + '',
+    sessionStorage.getItem(config.SESSION_STORAGE.ACTIVE_ROLE) || '').subscribe({
       next: notificationsResponse => {
         this.elementsDataNotifications = notificationsResponse.rows;
         this.elementsDataNotifications.forEach(element => {
@@ -52,23 +51,8 @@ export class NotificationsComponent implements OnInit {
         this.isLoaded = true;
       },
       error: (error: HttpErrorResponse) => {
-        let route = '/motificaciones';
-        if(error.status === 401) {
-          sessionStorage.clear();
-          route = '/login';
-        }
-        this.openDialog(error.error.msg, route);
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/motificaciones', error));
       }
-    });
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
     });
   }
 

@@ -39,6 +39,9 @@ import { ItemAdministrationComponent } from './pages/cai/admin-structure/item-ad
 import { ItemRepresentationComponent } from './pages/cai/admin-structure/item-representation/item-representation.component';
 import { ItemOthersComponent } from './pages/cai/admin-structure/item-others/item-others.component';
 import { NoteComponent } from './pages/cai/admin-structure/note/note.component';
+import { UpdateCaiComponent } from './pages/cai/update-cai/update-cai.component';
+import { RejectCaiComponent } from './pages/cai/reject-cai/reject-cai.component';
+import { LoadFileSignatureComponent } from './pages/cai/load-file-signature/load-file-signature.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -54,6 +57,7 @@ const routes: Routes = [
   { path: "gestion-docentes/buscados/facultad/:idFaculty/departamento/:idDepartment", component: SearchedTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/buscados/editar/:idUser", component: UpdateTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/buscados/ver/:idUser", component: ViewTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
+  { path: "gestion-docentes/buscados/ver/cai/:idCai", component: ViewCaiComponent, pathMatch: "full", canActivate: [DirectorGuard] },
   { path: "gestion-docentes/agregar/facultad/:idFaculty/departamento/:idDepartment", component: AddTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/manual/facultad/:idFaculty/departamento/:idDepartment", component: AddManualTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/agregar/masivo/facultad/:idFaculty/departamento/:idDepartment", component: AddMassiveTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
@@ -67,7 +71,10 @@ const routes: Routes = [
   { path: "gestion-cai/actualizar-periodo", component: UpdateRequestCaiComponent, pathMatch: "full", canActivate: [DirectorGuard] },
   { path: "evaluar-cai", component: ValidateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
   { path: "evaluar-cai/:idCai", component: ViewEvaluateCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
+  { path: "evaluar-cai/rechazar/:idCai", component: RejectCaiComponent, pathMatch: "full", canActivate: [DeanDirectorGuard] },
   { path: "diligenciar-cai", component: FillCaiComponent, pathMatch: "full", canActivate: [TeacherGuard] },
+  { path: "cargar-archivo-cai/:idCai", component: LoadFileSignatureComponent, pathMatch: "full", canActivate: [TeacherGuard] },
+  { path: "actualizar-cai/:idCai", component: UpdateCaiComponent, pathMatch: "full", canActivate: [TeacherGuard] },
   { path: "cai-admin", component: StructureCaiComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "cai-admin/investigacion", component: ItemInvestigationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "cai-admin/investigacion/:idInvestigation", component: ItemInvestigationComponent, pathMatch: "full", canActivate: [ AdminGuard ] },

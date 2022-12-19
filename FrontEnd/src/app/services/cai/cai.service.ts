@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
 import { AdministrationActivities } from 'src/app/models/AdministrationActivities';
 import { CaiModel } from 'src/app/models/CaiModel';
-import { EvaluateCaiModel } from 'src/app/models/EvaluateCai';
+import { EvaluateCai } from 'src/app/models/EvaluateCai';
 import { ExtensionActivities } from 'src/app/models/ExtensionActivities';
 import { Note } from 'src/app/models/Note';
 import { OtherActivities } from 'src/app/models/OtherActivities';
@@ -50,8 +50,8 @@ export class CaiService {
     });
   }
 
-  getSubjectListByStudyPlan(idProgram: string): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/asignaturas/programa/' + idProgram, {
+  getSubjectListByStudyPlan(idProgram: string, isEnable: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/asignaturas/programa/' + idProgram + '?habilitada=' + isEnable, {
       headers: {
         'x-token': this.tokenSession
       }
@@ -66,26 +66,8 @@ export class CaiService {
     });
   }
 
-  getStudyPlanList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/plan_estudios', {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
-  fillSubjects(subjectList: []): Observable<any> {
-    return this.httpClient.post(config.API_URL + '/api/cai', {
-      asignaturas: subjectList
-    }, {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
-  getInvestigationActivityList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/actividadesInvestigacion', {
+  getStudyPlanListWithFilter(isEnable: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/plan_estudios?habilitado=' + isEnable, {
       headers: {
         'x-token': this.tokenSession
       }
@@ -100,24 +82,8 @@ export class CaiService {
     });
   }
 
-  getExtensionActivityList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/actividadesExtension', {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
   getExtensionActivityListWithFilter(isEnable: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/actividadesExtension?habilitada=' + isEnable, {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
-  getAdministrationActivityList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/actividadesAdministracion', {
       headers: {
         'x-token': this.tokenSession
       }
@@ -132,24 +98,8 @@ export class CaiService {
     });
   }
 
-  getRepresentationActivityList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/representaciones', {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
   getRepresentationActivityListWithFilter(isEnable: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/representaciones?habilitada=' + isEnable, {
-      headers: {
-        'x-token': this.tokenSession
-      }
-    });
-  }
-
-  getOtherActivityList(): Observable<any> {
-    return this.httpClient.get(config.API_URL + '/api/otrasActividades', {
       headers: {
         'x-token': this.tokenSession
       }
@@ -196,6 +146,14 @@ export class CaiService {
     });
   }
 
+  updateCai(idCai: string, caiBody: CaiRequest): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/cai/' + idCai, caiBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   getCaiList(idUser: string, role: string, evaluate: string): Observable<any> {
     let from = 0;
     let limit = 100000;
@@ -215,8 +173,16 @@ export class CaiService {
     });
   }
 
-  evaluateCai(idCai: string, evaluateCaiModel: EvaluateCaiModel): Observable<any> {
-    return this.httpClient.put(config.API_URL + '/api/cai/evaluar/' + idCai, evaluateCaiModel, {
+  evaluateCaiDirector(idCai: string, evaluateCaiModel: EvaluateCai): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/cai/evaluarDirector/' + idCai, evaluateCaiModel, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  evaluateCaiDean(idCai: string, evaluateCaiModel: EvaluateCai): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/cai/evaluarDecano/' + idCai, evaluateCaiModel, {
       headers: {
         'x-token': this.tokenSession
       }
@@ -469,6 +435,32 @@ export class CaiService {
 
   getNoteItemById(idNote: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/notas/' + idNote, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getCaiFile(idCai: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/cai/pdf/' + idCai, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getCaiFileSigned(idCai: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/evidencias/' + idCai, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  addSignedFile(role: string, idCai: string, signedFile: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('archivo', signedFile);
+    return this.httpClient.post(config.API_URL + '/api/evidencias/sinFirma/' + idCai + '?rol=' + role, formData, {
       headers: {
         'x-token': this.tokenSession
       }

@@ -13,10 +13,12 @@
         <a href="/notificaciones" title="Notificaciones">Notificaciones</a>
       </button>
     </ng-container>
-    <button mat-raised-button class="action-buttons" (click)="openDialog()">
-      <mat-icon>cached</mat-icon>
-      Cambio de Rol
-    </button>
+    <ng-container *ngIf="changeRole">
+      <button mat-raised-button class="action-buttons" (click)="openDialog()">
+        <mat-icon>cached</mat-icon>
+        Cambio de Rol
+      </button>
+    </ng-container>
     <button mat-raised-button class="sign-out" (click)="logOut()">
       <mat-icon>exit_to_app</mat-icon>
       Cerrar Sesión</button>

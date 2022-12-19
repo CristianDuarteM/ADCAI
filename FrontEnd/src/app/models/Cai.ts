@@ -3,11 +3,12 @@ import { ExtensionActivities } from "./ExtensionActivities";
 import { OtherActivities } from "./OtherActivities";
 import { Period } from "./Period";
 import { RepresentationActivities } from "./RepresentationActivities";
+import { Signature } from "./Signature";
 import { InvestigationActivitiesTable } from "./table/InvestigationActivitiesTable";
 import { TeacherActivitiesTable } from "./table/TeacherActivitiesTable";
 import { User } from "./User";
 
-export interface Cai {
+export class Cai {
   id: string;
   dedicacion: string;
   esActivo: boolean;
@@ -24,4 +25,26 @@ export interface Cai {
   actividad_otras: OtherActivities[];
   periodo: Period;
   usuario: User;
+  firmas: Signature[];
+
+  constructor() {
+    this.id = '';
+    this.dedicacion = '';
+    this.esActivo = false;
+    this.fecha_diligenciamiento = '';
+    this.id_estado = 0;
+    this.id_periodo = 0;
+    this.id_usuario = 0;
+    this.observacion = '';
+    this.asignaturas = [];
+    this.actividad_investigacions = [];
+    this.actividad_extensions = [];
+    this.actividad_administracions = [];
+    this.tipo_representacions = [];
+    this.actividad_otras = [];
+    this.periodo = new Period();
+    this.usuario = new User();
+    this.firmas = [];
+  }
+
 }

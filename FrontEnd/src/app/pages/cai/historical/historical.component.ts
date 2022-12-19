@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
 import { config } from 'src/app/constants/config';
+import { Dialog } from 'src/app/models/Dialog';
 import { CaiHistoricalResponse } from 'src/app/models/response/CaiHistoricalResponse';
-import { CaiHistoricalTable } from 'src/app/models/table/CaiHistoricalTable';
+import { RolePermission } from 'src/app/models/RolePermission';
+import { CaiTable } from 'src/app/models/table/CaiTable';
 import { CaiService } from 'src/app/services/cai/cai.service';
 
 @Component({
@@ -23,10 +22,10 @@ export class HistoricalComponent implements OnInit {
   columnsToDisplayHistoricalCai: string[];
   headerTableHistoricalCai: string;
   buttonRouteHistoricalCai: string;
-  elementsDataHistoricalCai: CaiHistoricalTable[];
+  elementsDataHistoricalCai: CaiTable[];
   isLoaded: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private caiService: CaiService, public dialog: MatDialog) {
+  constructor(private rolePermission: RolePermission, private caiService: CaiService, public dialog: Dialog) {
     this.backRouteHistoricalCai = '/home';
     this.titleHistoricalCai = 'Historial de los CAI';
     this.isPrincipalHistoricalCai = true;
@@ -41,7 +40,7 @@ export class HistoricalComponent implements OnInit {
 
   ngOnInit(): void {
     let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
     if(activeRole === 'DIRECTOR'){
       this.isDirector = true;
       this.getHistoricalCaiByRole('director');
@@ -59,7 +58,7 @@ export class HistoricalComponent implements OnInit {
         this.formatDataToTable(caiHistoricalResponse.rows);
       },
       error: (error: HttpErrorResponse) => {
-        this.openDialog(error.error.msg, this.validateError('/home', error));
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
       }
     });
   }
@@ -74,26 +73,10 @@ export class HistoricalComponent implements OnInit {
         anno: data[i].periodo.anno,
         semestre: data[i].periodo.semestre,
         departamento: data[i].usuario.departamento.nombre,
+        id_estado: data[i].id_estado,
       });
     }
     this.isLoaded = true;
-  }
-
-  validateError(route: string, error: HttpErrorResponse) {
-    if(error.status === 401) {
-      route = '/login';
-    }
-    return route;
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

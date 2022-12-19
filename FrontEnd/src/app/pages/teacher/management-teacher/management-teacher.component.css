@@ -55,6 +55,10 @@ span {
   width: 100%;
 }
 
+.spinner-align {
+  height: 84vh;
+}
+
 @media only screen and (max-width: 600px) {
   button {
     width: 100%;

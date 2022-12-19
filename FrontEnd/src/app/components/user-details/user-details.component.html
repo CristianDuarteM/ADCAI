@@ -4,7 +4,7 @@
   </div>
 </ng-container>
 <ng-container *ngIf="isLoaded">
-  <form [formGroup]="user" (ngSubmit)="onSubmit()">
+  <form [formGroup]="user" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
     <div class="principal-content">
       <div class="form-content">
         <div class="left-content">
@@ -46,30 +46,26 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="form-content" *ngIf="!isDean && !onlyViewDirector">
-        <div class="left-content">
-          <label>Departamento:</label>
-        </div>
-        <div class="right-content">
-          <mat-form-field appearance="fill">
-            <mat-label *ngIf="isAdmin">Seleccione Departamento</mat-label>
-            <mat-select formControlName="departmentInput" name="departmentSelect">
-              <mat-option *ngFor="let department of departmentList" [value]="department.id">
-                {{department.nombre}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
       <div class="form-content" *ngIf="isDean">
         <div class="left-content">
           <label>Facultad:</label>
         </div>
         <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="facultyInput" type="email">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>Departamento:</label>
+        </div>
+        <div class="right-content">
           <mat-form-field appearance="fill">
-            <mat-select formControlName="facultyInput" name="facultySelect">
-              <mat-option *ngFor="let faculty of facultyList" [value]="faculty.id">
-                {{faculty.nombre}}
+            <mat-label *ngIf="isAdmin || (isDean && userModel.id_departamento === null)">Seleccione Departamento</mat-label>
+            <mat-select formControlName="departmentInput" name="departmentSelect">
+              <mat-option *ngFor="let department of departmentList" [value]="department.id">
+                {{department.nombre}}
               </mat-option>
             </mat-select>
           </mat-form-field>

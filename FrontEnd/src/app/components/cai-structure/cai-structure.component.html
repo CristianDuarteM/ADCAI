@@ -1,5 +1,10 @@
+<ng-container *ngIf="loadActivities < 7">
+  <div class="spinner-align">
+    <app-spinner></app-spinner>
+  </div>
+</ng-container>
 <ng-container>
-  <form [formGroup]="caiForm" (ngSubmit)="onSubmit()" *ngIf="loadActivities === 6">
+  <form [formGroup]="caiForm" (ngSubmit)="onSubmit()" *ngIf="loadActivities === 7">
     <div class="principal-content">
       <div class="init-information">
         <div class="init-information-input">
@@ -93,7 +98,7 @@
 
           <ng-container matColumnDef="H.P.">
             <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 10%; text-align: center;"> H.P. </th>
-            <td mat-cell *matCellDef="let item" class="border-color-table" onchange="prueba()"> {{item.horas_practicas}} </td>
+            <td mat-cell *matCellDef="let item" class="border-color-table"> {{item.horas_practicas}} </td>
           </ng-container>
 
           <tr mat-header-row>Listado de Facultades</tr>
@@ -369,11 +374,14 @@
         </mat-form-field>
       </div>
       <div>
-        <p>
-          Nota: Al finalizar el semestre académico el profesor presentará al Decano de la Facultad y al Director de Departamento al
-          cual esté adscrito, un informe sobre la ejecución de las actividades programadas en el plan propuesto al inicio del semestre, la
-          cual deberá ser sustentado con las certificaciones y documentos pertinentes (Artículo 17, Acuerdo 046 de 1991).
-        </p>
+        <div class = "title-section">
+          <span>NOTAS</span>
+        </div>
+        <div *ngFor="let item of elementsDataNotes">
+          <p>
+            {{item.descripcion}}
+          </p>
+        </div>
       </div>
       <div>
         <div class = "title-section">
@@ -381,15 +389,18 @@
         </div>
         <span>¿Desea agregar la firma asociada a su perfil?</span>
         <div>
-          <mat-radio-group aria-label="Seleccione una opción" formControlName="signature">
+          <mat-radio-group aria-label="Seleccione una opción" formControlName="signature" (change)="informativeSignature()">
             <mat-radio-button value="true" color="warn">Sí</mat-radio-button>
             <mat-radio-button value="false" color="warn">No</mat-radio-button>
           </mat-radio-group>
         </div>
         <p *ngIf="!isViewCai">Recuerde: Si decide no agregar la firma asociada a su perfil, no se enviará a valoración hasta que descargue el documento y lo suba firmado.</p>
       </div>
+      <div *ngIf="!userValidateHours">
+        <h3 class="informative-text">La carga académica actual se encuentra por debajo de las {{limitHours}} horas establecidas</h3>
+      </div>
     </div>
-    <div>
+    <div *ngIf="feedbackList.length > 0">
       <app-feedback-cai [feedbackList]="feedbackList"></app-feedback-cai>
     </div>
     <div class="button-content" *ngIf="!isViewCai">

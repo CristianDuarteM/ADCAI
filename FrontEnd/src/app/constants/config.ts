@@ -7,5 +7,13 @@ export class config {
     IS_COMPLETE: 'isComplete',
     ID_USER: 'idUser',
     UNREAD_NOTIFICATIONS: 'unreadNotifications'
-  }
+  };
+  public static STATES_CAI = {
+    1: 'DILIGENCIADO',
+    2: 'APROBADO DIRECTOR',
+    3: 'APROBADO DECANO',
+    4: 'RECHAZADO DECANO',
+    5: 'RECHAZADO DIRECTOR',
+  };
+  public static LIMIT_BASE_HOURS = 40;
 }

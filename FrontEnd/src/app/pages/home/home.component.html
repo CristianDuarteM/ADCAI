@@ -11,32 +11,43 @@
       <div *ngIf="isCaiActive">
         <h3 *ngxPermissionsOnly="['DOCENTE']">Actualmente se encuentra activa la solicitud de un CAI que inició en la fecha {{caiDataBasic.fecha_inicio}} y finaliza en la fecha {{caiDataBasic.fecha_limite}}</h3>
       </div>
+      <div *ngIf="isCaiCompleted">
+        <h3 *ngxPermissionsOnly="['DOCENTE']" class="informative-text">Ya ha registrado su CAI, si desea visualizarlo diríjase al historial</h3>
+      </div>
       <div class="principal-options">
-        <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-facultades/', false)">
+        <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-facultades/', '')">
           Gestión de Facultades
         </button>
-        <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-departamentos/', false)">
+        <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/gestion-departamentos/', '')">
           Gestión de Departamentos
         </button>
-        <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/perfil/', true)">
+        <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/perfil/', 'user')">
           Perfil
         </button>
-        <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-docentes/', false)">
+        <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-docentes/', '')">
           Gestión de Docentes
         </button>
-        <button mat-raised-button *ngxPermissionsOnly="'DIRECTOR'" (click)="redirectButton('/gestion-cai/', false)">
+        <button mat-raised-button *ngxPermissionsOnly="'DIRECTOR'" (click)="redirectButton('/gestion-cai/', '')">
           Gestión del CAI
         </button>
-        <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/cai-admin/', false)">
+        <button mat-raised-button *ngxPermissionsOnly="'ADMIN'" (click)="redirectButton('/cai-admin/', '')">
           Gestión del CAI
         </button>
-        <button mat-raised-button *ngxPermissionsOnly="'DECANO'" (click)="redirectButton('/evaluar-cai/', false)">
+        <button mat-raised-button *ngxPermissionsOnly="'DECANO'" (click)="redirectButton('/evaluar-cai/', '')">
           Evaluar CAI
         </button>
-        <button mat-raised-button [disabled]="!isCaiActive" *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/diligenciar-cai/', false)">
+        <button mat-raised-button [disabled]="!isCaiActive || isCaiCompleted" *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/diligenciar-cai/', '')">
           Diligenciar CAI
         </button>
-        <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/historial-cai/', false)">
+        <button mat-raised-button [disabled]="!isRejectCai" *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/actualizar-cai/', 'cai')">
+          Actualizar CAI
+        </button>
+        <ng-container *ngIf="withoutSignature">
+          <button mat-raised-button *ngxPermissionsOnly="'DOCENTE'" (click)="redirectButton('/cargar-archivo-cai/', 'cai')">
+            Subir Archivo Firmado
+          </button>
+        </ng-container>
+        <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/historial-cai/', '')">
           Historial de los CAI
         </button>
       </div>

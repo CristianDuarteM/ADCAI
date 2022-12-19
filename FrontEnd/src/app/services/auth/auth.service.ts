@@ -8,7 +8,7 @@ import { config } from 'src/app/constants/config';
 })
 export class AuthService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   logIn(tokenGoogle: string): Observable<any> {
     let body = {

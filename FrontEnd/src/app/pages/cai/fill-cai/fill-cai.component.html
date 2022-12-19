@@ -1,7 +1,12 @@
 <ng-container>
   <app-navbar></app-navbar>
-  <div class="main-container">
+  <ng-container *ngIf="!isLoaded">
+    <div class="spinner-align">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-container>
+  <div class="main-container" *ngIf="isLoaded">
     <app-principal-row [backRoute]="backRouteFillCai" [title]="titleFillCai" [isPrincipal]="isPrincipalFillCai"></app-principal-row>
-    <app-cai-structure></app-cai-structure>
+    <app-cai-structure [dataCai]="dataCai" [loadedData]="loadedData" [isFillCai]="true"></app-cai-structure>
   </div>
 </ng-container>

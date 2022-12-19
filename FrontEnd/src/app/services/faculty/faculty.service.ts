@@ -18,7 +18,7 @@ export class FacultyService {
 
   getFacultyList(): Observable<any> {
     let from = 0;
-    let limit = 100000;
+    let limit = 10000;
 
     return this.httpClient.get(config.API_URL + '/api/facultades?desde=' + from + '&limite=' + limit, {
       headers: {
@@ -63,6 +63,14 @@ export class FacultyService {
 
   getFacultyById(id: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/facultades/' + id , {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  getFacultyByDean(idDean: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/facultades/buscarFacultad/' + idDean , {
       headers: {
         'x-token': this.tokenSession
       }

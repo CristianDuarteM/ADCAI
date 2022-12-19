@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { InformativeDialogComponent } from 'src/app/components/informative-dialog/informative-dialog.component';
+import { Dialog } from 'src/app/models/Dialog';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -13,7 +12,7 @@ export class AddSignatureComponent implements OnInit {
 
   signature: FormGroup;
 
-  constructor(private userService: UserService, public dialog: MatDialog) {
+  constructor(private userService: UserService, public dialog: Dialog) {
     this.signature = new FormGroup({});
   }
 
@@ -29,7 +28,7 @@ export class AddSignatureComponent implements OnInit {
       this.userService.addSignature(this.signature.controls['file'].value).subscribe({
         next: userServiceResponse => {
           sessionStorage.setItem('idSignature', userServiceResponse.firma.id);
-          this.openDialog(userServiceResponse.msg, '');
+          this.dialog.openDialog(userServiceResponse.msg, '');
         }
       });
     }
@@ -42,16 +41,6 @@ export class AddSignatureComponent implements OnInit {
         file: fileEvent
       });
     }
-  }
-
-  openDialog(description: string, routeRedirect: string) {
-    this.dialog.open(InformativeDialogComponent, {
-      data: {
-        description,
-        routeRedirect
-      },
-      disableClose: true
-    });
   }
 
 }

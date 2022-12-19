@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-view-profile',
@@ -14,7 +14,7 @@ export class ViewProfileComponent implements OnInit {
   isPrincipalProfile: boolean;
   isEditableViewProfile: boolean;
 
-  constructor(private ngxPermissonsService: NgxPermissionsService, private navigation: Router, private route: ActivatedRoute) {
+  constructor(private rolePermission: RolePermission, private navigation: Router, private route: ActivatedRoute) {
     this.backRouteProfile = '/home';
     this.titleProfile = 'Perfil';
     this.isPrincipalProfile = true;
@@ -22,8 +22,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let activeRole = sessionStorage.getItem("activeRole") || '';
-    this.ngxPermissonsService.loadPermissions([activeRole]);
+    this.rolePermission.loadRole();
   }
 
   updateData() {

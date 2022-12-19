@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
   }
 
   logOut() {
-    //Avisar al backend que se cierra la sesion
     sessionStorage.clear();
     location.replace('/login');
   }
