@@ -39,7 +39,6 @@ export class FillCaiComponent implements OnInit {
       next: caiServiceResponse => {
         if(caiServiceResponse.rows.length > 0) {
           this.dataCai = caiServiceResponse.rows[0];
-          console.log(caiServiceResponse.rows);
           this.caiService.getCaiById(this.dataCai.id).subscribe({
             next: caiServiceByIdResponse => {
               this.dataCai = caiServiceByIdResponse.cai;

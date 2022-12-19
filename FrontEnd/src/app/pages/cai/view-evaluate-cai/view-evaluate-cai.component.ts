@@ -69,7 +69,6 @@ export class ViewEvaluateCaiComponent implements OnInit {
         this.dialog.openDialog("Debe tener una firma asociada a su perfil para continuar", '');
       }
     } else {
-      console.log("Sin firma");
       this.approveCaiByRole();
     }
   }
