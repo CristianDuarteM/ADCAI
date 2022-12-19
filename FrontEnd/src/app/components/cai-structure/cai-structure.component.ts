@@ -102,6 +102,9 @@ export class CaiStructureComponent implements OnInit {
     this.getStudyPlan();
     this.inicializeDataNotes();
     if(this.loadedData) {
+      if(this.isFillCai) {
+        this.getSignature();
+      }
       this.getDataCaiLoaded();
       this.inicializeDataInvestigationActivitiesWithData();
       this.inicializeDataExtensionActivitiesWithData();
@@ -146,6 +149,7 @@ export class CaiStructureComponent implements OnInit {
   addCai() {
     let acceptSignature = (this.caiForm.get('signature')?.value === 'true') ? true : false;
     if(acceptSignature){
+      this.caiRequest.id_firma = this.idSignature;
       if(this.idSignature === '') {
         if(sessionStorage.getItem('idSignature') !== null) {
           this.idSignature = sessionStorage.getItem('idSignature') || '';
@@ -201,7 +205,6 @@ export class CaiStructureComponent implements OnInit {
   getDataUser() {
     this.userService.getUserById(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '').subscribe({
       next: userServiceResponse => {
-        console.log(userServiceResponse);
         if(userServiceResponse.usuario.id_departamento === null) {
           return this.dialog.openDialog('No se encuentra asociado a algún departamento', '/home');
         } else{
@@ -213,6 +216,19 @@ export class CaiStructureComponent implements OnInit {
           this.caiForm.setControl('teacher', new FormControl({value: userServiceResponse.usuario.nombre + ' ' +
           userServiceResponse.usuario.apellido, disabled: true}, [Validators.required]));
           this.caiForm.setControl('code', new FormControl({value: userServiceResponse.usuario.codigo, disabled: true}, [Validators.required]));
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/diligenciar-cai', error));
+      }
+    });
+  }
+
+  getSignature() {
+    this.userService.getUserById(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '').subscribe({
+      next: userServiceResponse => {
+        if(userServiceResponse.usuario.id_firma !== null && userServiceResponse.usuario.id_firma !== '') {
+          this.idSignature = userServiceResponse.usuario.id_firma;
         }
       },
       error: (error: HttpErrorResponse) => {

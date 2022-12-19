@@ -166,7 +166,6 @@ export class StructureCaiComponent implements OnInit {
       next: notesResponse => {
         this.elementsDataNotes = notesResponse;
         this.dataArrayNotes = new MatTableDataSource(this.elementsDataNotes);
-        console.log(notesResponse);
         this.isLoaded++;
       },
       error: (error: HttpErrorResponse) => {
