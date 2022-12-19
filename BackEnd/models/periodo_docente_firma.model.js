@@ -2,10 +2,10 @@ const { DataTypes } = require("sequelize");
 const db = require("../db/conexion");
 
 const Periodo_docente_firma = db.define("periodo_docente_firma", {
-    id:{
+    id: {
         primaryKey: true,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
-        type: DataTypes.INTEGER
     },
     id_firma: {
         type: DataTypes.INTEGER,
@@ -20,6 +20,10 @@ const Periodo_docente_firma = db.define("periodo_docente_firma", {
             model: "Periodo_docente",
             key: "id"
         }
+    },
+    rol: {
+        type: DataTypes.STRING,
+        allowNull: false,
     }
 });
 

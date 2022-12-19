@@ -10,10 +10,15 @@ const listarActividadExtension = async (req, res) => {
         });
     }
     try {
-        const actividades_extension = await Actividad_extension.findAndCountAll({
-            where:{
+        const {habilitada} = req.query;
+        let query = {}
+        if(habilitada == "si"){
+            query = {
                 estado: true
-            },
+            }
+        }
+        const actividades_extension = await Actividad_extension.findAndCountAll({
+            where: query,
             attributes: { exclude: ["createdAt", "updatedAt"]},
         });
         res.status(200).json(actividades_extension);

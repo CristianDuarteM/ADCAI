@@ -3,16 +3,25 @@ const { check } = require("express-validator");
 
 const { validarCampos } = require("../middlewares/validar-campos.middleware");
 const { validarJwt } = require("../middlewares/validar-jwt");
-const { noExisteFacultadById, existeFacultadByNombre } = require("../helpers/db-validators");
+const { noExisteFacultadById, existeFacultadByNombre, noExisteUsuarioById } = require("../helpers/db-validators");
 
 const { registrarFacultad,
         actualizarFacultad,
         eliminarFacultad,
         listarFacultades,
-        buscarFacultadById} = require("../controllers/facultades.controller");
+        buscarFacultadById,
+        buscarDecanoEnFacultad} = require("../controllers/facultades.controller");
 
 
 const router = Router();
+
+
+router.get("/buscarFacultad/:id", [
+    validarJwt,
+    check("id", "El id no es valido").isInt(),
+    check("id").custom(noExisteUsuarioById),
+    validarCampos
+], buscarDecanoEnFacultad);
 
 router.get("/", [
     validarJwt
@@ -24,6 +33,7 @@ router.get("/:id", [
     check("id").custom(noExisteFacultadById),
     validarCampos
 ], buscarFacultadById);
+
 
 router.post("/", [
     validarJwt,

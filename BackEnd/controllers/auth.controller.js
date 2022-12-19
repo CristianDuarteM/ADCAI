@@ -16,7 +16,6 @@ const signInGoogle = async (req, res) => {
         });
     }
     try {
-        console.log(x);
         const {nombre, apellido, correo} = x;
         console.log(id_token);
         //Verificar correo
@@ -39,10 +38,11 @@ const signInGoogle = async (req, res) => {
         });
         if(!usuario || !usuario.estaActivo){
             return res.status(401).json({
-                msg: `No tienes autorización para ingresar`
+                msg: `No tienes autorización para ingresar`,
+                usuario
             });
         }
-        if(!usuario.codigo){
+        if(!usuario.codigo || !usuario.nombre || !usuario.apellido){
             await usuario.update({nombre, apellido});
             //Generar jwt
             const token = await generarJWT(usuario.id);

@@ -10,21 +10,23 @@ const { validarJwt } = require("../middlewares/validar-jwt");
 const { registrarAsignatura,
         actualizarAsignatura, 
         eliminarAsignatura, 
-        listarAsignaturas, 
+        //listarAsignaturas, 
         buscarAsignaturaByPlan_Estudio, 
         registrarVariasAsignaturas, 
         buscarAsignaturaById} = require("../controllers/asignaturas.controller");
 
 const router = Router();
 
-router.get("/", [
+/*router.get("/", [
     validarJwt
-], listarAsignaturas);
+], listarAsignaturas);*/
 
 router.get("/programa/:id", [
     validarJwt,
     check("id", "El id del programa no es valido").isInt(),
     check("id").custom(noExisteProgramaById),
+    check("habilitada", "Debes indicarme si quieres las materias habilitadas").notEmpty(),
+    check("habilitada", "Debes indicarme si habilitada o no").isIn(["si", "no"]),
     validarCampos
 ], buscarAsignaturaByPlan_Estudio);
 

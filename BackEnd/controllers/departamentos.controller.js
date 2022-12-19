@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 
 const { Facultad, Departamento, Usuario_rol, Rol, Usuario} = require("../models");
 const enviarCorreo = require("../services/mailer");
+const { registrarNotificacion } = require("./notificaciones.controller");
 
 const listarDepartamentos = async (req, res) => {
     if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
@@ -107,56 +108,88 @@ const registrarDepartamento = async (req, res) => {
             msg: "No se encuentra autorizado"
         });
     }
-    const {nombre, descripcion ="", id_facultad, correoDirector, realizaCai} = req.body;
+    let bandera = false;
     try {
+        const {nombre, descripcion ="", id_facultad, correoDirector, realizaCai} = req.body;
         let director = await Usuario.findOne({
             where:{
                 correo: correoDirector
             }
         });
-        if(!director){
-            director = await Usuario.create({
-                correo: correoDirector,
-                realizaCai
-            });
-            const rolDocente = await Rol.findOne({
-                where: {
-                    nombre: "docente"
-                }
-            });
-            await director.addRols(rolDocente);
-            enviarCorreo(correoDirector, `Has sido registrado en ADCAI \n Por favor complete su registro ingresando al siguiente link: `);
-        }
-        const rolDirector = await Rol.findOne({
-            where: {
-                nombre: "director"
-            }
-        });
-        const existeRolDirectorAsignado = await Usuario_rol.findOne({
-            where:{
-                id_usuario: director.id,
-                id_rol: rolDirector.id
-            }
-        });
-        if(!existeRolDirectorAsignado){
-            await director.addRols(rolDirector);
-            enviarCorreo(correoDirector, `Has sido asignado como Director de Departamento puede ingresar al siguiente link: `);
-        }
-        await director.update({
-            realizaCai
-        });
         const departamento = await Departamento.create(
             {
                 nombre: nombre.toUpperCase(),
                 descripcion,
-                id_facultad,
-                director: director.id
+                id_facultad
             });
+        bandera = true;
+        const rolDirector = await Rol.findOne({
+            where: {
+                nombre: "DIRECTOR"
+            }
+        });
+        const rolDocente = await Rol.findOne({
+            where: {
+                nombre: "docente"
+            }
+        });
+        if(director){
+            const existeRolDirectorAsignado = await Usuario_rol.findOne({
+                where:{
+                    id_usuario: director.id,
+                    id_rol: rolDirector.id
+                }
+            });
+            if(existeRolDirectorAsignado){
+                return res.status(400).json({
+                    msg: "Un docente no puede ser director de dos departamentos"
+                });
+            };
+            if(director.id_departamento){
+                return res.status(400).json({
+                    msg: "Un docente no puede ser director de un departamento al que no esta asociado"
+                });
+            }
+            await director.update({
+                id_departamento: departamento.id,
+                realizaCai
+            });
+            const existeRolDocente = await Usuario_rol.findOne({
+                where:{
+                    id_usuario: director.id,
+                    id_rol: rolDocente.id
+                }
+            });
+            if(!existeRolDocente){
+                await director.addRols(rolDocente);
+            }
+            await director.addRols(rolDirector);
+            enviarCorreo(correoDirector, `Has sido asignado como Director de Departamento puede ingresar al siguiente link: `);
+            registrarNotificacion(director.id, "Has sido asignado como Director de Departamento", "DIRECTOR");
+        } else {
+            director = await Usuario.create({
+                correo: correoDirector,
+                id_departamento: departamento.id,
+                realizaCai
+            });
+            await director.addRols(rolDocente);
+            await director.addRols(rolDirector);
+            enviarCorreo(correoDirector, `Has sido registrado en ADCAI \n Por favor complete su registro ingresando al siguiente link: `);
+            enviarCorreo(correoDirector, `Has sido asignado como Director de Departamento puede ingresar al siguiente link: `);
+            registrarNotificacion(director.id, "Has sido asignado como Director de Departamento", "DIRECTOR");
+        }
+        await departamento.update({
+            director: director.id
+        });
         res.status(201).json({
             msg: "Departamento creado con éxito",
             departamento
         });
     } catch (error) {
+        if(bandera){
+            const departamento = await Departamento.findAll();
+            await departamento.pop().destroy();
+        }
         console.log(error);
         res.status(500).json({
             msg: "Hable con el administrador"
@@ -166,7 +199,7 @@ const registrarDepartamento = async (req, res) => {
 
 const actualizarDepartamento = async (req, res) => {
     const {id} = req.params;
-    const {correoDirector, realizaCai} = req.body;
+    const {nombre, descripcion, correoDirector, realizaCai} = req.body;
     if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
@@ -174,65 +207,82 @@ const actualizarDepartamento = async (req, res) => {
     }
     try {
         const departamento = await Departamento.findByPk(id);
-        if(departamento.director && correoDirector){
-            const rol = await Rol.findOne({
-                where: {
-                    nombre: "director"
-                }
-            });
-            const usuarioRol = await Usuario_rol.findOne({
-                where: {
-                    id_rol: rol.id,
-                    id_usuario: departamento.director
-                }
-            });
-            if(usuarioRol){
-                await usuarioRol.destroy();
+        const rolDirector = await Rol.findOne({
+            where: {
+                nombre: "DIRECTOR"
             }
-        }
-        if(correoDirector){
-            if(realizaCai === null){
-                return res.status(400).json({
-                    msg: "De especificar si el decano realiza el cai"
-                });
+        });
+        const rolDocente = await Rol.findOne({
+            where: {
+                nombre: "DOCENTE"
             }
-            let director = await Usuario.findOne({
+        });
+        if(departamento.director){
+            await Usuario_rol.destroy({
                 where:{
-                    correo: correoDirector
-                }
-            });
-            if(!director){
-                director = await Usuario.create({
-                    correo: correoDirector,
-                    realizaCai
-                });
-                const rolDocente = await Rol.findOne({
-                    where: {
-                        nombre: "docente"
-                    }
-                });
-                await director.addRols(rolDocente);
-                enviarCorreo(correoDirector, `Por favor complete su registro ingresando al siguiente link: `);
-            }
-            const rolDirector = await Rol.findOne({
-                where: {
-                    nombre: "director"
-                }
-            });
-            const existeRolDirectorAsignado = await Usuario_rol.findOne({
-                where:{
-                    id_usuario: director.id,
+                    id_usuario: departamento.director,
                     id_rol: rolDirector.id
                 }
             });
-            if(!existeRolDirectorAsignado){
-                await director.addRols(rolDirector);
+        }
+        if(correoDirector){
+            let usuario = await Usuario.findOne({
+                where: {
+                    correo: correoDirector
+                }
+            });
+            if(usuario){
+                let usuarioRol = await Usuario_rol.findOne({
+                    where: {
+                        id_rol: rolDirector.id,
+                        id_usuario: usuario.id
+                    }
+                });
+                if(usuarioRol){
+                    return res.status(400).json({
+                        msg: "Un docente no puede ser director de dos departamentos"
+                    });
+                }
+                if(usuario.id_departamento){
+                    if(usuario.id_departamento !== departamento.id){
+                        return res.status(400).json({
+                            msg: "Un usuario no puede ser director de un departamento al que no esta asociado"
+                        });
+                    }
+                } else {
+                    await usuario.update({
+                        id_departamento: departamento.id
+                    });
+                }
+                if(realizaCai){
+                    await usuario.update({
+                        realizaCai
+                    });
+                }
+                const usuarioDocente = await Usuario_rol.findOne({
+                    where: {
+                        id_usuario: usuario.id,
+                        id_rol: rolDocente.id
+                    }
+                });
+                if(!usuarioDocente){
+                    await usuario.addRols(rolDocente);
+                }
+                await usuario.addRols(rolDirector);
+                enviarCorreo(correoDirector, `Has sido asignado como Director de departamento puede ingresar al siguiente link: `);
+                registrarNotificacion(usuario.id, "Has sido asignado como Director de departamento", "DIRECTOR");
+            } else {
+                usuario = await Usuario.create({
+                    correo: correoDirector,
+                    realizaCai,
+                    id_departamento: departamento.id,
+                });
+                await usuario.addRols(rolDocente);
+                await usuario.addRols(rolDirector);
+                enviarCorreo(correoDirector, `Has sido registrado en ADCAI \n Por favor complete su registro ingresando al siguiente link: `);
                 enviarCorreo(correoDirector, `Has sido asignado como Director de departamento puede ingresar al siguiente link: `);
             }
-            await director.update({
-                realizaCai
-            });
-            req.body.director = director.id;
+            req.body.director = usuario.id;
         }
         if(req.body.nombre){
             req.body.nombre = req.body.nombre.toUpperCase();

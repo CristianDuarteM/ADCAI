@@ -4,15 +4,28 @@ const { check } = require("express-validator");
 const { validarCampos } = require("../middlewares/validar-campos.middleware");
 const { validarJwt } = require("../middlewares/validar-jwt");
 
-const { registrarFirma,
+const { registrarFirma, 
+        cargarFirma,
+        mostrarFirma,
         //eliminarFirma
      } = require("../controllers/firmas.controller");
+const { validarArchivoSubir } = require("../middlewares/validar-archivo-subir");
 
 const router = Router();
 
 router.post("/", [
     validarJwt,
-], registrarFirma);
+    validarArchivoSubir,
+    validarCampos
+], cargarFirma);
+
+router.get("/", [
+    validarJwt,
+], mostrarFirma);
+
+/*router.post("/", [
+    validarJwt,
+], registrarFirma);/
 
 /*router.delete("/", [
     validarJwt,

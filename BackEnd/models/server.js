@@ -1,5 +1,6 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
+const path = require("path");
 const cors = require("cors");
 const db = require("../db/conexion");
 
@@ -19,8 +20,10 @@ class Server {
             cai: "/api/cai",
             departamentos: "/api/departamentos",
             estados: "/api/estados",
+            evidencias: "/api/evidencias",
             facultades: "/api/facultades",
             firmas: "/api/firmas",
+            notas: "/api/notas",
             notificaciones: "/api/notificaciones",
             periodos:  "/api/periodos",
             plan_estudios: "/api/plan_estudios",
@@ -56,6 +59,7 @@ class Server {
 
         //Directorio publico
         this.app.use(express.static("public"));
+        this.app.use('/pdfs', express.static("uploads"));
 
         //FileUpload - Carga de archivos
         this.app.use(fileUpload({
@@ -75,8 +79,10 @@ class Server {
         this.app.use(this.appPaths.cai, require("../routes/cai.routes"));
         this.app.use(this.appPaths.departamentos, require("../routes/departamentos.routes"));
         this.app.use(this.appPaths.estados, require("../routes/estados.routes"));
+        this.app.use(this.appPaths.evidencias, require("../routes/evidencias.routes"));
         this.app.use(this.appPaths.facultades, require("../routes/facultades.routes"));
         this.app.use(this.appPaths.firmas, require("../routes/firmas.routes"));
+        this.app.use(this.appPaths.notas, require("../routes/notas.routes")),
         this.app.use(this.appPaths.notificaciones, require("../routes/notificaciones.routes"));
         this.app.use(this.appPaths.periodos, require("../routes/periodos.routes"));
         this.app.use(this.appPaths.plan_estudios, require("../routes/plan_estudios.routes"));

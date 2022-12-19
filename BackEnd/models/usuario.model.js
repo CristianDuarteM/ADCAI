@@ -23,10 +23,6 @@ const Usuario = db.define("usuario", {
         type: DataTypes.STRING,
         allowNull: true
     },
-    telefono: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
     realizaCai: {
         type: DataTypes.BOOLEAN,
         allowNull: true

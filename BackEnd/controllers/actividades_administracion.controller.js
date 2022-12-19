@@ -10,10 +10,15 @@ const listarActividadAdministracion = async (req, res) => {
         });
     }
     try {
-        const actividades_administracion = await Actividad_administracion.findAll({
-            where:{
+        const {habilitada} = req.query;
+        let query = {}
+        if(habilitada == "si"){
+            query = {
                 estado: true
-            },
+            }
+        }
+        const actividades_administracion = await Actividad_administracion.findAll({
+            where: query,
             attributes: { exclude: ["createdAt", "updatedAt"]},
         });
         res.status(200).json(actividades_administracion);

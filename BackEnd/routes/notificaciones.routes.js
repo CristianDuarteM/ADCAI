@@ -12,6 +12,8 @@ const router = Router();
 router.get("/:id", [
     validarJwt,
     check("id").custom(noExisteUsuarioById),
+    check("rol", "Debe indicarme el rol").notEmpty(),
+    check("rol", "El valor enviado no es valido").isIn(["DOCENTE", "DIRECTOR", "DECANO"]),
     validarCampos
 ], listarNotificacionesByUsuario);
 

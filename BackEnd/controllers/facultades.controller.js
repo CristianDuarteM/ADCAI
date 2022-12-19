@@ -1,7 +1,8 @@
 const { Op } = require("sequelize");
 
-const { Facultad, Usuario, Rol, Usuario_rol } = require("../models");
+const { Facultad, Usuario, Rol, Usuario_rol, Departamento } = require("../models");
 const enviarCorreo = require("../services/mailer");
+const { registrarNotificacion } = require("./notificaciones.controller");
 
 const listarFacultades = async (req, res) => {
     if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
@@ -61,6 +62,32 @@ const buscarFacultadById = async (req, res) => {
     }
 };
 
+const buscarDecanoEnFacultad = async (req, res) => {
+    if( (req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
+    const {id} = req.params;
+    try {
+        const facultad = await Facultad.findOne({
+            where: {
+                decano: id
+            },
+            attributes: { exclude: ["createdAt", "updatedAt"]}
+        });
+        res.json(facultad);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: `Hable con el administrador`
+        });
+    }
+};
+
 const registrarFacultad = async (req, res) => {
     if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
@@ -74,37 +101,57 @@ const registrarFacultad = async (req, res) => {
                 correo: correoDecano
             }
         });
-        if(!decano){
+        const rolDecano = await Rol.findOne({
+            where: {
+                nombre: "DECANO"
+            }
+        });
+        if(decano){
+            if(decano.id_departamento){
+                return res.status(400).json({
+                    msg: "Un docente no puede decano de una facultad a la cual no pertenece"
+                });
+            }
+            const existeRolDecanoAsignado = await Usuario_rol.findOne({
+                where:{
+                    id_usuario: decano.id,
+                    id_rol: rolDecano.id
+                }
+            });
+            if(existeRolDecanoAsignado){
+                return res.status(400).json({
+                    msg: "Un docente no puede ser decano de dos facultades"
+                });
+            }
+            const rolDocente = await Rol.findOne({
+            where: {
+                nombre: "DOCENTE"
+                }
+            });
+            if(!rolDocente){
+                await decano.addRols(rolDocente);
+            }
+            await decano.addRols(rolDecano);
+            await decano.update({
+                realizaCai
+            });
+            enviarCorreo(correoDecano, `Has sido registrado en ADCAI \n Por favor complete su registro ingresando al siguiente link: `);
+        } else {
             decano = await Usuario.create({
                 correo: correoDecano,
                 realizaCai
             });
             const rolDocente = await Rol.findOne({
                 where: {
-                    nombre: "docente"
-                }
-            });
+                    nombre: "DOCENTE"
+                    }
+                });
             await decano.addRols(rolDocente);
-            enviarCorreo(correoDecano, `Has sido registrado en ADCAI \n Por favor complete su registro ingresando al siguiente link:  `);
-        }
-        const rolDecano = await Rol.findOne({
-            where: {
-                nombre: "decano"
-            }
-        });
-        const existeRolDecanoAsignado = await Usuario_rol.findOne({
-            where:{
-                id_usuario: decano.id,
-                id_rol: rolDecano.id
-            }
-        });
-        if(!existeRolDecanoAsignado){
             await decano.addRols(rolDecano);
+            enviarCorreo(correoDecano, `Por favor complete su registro ingresando al siguiente link: `);
             enviarCorreo(correoDecano, `Has sido asignado como Decano de facultad puede ingresar al siguiente link: `);
         }
-        await decano.update({
-            realizaCai
-        });
+        registrarNotificacion(decano.id, "Has sido asignado como Decano de facultad", "DECANO");
         const facultad = await Facultad.create({
             nombre: nombre.toUpperCase(),
             descripcion,
@@ -123,81 +170,93 @@ const registrarFacultad = async (req, res) => {
 };
 
 const actualizarFacultad = async (req, res) => {
-    const {id} = req.params;
-    const {correoDecano, realizaCai} = req.body;
     if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     try {
+        const {id} = req.params;
+        const {nombre, descripcion, correoDecano, realizaCai} = req.body;
         const facultad = await Facultad.findByPk(id);
-        if(facultad.decano && correoDecano){
-            const rol = await Rol.findOne({
-                where: {
-                    nombre: "decano"
-                }
-            });
-            const usuarioRol = await Usuario_rol.findOne({
-                where: {
-                    id_rol: rol.id,
-                    id_usuario: facultad.decano
-                }
-            });
-            if(usuarioRol){
-                await usuarioRol.destroy();
+        const rolDecano = await Rol.findOne({
+            where: {
+                nombre: "DECANO"
             }
+        });
+        if(facultad.decano){
+            await Usuario_rol.destroy({
+                where:{
+                    id_usuario: facultad.decano,
+                    id_rol: rolDecano.id
+                }
+            });
         }
         if(correoDecano){
-            if(realizaCai === null){
-                return res.status(400).json({
-                    msg: "De especificar si el decano realiza el cai"
-                });
-            }
-            let decano = await Usuario.findOne({
-                where:{
+            let usuario = await Usuario.findOne({
+                where: {
                     correo: correoDecano
                 }
             });
-            if(!decano){
-                decano = await Usuario.create({
+            if(usuario){
+                if(usuario.id_departamento){
+                    const departamento = await Departamento.findByPk(usuario.id_departamento);
+                    if(departamento.id_facultad !== facultad.id){
+                        return res.status(400).json({
+                            msg: "Un docente no puede ser decano de una facultad a la cual no pertenece"
+                        });
+                    }
+                }
+                const tieneRol = await Usuario_rol.findOne({
+                    where: {
+                        id_rol: rolDecano.id,
+                        id_usuario: usuario.id
+                    }
+                });
+                if(tieneRol){
+                    return res.status(400).json({
+                        msg: "Un docente no puede ser decano de dos facultads"
+                    });
+                }
+                const rolDocente = await Rol.findOne({
+                    where: {
+                        nombre: "DOCENTE"
+                        }
+                    });
+                if(!rolDocente){
+                    await usuario.addRols(rolDocente);
+                }
+                await usuario.addRols(rolDecano);
+                if(realizaCai !== null){
+                    await usuario.update({
+                        realizaCai
+                    });
+                }
+                enviarCorreo(correoDecano, `Has sido asignado como Decano de facultad puede ingresar al siguiente link: `);
+                registrarNotificacion(usuario.id, "Has sido asignado como Decano de Facultad", "DECANO");
+            } else {
+                usuario = await Usuario.create({
                     correo: correoDecano,
                     realizaCai
                 });
                 const rolDocente = await Rol.findOne({
                     where: {
-                        nombre: "docente"
-                    }
-                });
-                await decano.addRols(rolDocente);
+                        nombre: "DOCENTE"
+                        }
+                    });
+                await usuario.addRols(rolDocente);
+                await usuario.addRols(rolDecano);
                 enviarCorreo(correoDecano, `Por favor complete su registro ingresando al siguiente link: `);
-            }
-            const rolDecano = await Rol.findOne({
-                where: {
-                    nombre: "decano"
-                }
-            });
-            const existeRolDecanoAsignado = await Usuario_rol.findOne({
-                where:{
-                    id_usuario: decano.id,
-                    id_rol: rolDecano.id
-                }
-            });
-            if(!existeRolDecanoAsignado){
-                await decano.addRols(rolDecano);
                 enviarCorreo(correoDecano, `Has sido asignado como Decano de facultad puede ingresar al siguiente link: `);
+                registrarNotificacion(usuario.id, "Has sido asignado como Decano de Facultad", "DECANO");
             }
-            await decano.update({
-                realizaCai
+            await facultad.update({
+                decano: usuario.id
             });
-            req.body.decano = decano.id;
-        }
-        if(req.body.nombre){
-            req.body.nombre = req.body.nombre.toUpperCase();
         }
         await facultad.update(req.body);
-        res.status(201).json({
-            msg: "Facultad actualizada con éxito",
+        res.status(200).json({
+            msg: "Facultad actualizada con exito",
             facultad
         });
     } catch (error) {
@@ -238,5 +297,6 @@ module.exports = {
     buscarFacultadById,
     registrarFacultad,
     actualizarFacultad,
-    eliminarFacultad
+    eliminarFacultad,
+    buscarDecanoEnFacultad
 }

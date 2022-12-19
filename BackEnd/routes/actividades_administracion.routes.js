@@ -10,7 +10,10 @@ const { noExisteAAdministracionById, existeActividadAdministracionByNombre } = r
 const router = Router();
 
 router.get("/", [
-    validarJwt
+    validarJwt,
+    check("habilitada", "Debes enviarme si son habilitadas").notEmpty(),
+    check("habilitada", "Debes enviarme si o no").isIn(["si", "no"]),
+    validarCampos
 ], listarActividadAdministracion);
 
 router.get("/:id", [
@@ -24,7 +27,7 @@ router.post("/", [
     validarJwt,
     check("nombre", "El nombre es obligatorio").notEmpty(),
     check("nombre", "El nombre debe tener maximo 400 caracteres").isLength({max:400}),
-    check("nombre").custom(existeActividadAdministracionByNombre),
+    //check("nombre").custom(existeActividadAdministracionByNombre),
     check("descripcion", "La descripcion debe tener 150 caracteres").optional().isLength({max:400}),
     check("listar", "El campo debe ser un boolean").optional().isBoolean(),
     validarCampos
@@ -36,7 +39,7 @@ router.put("/:id", [
     check("id", "El id no es valido").isInt(),
     check("id").custom(noExisteAAdministracionById),
     check("nombre", "El nombre debe tener maximo 400 caracteres").optional().isLength({max:400}),
-    check("nombre").optional().custom(existeActividadAdministracionByNombre),
+    //check("nombre").optional().custom(existeActividadAdministracionByNombre),
     check("descripcion", "La descripcion debe tener 400 caracteres").optional().isLength({max:400}),
     check("listar", "El campo debe ser un boolean").optional().isBoolean(),
     validarCampos

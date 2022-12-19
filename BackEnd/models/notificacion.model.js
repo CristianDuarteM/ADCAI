@@ -20,6 +20,10 @@ const Notificacion = db.define("notificacion", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    rol: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     fecha_lectura: {
         type: DataTypes.DATE,
         allowNull: true,

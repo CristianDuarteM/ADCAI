@@ -1,5 +1,7 @@
 const moment = require("moment");
-const { Periodo } = require("../models");
+const { Periodo, Usuario } = require("../models");
+const enviarCorreo = require("../services/mailer");
+const { registrarNotificacion } = require("./notificaciones.controller");
 
 const listarPeriodos = async (req, res) => {
     if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
@@ -129,11 +131,11 @@ const registrarPeriodo = async (req, res) => {
         } else{
             semestre = 2;
         }
-        if(fecha_inicio < moment(moment().format("YYYY-MM-DD"))){
+        if(fecha_inicio < moment(moment().subtract(5, "hours").format("YYYY-MM-DD"))){
             return res.status(400).json({
                 msg: "La fecha de inicio no debe ser menor a la fecha actual",
-                fecha_inicio: fecha_inicio.format("YYYY-MM-DD"),
-                moment: moment().format("YYYY-MM-DD")
+                fecha_inicio: fecha_inicio,
+                moment: moment(moment().subtract(5, "hours").format("YYYY-MM-DD")),
                 
             });
         }
@@ -161,8 +163,18 @@ const registrarPeriodo = async (req, res) => {
             fecha_limite,
             id_departamento: req.usuario.id_departamento
         });
+        const docentes = await Usuario.findAll({
+            where: {
+                id_departamento: req.usuario.id_departamento,
+                estaActivo: true
+            }
+        });
+        for(docente of docentes){
+            await enviarCorreo(docente.correo, `Se ha habilitado cai para diligenciar \n Fecha Limite: ${fecha_limite.format("DD/MM/YYYY")} \n`);
+            await registrarNotificacion(docente.id, `Se ha habilitado cai para diligenciar \n Fecha Limite: ${fecha_limite.format("DD/MM/YYYY")}`, "DOCENTE");
+        }
         res.json({
-            msg: "El periodo se ha registrado con exito",
+            msg: "El periodo se ha registrado con exito, y se han notificado a los docentes",
             periodo,
         });
     } catch (error) {

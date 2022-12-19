@@ -10,10 +10,15 @@ const listarRepresentacion = async (req, res) => {
         });
     }
     try {
-        const representaciones = await Tipo_representacion.findAll({
-            where:{
+        const {habilitada} = req.query;
+        let query = {}
+        if(habilitada == "si"){
+            query = {
                 estado: true
-            },
+            }
+        }
+        const representaciones = await Tipo_representacion.findAll({
+            where: query,
             attributes: { exclude: ["createdAt", "updatedAt"]},
         });
         res.status(200).json(representaciones);

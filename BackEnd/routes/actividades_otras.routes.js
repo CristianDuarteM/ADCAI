@@ -10,7 +10,10 @@ const { validarJwt } = require("../middlewares/validar-jwt");
 const router = Router();
 
 router.get("/", [
-    validarJwt
+    validarJwt,
+    check("habilitada", "Debes enviarme si son habilitadas").notEmpty(),
+    check("habilitada", "Debes enviarme si o no").isIn(["si", "no"]),
+    validarCampos
 ], listarOtraActividad);
 
 router.get("/:id", [

@@ -2,14 +2,14 @@ const { Op } = require("sequelize");
 
 const { Asignatura, Plan_estudio } = require("../models");
 
-const listarAsignaturas = async (req, res) => {
+/*const listarAsignaturas = async (req, res) => {
     if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
         && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
-    const {limite = 20, desde = 0} = req.query;
+    const {limite = 20, desde = 0, } = req.query;
     try {
         const asignaturas = await Asignatura.findAndCountAll({
             attributes: { exclude: ["createdAt", "updatedAt"]},
@@ -27,7 +27,7 @@ const listarAsignaturas = async (req, res) => {
             msg: `Hable con el administrador`
         });
     }
-};
+};*/
 
 const buscarAsignaturaByPlan_Estudio = async (req, res) => {
     if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
@@ -36,12 +36,22 @@ const buscarAsignaturaByPlan_Estudio = async (req, res) => {
             msg: "No se encuentra autorizado"
         });
     }
-    const {id} = req.params;
     try {
-        const asignaturas = await Asignatura.findAll({
-            where: {
+        const {id} = req.params;
+        const {habilitada} = req.query;
+        let query;
+        if(habilitada == "si"){
+            query = {
+                id_programa: id,
+                estado: true
+            }
+        } else {
+            query = {
                 id_programa: id
-            },
+            };
+        }
+        const asignaturas = await Asignatura.findAll({
+            where: query,
         });
         res.status(200).json(asignaturas);
     } catch (error) {
@@ -181,7 +191,7 @@ const eliminarAsignatura = async (req, res) => {
 };
 
 module.exports = {
-    listarAsignaturas,
+    //listarAsignaturas,
     buscarAsignaturaByPlan_Estudio,
     buscarAsignaturaById,
     registrarAsignatura,

@@ -16,7 +16,10 @@ const { registrarActividadExtension,
 const router = Router();
 
 router.get("/", [
-    validarJwt
+    validarJwt,
+    check("habilitada", "Debes enviarme si son habilitadas").notEmpty(),
+    check("habilitada", "Debes enviarme si o no").isIn(["si", "no"]),
+    validarCampos
 ], listarActividadExtension);
 
 router.get("/:id", [
@@ -30,7 +33,7 @@ router.post("/", [
     validarJwt,
     check("nombre", "El nombre es obligatorio").notEmpty(),
     check("nombre", "El nombre debe tener maximo 400 caracteres").isLength({max:400}),
-    check("nombre").custom(existeActividadExtensionByNombre),
+    //check("nombre").custom(existeActividadExtensionByNombre),
     check("descripcion", "La descripcion debe tener 150 caracteres").optional().isLength({max:400}),
     check("listar", "Debe indicar si hay que especificar actividades" ).notEmpty(),
     check("listar", "Debe ser un campo boolean" ).isBoolean(),
@@ -43,7 +46,7 @@ router.put("/:id", [
     check("id", "El id no es valido").isInt(),
     check("id").custom(noExisteActividadExtensionById),
     check("nombre", "El nombre debe tener maximo 400 caracteres").optional().isLength({max:400}),
-    check("nombre").optional().custom(existeActividadExtensionByNombre),
+    //check("nombre").optional().custom(existeActividadExtensionByNombre),
     check("descripcion", "La descripcion debe tener 400 caracteres").optional().isLength({max:400}),
     check("listar", "Debe ser un campo boolean" ).optional().isBoolean(),
     validarCampos

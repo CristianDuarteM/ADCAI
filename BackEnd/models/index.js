@@ -23,6 +23,9 @@ const Periodo_docente_otra = require("./periodo_docente_otra.model");
 const Periodo_docente_firma = require("./periodo_docente_firma.model");
 const Notificacion = require("./notificacion.model");
 const Retroalimentacion = require("./retroalimentacion.model");
+const Notas = require("./notas.model");
+const Periodo_docente_notas = require("./periodo_docente_notas.model");
+const Evidencia = require("./evidencias.model");
 
 
 //-------------\\ Usuarios //-------------\\
@@ -166,6 +169,7 @@ Periodo_docente.belongsToMany(Actividad_extension, {
     foreignKey: "id_periodo_docente",
 });
 
+//-------------\\ Actividad Administracion //-------------\\
 Actividad_administracion.belongsToMany(Periodo_docente, {
     through: "periodo_docente_actividad_administracion",
     foreignKey: "id_actividad_administracion"
@@ -175,6 +179,7 @@ Periodo_docente.belongsToMany(Actividad_administracion, {
     foreignKey: "id_periodo_docente",
 });
 
+//-------------\\ Representaciones //-------------\\
 Tipo_representacion.belongsToMany(Periodo_docente, {
     through: "periodo_docente_representacion",
     foreignKey: "id_tipo_representacion"
@@ -184,6 +189,7 @@ Periodo_docente.belongsToMany(Tipo_representacion, {
     foreignKey: "id_periodo_docente",
 });
 
+//-------------\\ Actividad otras //-------------\\
 Actividad_otra.belongsToMany(Periodo_docente, {
     through: "periodo_docente_otra",
     foreignKey: "id_actividad_otra"
@@ -191,6 +197,24 @@ Actividad_otra.belongsToMany(Periodo_docente, {
 Periodo_docente.belongsToMany(Actividad_otra, {
     through: "periodo_docente_otra",
     foreignKey: "id_periodo_docente",
+});
+
+//-------------\\  Notas //-------------\\
+Notas.belongsToMany(Periodo_docente, {
+    through: "periodo_docente_notas",
+    foreignKey: "id_notas"
+});
+Periodo_docente.belongsToMany(Notas, {
+    through: "periodo_docente_notas",
+    foreignKey: "id_periodo_docente",
+});
+
+//-------------\\  Evidencia //-------------\\
+Periodo_docente.hasMany(Evidencia, {
+    foreignKey: "id_periodo"
+});
+Evidencia.belongsTo(Periodo_docente, {
+    foreignKey: "id_periodo"
 });
 
 module.exports = {
@@ -218,6 +242,9 @@ module.exports = {
     Periodo_docente_otra,
     Periodo_docente_firma,
     Notificacion,
-    Retroalimentacion
+    Retroalimentacion,
+    Notas,
+    Periodo_docente_notas,
+    Evidencia
 };
 

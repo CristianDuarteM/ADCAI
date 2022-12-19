@@ -5,12 +5,15 @@ const {Rol,
         Usuario,
         Departamento,
         Usuario_rol,
-        Facultad} = require("../models/index");
+        Facultad,
+        Firma} = require("../models/index");
 const { registrarNotificacion } = require("./notificaciones.controller");
 
 const listarUsuarios = async (req, res) => {
-    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
-        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+    if( (req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DECANO")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DOCENTE")).length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -32,8 +35,10 @@ const listarUsuarios = async (req, res) => {
 };
 
 const listarUsuariosByDepartamento = async (req, res) => {
-    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
-        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+    if( (req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DECANO")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DOCENTE")).length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -65,8 +70,10 @@ const listarUsuariosByDepartamento = async (req, res) => {
 };
 
 const buscarUsuarios = async (req, res) => {
-    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
-        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+    if( (req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DECANO")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DOCENTE")).length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -130,8 +137,10 @@ const buscarUsuarios = async (req, res) => {
 };
 
 const buscarUsuarioById = async (req, res) => {
-    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
-        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+    if( (req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DECANO")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DOCENTE")).length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -161,26 +170,28 @@ const buscarUsuarioById = async (req, res) => {
 };
 
 const registrarUsuarios = async (req, res) => {
-    let {correos, rol, id_departamento, realizaCai} = req.body;
-    if((rol.toUpperCase() === "DOCENTE") && 
-        ((req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) && (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1))
-    ){
+    if( (req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1)){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });
     }
-    /*if(((rol.toLowerCase() === "DECANO") || (rol.toLowerCase() === "DIRECTOR")) && 
-        (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)
-    ){
-        return res.status(401).json({
-            msg: `No se encuentra autorizado`
-        });
-    }*/
     try {
+        let {correos, id_departamento} = req.body;
         const usuarios = [];
-        rol = await Rol.findOne({
+        const docente = await Rol.findOne({
             where:{
-            nombre: rol
+            nombre: "DOCENTE"
+            }
+        });
+        const director = await Rol.findOne({
+            where:{
+            nombre: "DIRECTOR"
+            }
+        });
+        const decano = await Rol.findOne({
+            where:{
+            nombre: "DECANO"
             }
         });
         for(let correo of correos){
@@ -192,30 +203,54 @@ const registrarUsuarios = async (req, res) => {
             if(!existeUsuario){
                 const usuario = await Usuario.create({
                     correo,
-                    id_departamento,
-                    realizaCai
+                    id_departamento
                 });
-                await usuario.addRols(rol);
+                await usuario.addRols(docente);
                 usuarios.push(usuario);
                 enviarCorreo(correo, `Has sido registrado en ADCAI \n Por favor complete su registro ingresando al siguiente link: `);
-                registrarNotificacion(usuario.id, "Has sido registrado en ADCAI");
-            }
-            if(existeUsuario && !existeUsuario.id_departamento){
-                await existeUsuario.update({
-                    id_departamento,
-                });
-            }
-            if(existeUsuario && !existeUsuario.estaActivo){
-                await existeUsuario.update({
-                    estaActivo: true
-                });
-                enviarCorreo(correo, `Has sido habilitado en ADCAI: `);
-                registrarNotificacion(existeUsuario.id, "Has sido habilitado en ADCAI ");
-                usuarios.push(existeUsuario);
+                registrarNotificacion(usuario.id, "Bienvenido a ADCAI la aplicacion para gestionar las cargas cademicas integrales", "DOCENTE");
+            } else {
+                if(!existeUsuario.id_departamento){
+                    await existeUsuario.update({
+                        id_departamento,
+                    });
+                } else {
+                    if(existeUsuario.id_departamento !== id_departamento){
+                        const esDirector = await Usuario_rol.findOne({
+                            where: {
+                                id_usuario: existeUsuario.id,
+                                id_rol: director.id
+                            }
+                        });
+                        if(esDirector){
+                            return res.status(400).json({
+                                msg: `El usuario ${existeUsuario.correo} no se puede registrar en este departamento porque es director de otro departamento`
+                            });
+                        }
+                        const depus = await Departamento.findByPk(existeUsuario.id_departamento)
+                        const dep = await Departamento.findByPk(id_departamento)
+                        if(depus.id_facultad !== dep.id_facultad){
+                            return res.status(400).json({
+                                msg: `El usuario ${existeUsuario.correo} no se puede registrar en este departamento porque es de una facultad diferente`
+                            });
+                        }
+                        await existeUsuario.update({
+                            id_departamento
+                        });
+                    }
+                }
+                if(existeUsuario.estaActivo !== true){
+                    await existeUsuario.update({
+                        estaActivo: true
+                    });
+                    enviarCorreo(correo, `Has sido habilitado en ADCAI: `);
+                    registrarNotificacion(existeUsuario.id, "Has sido habilitado en ADCAI ", "DOCENTE");
+                    usuarios.push(existeUsuario);
+                }
             }
         }
         res.status(201).json({
-            msg: `Usuarios registrados o habilitados`,
+            msg: `Usuarios registrados exitosamente`,
             usuarios
         });
     } catch (error) {
@@ -304,11 +339,51 @@ const agregarRolToUsuario = async (req, res) => {
         });
     }
 };*/
-
 const actualizarUsuario = async (req, res) => {
-    const {id} = req.params;
+    if( (req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DECANO")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DOCENTE")).length !== 1)){
+        return res.status(401).json({
+            msg: `No se encuentra autorizado`
+        });
+    }
     try {
+        const {id} = req.params;
+        const {nombre, apellido, codigo, id_departamento, realizaCai, id_firma} = req.body;
         const usuario = await Usuario.findByPk(id);
+        const director = await Rol.findOne({
+            where: {
+                nombre: "DIRECTOR"
+            }
+        });
+        if(id_departamento){
+            if(usuario.id_departamento){
+                if(usuario.id_departamento !== id_departamento){
+                    const esDirector = await Usuario_rol.findOne({
+                        where: {
+                            id_usuario: usuario.id,
+                            id_rol: director.id
+                        }
+                    });
+                    if(esDirector){
+                        return res.status(400).json({
+                            msg: `El usuario ${usuario.correo} no se puede registrar en este departamento ${id_departamento} porque es director de otro departamento`
+                        });
+                    }
+                    const depus = await Departamento.findByPk(usuario.id_departamento);
+                    const dep = await Departamento.findByPk(id_departamento);
+                    if(depus.id_facultad !== dep.id_facultad){
+                        return res.status(400).json({
+                            msg: `El usuario ${usuario.correo} no se puede registrar en este departamento ${id_departamento} porque es de una facultad diferente`
+                        });
+                    }
+                    /*await existeUsuario.update({
+                        id_departamento
+                    });*/
+                }
+            }
+        }
         await usuario.update(req.body);
         res.json({
             msg: `Actualizado con exito`,
@@ -324,7 +399,8 @@ const actualizarUsuario = async (req, res) => {
 
 const borrarUsuario = async (req, res) => {
     const {id} = req.params;
-    if((req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) && (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1)){
+    if( (req.usuario.rols.filter(rol => (rol.nombre === "ADMIN")).length !== 1) &&
+        (req.usuario.rols.filter(rol => (rol.nombre === "DIRECTOR")).length !== 1)){
         return res.status(401).json({
             msg: `No se encuentra autorizado`
         });

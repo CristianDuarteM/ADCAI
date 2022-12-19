@@ -3,7 +3,7 @@ const { check } = require("express-validator");
 
 const { validarCampos } = require("../middlewares/validar-campos.middleware");
 const { validarJwt } = require("../middlewares/validar-jwt");
-const { noExisteRolByNombre, noExisteUsuarioById, noExisteDepartamentoById } = require("../helpers/db-validators");
+const { noExisteRolByNombre, noExisteUsuarioById, noExisteDepartamentoById, noExisteFirmaById, existeUsuarioByCodigo } = require("../helpers/db-validators");
 
 const { registrarUsuarios,
         actualizarUsuario,
@@ -42,12 +42,9 @@ router.post("/", [
     validarJwt,
     check("correos", "Debe ingresar al menos un correo").notEmpty(),
     check("correos.*", "Deben ser correos validos").isEmail(),
-    check("rol", "El rol es obligatorio").notEmpty(),
-    check("rol").custom(noExisteRolByNombre),
     check("id_departamento", "El id del departamento es obligatorio").notEmpty(),
     check("id_departamento", "El id del departamento es invalido").isInt(),
     check("id_departamento").custom(noExisteDepartamentoById),
-    check("realizaCai").optional().isBoolean(),
     validarCampos
 ], registrarUsuarios);
 /*
@@ -65,14 +62,16 @@ router.put("/:id", [
     validarJwt,
     check("id", "El id es invalido").isInt(),
     check("id").custom(noExisteUsuarioById),
-    check("correo", "Debe ser un correo valido").optional().isEmail(),
-    check("nombre", "El nombre debe tener maximo 50 caracteres").optional().isLength({max:50}),
-    check("apellido", "El apellido debe tener maximo 50 caracteres").optional().isLength({max:50}),
-    check("codigo", "El codigo debe tener maximo 10 caracteres").optional().isLength({max:10}),
-    check("telefono", "El telefono debe tener maximo 15 caracteres").optional().isLength({max:15}),
+    //check("correo", "El correo no se puede cambiar").isEmpty(),
+    check("nombre", "El nombre debe tener maximo 50 caracteres").isLength({max:50}),
+    check("apellido", "El apellido debe tener maximo 50 caracteres").isLength({max:50}),
+    check("codigo", "El codigo debe tener maximo 10 caracteres").isLength({max:10}),
+    check("codigo", "Ya existe un usuario con ese codigo").optional().custom(existeUsuarioByCodigo),
     check("realizaCai", "realizaCai debe ser boolean").optional().isBoolean(),
     check("id_departamento", "id_departamento es invalido").optional().isInt(),
     check("id_departamento").optional().custom(noExisteDepartamentoById),
+    check("id_firma", "id_firma es invalido").optional().isInt(),
+    check("id_firma").optional().custom(noExisteFirmaById),
     validarCampos
 ], actualizarUsuario);
 

@@ -13,7 +13,8 @@ const { Departamento,
         Actividad_otra,
         Periodo_docente,
         Firma,
-        Notificacion} = require("../models");
+        Notificacion,
+        Notas} = require("../models");
 const Actividad_extension = require("../models/actividad_extension.model");
 
 //---------------------\\ Departamento //---------------------\\
@@ -194,6 +195,17 @@ const noExisteUsuarioById = async (id) => {
     }
 };
 
+const existeUsuarioByCodigo = async (codigo) => {
+    const existeUsuario = await Usuario.findOne({
+        where: {
+            codigo
+        }
+    });
+    if(existeUsuario){
+        throw new Error(`Ya existe un usuario con ese codigo registrado`);
+    }
+};
+
 //---------------------\\ Actividad Investigacion //---------------------\\
 const existeAInvestigacionByNombre = async (nombre) => {
     const existeActividadInvestigacion = await Actividad_investigacion.findOne({
@@ -343,6 +355,14 @@ const listarSinHorasActividad = async (actividades=[]) => {
     }
 };
 
+//---------------------\\ Notas //---------------------\\
+const noExisteNotaById = async (id) => {
+    const notificacion = await Notas.findByPk(id);
+    if(!notificacion){
+        throw new Error(`No existe nota con ese id ${id}`);
+    }
+};
+
 module.exports = {
     noExisteDepartamentoById,
     existeDepartamentoByNombre,
@@ -361,6 +381,7 @@ module.exports = {
     noExisteProgramaById,
     existePlanEstudioByNombre,
     noExisteUsuarioById,
+    existeUsuarioByCodigo,
     existeAInvestigacionByNombre,
     noExisteAInvestigacionById,
     existeActividadExtensionByNombre,
@@ -375,5 +396,6 @@ module.exports = {
     listarOtras,
     noExisteCAIById,
     noExisteFirmaById,
-    listarSinHorasActividad
+    listarSinHorasActividad,
+    noExisteNotaById
 }
