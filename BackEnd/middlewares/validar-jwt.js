@@ -11,7 +11,7 @@ const validarJwt = async (req, res, next) => {
     try {
         const {id} = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
         const usuario = await Usuario.findByPk(id,{
-            attributes: ["id", "nombre_apellido", "codigo", "estaActivo"],
+            attributes: { exclude: ["createdAt", "updatedAt"]},
             include: {
                 model: Rol,
                 attributes: ["id", "nombre"],
