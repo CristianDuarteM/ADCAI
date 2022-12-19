@@ -3,6 +3,7 @@ import { LoginComponent } from '../../pages/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RolesComponent } from '../roles/roles.component';
 import { config } from 'src/app/constants/config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,7 @@ export class NavbarComponent implements OnInit {
   isComplete: string;
   changeRole: boolean;
 
-  constructor(private loginComponent: LoginComponent, public dialog: MatDialog) {
+  constructor(private loginComponent: LoginComponent, public dialog: MatDialog, private navigation: Router) {
     this.unreadNotification = false;
     this.isComplete = '';
     this.changeRole = true;
@@ -40,6 +41,10 @@ export class NavbarComponent implements OnInit {
 
   logOut() {
     this.loginComponent.logOut();
+  }
+
+  redirectButton(route: string) {
+    this.navigation.navigate([route]);
   }
 
 }

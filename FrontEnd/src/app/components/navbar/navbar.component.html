@@ -7,10 +7,10 @@
   </div>
   <div class="container">
     <ng-container *ngIf="isComplete === ''">
-      <button mat-raised-button class="action-buttons" *ngxPermissionsExcept="'ADMIN'">
+      <button mat-raised-button class="action-buttons" *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/notificaciones')">
         <mat-icon *ngIf="!unreadNotification">notifications_none</mat-icon>
         <mat-icon *ngIf="unreadNotification">notifications_active</mat-icon>
-        <a href="/notificaciones" title="Notificaciones">Notificaciones</a>
+        Notificaciones
       </button>
     </ng-container>
     <ng-container *ngIf="changeRole">
