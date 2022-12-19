@@ -168,6 +168,17 @@ export class CaiStructureComponent implements OnInit {
     let acceptSignature = (this.caiForm.get('signature')?.value === 'true') ? true : false;
     if(acceptSignature) {
       await this.findSignature();
+      if(this.idSignature === '') {
+        this.getSignature();
+      }
+      if(this.idSignature === '') {
+        if(sessionStorage.getItem('idSignature') !== null) {
+          this.idSignature = sessionStorage.getItem('idSignature') || '';
+          this.caiRequest.id_firma = this.idSignature;
+        } else {
+          return this.addSignature();
+        }
+      }
       this.caiRequest.id_firma = this.idSignature;
     } else {
       delete this.caiRequest.id_firma;
@@ -228,7 +239,7 @@ export class CaiStructureComponent implements OnInit {
     this.userService.getUserById(sessionStorage.getItem(config.SESSION_STORAGE.ID_USER) || '').subscribe({
       next: userServiceResponse => {
         if(userServiceResponse.usuario.id_firma !== null && userServiceResponse.usuario.id_firma !== '') {
-          this.idSignature = userServiceResponse.usuario.id_firma;
+          this.idSignature = userServiceResponse.usuario.id_firma || '';
         }
       },
       error: (error: HttpErrorResponse) => {

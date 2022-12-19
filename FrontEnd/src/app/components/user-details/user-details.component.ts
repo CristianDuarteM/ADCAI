@@ -189,7 +189,11 @@ export class UserDetailsComponent implements OnInit {
     this.facultyService.getFacultyByDean(this.userModel.id + '').subscribe({
       next: facultyByDeanResponse => {
         this.nameFaculty = facultyByDeanResponse.nombre;
-        this.loadInputs();
+        if(this.userModel.id_departamento === null) {
+          this.getDepartmentListByFaculty(facultyByDeanResponse.id);
+        } else {
+          this.loadInputs();
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
