@@ -149,15 +149,19 @@ export class UserDetailsComponent implements OnInit {
     this.userService.getUserById(idUser +'').subscribe({
       next: userResponse => {
         this.userModel = userResponse.usuario;
-        this.departmentService.getDepartmentById(userResponse.usuario.id_departamento).subscribe({
-          next: departmentResponse => {
-            this.nameFaculty = departmentResponse.facultad.nombre;
-            this.getDepartmentListByFaculty(departmentResponse.id_facultad);
-          },
-          error: (error: HttpErrorResponse) => {
-            this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));
-          }
-        });
+        if(userResponse.usuario.id_departamento !== null) {
+          this.departmentService.getDepartmentById(userResponse.usuario.id_departamento).subscribe({
+            next: departmentResponse => {
+              this.nameFaculty = departmentResponse.facultad.nombre;
+              this.getDepartmentListByFaculty(departmentResponse.id_facultad);
+            },
+            error: (error: HttpErrorResponse) => {
+              this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));
+            }
+          });
+        } else {
+          this.getFacultyByDean();
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-docentes', error));
@@ -185,7 +189,11 @@ export class UserDetailsComponent implements OnInit {
     this.facultyService.getFacultyByDean(this.userModel.id + '').subscribe({
       next: facultyByDeanResponse => {
         this.nameFaculty = facultyByDeanResponse.nombre;
-        this.loadInputs();
+        if(this.userModel.id_departamento === null) {
+          this.getDepartmentListByFaculty(facultyByDeanResponse.id);
+        } else {
+          this.loadInputs();
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/home', error));
