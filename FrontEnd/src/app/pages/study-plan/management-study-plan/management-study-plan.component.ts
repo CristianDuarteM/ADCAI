@@ -10,10 +10,10 @@ import { StudyPlanService } from 'src/app/services/studyPlan/study-plan.service'
 
 @Component({
   selector: 'app-study-plan',
-  templateUrl: './study-plan.component.html',
-  styleUrls: ['./study-plan.component.css']
+  templateUrl: './management-study-plan.component.html',
+  styleUrls: ['./management-study-plan.component.css']
 })
-export class StudyPlanComponent implements OnInit {
+export class ManagementStudyPlanComponent implements OnInit {
 
   backRoute: string;
   title: string;

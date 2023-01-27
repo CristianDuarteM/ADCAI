@@ -42,7 +42,7 @@ import { NoteComponent } from './pages/cai/admin-structure/note/note.component';
 import { UpdateCaiComponent } from './pages/cai/update-cai/update-cai.component';
 import { RejectCaiComponent } from './pages/cai/reject-cai/reject-cai.component';
 import { LoadFileSignatureComponent } from './pages/cai/load-file-signature/load-file-signature.component';
-import { StudyPlanComponent } from './pages/study-plan/study-plan.component';
+import { ManagementStudyPlanComponent } from './pages/study-plan/management-study-plan/management-study-plan.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -54,7 +54,7 @@ const routes: Routes = [
   { path: "gestion-departamentos", component: ManagementDepartmentComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-departamentos/agregar", component: AddDepartmentComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-departamentos/editar/:id", component: UpdateDepartmentComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
-  { path: "gestion-plan-estudio", component: StudyPlanComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
+  { path: "gestion-plan-estudio", component: ManagementStudyPlanComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
   { path: "gestion-docentes", component: ManagementTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/buscados/facultad/:idFaculty/departamento/:idDepartment", component: SearchedTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/buscados/editar/:idUser", component: UpdateTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
