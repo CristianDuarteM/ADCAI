@@ -1,0 +1,21 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRoute" [title]="title" [isPrincipal]="isPrincipal"></app-principal-row>
+    <ng-container *ngIf="!isLoaded">
+      <div class="spinner-align">
+        <app-spinner></app-spinner>
+      </div>
+    </ng-container>
+    <div class="principal-content" *ngIf="isLoaded">
+      <div class="add-button">
+        <button (click)="redirectButton()">
+          Agregar Plan de Estudios
+        </button>
+      </div>
+      <div>
+        <app-sticky-table [columnsToDisplay]="columnsToDisplay" [headerTable]="headerTable" buttonRoute="updateRoute" [elementsData]="elementsData" [descriptionDialog]="descriptionAction" [actualComponent]="'PLAN_ESTUDIO'"></app-sticky-table>
+      </div>
+    </div>
+  </div>
+</ng-container>

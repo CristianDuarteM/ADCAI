@@ -70,6 +70,7 @@ import { NoteComponent } from './pages/cai/admin-structure/note/note.component';
 import { UpdateCaiComponent } from './pages/cai/update-cai/update-cai.component';
 import { RejectCaiComponent } from './pages/cai/reject-cai/reject-cai.component';
 import { LoadFileSignatureComponent } from './pages/cai/load-file-signature/load-file-signature.component';
+import { StudyPlanComponent } from './pages/study-plan/study-plan.component';
 
 @NgModule({
   declarations: [
@@ -125,6 +126,7 @@ import { LoadFileSignatureComponent } from './pages/cai/load-file-signature/load
     UpdateCaiComponent,
     RejectCaiComponent,
     LoadFileSignatureComponent,
+    StudyPlanComponent,
   ],
   imports: [
     FormsModule,
