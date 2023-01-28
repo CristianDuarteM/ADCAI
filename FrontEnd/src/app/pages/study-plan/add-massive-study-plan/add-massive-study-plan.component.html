@@ -1,1 +1,23 @@
-<p>add-massive-study-plan works!</p>
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRoute" [title]="title" [isPrincipal]="isPrincipal"></app-principal-row>
+    <form [formGroup]="studyPlanForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
+      <div class="description-container">
+        <div class="item-container">
+          <span>Archivo de texto:</span>
+          <span class="informative">Recuerde que los nombres de los planes de estudios deben ir separados por comas en el archivo de texto</span>
+          <input class="input-file" type="file" formControlName="selectedFile" accept=".txt" #fileLoaded>
+        </div>
+      </div>
+      <div class="button-container">
+        <div class="buttons">
+          <button type="submit">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <footer></footer>
+</ng-container>
