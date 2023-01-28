@@ -1,1 +1,24 @@
-<p>add-manual-study-plan works!</p>
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRoute" [title]="title" [isPrincipal]="isPrincipal"></app-principal-row>
+    <form [formGroup]="studyPlanForm" (ngSubmit)="addManualStudyPlan()">
+      <div class="description-container">
+        <div class="item-container">
+          <span>Nombre:</span>
+          <mat-form-field>
+            <mat-label>Ingrese el nombre</mat-label>
+            <input matInput type="text" formControlName="name">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="button-container">
+        <div class="buttons">
+          <button type="submit" class="add-button">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-container>

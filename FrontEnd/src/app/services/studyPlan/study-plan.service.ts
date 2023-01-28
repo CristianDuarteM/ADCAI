@@ -30,4 +30,16 @@ export class StudyPlanService {
     });
   }
 
+  addStudyPlanList(nameList: string[], idFaculty: string): Observable<any> {
+    let addStudyPlanBody = {
+      id_facultad: idFaculty,
+      nombres: nameList,
+    };
+    return this.httpClient.post(config.API_URL + '/api/plan_estudios', addStudyPlanBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
 }
