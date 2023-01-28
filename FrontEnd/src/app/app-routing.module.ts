@@ -43,6 +43,9 @@ import { UpdateCaiComponent } from './pages/cai/update-cai/update-cai.component'
 import { RejectCaiComponent } from './pages/cai/reject-cai/reject-cai.component';
 import { LoadFileSignatureComponent } from './pages/cai/load-file-signature/load-file-signature.component';
 import { ManagementStudyPlanComponent } from './pages/study-plan/management-study-plan/management-study-plan.component';
+import { AddStudyPlanComponent } from './pages/study-plan/add-study-plan/add-study-plan.component';
+import { AddManualStudyPlanComponent } from './pages/study-plan/add-manual-study-plan/add-manual-study-plan.component';
+import { AddMassiveStudyPlanComponent } from './pages/study-plan/add-massive-study-plan/add-massive-study-plan.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -55,6 +58,9 @@ const routes: Routes = [
   { path: "gestion-departamentos/agregar", component: AddDepartmentComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-departamentos/editar/:id", component: UpdateDepartmentComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "gestion-plan-estudio", component: ManagementStudyPlanComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
+  { path: "gestion-plan-estudio/agregar", component: AddStudyPlanComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
+  { path: "gestion-plan-estudio/agregar/manual/facultad/:idFaculty", component: AddManualStudyPlanComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
+  { path: "gestion-plan-estudio/agregar/masivo/facultad/:idFaculty", component: AddMassiveStudyPlanComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
   { path: "gestion-docentes", component: ManagementTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/buscados/facultad/:idFaculty/departamento/:idDepartment", component: SearchedTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/buscados/editar/:idUser", component: UpdateTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },

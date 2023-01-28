@@ -72,6 +72,8 @@ import { RejectCaiComponent } from './pages/cai/reject-cai/reject-cai.component'
 import { LoadFileSignatureComponent } from './pages/cai/load-file-signature/load-file-signature.component';
 import { ManagementStudyPlanComponent } from './pages/study-plan/management-study-plan/management-study-plan.component';
 import { AddStudyPlanComponent } from './pages/study-plan/add-study-plan/add-study-plan.component';
+import { AddManualStudyPlanComponent } from './pages/study-plan/add-manual-study-plan/add-manual-study-plan.component';
+import { AddMassiveStudyPlanComponent } from './pages/study-plan/add-massive-study-plan/add-massive-study-plan.component';
 
 @NgModule({
   declarations: [
@@ -129,6 +131,8 @@ import { AddStudyPlanComponent } from './pages/study-plan/add-study-plan/add-stu
     LoadFileSignatureComponent,
     ManagementStudyPlanComponent,
     AddStudyPlanComponent,
+    AddManualStudyPlanComponent,
+    AddMassiveStudyPlanComponent,
   ],
   imports: [
     FormsModule,

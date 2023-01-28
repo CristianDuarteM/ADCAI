@@ -1,1 +1,35 @@
-<p>add-study-plan works!</p>
+<ng-container>
+  <app-navbar></app-navbar>
+  <ng-container *ngIf="!isLoaded">
+    <div class="spinner-align">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-container>
+  <div class="main-container" *ngIf="isLoaded">
+    <app-principal-row [backRoute]="backRoute" [title]="title" [isPrincipal]="isPrincipal"></app-principal-row>
+    <form [formGroup]="studyPlanForm">
+      <div class="item-container">
+        <span>Facultad <span class="item-required">*</span></span>
+        <mat-form-field appearance="fill">
+          <mat-label>Seleccione Facultad</mat-label>
+          <mat-select formControlName="selectedFaculty" name="selectedFaculty">
+            <mat-option *ngFor="let faculty of facultyList" [value]="faculty.id">
+              {{faculty.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="button-container">
+        <span>Agregar Plan de estudio(s):</span>
+        <div class="buttons">
+          <button type="button" class="add-massive-button" (click)="addStudyPlan('MASIVE')">
+            Carga Masiva
+          </button>
+          <button type="button" class="add-manual-button" (click)="addStudyPlan('MANUAL')">
+            Manual
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-container>
