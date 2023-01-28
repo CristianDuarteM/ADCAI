@@ -104,6 +104,7 @@ export class HomeComponent implements OnInit {
     sessionStorage.setItem(config.SESSION_STORAGE.ACTIVE_ROLE, this.activeRole);
     this.validateIsCompleteUser(userResponse.esCompleto, userResponse.usuario.id);
     sessionStorage.setItem(config.SESSION_STORAGE.ID_USER, userResponse.usuario.id + '');
+    sessionStorage.setItem(config.SESSION_STORAGE.ID_DEPARTMENT, userResponse.usuario.id_departamento + '');
     sessionStorage.setItem(config.SESSION_STORAGE.UNREAD_NOTIFICATIONS, userResponse.tieneNotificaciones + '');
   }
 

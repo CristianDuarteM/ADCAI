@@ -6,6 +6,7 @@ export class config {
     ACTIVE_ROLE: 'activeRole',
     IS_COMPLETE: 'isComplete',
     ID_USER: 'idUser',
+    ID_DEPARTMENT: 'idDepartment',
     UNREAD_NOTIFICATIONS: 'unreadNotifications'
   };
   public static STATES_CAI = {

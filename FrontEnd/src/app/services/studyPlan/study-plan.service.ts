@@ -22,4 +22,12 @@ export class StudyPlanService {
     });
   }
 
+  getStudyPlanListByFaculty(idFaculty: number, enabled: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/plan_estudios/facultad/'+ idFaculty +'?habilitado=' + enabled, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
 }

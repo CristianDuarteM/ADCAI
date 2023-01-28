@@ -6,6 +6,7 @@ import { Dialog } from 'src/app/models/Dialog';
 import { RolePermission } from 'src/app/models/RolePermission';
 import { StudyPlan } from 'src/app/models/StudyPlan';
 import { StudyPlanTable } from 'src/app/models/table/StudyPlanTable';
+import { DepartmentService } from 'src/app/services/department/department.service';
 import { StudyPlanService } from 'src/app/services/studyPlan/study-plan.service';
 
 @Component({
@@ -27,7 +28,7 @@ export class ManagementStudyPlanComponent implements OnInit {
   isLoaded: boolean;
 
   constructor(private rolePermission: RolePermission, private navigation: Router, private studyPlanService: StudyPlanService,
-    private dialog: Dialog) {
+    private dialog: Dialog, private departmentService: DepartmentService) {
     this.backRoute = '/home';
     this.title = 'Gestión de Plan de Estudios';
     this.isPrincipal = true;
@@ -41,7 +42,13 @@ export class ManagementStudyPlanComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getListStudyPlan();
+    if(this.activeRole === 'ADMIN') {
+      this.getListStudyPlan();
+    } else if(this.activeRole === 'DIRECTOR') {
+      this.columnsToDisplay.splice(2, 1);
+      this.getListStudyPlanByFaculty();
+    }
+
     this.rolePermission.loadRole();
   }
 
@@ -51,6 +58,23 @@ export class ManagementStudyPlanComponent implements OnInit {
       next: studyPlanListResponse => {
         this.elementsData = this.getInfoFaculty(studyPlanListResponse.rows);
         this.isLoaded = true;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), '/login');
+      }
+    });
+  }
+
+  getListStudyPlanByFaculty() {
+    let idFaculty = sessionStorage.getItem(config.SESSION_STORAGE.ID_DEPARTMENT) || '';
+    this.departmentService.getDepartmentById(idFaculty).subscribe({
+      next: departmentResponse => {
+        this.studyPlanService.getStudyPlanListByFaculty(departmentResponse.id_facultad, 'no').subscribe({
+          next: studyPlanListResponse => {
+            this.elementsData = studyPlanListResponse;
+            this.isLoaded = true;
+          },
+        });
       },
       error: (error: HttpErrorResponse) => {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), '/login');
