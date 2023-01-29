@@ -73,6 +73,10 @@ export class StickyTableComponent implements OnInit {
     this.navigation.navigate([this.buttonRoute, id]);
   }
 
+  redirectViewStudyPlan(id: number) {
+    this.navigation.navigate(['/gestion-plan-estudio/ver/', id]);
+  }
+
   applyFilter(event: Event){
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataArray.filter = filterValue.trim().toLowerCase();
