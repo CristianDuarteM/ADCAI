@@ -76,6 +76,11 @@ import { AddManualStudyPlanComponent } from './pages/study-plan/add-manual-study
 import { AddMassiveStudyPlanComponent } from './pages/study-plan/add-massive-study-plan/add-massive-study-plan.component';
 import { UpdateStudyPlanComponent } from './pages/study-plan/update-study-plan/update-study-plan.component';
 import { ViewStudyPlanComponent } from './pages/study-plan/view-study-plan/view-study-plan.component';
+import { SubjectDetailsComponent } from './components/subject-details/subject-details.component';
+import { AddManualSubjectComponent } from './pages/subject/add-manual-subject/add-manual-subject.component';
+import { AddMassiveSubjectComponent } from './pages/subject/add-massive-subject/add-massive-subject.component';
+import { UpdateSubjectComponent } from './pages/subject/update-subject/update-subject.component';
+import { ViewSubjectComponent } from './pages/subject/view-subject/view-subject.component';
 
 @NgModule({
   declarations: [
@@ -137,6 +142,11 @@ import { ViewStudyPlanComponent } from './pages/study-plan/view-study-plan/view-
     AddMassiveStudyPlanComponent,
     UpdateStudyPlanComponent,
     ViewStudyPlanComponent,
+    SubjectDetailsComponent,
+    AddManualSubjectComponent,
+    AddMassiveSubjectComponent,
+    UpdateSubjectComponent,
+    ViewSubjectComponent,
   ],
   imports: [
     FormsModule,
