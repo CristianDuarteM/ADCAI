@@ -1,0 +1,69 @@
+button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+  border-radius: 2vh;
+  cursor: pointer;
+  font-size: larger;
+  font-weight: bold;
+  margin: 2%;
+  padding: 0.5% 1% 0.5% 1%;
+  white-space: nowrap;
+  width: 30%;
+}
+
+input {
+  font-size: medium;
+  font-weight: bold;
+  width: 100%;
+}
+
+label {
+  font-size: larger;
+  font-weight: bold;
+}
+
+span {
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: 1%;
+}
+
+.principal-content {
+  display: flex;
+  flex-flow: column;
+  margin: 0 1% 0 2%;
+}
+
+.update-content{
+  display: flex;
+  flex-flow: column;
+  margin: 0 20% 0 20%;
+}
+
+.form-content {
+  display: flex;
+  width: 100%;
+}
+
+.left-content {
+  align-items: center;
+  display: flex;
+  width: 20%;
+}
+
+.right-content {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.button-form {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-radio-button {
+  margin: 1%;
+}

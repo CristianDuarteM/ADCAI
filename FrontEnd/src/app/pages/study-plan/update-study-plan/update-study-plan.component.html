@@ -1,0 +1,65 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRoute" [title]="title" [isPrincipal]="isPrincipal"></app-principal-row>
+    <div class="principal-content">
+      <span>Diligencie los campos que desea actualizar</span>
+      <div>
+        <ng-container *ngIf="!isLoaded">
+          <div class="spinner-align">
+            <app-spinner></app-spinner>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="isLoaded">
+          <form [formGroup]="studyPlanForm" (ngSubmit)="onSubmit()">
+            <div class="update-content">
+              <div class="form-content">
+                <div class="left-content">
+                  <label>Facultad:</label>
+                </div>
+                <div class="right-content">
+                  <mat-form-field appearance="fill">
+                    <mat-label *ngxPermissionsOnly="['ADMIN']">Seleccione Facultad</mat-label>
+                    <mat-select formControlName="facultyInput" name="facultyInput">
+                      <mat-option *ngFor="let faculty of facultyList" [value]="faculty.id">
+                        {{faculty.nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-content">
+                <div class="left-content">
+                  <label>Nombre:</label>
+                </div>
+                <div class="right-content">
+                  <mat-form-field>
+                    <input matInput formControlName="nameInput" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-content">
+                <div class="left-content">
+                  <label>Estado:</label>
+                </div>
+                <div class="right-content">
+                  <div>
+                    <mat-radio-group aria-label="Seleccione una opción" formControlName="state">
+                      <mat-radio-button value="true" color="warn">Activo</mat-radio-button>
+                      <mat-radio-button value="false" color="warn">Inactivo</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="button-form">
+              <button type="submit">
+                Guardar
+              </button>
+            </div>
+          </form>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>

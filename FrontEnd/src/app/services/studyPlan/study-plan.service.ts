@@ -14,6 +14,14 @@ export class StudyPlanService {
     return sessionStorage.getItem(config.SESSION_STORAGE.TOKEN) || '';
   }
 
+  getStudyPlanById(idStudyPlan: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/plan_estudios/' + idStudyPlan, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
   getStudyPlanList(enabled: string): Observable<any> {
     return this.httpClient.get(config.API_URL + '/api/plan_estudios?habilitado=' + enabled, {
       headers: {
