@@ -48,6 +48,10 @@ import { AddManualStudyPlanComponent } from './pages/study-plan/add-manual-study
 import { AddMassiveStudyPlanComponent } from './pages/study-plan/add-massive-study-plan/add-massive-study-plan.component';
 import { UpdateStudyPlanComponent } from './pages/study-plan/update-study-plan/update-study-plan.component';
 import { ViewStudyPlanComponent } from './pages/study-plan/view-study-plan/view-study-plan.component';
+import { AddManualSubjectComponent } from './pages/subject/add-manual-subject/add-manual-subject.component';
+import { AddMassiveSubjectComponent } from './pages/subject/add-massive-subject/add-massive-subject.component';
+import { UpdateSubjectComponent } from './pages/subject/update-subject/update-subject.component';
+import { ViewSubjectComponent } from './pages/subject/view-subject/view-subject.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -65,6 +69,10 @@ const routes: Routes = [
   { path: "gestion-plan-estudio/agregar/masivo/facultad/:idFaculty", component: AddMassiveStudyPlanComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
   { path: "gestion-plan-estudio/editar/:idStudyPlan", component: UpdateStudyPlanComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
   { path: "gestion-plan-estudio/ver/:idStudyPlan", component: ViewStudyPlanComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
+  { path: "gestion-asignaturas/agregar/manual/plan-estudios/:idStudyPlan", component: AddManualSubjectComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
+  { path: "gestion-asignaturas/agregar/masivo/plan-estudios/:idStudyPlan", component: AddMassiveSubjectComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
+  { path: "gestion-asignaturas/editar/:idSubject", component: UpdateSubjectComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
+  { path: "gestion-asignatuas/ver/:idSubject", component: ViewSubjectComponent, pathMatch: "full", canActivate: [ AdminDirectorGuard ] },
   { path: "gestion-docentes", component: ManagementTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/buscados/facultad/:idFaculty/departamento/:idDepartment", component: SearchedTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
   { path: "gestion-docentes/buscados/editar/:idUser", component: UpdateTeacherComponent, pathMatch: "full", canActivate: [AdminDirectorGuard] },
