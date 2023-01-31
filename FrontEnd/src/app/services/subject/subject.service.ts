@@ -38,4 +38,20 @@ export class SubjectService {
     });
   }
 
+  addSubject(subjectBody: {}): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/asignaturas/', subjectBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  addSubjectList(subjectBody: {}[]): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/asignaturas/varias', subjectBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
 }

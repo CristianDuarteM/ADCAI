@@ -1,1 +1,27 @@
-<p>add-massive-subject works!</p>
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRoute" [title]="title" [isPrincipal]="isPrincipal"></app-principal-row>
+    <form [formGroup]="subjectForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
+      <div class="description-container">
+        <div class="item-container">
+          <span>Archivo de texto:</span>
+          <img src="../../../../assets/img/EjemploAsignaturaMasiva.PNG" alt="EjemploCorreoMasivo">
+          <span class="informative">
+            Recuerde que las asignaturas deben ir separadas por punto y coma (;) en el archivo de texto y
+            los campos de las asignaturas separados por comas (,) en el siguiente orden como se muestra en el ejemplo: <br> nombre, créditos, horas teóricas, horas prácticas
+          </span>
+          <input class="input-file" type="file" formControlName="selectedFile" accept=".txt" #fileLoaded>
+        </div>
+      </div>
+      <div class="button-container">
+        <div class="buttons">
+          <button type="submit">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <footer></footer>
+</ng-container>

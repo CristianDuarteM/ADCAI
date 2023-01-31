@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-add-manual-subject',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddManualSubjectComponent implements OnInit {
 
-  constructor() { }
+  backRoute: string;
+  title: string;
+  isPrincipal: boolean;
+  idStudyPlan: string;
+
+  constructor(private rolePermission: RolePermission, private route: ActivatedRoute) {
+    this.backRoute = 'gestion-plan-estudio';
+    this.title = 'Agregar Asignatura Manual';
+    this.isPrincipal = false;
+    this.idStudyPlan = this.route.snapshot.paramMap.get('idStudyPlan') || '';
+  }
 
   ngOnInit(): void {
+    this.rolePermission.loadRole();
   }
 
 }

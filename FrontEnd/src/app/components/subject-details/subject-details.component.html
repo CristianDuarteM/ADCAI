@@ -1,9 +1,9 @@
-<ng-container *ngIf="!isLoaded">
+<ng-container *ngIf="!isLoaded && !isAdd">
   <div class="spinner-align">
     <app-spinner></app-spinner>
   </div>
 </ng-container>
-<div class="principal-content"  *ngIf="isLoaded">
+<div class="principal-content"  *ngIf="isLoaded || isAdd">
   <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
     <div class="update-content">
       <div class="form-content">
@@ -62,6 +62,9 @@
       <div class="button-form">
         <button type="submit" *ngIf="isUpdate">
           Guardar
+        </button>
+        <button type="submit" *ngIf="isAdd">
+          Agregar
         </button>
       </div>
     </div>

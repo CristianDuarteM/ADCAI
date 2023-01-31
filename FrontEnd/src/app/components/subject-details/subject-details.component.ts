@@ -16,6 +16,8 @@ export class SubjectDetailsComponent implements OnInit {
   subject: SubjectResponse;
   @Input() idSubject: string;
   @Input() isUpdate: boolean;
+  @Input() isAdd: boolean;
+  @Input() idStudyPlan: string;
   isLoaded: boolean;
 
   constructor(public dialog: Dialog, private subjectService: SubjectService) {
@@ -23,20 +25,24 @@ export class SubjectDetailsComponent implements OnInit {
     this.idSubject = '';
     this.subject = new SubjectResponse();
     this.isUpdate = false;
+    this.isAdd = false;
+    this.idStudyPlan = '';
     this.isLoaded = false;
   }
 
   ngOnInit(): void {
-    let isDisabled = (this.isUpdate) ? false : true;
+    let isDisabled = (this.isUpdate || this.isAdd) ? false : true;
 
     this.subjectForm = new FormGroup({
       nameInput: new FormControl({value: '', disabled: isDisabled}),
       creditsInput: new FormControl({value: '', disabled: isDisabled}),
       theoreticalHoursInput: new FormControl({value: '', disabled: isDisabled}),
       practicalHoursInput: new FormControl({value: '', disabled: isDisabled}),
-      stateForm: new FormControl({value: '', disabled: isDisabled}),
+      stateForm: new FormControl({value: 'true', disabled: isDisabled}),
     });
-    this.getSujectById();
+    if(!this.isAdd) {
+      this.getSujectById();
+    }
   }
 
   getSujectById() {
@@ -59,9 +65,17 @@ export class SubjectDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    this.subjectService.updateSubject(this.idSubject, this.formatDataSubject()).subscribe({
+    if(this.isUpdate) {
+      this.updateSubject();
+    } else {
+      this.addSubject();
+    }
+  }
+
+  updateSubject() {
+    this.subjectService.updateSubject(this.idSubject, this.formatDataSubject(this.subject.id_programa)).subscribe({
       next: subjectUpdateResponse => {
-        this.dialog.openDialog(subjectUpdateResponse.msg, '/gestion-plan-estudio/');
+        this.dialog.openDialog(subjectUpdateResponse.msg, '/gestion-plan-estudio/ver/' + this.subject.id_programa);
       },
       error: (error: HttpErrorResponse) => {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-plan-estudio/', error));
@@ -69,14 +83,25 @@ export class SubjectDetailsComponent implements OnInit {
     });
   }
 
-  formatDataSubject() {
+  addSubject() {
+    this.subjectService.addSubject(this.formatDataSubject(this.idStudyPlan)).subscribe({
+      next: subjectAddResponse => {
+        this.dialog.openDialog(subjectAddResponse.msg, '/gestion-plan-estudio/ver/' + this.idStudyPlan);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-plan-estudio/', error));
+      }
+    });
+  }
+
+  formatDataSubject(idStudyPlan: string) {
     let subjectData = {
       nombre: this.subjectForm.get('nameInput')?.value,
       creditos: this.subjectForm.get('creditsInput')?.value,
       horas_teoricas: this.subjectForm.get('theoreticalHoursInput')?.value,
       horas_practicas: this.subjectForm.get('practicalHoursInput')?.value,
       estado: (this.subjectForm.get('stateForm')?.value === 'true') ? true : false,
-      id_programa: this.subject.id_programa
+      id_programa: idStudyPlan,
     };
 
     if(this.subjectForm.get('nameInput')?.value === this.subject.nombre) {
