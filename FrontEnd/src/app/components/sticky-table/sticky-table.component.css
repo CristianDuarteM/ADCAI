@@ -69,6 +69,11 @@ td {
   border-color: #96C0E8;
 }
 
+.update-button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+}
+
 .disable-button {
   background-color: #E896A4;
   border-color: #E896A4;

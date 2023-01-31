@@ -50,6 +50,9 @@
         <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/historial-cai/', '')">
           Historial de los CAI
         </button>
+        <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-plan-estudio/', '')">
+          Gestión de Plan de Estudios
+        </button>
       </div>
     </div>
   </div>

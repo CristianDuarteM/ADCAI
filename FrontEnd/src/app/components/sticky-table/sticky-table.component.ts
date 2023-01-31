@@ -27,6 +27,7 @@ export class StickyTableComponent implements OnInit {
   @Input() heightTable: {
     height: string
   };
+  @Input() viewSubject: boolean;
 
   constructor(public dialog: MatDialog,  private navigation: Router) {
     this.actualComponent = '';
@@ -43,6 +44,7 @@ export class StickyTableComponent implements OnInit {
     this.heightTable = {
       height: '50vh'
     };
+    this.viewSubject = false;
   }
 
   ngOnInit(): void {
@@ -71,6 +73,14 @@ export class StickyTableComponent implements OnInit {
 
   redirectButton(id: number) {
     this.navigation.navigate([this.buttonRoute, id]);
+  }
+
+  redirectViewStudyPlan(id: number) {
+    if(this.viewSubject) {
+      this.navigation.navigate(['/gestion-asignatuas/ver/', id]);
+    } else {
+      this.navigation.navigate(['/gestion-plan-estudio/ver/', id]);
+    }
   }
 
   applyFilter(event: Event){

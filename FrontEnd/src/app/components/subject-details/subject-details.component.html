@@ -1,0 +1,72 @@
+<ng-container *ngIf="!isLoaded && !isAdd">
+  <div class="spinner-align">
+    <app-spinner></app-spinner>
+  </div>
+</ng-container>
+<div class="principal-content"  *ngIf="isLoaded || isAdd">
+  <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
+    <div class="update-content">
+      <div class="form-content">
+        <div class="left-content">
+          <label>Nombre:</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="nameInput" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>Créditos:</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="creditsInput" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>Horas Teóricas (HT):</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="theoreticalHoursInput" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>Horas Prácticas (HP):</label>
+        </div>
+        <div class="right-content">
+          <mat-form-field>
+            <input matInput formControlName="practicalHoursInput" type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-content">
+        <div class="left-content">
+          <label>Estado:</label>
+        </div>
+        <div class="right-content">
+          <div>
+            <mat-radio-group aria-label="Seleccione una opción" formControlName="stateForm">
+              <mat-radio-button value="true" color="warn">Activo</mat-radio-button>
+              <mat-radio-button value="false" color="warn">Inactivo</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+      <div class="button-form">
+        <button type="submit" *ngIf="isUpdate">
+          Guardar
+        </button>
+        <button type="submit" *ngIf="isAdd">
+          Agregar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
