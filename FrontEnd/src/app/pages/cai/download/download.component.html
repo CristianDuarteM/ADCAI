@@ -1,1 +1,37 @@
-<p>download works!</p>
+<ng-container>
+  <app-navbar></app-navbar>
+  <ng-container *ngIf="!isLoaded">
+    <div class="spinner-align">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-container>
+  <div class="main-container" *ngIf="isLoaded">
+    <app-principal-row [backRoute]="backRoute" [title]="title" [isPrincipal]="isPrincipal"></app-principal-row>
+    <div class="principal-content">
+      <form [formGroup]="caiForm" (ngSubmit)="onSubmit()">
+        <div class="update-content">
+          <div class="form-content">
+            <div class="left-content">
+              <label>Departamento:</label>
+            </div>
+            <div class="right-content">
+              <mat-form-field appearance="fill">
+                <mat-label *ngxPermissionsOnly="['DECANO']">Seleccione Departamento</mat-label>
+                <mat-select formControlName="departmentInput" name="departmentInput" (selectionChange)="nameDepartmentSelected = $event.source.triggerValue">
+                  <mat-option *ngFor="let department of departmentList" [value]="department.id">
+                    {{department.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="button-form">
+          <button type="submit">
+            Descargar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>
