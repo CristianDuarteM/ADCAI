@@ -470,8 +470,7 @@ export class CaiService {
   downloadCaiListByDepartment(idDepartment: string): Observable<Blob> {
     return this.httpClient.get(config.API_URL + '/api/cai/pdf/departamento/' + idDepartment, {
       headers: {
-        'x-token': this.tokenSession,
-        'responseType': ''
+        'x-token': this.tokenSession
       },
       responseType: 'blob'
     });
