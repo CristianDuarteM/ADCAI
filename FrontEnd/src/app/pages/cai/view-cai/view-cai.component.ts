@@ -54,7 +54,7 @@ export class ViewCaiComponent implements OnInit {
 
   getFile() {
     let idCai = this.route.snapshot.paramMap.get('idCai') || '';
-    if(this.dataCai.firmas.length > 0) {
+    if(this.dataCai.periodo_docente_firmas.length > 0) {
       this.getCaiLoaded(idCai);
     } else {
       this.getCaiEvidence(idCai);
