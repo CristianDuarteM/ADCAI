@@ -22,4 +22,20 @@ export class SubjectService {
     });
   }
 
+  getSubjectById(idSubject: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/asignaturas/' + idSubject, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
+  updateSubject(idSubject: string, subjectBody: {}): Observable<any> {
+    return this.httpClient.put(config.API_URL + '/api/asignaturas/' + idSubject, subjectBody, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
 }

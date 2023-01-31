@@ -67,3 +67,45 @@ span {
 .mat-radio-button {
   margin: 1%;
 }
+
+@media only screen and (max-width: 600px) {
+  button {
+    font-size: medium;
+    width: 80%;
+  }
+  span {
+    font-size: medium;
+    margin-bottom: 5%;
+  }
+  .main-container {
+    height: 145vh;
+  }
+  .form-content {
+    flex-flow: column;
+  }
+  .update-content{
+    margin: 0 10% 0 10%;
+  }
+}
+
+@media only screen and (min-width:601px) and (max-width: 1500px) {
+  button {
+    width: 30%;
+  }
+  span {
+    font-size: larger;
+  }
+  .main-container {
+    height: 115vh;
+  }
+}
+
+@media only screen and (min-width: 2400px) {
+  span {
+    font-size: xx-large;
+  }
+  .main-container {
+    height: 84vh;
+  }
+}
+

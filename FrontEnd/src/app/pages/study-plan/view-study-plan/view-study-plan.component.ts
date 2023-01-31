@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Dialog } from 'src/app/models/Dialog';
 import { RolePermission } from 'src/app/models/RolePermission';
 import { SubjectResponse } from 'src/app/models/response/subjectResponse';
@@ -22,11 +22,12 @@ export class ViewStudyPlanComponent implements OnInit {
   columnsToDisplay: string[];
   headerTable: string;
   elementsDataTable: SubjectResponse[];
+  buttonRoute: string;
   idStudyPlan: string;
   isLoaded: boolean;
 
   constructor(private rolePermission: RolePermission, private route: ActivatedRoute, public dialog: Dialog,
-    private studyPlanService: StudyPlanService, private subjectService: SubjectService) {
+    private studyPlanService: StudyPlanService, private subjectService: SubjectService, private navigation: Router) {
       this.backRoute = '/gestion-plan-estudio';
       this.title = 'Visualizar Plan de Estudios';
       this.isPrincipal = false;
@@ -38,6 +39,7 @@ export class ViewStudyPlanComponent implements OnInit {
       this.columnsToDisplay = ['Id', 'Nombre', 'Creditos', 'Horas Practicas', 'Horas Teoricas', 'Activo', 'Opciones'];
       this.headerTable = 'Listado de Asignaturas';
       this.elementsDataTable = [];
+      this.buttonRoute = "/gestion-asignaturas/editar/";
       this.idStudyPlan = this.route.snapshot.paramMap.get('idStudyPlan') || '';
       this.isLoaded = false;
     }
@@ -57,6 +59,14 @@ export class ViewStudyPlanComponent implements OnInit {
         this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-plan-estudio/', error));
       }
     });
+  }
+
+  redirectAddSubject(typeAdd: string) {
+    if (typeAdd === 'MANUAL') {
+      this.navigation.navigate(['gestion-asignaturas/agregar/manual/plan-estudios/', this.idStudyPlan]);
+    } else {
+      this.navigation.navigate(['gestion-asignaturas/agregar/masivo/plan-estudios/', this.idStudyPlan]);
+    }
   }
 
 }

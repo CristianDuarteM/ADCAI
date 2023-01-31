@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { RolePermission } from 'src/app/models/RolePermission';
 
 @Component({
   selector: 'app-view-subject',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewSubjectComponent implements OnInit {
 
-  constructor() { }
+  backRoute: string;
+  title: string;
+  isPrincipal: boolean;
+  idSubject: string;
+
+  constructor(private rolePermission: RolePermission, private route: ActivatedRoute) {
+    this.backRoute = 'gestion-plan-estudio';
+    this.title = 'Visualizar Asignatura';
+    this.isPrincipal = false;
+    this.idSubject = this.route.snapshot.paramMap.get('idSubject') || '';
+  }
 
   ngOnInit(): void {
+    this.rolePermission.loadRole();
   }
 
 }

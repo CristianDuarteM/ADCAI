@@ -45,8 +45,16 @@
           </div>
         </div>
       </form>
+      <div class="add-button">
+        <button (click)="redirectAddSubject('MANUAL')">
+          Agregar Asignatura Manual
+        </button>
+        <button (click)="redirectAddSubject('MASSIVE')">
+          Agregar Asignatura Masiva
+        </button>
+      </div>
       <div class="margin-table">
-        <app-sticky-table [columnsToDisplay]="columnsToDisplay" [headerTable]="headerTable" [elementsData]="elementsDataTable"></app-sticky-table>
+        <app-sticky-table [columnsToDisplay]="columnsToDisplay" [headerTable]="headerTable" [elementsData]="elementsDataTable" [buttonRoute]="buttonRoute" [viewSubject]="true"></app-sticky-table>
       </div>
     </div>
   </div>
