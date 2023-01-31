@@ -25,7 +25,13 @@ export class Cai {
   actividad_otras: OtherActivities[];
   periodo: Period;
   usuario: User;
-  firmas: Signature[];
+  periodo_docente_firmas: {
+    id: number,
+    rol: string,
+    id_firma: number,
+    id_periodo_docente: number,
+    firma: Signature
+  }[];
 
   constructor() {
     this.id = '';
@@ -44,7 +50,7 @@ export class Cai {
     this.actividad_otras = [];
     this.periodo = new Period();
     this.usuario = new User();
-    this.firmas = [];
+    this.periodo_docente_firmas = [];
   }
 
 }

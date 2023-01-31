@@ -62,7 +62,7 @@ export class ViewEvaluateCaiComponent implements OnInit {
   }
 
   approveEvaluateCai() {
-    if(this.dataCai.firmas.length > 0) {
+    if(this.dataCai.periodo_docente_firmas.length > 0) {
       if(this.validateSignature()) {
         this.approveCaiByRole();
       } else {

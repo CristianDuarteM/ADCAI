@@ -1,0 +1,80 @@
+button {
+  background-color: #96C0E8;
+  border-color: #96C0E8;
+  border-radius: 2vh;
+  cursor: pointer;
+  font-size: larger;
+  font-weight: bold;
+  margin: 2%;
+  padding: 0.5% 1% 0.5% 1%;
+  white-space: nowrap;
+  width: 30%;
+}
+
+label {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.principal-content {
+  display: flex;
+  flex-flow: column;
+  margin: 0 1% 0 2%;
+}
+
+.update-content{
+  display: flex;
+  flex-flow: column;
+  margin: 0 20% 0 20%;
+}
+
+.form-content {
+  display: flex;
+  width: 100%;
+}
+
+.left-content {
+  align-items: center;
+  display: flex;
+  width: 30%;
+}
+
+.right-content {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.button-form {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .main-container {
+    height: 150vh;
+  }
+  .form-content {
+    flex-flow: column;
+  }
+  .update-content{
+    margin: 0 10% 0 10%;
+  }
+}
+
+@media only screen and (min-width:601px) and (max-width: 1500px) {
+  .main-container {
+    height: 125vh;
+  }
+  .left-content {
+    width: 50%;
+  }
+}
+
+@media only screen and (min-width: 2400px) {
+  .main-container {
+    height: 110vh;
+  }
+}

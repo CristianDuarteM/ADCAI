@@ -81,6 +81,7 @@ import { AddManualSubjectComponent } from './pages/subject/add-manual-subject/ad
 import { AddMassiveSubjectComponent } from './pages/subject/add-massive-subject/add-massive-subject.component';
 import { UpdateSubjectComponent } from './pages/subject/update-subject/update-subject.component';
 import { ViewSubjectComponent } from './pages/subject/view-subject/view-subject.component';
+import { DownloadComponent } from './pages/cai/download/download.component';
 
 @NgModule({
   declarations: [
@@ -147,6 +148,7 @@ import { ViewSubjectComponent } from './pages/subject/view-subject/view-subject.
     AddMassiveSubjectComponent,
     UpdateSubjectComponent,
     ViewSubjectComponent,
+    DownloadComponent,
   ],
   imports: [
     FormsModule,

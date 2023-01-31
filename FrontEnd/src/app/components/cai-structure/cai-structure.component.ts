@@ -195,9 +195,9 @@ export class CaiStructureComponent implements OnInit {
   }
 
   async findSignature() {
-    for(let i = 0; i < this.dataCai.firmas.length; i++) {
-      if(this.dataCai.firmas[i].periodo_docente_firma['rol'] === 'DOCENTE') {
-        this.idSignature = this.dataCai.firmas[i].id + '';
+    for(let i = 0; i < this.dataCai.periodo_docente_firmas.length; i++) {
+      if(this.dataCai.periodo_docente_firmas[i].rol === 'DOCENTE') {
+        this.idSignature = this.dataCai.periodo_docente_firmas[i].id + '';
       }
     }
   }
@@ -255,7 +255,7 @@ export class CaiStructureComponent implements OnInit {
     this.caiForm.setControl('code', new FormControl({value: this.dataCai.usuario.codigo, disabled: true}, [Validators.required]));
     this.caiForm.setControl('dedication', new FormControl({value: this.dataCai.dedicacion, disabled: this.isViewCai}, [Validators.required]));
     this.caiForm.setControl('observations', new FormControl({value: this.dataCai.observacion, disabled: this.isViewCai}));
-    this.caiForm.setControl('signature', new FormControl({value: (this.dataCai.firmas.length > 0) ? 'true' : 'false', disabled: this.isViewCai}));
+    this.caiForm.setControl('signature', new FormControl({value: (this.dataCai.periodo_docente_firmas.length > 0) ? 'true' : 'false', disabled: this.isViewCai}));
   }
 
   getDepartment(idDepartment: string) {
