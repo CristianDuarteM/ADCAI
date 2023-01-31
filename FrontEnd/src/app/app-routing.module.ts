@@ -52,6 +52,7 @@ import { AddManualSubjectComponent } from './pages/subject/add-manual-subject/ad
 import { AddMassiveSubjectComponent } from './pages/subject/add-massive-subject/add-massive-subject.component';
 import { UpdateSubjectComponent } from './pages/subject/update-subject/update-subject.component';
 import { ViewSubjectComponent } from './pages/subject/view-subject/view-subject.component';
+import { DownloadComponent } from './pages/cai/download/download.component';
 
 const routes: Routes = [
   { path: "", redirectTo: '/login', pathMatch: "full" },
@@ -108,6 +109,7 @@ const routes: Routes = [
   { path: "cai-admin/otras/:idOther", component: ItemOthersComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "cai-admin/notas", component: NoteComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
   { path: "cai-admin/notas/:idNote", component: NoteComponent, pathMatch: "full", canActivate: [ AdminGuard ] },
+  { path: "cai/descargar", component: DownloadComponent, pathMatch: "full", canActivate: [ DeanDirectorGuard ] },
 ];
 
 @NgModule({

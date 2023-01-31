@@ -53,6 +53,9 @@
         <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-plan-estudio/', '')">
           Gestión de Plan de Estudios
         </button>
+        <button mat-raised-button *ngxPermissionsOnly="['DECANO', 'DIRECTOR']" (click)="redirectButton('/cai/descargar', '')">
+          Descargar CAI
+        </button>
       </div>
     </div>
   </div>

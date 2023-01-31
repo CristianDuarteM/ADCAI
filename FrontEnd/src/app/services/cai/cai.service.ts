@@ -467,4 +467,12 @@ export class CaiService {
     });
   }
 
+  downloadCaiListByDepartment(idDepartment: string): Observable<any> {
+    return this.httpClient.get(config.API_URL + '/api/cai/pdf/departamento/' + idDepartment, {
+      headers: {
+        'x-token': this.tokenSession
+      }
+    });
+  }
+
 }
