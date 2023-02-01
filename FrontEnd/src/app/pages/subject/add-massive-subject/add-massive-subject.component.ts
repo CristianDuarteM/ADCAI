@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Dialog } from 'src/app/models/Dialog';
+import { SubjectRequest } from 'src/app/models/request/SubjectRequest';
 import { RolePermission } from 'src/app/models/RolePermission';
 import { SubjectService } from 'src/app/services/subject/subject.service';
 
@@ -20,7 +21,7 @@ export class AddMassiveSubjectComponent implements OnInit {
   @ViewChild("fileLoaded", {
     read: ElementRef
   }) fileLoaded: ElementRef;
-  dataFile: {}[];
+  dataFile: SubjectRequest[];
   idStudyPlan: string;
 
   constructor(private rolePermission: RolePermission, public dialog: Dialog, private route: ActivatedRoute,

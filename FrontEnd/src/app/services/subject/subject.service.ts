@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from 'src/app/constants/config';
+import { SubjectRequest } from 'src/app/models/request/SubjectRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -46,8 +47,8 @@ export class SubjectService {
     });
   }
 
-  addSubjectList(subjectBody: {}[]): Observable<any> {
-    return this.httpClient.post(config.API_URL + '/api/asignaturas/varias', subjectBody, {
+  addSubjectList(subjectBody: SubjectRequest[]): Observable<any> {
+    return this.httpClient.post(config.API_URL + '/api/asignaturas/varias', { asignaturas: subjectBody }, {
       headers: {
         'x-token': this.tokenSession
       }
