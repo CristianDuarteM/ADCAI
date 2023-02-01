@@ -24,6 +24,9 @@
         <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/perfil/', 'user')">
           Perfil
         </button>
+        <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-plan-estudio/', '')">
+          Gestión de Plan de Estudios
+        </button>
         <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-docentes/', '')">
           Gestión de Docentes
         </button>
@@ -49,9 +52,6 @@
         </ng-container>
         <button mat-raised-button *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/historial-cai/', '')">
           Historial de los CAI
-        </button>
-        <button mat-raised-button *ngxPermissionsOnly="['ADMIN', 'DIRECTOR']" (click)="redirectButton('/gestion-plan-estudio/', '')">
-          Gestión de Plan de Estudios
         </button>
         <button mat-raised-button *ngxPermissionsOnly="['DECANO', 'DIRECTOR']" (click)="redirectButton('/cai/descargar', '')">
           Descargar CAI
