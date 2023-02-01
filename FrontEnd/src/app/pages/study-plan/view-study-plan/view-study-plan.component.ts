@@ -45,7 +45,7 @@ export class ViewStudyPlanComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.getSubjectsByStudyPlan();
+    this.getStudyPlan();
     this.rolePermission.loadRole();
   }
 
@@ -67,6 +67,22 @@ export class ViewStudyPlanComponent implements OnInit {
     } else {
       this.navigation.navigate(['gestion-asignaturas/agregar/masivo/plan-estudios/', this.idStudyPlan]);
     }
+  }
+
+  getStudyPlan() {
+    this.studyPlanService.getStudyPlanById(this.idStudyPlan).subscribe({
+      next: studyPlanResponse => {
+        this.studyPlanForm.setValue({
+          facultyInput: studyPlanResponse.facultad.nombre,
+          nameInput: studyPlanResponse.nombre,
+          stateForm: (studyPlanResponse.estado) ? 'true' : 'false',
+        });
+        this.getSubjectsByStudyPlan();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.dialog.openDialog(this.dialog.getErrorMessage(error), this.dialog.validateError('/gestion-plan-estudio/', error));
+      }
+    });
   }
 
 }
