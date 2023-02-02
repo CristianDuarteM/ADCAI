@@ -52,13 +52,19 @@ const buscarActividadAdministracionById = async (req, res) => {
 };
 
 const registrarActividadAdministracion = async (req, res) => {
-    const {nombre, descripcion = "", listar} = req.body;
     if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     try {
+        let {nombre, descripcion = "", listar} = req.body;
+        nombre = nombre.trim();
+        if(nombre.length === 0){
+            return res.status(400).json({
+                msg: "El nombre de la actividad no puede ser solo espacios en blanco"
+            });
+        }
         const actividad_administracion = await Actividad_administracion.create({
             nombre: nombre.toUpperCase(),
             descripcion,
@@ -87,6 +93,12 @@ const actualizarActividadAdministracion = async (req, res) => {
     try {
         if(nombre){
             req.body.nombre = nombre.toUpperCase();
+            req.body.nombre = req.body.nombre.trim();
+            if(req.body.nombre.length === 0){
+            return res.status(400).json({
+                msg: "El nombre de la actividad no puede ser solo espacios en blanco"
+            });
+            }
         }
         const actividad_administracion = await Actividad_administracion.findByPk(id);
         await actividad_administracion.update(req.body);

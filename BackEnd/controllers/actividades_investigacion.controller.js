@@ -52,13 +52,19 @@ const buscarActividadInvestigacionById = async (req, res) => {
 };
 
 const registrarActividadInvestigacion = async (req, res) => {
-    const {nombre, descripcion = "", horas_minimas = 0, horas_maximas, descripcion_horas} = req.body;
     if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     try {
+        let {nombre, descripcion = "", horas_minimas = 0, horas_maximas, descripcion_horas} = req.body;
+        nombre = nombre.trim();
+        if(nombre.length === 0){
+            return res.status(400).json({
+                msg: "El nombre de la actividad no puede ser solo espacios en blanco"
+            });
+        }
         const actividad_investigacion = await Actividad_investigacion.create({
             nombre: nombre.toUpperCase(),
             descripcion,
@@ -79,16 +85,22 @@ const registrarActividadInvestigacion = async (req, res) => {
 };
 
 const actualizarActividadInvestigacion = async (req, res) => {
-    const {id} = req.params;
-    const {nombre} = req.body;
     if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     try {
+        const {id} = req.params;
+        const {nombre} = req.body;
         if(nombre){
             req.body.nombre = nombre.toUpperCase();
+            req.body.nombre = req.body.nombre.trim();
+            if(req.body.nombre.length === 0){
+                return res.status(400).json({
+                    msg: "El nombre de la actividad no puede ser solo espacios en blanco"
+                });
+            }
         }
         const actividad_investigacion = await Actividad_investigacion.findByPk(id);
         await actividad_investigacion.update(req.body);

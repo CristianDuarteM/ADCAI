@@ -7,8 +7,6 @@ const { fonts } = require('./fonts');
 
 const createPdf = async (cai) => {
   const printer = new PdfPrinter(fonts);
-  let c = cai;
-  let usuario = cai.usuario;
   let asignaturas = [];
   /*------------------------\\ Asignaturas //------------------------*/
   let hmaterias = 0;
@@ -16,7 +14,6 @@ const createPdf = async (cai) => {
     asignaturas.push([asignatura.nombre, asignatura.plan_estudio.nombre, asignatura.creditos, asignatura.horas_teoricas, asignatura.horas_practicas]);
     hmaterias = hmaterias + asignatura.horas_teoricas + asignatura.horas_practicas;
   }
-  let subtotalmaterias = hmaterias + (hmaterias*0.75) + (hmaterias*0.3) + (hmaterias*0.3);
   /*------------------------\\ Investigaciones //------------------------*/
   let investigaciones = [];
   let hinvestigaciones = 0;
@@ -39,7 +36,6 @@ const createPdf = async (cai) => {
                         ]
                       });
     extensiones.push({ margin: [40, 0, 0, 0], text: `${ex.descripcion}`});
-    //extensiones.push();
     hextension = hextension + ex.periodo_docente_actividad_extension.horas;
     if(ex.listar){
       if(ex.periodo_docente_actividad_extension.nombre){
@@ -63,7 +59,6 @@ const createPdf = async (cai) => {
                         ]
                       });
     administraciones.push({text: `${ex.descripcion}`});
-    //administraciones.push();
     hadministracion = hadministracion + ex.periodo_docente_actividad_administracion.horas;
     if(ex.listar){
       if(ex.periodo_docente_actividad_administracion.nombre){
@@ -87,7 +82,6 @@ const createPdf = async (cai) => {
                               {width: "auto", text: `${ex.periodo_docente_representacion.horas}`}
                             ]
                           });
-    //representaciones.push();
     hrepresentacion = hrepresentacion + ex.periodo_docente_representacion.horas;
     if(ex.listar){
       if(ex.periodo_docente_representacion.nombre){
@@ -113,7 +107,6 @@ const createPdf = async (cai) => {
         ]
       }
     ),
-    //otras.push();
     hotras = hotras + ex.periodo_docente_otra.horas;
     if(ex.listar){
       if(ex.periodo_docente_otra.nombre){
@@ -140,18 +133,17 @@ const createPdf = async (cai) => {
   /*------------------------\\ Firmas //------------------------*/
   let firmas = [];
   let roles = [];
-  console.log(cai.firmas.length);
-  if(cai.firmas.length !== 0){
-    for(ex of cai.firmas){
-      const pathFirma = path.join(__dirname, "../uploads", "firmas", ex.ruta_firma);
+  if(cai.periodo_docente_firmas.length !== 0){
+    for(ex of cai.periodo_docente_firmas){
+      const pathFirma = path.join(__dirname, "../uploads", "firmas", ex.firma.ruta_firma);
       if(fs.existsSync(pathFirma)){
         firmas.push({ margin:[60, 30, 0, 0], width: 90, height:50, image: `${pathFirma}`});
       } else {
         firmas.push({ margin:[10, 50, 10, 0], text: `____________________`});
       }
     }
-    for(ex of cai.firmas){
-        roles.push({margin:[65, 5, 0, 0], text: `${ex.periodo_docente_firma.rol}`});
+    for(ex of cai.periodo_docente_firmas){
+        roles.push({margin:[65, 5, 0, 0], text: `${ex.rol}`});
     }  
   } else {
     for(ex of [1,2,3]){

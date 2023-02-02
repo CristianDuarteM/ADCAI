@@ -94,8 +94,14 @@ const registrarFacultad = async (req, res) => {
             msg: "No se encuentra autorizado"
         });
     }
-    const {nombre, descripcion ="", correoDecano, realizaCai} = req.body;
     try {
+        let {nombre, descripcion ="", correoDecano, realizaCai} = req.body;
+        nombre = nombre.trim();
+        if(nombre.length === 0){
+            return res.status(400).json({
+                msg: "El nombre no puede ser solamente espacios en blanco"
+            });
+        }
         let decano = await Usuario.findOne({
             where:{
                 correo: correoDecano
@@ -109,7 +115,7 @@ const registrarFacultad = async (req, res) => {
         if(decano){
             if(decano.id_departamento){
                 return res.status(400).json({
-                    msg: "Un docente no puede decano de una facultad a la cual no pertenece"
+                    msg: "Un docente no puede ser decano de una facultad a la cual no pertenece"
                 });
             }
             const existeRolDecanoAsignado = await Usuario_rol.findOne({
@@ -178,6 +184,15 @@ const actualizarFacultad = async (req, res) => {
     try {
         const {id} = req.params;
         const {nombre, descripcion, correoDecano, realizaCai} = req.body;
+        if(req.body.nombre){
+            req.body.nombre = req.body.nombre.toUpperCase();
+            req.body.nombre = req.body.nombre.trim();
+            if(req.body.nombre.length === 0){
+                return res.status(400).json({
+                    msg: "El nombre no puede ser solamente espacios en blanco"
+                });
+            }
+        }
         const facultad = await Facultad.findByPk(id);
         const rolDecano = await Rol.findOne({
             where: {

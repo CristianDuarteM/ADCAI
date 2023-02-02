@@ -90,6 +90,18 @@ Periodo_docente.belongsToMany(Firma, {
     through: "periodo_docente_firma",
     foreignKey: "id_periodo_docente",
 });
+Firma.hasMany(Periodo_docente_firma, {
+    foreignKey: "id_firma"
+});
+Periodo_docente_firma.belongsTo(Firma, {
+    foreignKey: "id_firma"
+});
+Periodo_docente.hasMany(Periodo_docente_firma, {
+    foreignKey: "id_periodo_docente"
+});
+Periodo_docente_firma.belongsTo(Periodo_docente, {
+    foreignKey: "id_periodo_docente"
+});
 
 
 //-------------\\ Periodo //-------------\\

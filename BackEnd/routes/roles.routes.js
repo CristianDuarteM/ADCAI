@@ -1,4 +1,4 @@
-const { Router } = require("express");
+/*const { Router } = require("express");
 const { check } = require("express-validator");
 
 const { validarCampos } = require("../middlewares/validar-campos.middleware");
@@ -43,4 +43,4 @@ router.delete("/:id", [
     validarCampos
 ], eliminarRol);
 
-module.exports = router;
+module.exports = router;*/

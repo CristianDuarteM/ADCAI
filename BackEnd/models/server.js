@@ -19,7 +19,7 @@ class Server {
             auth: "/api/auth",
             cai: "/api/cai",
             departamentos: "/api/departamentos",
-            estados: "/api/estados",
+            //estados: "/api/estados",
             evidencias: "/api/evidencias",
             facultades: "/api/facultades",
             firmas: "/api/firmas",
@@ -28,7 +28,7 @@ class Server {
             periodos:  "/api/periodos",
             plan_estudios: "/api/plan_estudios",
             representaciones: "/api/representaciones",
-            roles: "/api/roles",
+            //roles: "/api/roles",
             usuarios: "/api/usuarios",
         };
 
@@ -44,9 +44,11 @@ class Server {
     async conexionDB() {
         try {
             await db.authenticate();
+            
             console.log("Base de datos en linea");
+            
         } catch (error) {
-            throw new Error();
+            throw new Error(error);
         }
     }
 
@@ -78,7 +80,7 @@ class Server {
         this.app.use(this.appPaths.auth, require("../routes/auth.routes"));
         this.app.use(this.appPaths.cai, require("../routes/cai.routes"));
         this.app.use(this.appPaths.departamentos, require("../routes/departamentos.routes"));
-        this.app.use(this.appPaths.estados, require("../routes/estados.routes"));
+        //this.app.use(this.appPaths.estados, require("../routes/estados.routes"));
         this.app.use(this.appPaths.evidencias, require("../routes/evidencias.routes"));
         this.app.use(this.appPaths.facultades, require("../routes/facultades.routes"));
         this.app.use(this.appPaths.firmas, require("../routes/firmas.routes"));
@@ -87,7 +89,7 @@ class Server {
         this.app.use(this.appPaths.periodos, require("../routes/periodos.routes"));
         this.app.use(this.appPaths.plan_estudios, require("../routes/plan_estudios.routes"));
         this.app.use(this.appPaths.representaciones, require("../routes/representaciones.routes"));
-        this.app.use(this.appPaths.roles, require("../routes/roles.routes"));
+        //this.app.use(this.appPaths.roles, require("../routes/roles.routes"));
         this.app.use(this.appPaths.usuarios, require("../routes/usuarios.routes"));
     }
 

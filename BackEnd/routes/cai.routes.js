@@ -26,15 +26,23 @@ const { listarCaisByUsuario,
         evaluarCaiDecano,
         actualizarCai,
         generarPdfCai,
-        generarPdfPorDepartamento} = require("../controllers/cais.controller");
+        generarPdfCaiPorDepartamento} = require("../controllers/cais.controller");
 
 const router =Router();
+
+router.get('/pdf/departamento/:id', [
+    //validarJwt,
+    check("id").custom(noExisteDepartamentoById),
+    validarCampos
+], generarPdfCaiPorDepartamento);
 
 router.get('/pdf/:id', [
     //validarJwt,
     check("id").custom(noExisteCAIById),
     validarCampos
 ], generarPdfCai);
+
+
 
 /*router.get('/pdf/departamento/:id', [
     /*validarJwt,

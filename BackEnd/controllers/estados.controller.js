@@ -1,4 +1,4 @@
-const {request, response} = require("express");
+/*const {request, response} = require("express");
 const {Estado} = require("../models");
 
 const listarEstados = async (req = request, res = response) => {
@@ -97,4 +97,4 @@ module.exports = {
     registrarEstado,
     actualizarEstado,
     eliminarEstado
-};
+};*/

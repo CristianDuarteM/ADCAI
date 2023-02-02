@@ -9,7 +9,8 @@ const { listarPlanEstudios,
         buscarPlanEstudioByFacultad, 
         registrarPlanEstudio,
         actualizarPlanEstudio,
-        eliminarPlanEstudio} = require("../controllers/plan_estudios.controller");
+        eliminarPlanEstudio,
+        buscarPlanEstudioById} = require("../controllers/plan_estudios.controller");
 
 const router = Router();
 
@@ -23,6 +24,13 @@ router.get("/facultad/:id", [
     check("id").custom(noExisteFacultadById),
     validarCampos
 ], buscarPlanEstudioByFacultad);
+
+router.get("/:id", [
+    validarJwt,
+    check("id", "El id no es valido").isInt(),
+    check("id").custom(noExistePlanEstudioById),
+    validarCampos
+], buscarPlanEstudioById);
 
 router.post("/", [
     validarJwt,

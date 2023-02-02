@@ -52,13 +52,19 @@ const buscarNotasById = async (req, res) => {
 };
 
 const registrarNota = async (req, res) => {
-    const { descripcion = ""} = req.body;
     if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     try {
+        let { descripcion} = req.body;
+        descripcion = descripcion.trim();
+        if(descripcion.length === 0){
+            return res.status(400).json({
+                msg: "La descripcion no puede ser solamente espacios en blanco"
+            });
+        }
         const nota = await Notas.create({
             descripcion
         });
@@ -82,6 +88,14 @@ const actualizarNota = async (req, res) => {
     }
     try {
         const {id} = req.params;
+        if(req.body.descripcion){
+            req.body.descripcion = req.body.descripcion.trim();
+            if(req.body.descripcion.length === 0){
+                return res.status(400).json({
+                    msg: "La nota no puede ser solamente espacios en blanco"
+                });
+            }
+        }
         const nota = await Notas.findByPk(id);
         await nota.update(req.body);
         res.status(201).json({

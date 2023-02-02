@@ -72,8 +72,10 @@ const buscarDepartamentoByFacultad = async (req, res) => {
 };
 
 const buscarDepartamentoById = async (req, res) => {
-    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
-        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -110,12 +112,18 @@ const registrarDepartamento = async (req, res) => {
     }
     let bandera = false;
     try {
-        const {nombre, descripcion ="", id_facultad, correoDirector, realizaCai} = req.body;
+        let {nombre, descripcion ="", id_facultad, correoDirector, realizaCai} = req.body;
         let director = await Usuario.findOne({
             where:{
                 correo: correoDirector
             }
         });
+        nombre = nombre.trim();
+        if(nombre.length === 0){
+            return res.status(400).json({
+                msg: "El nombre no puede ser solamente espacios en blanco"
+            });
+        }
         const departamento = await Departamento.create(
             {
                 nombre: nombre.toUpperCase(),
@@ -198,14 +206,23 @@ const registrarDepartamento = async (req, res) => {
 };
 
 const actualizarDepartamento = async (req, res) => {
-    const {id} = req.params;
-    const {nombre, descripcion, correoDirector, realizaCai} = req.body;
     if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     try {
+        const {id} = req.params;
+        const {nombre, descripcion, correoDirector, realizaCai} = req.body;
+        if(req.body.nombre){
+            req.body.nombre = req.body.nombre.toUpperCase();
+            req.body.nombre = req.body.nombre.trim();
+            if(req.body.nombre.length === 0){
+                return res.status(400).json({
+                    msg: "El nombre no puede ser solamente espacios en blanco"
+                });
+            }
+        }
         const departamento = await Departamento.findByPk(id);
         const rolDirector = await Rol.findOne({
             where: {
@@ -284,9 +301,7 @@ const actualizarDepartamento = async (req, res) => {
             }
             req.body.director = usuario.id;
         }
-        if(req.body.nombre){
-            req.body.nombre = req.body.nombre.toUpperCase();
-        }
+        
         await departamento.update(req.body);
         res.status(201).json({
             msg: "Departamento actualizado con éxito",

@@ -74,6 +74,33 @@ const buscarPlanEstudioByFacultad = async (req, res) => {
     }
 };
 
+const buscarPlanEstudioById = async (req, res) => {
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+        return res.status(401).json({
+            msg: "No se encuentra autorizado"
+        });
+    }
+    try {
+        const {id} = req.params;
+        const pe = await Plan_estudio.findByPk(id, {
+            attributes: { exclude: ["createdAt", "updatedAt"]},
+            include: {
+                model: Facultad,
+                attributes: ["id", "nombre"]
+            }
+        });
+        res.json(pe);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: `Hable con el administrador`
+        });
+    }
+};
+
 const registrarPlanEstudio = async (req, res) => {
     if((req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1) &&
         (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)){
@@ -86,6 +113,12 @@ const registrarPlanEstudio = async (req, res) => {
         const plan_estudios = [];
         for(let nombre of nombres){
             nombre = nombre.toUpperCase();
+            nombre = nombre.trim();
+            if(nombre.length === 0){
+                return res.status(400).json({
+                    msg: "El nombre puede ser solo espacios en blanco"
+                });
+            }
             const existePlan_estudio = await Plan_estudio.findOne({
                 where: {
                     nombre
@@ -119,6 +152,12 @@ const actualizarPlanEstudio = async (req, res) => {
         const {id} = req.params;
         if(req.body.nombre){
             req.body.nombre = req.body.nombre.toUpperCase();
+            req.body.nombre = req.body.nombre.trim();
+            if(req.body.nombre.length === 0){
+                return res.status(400).json({
+                    msg: "El nombre de la actividad no puede ser solo espacios en blanco"
+                });
+            }
         }
         const plan_estudio = await Plan_estudio.findByPk(id);
         await plan_estudio.update(req.body);
@@ -163,6 +202,7 @@ const eliminarPlanEstudio = async (req, res) => {
 module.exports = {
     listarPlanEstudios,
     buscarPlanEstudioByFacultad,
+    buscarPlanEstudioById,
     registrarPlanEstudio,
     actualizarPlanEstudio,
     eliminarPlanEstudio

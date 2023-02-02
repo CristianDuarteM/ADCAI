@@ -30,8 +30,10 @@ const { Asignatura, Plan_estudio } = require("../models");
 };*/
 
 const buscarAsignaturaByPlan_Estudio = async (req, res) => {
-    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
-        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
+    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
@@ -88,6 +90,12 @@ const registrarVariasAsignaturas = async (req, res) => {
         const {asignaturas} = req.body;
         for(let asignatura of asignaturas){
             asignatura.nombre = asignatura.nombre.toUpperCase();
+            asignatura.nombre = asignatura.nombre.trim();
+            if(asignatura.nombre.length === 0){
+                return res.status(400).json({
+                    msg: "El nombre no puede ser solamente espacios en blanco"
+                });
+            }
             const existeMateria = await Asignatura.findOne({
                 where: {
                     nombre: asignatura.nombre,
@@ -112,13 +120,20 @@ const registrarVariasAsignaturas = async (req, res) => {
 };
 
 const registrarAsignatura = async (req, res) => {
-    const {nombre, descripcion ="", creditos, horas_teoricas, horas_practicas, id_programa} = req.body;
-    if((req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)){
+    if((req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1) &&
+        (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }
     try {
+        let {nombre, descripcion ="", creditos, horas_teoricas, horas_practicas, id_programa} = req.body;
+        nombre = nombre.trim();
+        if(nombre.length === 0){
+            return res.status(400).json({
+                msg: "El nombre no puede ser solamente espacios en blanco"
+            });
+        }
         const asignatura = await Asignatura.create({
             nombre: nombre.toUpperCase(),
             descripcion,
@@ -150,6 +165,12 @@ const actualizarAsignatura = async (req, res) => {
     try {
         if(nombre){
             req.body.nombre = nombre.toUpperCase();
+            req.body.nombre = nombre.trim();
+            if(req.body.nombre.length === 0){
+                return res.status(400).json({
+                    msg: "El nombre no puede ser solamente espacios en blanco"
+                });
+            }
         }
         const asignatura = await Asignatura.findByPk(id);
         await asignatura.update(req.body);

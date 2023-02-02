@@ -1,13 +1,7 @@
-const {request, response} = require("express");
+/*const {request, response} = require("express");
 const {Rol} = require("../models");
 
 const listarRoles = async (req = request, res = response) => {
-    if((req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1)
-        && (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1) && (req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1)){
-        return res.status(401).json({
-            msg: "No se encuentra autorizado"
-        });
-    }
     try {
         const roles = await Rol.findAll({
             attributes: { exclude: ["createdAt", "updatedAt"]}
@@ -22,13 +16,14 @@ const listarRoles = async (req = request, res = response) => {
 };
 
 const registrarRol = async (req = request, res = response) => {
-    const {nombre, descripcion = ""} = req.body;
-    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
-        return res.status(401).json({
-            msg: "No se encuentra autorizado"
-        });
-    }
     try {
+        let {nombre, descripcion = ""} = req.body;
+        nombre = nombre.trim();
+        if(nombre.length === 0){
+            return res.status(404).json({
+                msg: "El nombre no puede ser solo espacios en blanco"
+            });
+        }
         const rol = await Rol.create({
             nombre: nombre.toUpperCase(),
             descripcion
@@ -47,11 +42,6 @@ const registrarRol = async (req = request, res = response) => {
 
 const actualizarRol = async (req, res) => {
     const {id} = req.body;
-    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
-        return res.status(401).json({
-            msg: "No se encuentra autorizado"
-        });
-    }
     try {
         const rol = await Rol.findByPk(id);
         if(req.body.nombre){
@@ -72,11 +62,6 @@ const actualizarRol = async (req, res) => {
 
 const eliminarRol = async (req, res) => {
     const {id} = req.params;
-    if(req.usuario.rols.filter(rol => rol.nombre === "ADMIN").length !== 1){
-        return res.status(401).json({
-            msg: "No se encuentra autorizado"
-        });
-    }
     try {
         const rol = await Rol.findByPk(id);
         await rol.destroy();
@@ -97,4 +82,4 @@ module.exports = {
     registrarRol,
     actualizarRol,
     eliminarRol
-};
+};*/

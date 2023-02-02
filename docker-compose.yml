@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.0.29
+    restart: always
+    container_name: adcai-bd
+    environment:
+      - MYSQL_DATABASE=esquemabase
+      - MYSQL_ROOT_PASSWORD=Soldado23
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./estructurabd:/docker-entrypoint-initdb.d
+      - ./mysql-data:/var/lib/mysql
+  backend:
+    container_name: adcai-backend
+    restart: always
+    build: backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    volumes:
+      - .:/usr/src/app
+volumes:
+  mysql-data:

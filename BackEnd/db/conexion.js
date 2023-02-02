@@ -4,8 +4,11 @@ const db = new Sequelize(process.env.NOMBRE, process.env.USUARIO, process.env.CO
     host:process.env.HOST,
     dialect: "mysql",
     define: {
-        freezeTableName: true
-    }
+        freezeTableName: true,
+        
+    },
+    //logging: true
 });
+
 
 module.exports = db;

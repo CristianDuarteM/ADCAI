@@ -1,8 +1,9 @@
 const fs = require("fs");
+const archiver = require("archiver");
 const path = require("path");
 
 const moment = require("moment");
-const { createPdf, errorPdfHtmlTemplate } = require("../helpers/generarPdf");
+const { createPdf, errorPdfHtmlTemplate } = require("../helpers/generar-pdf");
 
 const { Periodo_docente,
         Periodo, 
@@ -932,7 +933,6 @@ const generarPdfCai = async (req, res = response) => {
         const binaryResult = await createPdf(cai);
         const pathPdf = path.join(__dirname, "../uploads", "cais", binaryResult);
         if(fs.existsSync(pathPdf)){
-            let pdf = `http://localhost:8080/pdfs/${binaryResult}`
             return res.json({
                 msg: `${process.env.URLLOCAL}/pdfs/cais/${binaryResult}`
             });
@@ -958,44 +958,53 @@ const generarPdfCai = async (req, res = response) => {
       };
 };
 
-const generarPdfPorDepartamento = async (req, res = response) => {
-    /*if( (req.usuario.rols.filter(rol => rol.nombre === "DOCENTE").length !== 1) &&
-        (req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1) &&
-        (req.usuario.rols.filter(rol => rol.nombre === "DECANO").length !== 1)){
+const generarPdfCaiPorDepartamento = async (req, res = response) => {
+    /*if(req.usuario.rols.filter(rol => rol.nombre === "DIRECTOR").length !== 1){
         return res.status(401).json({
             msg: "No se encuentra autorizado"
         });
     }*/
     try {
-        const {id} = req.params;
-        let periodo = await Periodo.findAll({
+        const idDepartamento = req.params.id;
+        const departamento = await Departamento.findByPk(idDepartamento);
+        const periodo = (await Periodo.findAll({
             where: {
-                id_departamento: id
-            }
-        });
-        periodo = periodo.pop();
+                id_departamento: idDepartamento
+            }, 
+            order: [["id", "ASC"]]
+        })).pop();
+        if(!periodo){
+            return res.status(200).json({
+                msg: "No hay ningun cai para descargar"
+            });
+        }
         const estado = await Estado.findOne({
             where: {
                 nombre: "APROBADO DECANO"
             }
         });
-        const caisDepartamento = await Periodo_docente.findAll({
+        const cais = await Periodo_docente.findAll({
             where: {
-                id_periodo: periodo.id,
-                id_estado: estado.id
+                id_estado: estado.id,
+                id_periodo: periodo.id
             }
         });
-        let cais = [];
-        for(c of caisDepartamento){
-            const cai = await consultarCai(c.id);
-            const binaryResult = await createPdf(cai);
-            cais.push(binaryResult);
-            res.setHeader('Content-disposition', 'download; filename=report.pdf');
-            res.type('pdf').send(binaryResult);
+        const pathZip = path.join(__dirname, "../uploads", "cais", departamento.nombre);
+        const output = fs.createWriteStream(pathZip+".zip");
+        const archive = archiver("zip");
+        archive.pipe(output);
+        for(cai of cais){
+            let c = await consultarCai(cai.id);
+            const binaryResult = await createPdf(c);
+            const pathPdf = path.join(__dirname, "../uploads", "cais", binaryResult);
+            if(fs.existsSync(pathPdf)){
+                archive.file(pathPdf, {name: binaryResult});
+            }
         }
-        // const html = '<h1>Hola</h1>';
-        /*res.setHeader('Content-disposition', 'download; filename=report.pdf');
-        res.type('pdf').send(cais);*/
+        archive.finalize();
+        output.on("finish", function(){
+            res.download(pathZip+".zip");
+        });
       } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -1073,12 +1082,20 @@ async function consultarCai (id_cai) {
                 },
             },
             {
+                model: Periodo_docente_firma,
+                attributes: ["id", "id_periodo_docente", "id_firma", "rol"],
+                include: {
+                    model: Firma,
+                    attributes: ["id", "ruta_firma"] 
+                }
+            }/*
+            {
                 model: Firma,
                 attributes: ["id", "ruta_firma"],
                 through: {
                     attributes: {exclude: ["createdAt", "updatedAt"]},
                 },
-            }
+            }*/
         ],
         attributes: { exclude: ["createdAt", "updatedAt"]}
     });
@@ -1094,5 +1111,5 @@ module.exports = {
     actualizarCai,
     generarPdfCai,
     consultarCai,
-    generarPdfPorDepartamento
+    generarPdfCaiPorDepartamento
 };

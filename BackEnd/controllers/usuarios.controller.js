@@ -189,11 +189,6 @@ const registrarUsuarios = async (req, res) => {
             nombre: "DIRECTOR"
             }
         });
-        const decano = await Rol.findOne({
-            where:{
-            nombre: "DECANO"
-            }
-        });
         for(let correo of correos){
             const existeUsuario = await Usuario.findOne({
                 where: {

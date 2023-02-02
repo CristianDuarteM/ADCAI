@@ -363,6 +363,8 @@ const noExisteNotaById = async (id) => {
     }
 };
 
+
+
 module.exports = {
     noExisteDepartamentoById,
     existeDepartamentoByNombre,
