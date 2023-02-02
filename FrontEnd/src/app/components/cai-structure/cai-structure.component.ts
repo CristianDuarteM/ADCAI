@@ -197,7 +197,7 @@ export class CaiStructureComponent implements OnInit {
   async findSignature() {
     for(let i = 0; i < this.dataCai.periodo_docente_firmas.length; i++) {
       if(this.dataCai.periodo_docente_firmas[i].rol === 'DOCENTE') {
-        this.idSignature = this.dataCai.periodo_docente_firmas[i].id + '';
+        this.idSignature = this.dataCai.periodo_docente_firmas[i].firma.id + '';
       }
     }
   }
