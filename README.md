@@ -114,7 +114,7 @@ El proyecto ADCAI cuenta con los siguientes repositorios e imagenes docker:
 | ------------------------ | ------------ |
 | adcai-backend            | backend      |
 | adcai-frontend           | frontend     |
-| adcai-bd                 | mysql:80.0.29|
+| adcai-bd                 | mysql:8.0.29|
 
 
 
