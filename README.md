@@ -61,7 +61,7 @@
   -----DB-----
   NOMBRE: Nombre de la base de datos que se va a utilizar
   USUARIO: Usuario de la base de datos
-  CONTRASENNA=: Contraseña del usuario de la base de datos
+  CONTRASENNA: Contraseña del usuario de la base de datos
   HOST: Direccion ip o punto de enlace para conectarse a la base de datos
 
   ----Correo----
@@ -69,14 +69,14 @@
   MAILCONTRASENNA: Contraseña del correo electronico
 
   ----Front----
-  FRONTURL=Direccion url del frontend. (Los correos que envia la apliacacion a los usuarios, llevan anexados la url donde se encuentra la aplicación)
+  FRONTURL:Direccion url del frontend. (Los correos que envia la apliacacion a los usuarios, llevan anexados la url donde se encuentra la aplicación)
 
   ----jwt----
   SECRETORPRIVATEKEY: Token secreto para jwt (ejemplo. Tok3nF4ls0)
 
   ----Google----
-  *GOOGLE_CLIENT_ID: Cliente id de google
-  *GOOGLE_SECRET_ID: Id secreto del cliente
+  GOOGLE_CLIENT_ID: Cliente id de google
+  GOOGLE_SECRET_ID: Id secreto del cliente
   ```
   
 ***  
