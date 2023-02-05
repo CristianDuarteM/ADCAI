@@ -843,7 +843,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'ufpsadcai@gmail.com',NULL,NULL,NULL,0,NULL,NULL,1,NULL,NULL);
+INSERT INTO `usuario` VALUES (1,'ufpsadcai@gmail.com','ADMIN',NULL,NULL,0,NULL,NULL,1,NULL,NULL);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
