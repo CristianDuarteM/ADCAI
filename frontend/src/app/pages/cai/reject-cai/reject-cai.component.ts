@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { config } from 'src/app/constants/config';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { EvaluateCai } from 'src/app/models/EvaluateCai';
-import { RolePermission } from 'src/app/models/RolePermission';
 import { CaiService } from 'src/app/services/cai/cai.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-reject-cai',

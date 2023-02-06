@@ -3,13 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { config } from 'src/app/constants/config';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
-import { RolePermission } from 'src/app/models/RolePermission';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-management-teacher',

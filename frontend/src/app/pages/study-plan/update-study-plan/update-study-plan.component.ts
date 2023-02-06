@@ -3,13 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { config } from 'src/app/constants/config';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { StudyPlanRequest } from 'src/app/models/request/StudyPlanRequest';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
 import { StudyPlanResponse } from 'src/app/models/response/StudyPlanResponse';
-import { RolePermission } from 'src/app/models/RolePermission';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
 import { StudyPlanService } from 'src/app/services/studyPlan/study-plan.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-update-study-plan',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RolePermission } from 'src/app/models/RolePermission';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-add-department',

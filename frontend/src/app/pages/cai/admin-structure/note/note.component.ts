@@ -2,10 +2,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { Note } from 'src/app/models/Note';
-import { RolePermission } from 'src/app/models/RolePermission';
 import { CaiService } from 'src/app/services/cai/cai.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-note',

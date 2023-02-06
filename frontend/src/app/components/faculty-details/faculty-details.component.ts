@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
 import { FacultyRequest } from 'src/app/models/request/FacultyRequest';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 
 @Component({
   selector: 'app-faculty-details',

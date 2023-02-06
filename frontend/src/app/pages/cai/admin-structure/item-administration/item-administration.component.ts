@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AdministrationActivities } from 'src/app/models/AdministrationActivities';
-import { Dialog } from 'src/app/models/Dialog';
-import { RolePermission } from 'src/app/models/RolePermission';
+import { Dialog } from 'src/app/services/Dialog';
 import { CaiService } from 'src/app/services/cai/cai.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-item-administration',

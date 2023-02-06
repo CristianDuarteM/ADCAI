@@ -19,7 +19,7 @@ import { DepartmentService } from 'src/app/services/department/department.servic
 import { AddSignatureComponent } from 'src/app/pages/user/add-signature/add-signature.component';
 import { Cai } from 'src/app/models/Cai';
 import { Feedback } from 'src/app/models/Feedback';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { Note } from 'src/app/models/Note';
 
 @Component({

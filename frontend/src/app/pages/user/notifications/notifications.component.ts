@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { config } from 'src/app/constants/config';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { NotificationResponse } from 'src/app/models/response/NotificationResponse';
-import { RolePermission } from 'src/app/models/RolePermission';
 import { UserService } from 'src/app/services/user/user.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-notifications',

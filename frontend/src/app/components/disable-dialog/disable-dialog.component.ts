@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { CaiService } from 'src/app/services/cai/cai.service';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';

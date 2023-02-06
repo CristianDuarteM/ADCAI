@@ -3,9 +3,9 @@ import { FacultyService } from 'src/app/services/faculty/faculty.service';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FacultyTable } from 'src/app/models/table/FacultyTable';
-import { Dialog } from 'src/app/models/Dialog';
-import { RolePermission } from 'src/app/models/RolePermission';
+import { Dialog } from 'src/app/services/Dialog';
 import { Router } from '@angular/router';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-management-faculty',
