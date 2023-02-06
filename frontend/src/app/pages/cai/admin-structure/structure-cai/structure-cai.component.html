@@ -1,0 +1,463 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <ng-container *ngIf="isLoaded < 6">
+    <div class="spinner-align">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-container>
+  <div class="main-container" *ngIf="isLoaded === 6">
+    <app-principal-row [backRoute]="backRouteStructureCai" [title]="titleStructureCai" [isPrincipal]="isPrincipalStructureCai"></app-principal-row>
+    <form [formGroup]="caiForm">
+      <div class="principal-content">
+        <div class="init-information">
+          <div class="init-information-input">
+            <span>Departamento:</span>
+            <mat-form-field>
+              <input matInput type="text" [disabled]="true">
+            </mat-form-field>
+          </div>
+          <div class="init-information-input">
+            <span>Semestre:</span>
+            <mat-form-field>
+              <input matInput type="text" [disabled]="true">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="init-information">
+          <div class="init-information-input">
+            <span>Docente:</span>
+            <mat-form-field>
+              <input matInput type="text" [disabled]="true">
+            </mat-form-field>
+          </div>
+          <div class="init-information-input">
+            <span>Código:</span>
+            <mat-form-field>
+              <input matInput type="text" [disabled]="true">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="init-information">
+          <div class="init-information-input">
+            <span>Dedicación:</span>
+            <mat-form-field>
+              <input matInput type="text" [disabled]="true">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="table-format">
+          <table #tableTeacherActivities mat-table [dataSource]="dataArrayTeacherActivities" class="mat-elevation-z8">
+            <ng-container matColumnDef="PLAN DE ESTUDIOS">
+              <th mat-header-cell *matHeaderCellDef style="width: 40%;"> PLAN DE ESTUDIOS </th>
+              <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: start;">
+                <mat-form-field appearance="fill">
+                  <mat-label>Seleccione plan de estudios</mat-label>
+                  <mat-select formControlName="studyPlan" name="studyPlan"></mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ASIGNATURAS">
+              <th mat-header-cell *matHeaderCellDef style="width: 40%;"> ASIGNATURAS </th>
+              <td mat-cell *matCellDef="let item;" class="border-color-table mobile-label" style="text-align: start;">
+                <mat-form-field appearance="fill">
+                  <mat-label>Seleccione asignatura</mat-label>
+                  <mat-select formControlName="subject"></mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="CR">
+              <th mat-header-cell *matHeaderCellDef style="width: 10%; text-align: center;"> CR </th>
+              <td mat-cell *matCellDef="let item" class="border-color-table mobile-label"> 0 </td>
+            </ng-container>
+
+            <ng-container matColumnDef="H.T.">
+              <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 10%; text-align: center;"> H.T. </th>
+              <td mat-cell *matCellDef="let item" class="border-color-table"> 0 </td>
+            </ng-container>
+
+            <ng-container matColumnDef="H.P.">
+              <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 10%; text-align: center;"> H.P. </th>
+              <td mat-cell *matCellDef="let item" class="border-color-table"> 0 </td>
+            </ng-container>
+
+            <tr mat-header-row>Listado de Facultades</tr>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplayTeacherActivities;"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplayTeacherActivities;"></tr>
+          </table>
+        </div>
+        <div class="total-section">
+          <span class="span-total-section">Total: </span>
+          <span class="span-total-section">0</span>
+        </div>
+        <div class="section">
+          <div class = "title-section">
+            <span>1. ACTIVIDADES DE DOCENCIA</span>
+          </div>
+          <div class="section-content">
+            <span>1.1 Horas lectivas semanales (HL = Total HT + Total HP)</span>
+            <mat-form-field class="input-hours">
+              <input matInput type="text" [disabled]="true" value="0">
+            </mat-form-field>
+          </div>
+          <div class="section-content">
+            <span>1.2 Preparación horas lectivas semanales (PHL = 0.75 HL)</span>
+            <mat-form-field class="input-hours">
+              <input matInput type="text" [disabled]="true" value="0">
+            </mat-form-field>
+          </div>
+          <div class="section-content">
+            <span>1.3 Asesoría académica a estudiantes semanal (AE = 0.3 HL)</span>
+            <mat-form-field class="input-hours">
+              <input matInput type="text" [disabled]="true" value="0">
+            </mat-form-field>
+          </div>
+          <div class="section-content">
+            <span>1.4 Evaluación a estudiantes semanal (EE = 0.3 HL)</span>
+            <mat-form-field class="input-hours">
+              <input matInput type="text" [disabled]="true" value="0">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="total-section">
+          <span class="span-total-section">SUBTOTAL HORAS DOCENCIA</span>
+          <span class="span-total-section">0</span>
+        </div>
+        <div class="section">
+          <div class = "title-section">
+            <span>2. ACTIVIDADES DE INVESTIGACIÓN (Acuerdo 056 de 2012*) (Acuerdo 057 de 2012)**</span>
+          </div>
+          <div class="table-format">
+            <table #tableInvestigationActivities mat-table [dataSource]="dataArrayInvestigationActivities" class="mat-elevation-z8">
+              <ng-container matColumnDef="ACCIÓN">
+                <th mat-header-cell *matHeaderCellDef style="width: 25%;"> </th>
+                <td *matCellDef="let item">
+                  <button class="update-button button-table" (click)="redirectButtonUpdate('/cai-admin/investigacion/', item.id)">
+                    <mat-icon>edit</mat-icon>
+                    <span class="span-table">Editar</span>
+                  </button>
+                  <button class="enable-button button-table" *ngIf="!item.estado" (click)="enableItem(item.id, 'INVESTIGACION', 'el item de investigación seleccionado')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Habilitar</span>
+                  </button>
+                  <button class="disable-button button-table" *ngIf="item.estado" (click)="disableItem(item.id, 'INVESTIGACION', 'el item de investigación seleccionado')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Deshabilitar</span>
+                  </button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ACTIVIDAD">
+                <th mat-header-cell *matHeaderCellDef style="width: 55%;"> </th>
+                <td mat-cell *matCellDef="let item;" class="border-color-table mobile-label" style="text-align: start;">
+                  {{item.nombre}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="DESCRIPCIÓN">
+                <th mat-header-cell *matHeaderCellDef style="width: 80%; text-align: center;"></th>
+                <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: justify;"> {{item.descripcion_horas}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="HORAS">
+                <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 2%; text-align: center;"> </th>
+                <td mat-cell *matCellDef="let item" class="border-color-table">
+                  <mat-form-field class="input-hours-investigation">
+                    <input matInput type="number" min="0" value="0" [disabled]="true">
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columsToDisplayInvestigationActivities;"></tr>
+              <tr mat-row *matRowDef="let row; columns: columsToDisplayInvestigationActivities;"> </tr>
+            </table>
+          </div>
+        </div>
+        <div class="add-button-content">
+          <button mat-raised-button type="button" class="add-button" (click)="redirectButtonAdd('/cai-admin/investigacion')">
+            <span class="span-add">Agregar Item de Investigación</span>
+          </button>
+        </div>
+        <div class="section">
+          <div class = "title-section">
+            <span>3. ACTIVIDADES DE EXTENSIÓN</span>
+          </div>
+          <div class="table-format">
+            <table #tableInvestigationActivities mat-table [dataSource]="dataArrayExtensionActivities" class="mat-elevation-z8">
+              <ng-container matColumnDef="ACCIÓN">
+                <th mat-header-cell *matHeaderCellDef style="width: 20%;">ACCIÓN</th>
+                <td *matCellDef="let item">
+                  <button class="update-button button-table" (click)="redirectButtonUpdate('/cai-admin/extension/', item.id)">
+                    <mat-icon>edit</mat-icon>
+                    <span class="span-table">Editar</span>
+                  </button>
+                  <button class="enable-button button-table" *ngIf="!item.estado"  (click)="enableItem(item.id, 'EXTENSION', 'el item de extensión seleccionado')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Habilitar</span>
+                  </button>
+                  <button class="disable-button button-table" *ngIf="item.estado" (click)="disableItem(item.id, 'EXTENSION', 'el item de extensión seleccionado')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Deshabilitar</span>
+                  </button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ACTIVIDAD">
+                <th mat-header-cell *matHeaderCellDef style="width: 35%;">ACTIVIDAD</th>
+                <td mat-cell *matCellDef="let item;" class="border-color-table mobile-label" style="text-align: start;">
+                  {{item.nombre}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="DESCRIPCIÓN">
+                <th mat-header-cell *matHeaderCellDef style="width: 65%; text-align: center;">DESCRIPCIÓN</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: justify;"> {{item.descripcion}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ENUNCIAR">
+                <th mat-header-cell *matHeaderCellDef style="width: 10%; text-align: center;">ENUNCIAR</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: center;"> {{(item.listar) ? 'Sí' : 'No'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="HORAS">
+                <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 2%; text-align: center;">HORAS</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table">
+                  <mat-form-field class="input-hours-investigation">
+                    <input matInput type="number" min="0" value="0" [disabled]="true">
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplayExtensionActivities;"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsToDisplayExtensionActivities;"> </tr>
+            </table>
+          </div>
+        </div>
+        <div class="add-button-content">
+          <button mat-raised-button type="button" class="add-button" (click)="redirectButtonAdd('/cai-admin/extension')">
+            <span class="span-add">Agregar Item de Extensión</span>
+          </button>
+        </div>
+        <div class="section">
+          <div class = "title-section">
+            <span>4. ADMINISTRACIÓN</span>
+          </div>
+          <div class="table-format">
+            <table #tableInvestigationActivities mat-table [dataSource]="dataArrayAdministrationActivities" class="mat-elevation-z8">
+              <ng-container matColumnDef="ACCIÓN">
+                <th mat-header-cell *matHeaderCellDef style="width: 20%;">ACCIÓN</th>
+                <td *matCellDef="let item">
+                  <button class="update-button button-table" (click)="redirectButtonUpdate('/cai-admin/administracion/', item.id)">
+                    <mat-icon>edit</mat-icon>
+                    <span class="span-table">Editar</span>
+                  </button>
+                  <button class="enable-button button-table" *ngIf="!item.estado"  (click)="enableItem(item.id, 'ADMINISTRACION', 'el item de administración seleccionado')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Habilitar</span>
+                  </button>
+                  <button class="disable-button button-table" *ngIf="item.estado" (click)="disableItem(item.id, 'ADMINISTRACION', 'el item de administración seleccionado')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Deshabilitar</span>
+                  </button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="DESCRIPCIÓN">
+                <th mat-header-cell *matHeaderCellDef style="width: 65%; text-align: center;">DESCRIPCIÓN</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: justify;"> {{item.nombre}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ENUNCIAR">
+                <th mat-header-cell *matHeaderCellDef style="width: 10%; text-align: center;">ENUNCIAR</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: center;"> {{(item.listar) ? 'Sí' : 'No'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="HORAS">
+                <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 2%; text-align: center;">HORAS</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table">
+                  <mat-form-field class="input-hours-investigation">
+                    <input matInput type="number" min="0" value="0" [disabled]="true">
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplayAdministrationActivities;"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsToDisplayAdministrationActivities;"> </tr>
+            </table>
+          </div>
+        </div>
+        <div class="add-button-content">
+          <button mat-raised-button type="button" class="add-button" (click)="redirectButtonAdd('/cai-admin/administracion')">
+            <span class="span-add">Agregar Item de Administración</span>
+          </button>
+        </div>
+        <div class="section">
+          <div class = "title-section">
+            <span>5. REPRESENTACIONES</span>
+          </div>
+          <div class="table-format">
+            <table #tableInvestigationActivities mat-table [dataSource]="dataArrayRepresentationActivities" class="mat-elevation-z8">
+              <ng-container matColumnDef="ACCIÓN">
+                <th mat-header-cell *matHeaderCellDef style="width: 20%;">ACCIÓN</th>
+                <td *matCellDef="let item">
+                  <button class="update-button button-table" (click)="redirectButtonUpdate('/cai-admin/representacion/', item.id)">
+                    <mat-icon>edit</mat-icon>
+                    <span class="span-table">Editar</span>
+                  </button>
+                  <button class="enable-button button-table" *ngIf="!item.estado"  (click)="enableItem(item.id, 'REPRESENTACION', 'el item de representación seleccionado')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Habilitar</span>
+                  </button>
+                  <button class="disable-button button-table" *ngIf="item.estado" (click)="disableItem(item.id, 'REPRESENTACION', 'el item de representación seleccionado')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Deshabilitar</span>
+                  </button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ACTIVIDAD">
+                <th mat-header-cell *matHeaderCellDef style="width: 35%;">ACTIVIDAD</th>
+                <td mat-cell *matCellDef="let item;" class="border-color-table mobile-label" style="text-align: start;">
+                  {{item.nombre}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="DESCRIPCIÓN">
+                <th mat-header-cell *matHeaderCellDef style="width: 65%; text-align: center;">DESCRIPCIÓN</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: justify;"> {{item.descripcion}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ENUNCIAR">
+                <th mat-header-cell *matHeaderCellDef style="width: 10%; text-align: center;">ENUNCIAR</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: center;"> {{(item.listar) ? 'Sí' : 'No'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="HORAS">
+                <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 2%; text-align: center;">HORAS</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table">
+                  <mat-form-field class="input-hours-investigation">
+                    <input matInput type="number" min="0" value="0" [disabled]="true">
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplayRepresentationActivities;"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsToDisplayRepresentationActivities;"> </tr>
+            </table>
+          </div>
+        </div>
+        <div class="add-button-content">
+          <button mat-raised-button type="button" class="add-button" (click)="redirectButtonAdd('/cai-admin/representacion')">
+            <span class="span-add">Agregar Item de Representación</span>
+          </button>
+        </div>
+        <div class="section">
+          <div class = "title-section">
+            <span>6. OTRAS ACTIVIDADES</span>
+          </div>
+          <div class="table-format">
+            <table #tableInvestigationActivities mat-table [dataSource]="dataArrayOtherActivities" class="mat-elevation-z8">
+              <ng-container matColumnDef="ACCIÓN">
+                <th mat-header-cell *matHeaderCellDef style="width: 20%;">ACCIÓN</th>
+                <td *matCellDef="let item">
+                  <button class="update-button button-table" (click)="redirectButtonUpdate('/cai-admin/otras/', item.id)">
+                    <mat-icon>edit</mat-icon>
+                    <span class="span-table">Editar</span>
+                  </button>
+                  <button class="enable-button button-table" *ngIf="!item.estado"  (click)="enableItem(item.id, 'OTRA', 'el item de otra actividad seleccionado')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Habilitar</span>
+                  </button>
+                  <button class="disable-button button-table" *ngIf="item.estado" (click)="disableItem(item.id, 'OTRA', 'el item de otra actividad seleccionado')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Deshabilitar</span>
+                  </button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ACTIVIDAD">
+                <th mat-header-cell *matHeaderCellDef style="width: 35%;">ACTIVIDAD</th>
+                <td mat-cell *matCellDef="let item;" class="border-color-table mobile-label" style="text-align: start;">
+                  {{item.nombre}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="DESCRIPCIÓN HORAS">
+                <th mat-header-cell *matHeaderCellDef style="width: 65%; text-align: center;">DESCRIPCIÓN HORAS</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: justify;"> {{item.descripcion}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ENUNCIAR">
+                <th mat-header-cell *matHeaderCellDef style="width: 10%; text-align: center;">ENUNCIAR</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: center;"> {{(item.listar) ? 'Sí' : 'No'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="HORAS">
+                <th mat-header-cell *matHeaderCellDef class="columns-table" style="width: 2%; text-align: center;">HORAS</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table">
+                  <mat-form-field class="input-hours-investigation">
+                    <input matInput type="number" min="0" value="0" [disabled]="true">
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplayOtherActivities;"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsToDisplayOtherActivities;"> </tr>
+            </table>
+          </div>
+        </div>
+        <div class="add-button-content">
+          <button mat-raised-button type="button" class="add-button" (click)="redirectButtonAdd('/cai-admin/otras')">
+            <span class="span-add">Agregar Item de Otras</span>
+          </button>
+        </div>
+        <div class="section">
+          <span class="span-total-section">OBSERVACIONES</span>
+          <mat-form-field>
+            <textarea matInput rows="3" [disabled]="true"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="section">
+          <div class = "title-section">
+            <span>NOTAS</span>
+          </div>
+          <div class="table-format">
+            <table #tableInvestigationActivities mat-table [dataSource]="dataArrayNotes" class="mat-elevation-z8">
+              <ng-container matColumnDef="ACCIÓN">
+                <th mat-header-cell *matHeaderCellDef style="width: 20%;">ACCIÓN</th>
+                <td *matCellDef="let item">
+                  <button class="update-button button-table" (click)="redirectButtonUpdate('/cai-admin/notas/', item.id)">
+                    <mat-icon>edit</mat-icon>
+                    <span class="span-table">Editar</span>
+                  </button>
+                  <button class="enable-button button-table" *ngIf="!item.estado"  (click)="enableItem(item.id, 'NOTA', 'la nota seleccionada')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Habilitar</span>
+                  </button>
+                  <button class="disable-button button-table" *ngIf="item.estado" (click)="disableItem(item.id, 'NOTA', 'la nota seleccionada')">
+                    <mat-icon>edit_attributes</mat-icon>
+                    <span class="span-table">Deshabilitar</span>
+                  </button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ENUNCIADO">
+                <th mat-header-cell *matHeaderCellDef style="width: 65%; text-align: center;">DESCRIPCIÓN HORAS</th>
+                <td mat-cell *matCellDef="let item" class="border-color-table mobile-label" style="text-align: justify;"> {{item.descripcion}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplayNotes;"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsToDisplayNotes;"> </tr>
+            </table>
+          </div>
+        </div>
+        <div class="add-button-content">
+          <button mat-raised-button type="button" class="add-button" (click)="redirectButtonAdd('/cai-admin/notas')">
+            <span class="span-add">Agregar Nota</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-container>

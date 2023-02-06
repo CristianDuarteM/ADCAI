@@ -1,0 +1,59 @@
+button {
+  background-color: #d9d9d96b;
+  border-color: #d9d9d96b;
+  border-radius: 2vh;
+  color: #000;
+  cursor: pointer;
+  font-size: large;
+  font-weight: bold;
+  padding: 0.8%;
+  word-wrap: break-word;
+  width: 20vw;
+}
+
+h2 {
+  margin: 0;
+}
+
+h3 {
+  margin: 0;
+}
+
+.margin-title {
+  padding: 3vh;
+}
+
+.margin-informative-content {
+  padding: 0 3vh 3vh 3vh;
+}
+
+.principal-options {
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  word-wrap: break-word;
+}
+
+.spinner-align {
+  height: 84vh;
+}
+
+@media only screen and (max-width: 600px) {
+  h2 {
+    font-size: larger;
+  }
+  button {
+    margin: 2%;
+    width: 85%;
+  }
+}
+
+@media only screen and (min-width: 2400px) {
+  h2 {
+    font-size: xx-large;
+  }
+  button {
+    font-size: x-large;
+  }
+}

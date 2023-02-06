@@ -1,0 +1,36 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteTeacher" [title]="titleTeacher" [isPrincipal]="isPrincipalTeacher"></app-principal-row>
+    <form [formGroup]="teacher" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
+      <div class="description-container">
+        <div class="item-container">
+          <span>Facultad:</span>
+          <mat-form-field>
+            <input matInput type="text" formControlName="selectedFaculty">
+          </mat-form-field>
+        </div>
+        <div class="item-container">
+          <span>Departamento:</span>
+          <mat-form-field>
+            <input matInput type="text" formControlName="selectedDepartment">
+          </mat-form-field>
+        </div>
+        <div class="item-container">
+          <span>Archivo de texto:</span>
+          <img src="../../../../assets/img/EjemploCorreoMasivo.PNG" alt="EjemploCorreoMasivo">
+          <span class="informative">Recuerde que los correos deben ir separados por comas en el archivo de texto</span>
+          <input class="input-file" type="file" formControlName="selectedFile" accept=".txt" #fileLoaded>
+        </div>
+      </div>
+      <div class="button-container">
+        <div class="buttons">
+          <button type="submit">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <footer></footer>
+</ng-container>

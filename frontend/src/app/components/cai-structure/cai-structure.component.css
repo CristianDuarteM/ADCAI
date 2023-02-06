@@ -1,0 +1,259 @@
+button {
+  font-size: large;
+  font-weight: bold;
+  border-radius: 2vh;
+  margin: 1%;
+  padding: 0.5%;
+}
+
+form {
+  padding-bottom: 1%;
+}
+
+h3 {
+  font-size: larger;
+  font-weight: normal;
+  margin-top: 0;
+}
+
+input {
+  width: 100%;
+}
+
+p {
+  font-weight: bold;
+}
+
+span {
+  font-size: large;
+  margin-right: 1%;
+}
+
+table {
+  width: 100%;
+}
+
+textarea.mat-input-element {
+  resize: none;
+}
+
+th {
+  border-color: #9D0303;
+}
+
+tr, th {
+  background-color: #FFF;
+  color: #000;
+  font-weight: bold;
+  text-align: center;
+}
+
+tr, td {
+  background-color: transparent;
+}
+
+tr, th {
+  font-size: large;
+}
+
+td {
+  font-size: medium;
+  font-weight: normal;
+  line-height: 100%;
+}
+
+.principal-content {
+  display: flex;
+  flex-flow: column;
+  margin: 0 5% 0 5%;
+}
+
+.init-information {
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+}
+
+.init-information-input {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  margin-right: 1%;
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.button-content {
+  display: flex;
+  justify-content: center;
+  margin: 0 20% 0 20%;
+}
+
+.button-content-teacher-activities {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-teacher-activities {
+  width: 18%;
+}
+
+.button-submit {
+  background-color: #96C0E8;
+  border-color: #96C0E8;
+  width: 25%;
+}
+
+.total-section {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+  margin: 2% 0 3% 0;
+}
+
+.span-total-section {
+  font-size: large;
+  font-weight: bold;
+}
+
+.title-section {
+  font-size: larger;
+  font-weight: bold;
+  margin: 3% 0 1% 0;
+}
+
+.section-content {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.input-hours {
+  font-weight: bolder;
+  text-align: center;
+  width: 5%;
+}
+
+.mat-input-element:disabled {
+  color: #000;
+}
+
+.input-hours-investigation {
+  font-weight: bolder;
+  text-align: center;
+  width: 20%;
+}
+
+.mat-fab {
+  border-radius: 4vh;
+  margin-left: 10%;
+  padding: 0;
+}
+
+.add-row-input {
+  display: flex;
+  flex-flow: row;
+}
+
+.item-add {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.add-button {
+  display: flex;
+  flex-flow: row;
+}
+
+.add-icon-button {
+  color: #000;
+  background-color: #96C0E8;
+}
+
+.remove-icon-button {
+  background-color: #FF0000;
+}
+
+.format-text-lower-case {
+  text-transform: lowercase;
+}
+
+.mat-radio-button {
+  font-weight: bold;
+  margin: 1%;
+}
+
+.approve-button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+}
+
+.reject-button {
+  background-color: #E896A4;
+  border-color: #E896A4;
+}
+
+.mat-raised-button {
+  transform: none;
+}
+
+.mat-focus-indicator {
+  position: initial;
+}
+
+.mat-fab {
+  transform: none;
+}
+
+.informative-text {
+  color: #B20808;
+  font-style: italic;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  table {
+    width: 200%;
+  }
+  tr, th {
+    font-size: medium;
+  }
+  td {
+    font-size: small;
+  }
+  span {
+    font-size: medium;
+  }
+  .table-format {
+    overflow: auto;
+  }
+  .init-information {
+    flex-flow: column;
+  }
+  .init-information-input {
+    align-items: flex-start;
+    flex-flow: column;
+  }
+  .button-teacher-activities {
+    font-size: medium;
+    width: 100%;
+  }
+  .button-submit {
+    width: 100%;
+  }
+  .input-hours {
+    width: 20%;
+  }
+  .span-total-section {
+    font-size: medium;
+  }
+  .mat-fab {
+    border-radius: 6vh;
+  }
+}

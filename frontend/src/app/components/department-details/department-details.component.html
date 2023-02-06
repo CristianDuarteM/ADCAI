@@ -1,0 +1,51 @@
+<ng-container>
+  <div class="principal-container">
+    <h2>{{descriptionForm}}</h2>
+  </div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="department">
+    <div class="content-input">
+      <span>Nombre <span class="item-required">*</span></span>
+      <mat-form-field>
+        <input matInput formControlName="name" type="text" placeholder="Obligatorio">
+      </mat-form-field>
+    </div>
+    <div class="content-input">
+      <span>Descripción <span class="item-required">*</span></span>
+      <mat-form-field>
+        <textarea matInput rows="3" formControlName="description" placeholder="Obligatorio"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="content-input">
+      <span>Facultad <span class="item-required">*</span></span>
+      <mat-form-field appearance="fill">
+        <mat-label>Seleccione Facultad</mat-label>
+        <mat-select formControlName="faculty" name="facultySelect">
+          <mat-option *ngFor="let faculty of facultyList" [value]="faculty.id">
+            {{faculty.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="content-input">
+      <span>Director <span class="item-required">*</span></span>
+      <span class="informative-text">Ingrese el correo del docente correpondiente</span>
+      <mat-form-field>
+        <input matInput formControlName="director" type="email">
+      </mat-form-field>
+    </div>
+    <div class="content-input">
+      <span>¿El director deberá realizar el CAI como docente?</span>
+      <div class="radio-button-section">
+        <mat-radio-group aria-label="Seleccione una opción" formControlName="doCai">
+          <mat-radio-button value="true" color="warn">Sí</mat-radio-button>
+          <mat-radio-button value="false" color="warn">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="button-form">
+      <button type="submit">
+        {{titleButton}}
+      </button>
+    </div>
+  </form>
+</ng-container>

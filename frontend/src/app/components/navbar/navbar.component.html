@@ -1,0 +1,28 @@
+<header>
+  <div class="container">
+    <div class="image-navbar">
+      <img src="../../assets/img/LogoUFPSPrincipal.png" alt="LogoUFPS">
+    </div>
+    <div class="title">
+      <h1><a href="/home" title="Inicio" class="color-white">ADCAI</a></h1>
+    </div>
+  </div>
+  <div class="container">
+    <ng-container *ngIf="isComplete === ''">
+      <button mat-raised-button class="action-buttons" *ngxPermissionsExcept="'ADMIN'" (click)="redirectButton('/notificaciones')">
+        <mat-icon *ngIf="!unreadNotification">notifications_none</mat-icon>
+        <mat-icon *ngIf="unreadNotification">notifications_active</mat-icon>
+        Notificaciones
+      </button>
+    </ng-container>
+    <ng-container *ngIf="changeRole">
+      <button mat-raised-button class="action-buttons" (click)="openDialog()">
+        <mat-icon>cached</mat-icon>
+        Cambio de Rol
+      </button>
+    </ng-container>
+    <button mat-raised-button class="sign-out" (click)="logOut()">
+      <mat-icon>exit_to_app</mat-icon>
+      Cerrar Sesión</button>
+  </div>
+</header>

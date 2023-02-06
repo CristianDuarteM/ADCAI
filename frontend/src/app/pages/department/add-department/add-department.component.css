@@ -1,0 +1,15 @@
+.main-container {
+  height: 110vh;
+}
+
+@media only screen and (max-width: 1500px) {
+  .main-container {
+    height: 130vh;
+  }
+}
+
+@media only screen and (min-width: 2400px) {
+  .main-container {
+    height: 99vh;
+  }
+}

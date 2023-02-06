@@ -1,0 +1,40 @@
+<ng-container>
+  <div class="principal-container">
+    <h2>{{descriptionForm}}</h2>
+  </div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="faculty">
+    <div class="content-input">
+      <span>Nombre <span class="item-required">*</span></span>
+      <mat-form-field>
+        <input matInput formControlName="name" type="text" placeholder="Obligatorio">
+      </mat-form-field>
+    </div>
+    <div class="content-input">
+      <span>Descripción <span class="item-required">*</span></span>
+      <mat-form-field>
+        <textarea matInput rows="3" formControlName="description" placeholder="Obligatorio"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="content-input">
+      <span>Decano <span class="item-required">*</span></span>
+      <span class="informative-text">Ingrese el correo del docente correpondiente para asignar el decano</span>
+      <mat-form-field>
+        <input matInput formControlName="dean" type="email">
+      </mat-form-field>
+    </div>
+    <div class="content-input">
+      <span>¿El decano deberá realizar el CAI como docente?</span>
+      <div class="radio-button-section">
+        <mat-radio-group aria-label="Seleccione una opción" formControlName="doCai">
+          <mat-radio-button value="true" color="warn">Sí</mat-radio-button>
+          <mat-radio-button value="false" color="warn">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="button-form">
+      <button type="submit">
+        {{titleButton}}
+      </button>
+    </div>
+  </form>
+</ng-container>

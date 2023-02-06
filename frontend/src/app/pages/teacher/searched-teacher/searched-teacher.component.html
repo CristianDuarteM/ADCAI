@@ -1,0 +1,46 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteTeacher" [title]="titleTeacher" [isPrincipal]="isPrincipalTeacher"></app-principal-row>
+    <div class="description-container">
+      <div class="container-information">
+        <div class="margin-information">
+          <span class="title-span">Facultad:</span>
+        </div>
+        <div>
+          <span>{{getNameFaculty()}}</span>
+        </div>
+      </div>
+      <div class="container-information">
+        <div class="margin-information">
+          <span class="title-span">Departamento:</span>
+        </div>
+        <div>
+          <span>{{getNameDepartment()}}</span>
+        </div>
+      </div>
+      <div class="container-information">
+        <div class="margin-information">
+          <span class="title-span">Filtro{{(typeFilter !== '') ? ' - ' + typeFilter : '' }}:</span>
+        </div>
+        <div>
+          <span>{{(filter !== '') ? filter : 'No Aplica'}}</span>
+        </div>
+      </div>
+      <div class="button-container">
+        <button class="search-button" (click)="newSearch()">
+          Nueva Búsqueda
+        </button>
+      </div>
+    </div>
+    <ng-container *ngIf="!isLoaded">
+      <div class="spinner-align">
+        <app-spinner></app-spinner>
+      </div>
+    </ng-container>
+    <div class="search-table" *ngIf="isLoaded">
+      <app-sticky-table [columnsToDisplay]="columnsToDisplayTeacher" [headerTable]="headerTableTeacher" [buttonRoute]="buttonRouteTeacher" [elementsData]="elementsDataTeacher" [descriptionDialog]="descriptionDisableTeacher" [heightTable]="heightTableSearchedTeacher" [actualComponent]="'DOCENTE'"></app-sticky-table>
+    </div>
+  </div>
+  <footer></footer>
+</ng-container>

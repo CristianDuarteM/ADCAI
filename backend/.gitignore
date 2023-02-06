@@ -1,0 +1,8 @@
+node_modules/
+.vscode/
+.env
+uploads/cais/*.pdf
+uploads/cais/*.zip
+uploads/evidencias/*.pdf
+uploads/firmas/*.jpg
+uploads/firmas/*.png

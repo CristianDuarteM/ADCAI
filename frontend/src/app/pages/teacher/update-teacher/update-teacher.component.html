@@ -1,0 +1,13 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteUpdateTeacher" [title]="titleUpdateTeacher" [isPrincipal]="isPrincipalUpdateTeacher"></app-principal-row>
+    <div class="principal-content">
+      <span>Diligencie los campos que desea actualizar</span>
+      <div>
+        <app-user-details [isEditable]="isEditableUpdateTeacher" [canUpdate]="true"></app-user-details>
+      </div>
+    </div>
+  </div>
+  <footer></footer>
+</ng-container>

@@ -1,0 +1,29 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteLoadFile" [title]="titleLoadFile" [isPrincipal]="isPrincipalLoadFile"></app-principal-row>
+    <form [formGroup]="loadFileForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
+      <div class="description-container">
+        <div class="item-container-download">
+          <span>Descargar Carga Académica Integral:</span>
+          <button type="button" class="download-file" (click)="getFile()">
+            Descargar
+          </button>
+        </div>
+        <div class="item-container">
+          <span>Archivo de texto:</span>
+          <span class="informative">Recuerde que una vez seleccionado el archivo pasará a valoración</span>
+          <input class="input-file" type="file" formControlName="signatureInputFile" (change)="loadFile($event)">
+        </div>
+      </div>
+      <div class="button-container">
+        <div class="buttons">
+          <button type="submit" class="upload-file">
+            Subir Archivo
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <footer></footer>
+</ng-container>

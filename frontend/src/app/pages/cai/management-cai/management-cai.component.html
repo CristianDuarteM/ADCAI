@@ -1,0 +1,29 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <ng-container *ngIf="!isLoaded">
+    <div class="spinner-align">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-container>
+  <div class="main-container" *ngIf="isLoaded">
+    <app-principal-row [backRoute]="backRouteCai" [title]="titleCai" [isPrincipal]="isPrincipalCai"></app-principal-row>
+    <div class="margin-title">
+      <h2>Seleccione lo que desea realizar con la carga académica integral</h2>
+    </div>
+    <div *ngIf="isCaiActive" class="margin-informative-content">
+      <h3>Actualmente se encuentra activa la solicitud de un CAI que inició en la fecha {{caiDataBasic.fecha_inicio}} y finaliza en la fecha {{caiDataBasic.fecha_limite}}</h3>
+    </div>
+    <div class="principal-options">
+      <button mat-raised-button (click)="requestCAI()" [disabled]="isCaiActive">
+        Solicitar
+      </button>
+      <button mat-raised-button (click)="updateCAI()" [disabled]="!isCaiActive">
+        Actualizar
+      </button>
+      <button mat-raised-button (click)="validationCAI()">
+        Evaluar
+      </button>
+    </div>
+  </div>
+  <footer></footer>
+</ng-container>

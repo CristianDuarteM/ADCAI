@@ -1,0 +1,19 @@
+span {
+  font-weight: bold;
+}
+
+.principal-content {
+  display: flex;
+  flex-flow: column;
+  margin: 0 2% 0 2%;
+}
+
+.spinner-align {
+  height: 84vh;
+}
+
+@media only screen and (max-width: 600px) {
+  .main-container {
+    height: 107vh;
+  }
+}

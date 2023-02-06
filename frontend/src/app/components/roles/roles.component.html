@@ -1,0 +1,31 @@
+<ng-container *ngIf="!isLoaded">
+  <div class="spinner-align">
+    <app-spinner></app-spinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="isLoaded">
+  <div>
+    <h1 mat-dialog-title>Cambio de rol</h1>
+  </div>
+  <mat-dialog-content>
+    <h2>Selecciona el rol al que deseas cambiar</h2>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-dialog-close (click)="changeRole('ADMIN')" *ngIf="roles['admin']">
+      <mat-icon>how_to_reg</mat-icon>
+      Admin
+    </button>
+    <button mat-dialog-close (click)="changeRole('DECANO')" *ngIf="roles['decano']">
+      <mat-icon>assignment_ind</mat-icon>
+      Decano
+    </button>
+    <button mat-dialog-close (click)="changeRole('DIRECTOR')" *ngIf="roles['director']">
+      <mat-icon>account_circle</mat-icon>
+      Director
+    </button>
+    <button mat-dialog-close (click)="changeRole('DOCENTE')" *ngIf="roles['docente']">
+      <mat-icon>person</mat-icon>
+      Docente
+    </button>
+  </mat-dialog-actions>
+</ng-container>

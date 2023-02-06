@@ -1,0 +1,82 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <ng-container *ngIf="!isLoaded">
+    <div class="spinner-align">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-container>
+  <div class="main-container" *ngIf="isLoaded">
+    <app-principal-row [backRoute]="backRouteTeacher" [title]="titleTeacher" [isPrincipal]="isPrincipalTeacher"></app-principal-row>
+    <form (ngSubmit)="onSubmit()" [formGroup]="teacher">
+      <div class="content-init" *ngIf="!isDirector">
+        <div class="content-input">
+          <span>Facultad <span class="item-required">*</span></span>
+          <mat-form-field appearance="fill">
+            <mat-label>Seleccione Facultad</mat-label>
+            <mat-select formControlName="selectedFaculty" name="selectedFaculty" (selectionChange)="getDepartmentList($event.value, $event.source.triggerValue)">
+              <mat-option *ngFor="let faculty of facultyList" [value]="faculty.id">
+                {{faculty.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="content-input">
+          <span>Departamento <span class="item-required">*</span></span>
+          <mat-form-field appearance="fill">
+            <mat-label>Seleccione Departamento</mat-label>
+            <mat-select formControlName="selectedDepartment" name="selectedDepartment" (selectionChange)="selectDepartment($event.source.triggerValue)">
+              <mat-option *ngFor="let department of departmentList" [value]="department.id">
+                {{department.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="content-init" *ngIf="isDirector">
+        <div class="content-input">
+          <span>Facultad <span class="item-required">*</span></span>
+          <mat-form-field>
+            <input matInput type="text" formControlName="selectedFaculty">
+          </mat-form-field>
+        </div>
+        <div class="content-input">
+          <span>Departamento <span class="item-required">*</span></span>
+          <mat-form-field>
+            <input matInput type="text" formControlName="selectedDepartment">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="content-input">
+        <span>Si desea agregar un filtro para buscar un docente seleccione el campo</span>
+      </div>
+      <div class="content-init">
+        <div class="content-input">
+          <mat-form-field appearance="fill">
+            <mat-label>Seleccione Filtro</mat-label>
+            <mat-select formControlName="filterSelect" name="filterSelect">
+              <mat-option value="codigo">Código</mat-option>
+              <mat-option value="correo">Correo</mat-option>
+              <mat-option value="nombre">Nombre</mat-option>
+              <mat-option value="apellido">Apellido</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-input">
+          <mat-form-field>
+            <mat-label>Ingrese el filtro</mat-label>
+            <input matInput formControlName="filterText" type="text" placeholder="Ej. Pepito Perez">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="button-form">
+        <button type="submit" class="search-button">
+          Buscar
+        </button>
+        <button type="submit" class="add-button" (click)="addButton()">
+          Agregar
+        </button>
+      </div>
+    </form>
+  </div>
+  <footer></footer>
+</ng-container>

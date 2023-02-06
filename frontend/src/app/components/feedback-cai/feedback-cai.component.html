@@ -1,0 +1,40 @@
+<ng-container>
+  <div class="principal-content">
+    <div class = "title-section">
+      <span>RETROALIMENTACIONES</span>
+    </div>
+    <div *ngFor="let item of feedbackList; let i = index;" class="content">
+      <div class="init-information-input">
+        <span><span class="color-title">{{(i + 1)}}. Generada por: </span>{{item.rol}}</span> <br>
+      </div>
+      <div>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngIf="item.docencia !== '' && item.docencia !== null">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+            <span><span style="font-weight: bold;">Actividades de docencia: </span>{{item.docencia}}</span>
+          </mat-list-item>
+          <mat-list-item role="listitem" *ngIf="item.investigacion !== '' && item.investigacion !== null">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+            <span><span style="font-weight: bold;">Actividades de investigación: </span>{{item.investigacion}}</span>
+          </mat-list-item>
+          <mat-list-item role="listitem" *ngIf="item.extension !== '' && item.extension !== null">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+            <span><span style="font-weight: bold;">Actividades de extensión: </span>{{item.extension}}</span>
+          </mat-list-item>
+          <mat-list-item role="listitem" *ngIf="item.administracion !== '' && item.administracion !== null">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+            <span><span class="format-text">Administración: </span>{{item.administracion}}</span>
+          </mat-list-item>
+          <mat-list-item role="listitem" *ngIf="item.representacion !== '' && item.representacion !== null">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+            <span><span class="format-text">Representaciones: </span>{{item.representacion}}</span>
+          </mat-list-item>
+          <mat-list-item role="listitem" *ngIf="item.otras !== '' && item.otras !== null">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+            <span><span class="format-text">Otras actividades: </span>{{item.otras}}</span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+  </div>
+</ng-container>

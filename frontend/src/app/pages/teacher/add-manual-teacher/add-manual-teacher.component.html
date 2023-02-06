@@ -1,0 +1,37 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteTeacher" [title]="titleTeacher" [isPrincipal]="isPrincipalTeacher"></app-principal-row>
+    <form [formGroup]="teacher" enctype="multipart/form-data" (ngSubmit)="addManualTeacher()">
+      <div class="description-container">
+        <div class="item-container">
+          <span>Facultad:</span>
+          <mat-form-field>
+            <input matInput type="text" formControlName="selectedFaculty">
+          </mat-form-field>
+        </div>
+        <div class="item-container">
+          <span>Departamento:</span>
+          <mat-form-field>
+            <input matInput type="text" formControlName="selectedDepartment">
+          </mat-form-field>
+        </div>
+        <div class="item-container">
+          <span>Correo:</span>
+          <mat-form-field>
+            <mat-label>Ingrese el correo</mat-label>
+            <input matInput type="email" formControlName="email">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="button-container">
+        <div class="buttons">
+          <button type="submit" class="add-button">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <footer></footer>
+</ng-container>

@@ -1,0 +1,22 @@
+<ng-container>
+  <app-navbar></app-navbar>
+  <div class="main-container">
+    <app-principal-row [backRoute]="backRouteDepartment" [title]="titleDepartment" [isPrincipal]="isPrincipalDepartment"></app-principal-row>
+    <ng-container *ngIf="!isLoaded">
+      <div class="spinner-align">
+        <app-spinner></app-spinner>
+      </div>
+    </ng-container>
+    <div class="principal-content" *ngIf="isLoaded">
+      <div class="add-button">
+        <button (click)="redirectButton()">
+          Agregar Departamento
+        </button>
+      </div>
+      <div>
+        <app-sticky-table [columnsToDisplay]="columnsToDisplayDepartment" [headerTable]="headerTableDepartment" [buttonRoute]="updateRouteDepartment" [elementsData]="elementsDataDepartment" [descriptionDialog]="descriptionActionDepartment" [actualComponent]="'DEPARTAMENTO'"></app-sticky-table>
+      </div>
+    </div>
+  </div>
+  <footer></footer>
+</ng-container>

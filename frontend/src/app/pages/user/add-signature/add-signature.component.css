@@ -1,0 +1,79 @@
+button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+  border-radius: 2vh;
+  cursor: pointer;
+  font-size: large;
+  font-weight: bold;
+  padding: 1.5% 5% 1.5% 5%;
+  white-space: nowrap;
+  margin: 3%;
+}
+
+h1 {
+  color: #B20808;
+  font-size: x-large;
+  font-weight: bold;
+  text-align: center;
+}
+
+input {
+  font-size: medium;
+}
+
+span {
+  color: #000;
+  font-size: larger;
+  text-align: center;
+}
+
+.accept-button {
+  background-color: #96e8b6cb;
+  border-color: #96e8b6cb;
+}
+
+.cancel-button {
+  background-color: #E896A4;
+  border-color: #E896A4;
+}
+
+.input-file {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  margin: 2%;
+}
+
+.informative-span {
+  font-size: smaller;
+}
+
+.informative-error-span {
+  color: #B20808;
+  margin-top: 2%;
+}
+
+@media only screen and (max-width: 600px) {
+  button {
+    font-size: medium;
+  }
+  h1 {
+    font-size: larger;
+    line-height: 100%;
+  }
+  span {
+    font-size: medium;
+  }
+}
+
+@media only screen and (min-width: 2400px) {
+  button {
+    font-size: x-large;
+  }
+  h1 {
+    font-size: xx-large;
+  }
+  span {
+    font-size: x-large;
+  }
+}
