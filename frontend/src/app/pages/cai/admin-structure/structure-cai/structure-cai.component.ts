@@ -4,15 +4,15 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AdministrationActivities } from 'src/app/models/AdministrationActivities';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { ExtensionActivities } from 'src/app/models/ExtensionActivities';
 import { Note } from 'src/app/models/Note';
 import { OtherActivities } from 'src/app/models/OtherActivities';
 import { RepresentationActivities } from 'src/app/models/RepresentationActivities';
-import { RolePermission } from 'src/app/models/RolePermission';
 import { InvestigationActivitiesTable } from 'src/app/models/table/InvestigationActivitiesTable';
 import { TeacherActivitiesTable } from 'src/app/models/table/TeacherActivitiesTable';
 import { CaiService } from 'src/app/services/cai/cai.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-structure-cai',

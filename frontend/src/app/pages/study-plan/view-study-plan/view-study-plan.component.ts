@@ -2,11 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Dialog } from 'src/app/models/Dialog';
-import { RolePermission } from 'src/app/models/RolePermission';
+import { Dialog } from 'src/app/services/Dialog';
 import { SubjectResponse } from 'src/app/models/response/subjectResponse';
 import { StudyPlanService } from 'src/app/services/studyPlan/study-plan.service';
 import { SubjectService } from 'src/app/services/subject/subject.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-view-study-plan',

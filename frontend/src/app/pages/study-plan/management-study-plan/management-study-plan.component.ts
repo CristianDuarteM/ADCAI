@@ -2,12 +2,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { config } from 'src/app/constants/config';
-import { Dialog } from 'src/app/models/Dialog';
-import { RolePermission } from 'src/app/models/RolePermission';
+import { Dialog } from 'src/app/services/Dialog';
 import { StudyPlan } from 'src/app/models/StudyPlan';
 import { StudyPlanTable } from 'src/app/models/table/StudyPlanTable';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { StudyPlanService } from 'src/app/services/studyPlan/study-plan.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-study-plan',

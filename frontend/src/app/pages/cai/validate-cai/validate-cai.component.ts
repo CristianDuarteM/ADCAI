@@ -2,11 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { config } from 'src/app/constants/config';
 import { Cai } from 'src/app/models/Cai';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { CaiHistoricalResponse } from 'src/app/models/response/CaiHistoricalResponse';
-import { RolePermission } from 'src/app/models/RolePermission';
 import { CaiTable } from 'src/app/models/table/CaiTable';
 import { CaiService } from 'src/app/services/cai/cai.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-validate-cai',

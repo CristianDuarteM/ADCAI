@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { config } from 'src/app/constants/config';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { UserRequest } from 'src/app/models/request/UserRequest';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';

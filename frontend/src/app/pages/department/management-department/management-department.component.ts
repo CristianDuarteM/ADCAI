@@ -3,9 +3,9 @@ import { DepartmentTable } from 'src/app/models/table/DepartmentTable';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DepartmentResponse } from 'src/app/models/response/DepartmentResponse';
-import { RolePermission } from 'src/app/models/RolePermission';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { Router } from '@angular/router';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-management-department',

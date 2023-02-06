@@ -2,10 +2,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Cai } from 'src/app/models/Cai';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { Feedback } from 'src/app/models/Feedback';
-import { RolePermission } from 'src/app/models/RolePermission';
 import { CaiService } from 'src/app/services/cai/cai.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-view-cai',
@@ -90,7 +90,7 @@ export class ViewCaiComponent implements OnInit {
   download() {
     const downloadLink = document.createElement('a');
     downloadLink.href = this.pathFile;
-    downloadLink.setAttribute('download', '123456.pdf');
+    downloadLink.setAttribute('download', 'CAI.pdf');
     downloadLink.setAttribute('target', '_blank');
     document.body.appendChild(downloadLink);
     downloadLink.click();

@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { FacultyResponse } from 'src/app/models/response/FacultyResponse';
-import { RolePermission } from 'src/app/models/RolePermission';
 import { FacultyService } from 'src/app/services/faculty/faculty.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-update-faculty',

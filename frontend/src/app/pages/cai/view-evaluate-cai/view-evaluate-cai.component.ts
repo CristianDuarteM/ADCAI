@@ -3,13 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { config } from 'src/app/constants/config';
 import { Cai } from 'src/app/models/Cai';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { EvaluateCai } from 'src/app/models/EvaluateCai';
 import { Feedback } from 'src/app/models/Feedback';
-import { RolePermission } from 'src/app/models/RolePermission';
 import { User } from 'src/app/models/User';
 import { CaiService } from 'src/app/services/cai/cai.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-view-evaluate-cai',
@@ -165,7 +165,7 @@ export class ViewEvaluateCaiComponent implements OnInit {
   download() {
     const downloadLink = document.createElement('a');
     downloadLink.href = this.pathFile;
-    downloadLink.setAttribute('download', '123456.pdf');
+    downloadLink.setAttribute('download', 'CAI.pdf');
     downloadLink.setAttribute('target', '_blank');
     document.body.appendChild(downloadLink);
     downloadLink.click();

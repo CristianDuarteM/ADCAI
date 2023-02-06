@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Dialog } from 'src/app/models/Dialog';
-import { RolePermission } from 'src/app/models/RolePermission';
+import { Dialog } from 'src/app/services/Dialog';
+import { RolePermission } from 'src/app/services/RolePermission';
 import { StudyPlanService } from 'src/app/services/studyPlan/study-plan.service';
 
 @Component({

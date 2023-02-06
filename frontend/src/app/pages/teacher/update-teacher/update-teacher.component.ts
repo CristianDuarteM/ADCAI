@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RolePermission } from 'src/app/models/RolePermission';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-update-teacher',

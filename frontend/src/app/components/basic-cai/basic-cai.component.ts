@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CaiModel } from 'src/app/models/CaiModel';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { CaiResponse } from 'src/app/models/response/CaiResponse';
 import { CaiService } from 'src/app/services/cai/cai.service';
 

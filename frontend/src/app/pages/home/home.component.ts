@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { CaiService } from 'src/app/services/cai/cai.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { CaiResponse } from 'src/app/models/response/CaiResponse';
-import { Dialog } from 'src/app/models/Dialog';
+import { Dialog } from 'src/app/services/Dialog';
 import { Cai } from 'src/app/models/Cai';
 
 @Component({

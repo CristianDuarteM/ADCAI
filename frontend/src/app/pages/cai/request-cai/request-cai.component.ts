@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CaiModel } from 'src/app/models/CaiModel';
-import { RolePermission } from 'src/app/models/RolePermission';
+import { RolePermission } from 'src/app/services/RolePermission';
 
 @Component({
   selector: 'app-request-cai',
